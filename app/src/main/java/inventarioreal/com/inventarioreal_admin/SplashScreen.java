@@ -2,7 +2,11 @@ package inventarioreal.com.inventarioreal_admin;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.widget.ImageView;
 
+import com.daimajia.androidanimations.library.Techniques;
+
+import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class SplashScreen extends CicloActivity {
@@ -19,7 +23,7 @@ public class SplashScreen extends CicloActivity {
     }
     @Override
     public void initGui() {
-
+        addElemento(new Animacion((ImageView)findViewById(R.id.img1), Techniques.Flash));
     }
 
     @Override
@@ -34,6 +38,12 @@ public class SplashScreen extends CicloActivity {
 
     @Override
     public void hasAllPermissions() {
-
+        //Valido si esta logeado  o no
+//        if(!admin.obtener_preferencia(Constants.user).isEmpty()){
+//            admin.callIntent(Menu.class, null);
+//        }else{
+//            admin.callIntent(Login.class, null);
+//        }
+        admin.callIntent(Login.class, null);
     }
 }
