@@ -42,7 +42,7 @@ public class SplashScreen extends CicloActivity {
 //        if(!admin.obtener_preferencia(Constants.user).isEmpty()){
 //            admin.callIntent(Menu.class, null);
 //        }else{
-//            admin.callIntent(Login.class, null);
+//            admin.callIntent(LoginResponseWebService.class, null);
 //        }
         admin.callIntent(Login.class, null);
     }
