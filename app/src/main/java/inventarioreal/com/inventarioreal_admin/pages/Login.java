@@ -1,15 +1,12 @@
-package inventarioreal.com.inventarioreal_admin;
+package inventarioreal.com.inventarioreal_admin.pages;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.daimajia.androidanimations.library.Techniques;
 
+import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.LoginResponseWebService;
-import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceOk;
@@ -23,13 +20,15 @@ public class Login extends CicloActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_login);
+
+
     }
 
     @Override
     public void initGui() {
-        addElemento(new Animacion((EditText)findViewById(R.id.edtEmail), Techniques.Bounce));
-        addElemento(new Animacion((EditText)findViewById(R.id.edtPass), Techniques.Bounce));
-        addElemento(new Animacion((Button)findViewById(R.id.btnLogin), Techniques.Bounce));
+        addElemento(new Animacion(findViewById(R.id.edtEmail), Techniques.Bounce));
+        addElemento(new Animacion(findViewById(R.id.edtPass), Techniques.Bounce));
+        addElemento(new Animacion(findViewById(R.id.btnLogin), Techniques.Bounce));
     }
 
     @Override
@@ -52,6 +51,7 @@ public class Login extends CicloActivity {
                             public void ok(ResultWebServiceOk ok) {
                                 LoginResponseWebService data = (LoginResponseWebService)ok.getData();
                                 admin.toast("Thanks "+data.getEmpleado().getUser_id().getUsername());
+                                admin.callIntent(Home.class, null);
                             }
 
                             @Override
@@ -67,5 +67,10 @@ public class Login extends CicloActivity {
     @Override
     public void hasAllPermissions() {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        admin.exitApp();
     }
 }

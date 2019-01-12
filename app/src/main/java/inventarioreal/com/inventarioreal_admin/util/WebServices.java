@@ -1,7 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.util;
 
 import android.app.Activity;
-import android.content.ContentValues;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -36,7 +35,7 @@ public class WebServices {
         final String url=Constants.url+Constants.ws_login;
 
 
-        HashMap<String, String> campos = new HashMap<String, String>();
+        HashMap<String, String> campos = new HashMap<>();
         campos.put(Constants.username, username);
         campos.put(Constants.password, password);
         CallWebServiceJson callWebService = new CallWebServiceJson(
@@ -59,7 +58,7 @@ public class WebServices {
                                 //Almaceno la información del usuario
                                 try {
                                     LoginResponseWebService data=gson.fromJson(jsonObject.getJSONObject("data").toString(), LoginResponseWebService.class);
-                                    admin.escribir_preferencia(Constants.empleado, gson.toJson(data.getEmpleado()));
+                                    admin.escribir_preferencia(Constants.user, gson.toJson(data));
                                     admin.escribir_preferencia(Constants.token, data.getToken());
                                     result.ok(new ResultWebServiceOk(data));
                                 } catch (JsonSyntaxException e) {
@@ -76,15 +75,15 @@ public class WebServices {
                             result.fail(new ResultWebServiceFail(e));
                         }
                     }
-
+                    /**
+                     * Puede ser un error dado en formato string, o puede ser un json en
+                     * formato string.
+                     * Trato de converti el string a JSON, si funciona, instancio en JSON, si no
+                     * instancio con el string
+                     */
                     @Override
                     public void onErrorResponse(String s) {
-                        /**
-                         * Puede ser un error dado en formato string, o puede ser un json en
-                         * formato string.
-                         * Trato de converti el string a JSON, si funciona, instancio en JSON, si no
-                         * instancio con el string
-                         */
+
                         try {
                             JSONObject error = new JSONObject(s);
                             result.fail(new ResultWebServiceFail(error));

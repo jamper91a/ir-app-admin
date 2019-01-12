@@ -1,1 +1,1 @@
-include ':app', ':EasyWay'
+include ':app', ':EasyWay', ':SlidingMenu'
