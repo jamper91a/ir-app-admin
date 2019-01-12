@@ -4,4 +4,14 @@
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="error_login">Erroral intentar ingresar</string>
+    <string name="menu">menu</string>
+    <string name="inventario">Inventario</string>
+    <string name="inventario_cooperativo">Inventario Cooperativo</string>
+    <string name="transferencias">Transferencias</string>
+    <string name="devoluciones">Devoluciones</string>
+    <string name="reportes">Resportes</string>
+    <string name="usuarios">Usuarios</string>
+    <string name="busqueda_y_georeferenciacion">Busqueda y Georeferenciacion</string>
+    <string name="salir">Salir</string>
 </resources>

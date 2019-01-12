@@ -52,7 +52,7 @@ public class Constants {
 
 
 //    public static final String url="http://192.168.0.10:3000/v1/";
-    public static final String url="http://coexnort.servehttp.com:81/v1/";
+    public static final String url="http://192.168.43.105:1337/";
     public static final String user="user";
     public static final String token="token";
     public static final String authorization= "Authorization";
@@ -68,4 +68,9 @@ public class Constants {
 
     public static final String ingresados="ingresados";
     public static final String vendidos="vendidos";
+
+    //Region Web services
+    public static final String ws_login="login";
+    public static final String empleado="empleado";
+    //endregion
 }
