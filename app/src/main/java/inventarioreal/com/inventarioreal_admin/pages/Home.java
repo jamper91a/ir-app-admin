@@ -46,6 +46,13 @@ public class Home extends CicloActivity {
             }
         });
 
+        add_on_click(R.id.btnIng, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(IngresoMercancia.class, null);
+            }
+        });
+
         add_on_click(R.id.btnSal, new View.OnClickListener() {
             @Override
             public void onClick(View v) {

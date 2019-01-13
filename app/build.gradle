@@ -34,6 +34,6 @@ dependencies {
     //region Permisos
     implementation 'com.mukesh:permissions:1.0.4'
     //endregion
-    implementation project(':EasyWay')
     implementation project(':SlidingMenu')
+    implementation project(':EasyWay')
 }

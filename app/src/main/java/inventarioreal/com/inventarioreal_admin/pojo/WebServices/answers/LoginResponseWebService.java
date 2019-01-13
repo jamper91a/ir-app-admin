@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pojo.WebServices;
+package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
 import inventarioreal.com.inventarioreal_admin.pojo.Empleado;
 

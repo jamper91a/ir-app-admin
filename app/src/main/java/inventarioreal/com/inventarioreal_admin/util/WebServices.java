@@ -1,17 +1,20 @@
 package inventarioreal.com.inventarioreal_admin.util;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.LoginResponseWebService;
+import inventarioreal.com.inventarioreal_admin.pojo.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponseWebService;
 import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceOk;
@@ -21,7 +24,24 @@ import jamper91.com.easyway.Util.ResponseListener;
 
 public class WebServices {
     private static Gson gson= new Gson();
+    private static String TAG="WebServices";
 
+
+
+    private static HashMap<String, String> getHeaders(Administrador admin){
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put(Constants.authorization, "Bearer  "+admin.obtener_preferencia(Constants.token));
+        return  headers;
+    }
+
+    private static void errorWebService(String s, ResultWebServiceInterface result){
+        try {
+            JSONObject error = new JSONObject(s);
+            result.fail(new ResultWebServiceFail(error));
+        } catch (JSONException e) {
+            result.fail(new ResultWebServiceFail(s));
+        }
+    }
 
     /**
      * Llamado a servicio web de login
@@ -83,19 +103,68 @@ public class WebServices {
                      */
                     @Override
                     public void onErrorResponse(String s) {
-
-                        try {
-                            JSONObject error = new JSONObject(s);
-                            result.fail(new ResultWebServiceFail(error));
-                        } catch (JSONException e) {
-                            result.fail(new ResultWebServiceFail(s));
-                        }
-
+                        errorWebService(s, result);
                     }
                 },
                 admin
         );
-        callWebService.setMessage(activity.getString(R.string.sincronizando));
+        callWebService.setMessage(activity.getString(R.string.ingresando));
         callWebService.execute();
+    }
+
+    /**
+     * Servicio web para consultarun producto por codigo
+     * @param code Codigo a consultar
+     * @param activity Actividad desde el cual se llama
+     * @param admin
+     * @param result Callback
+     */
+    public static void getProductByEanPlu(String code, final Activity activity, final Administrador admin,final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_getProductByEanPLu;
+
+
+        try {
+
+            HashMap<String, String> campos = new HashMap<>();
+            campos.put(Constants.codigo, code);
+
+            CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                    activity,
+                    url,
+                    campos,
+                    getHeaders(admin),
+                    jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                    new ResponseListener() {
+                        @Override
+                        public void onResponse(String s) {
+                            //result.ok(new ResultWebServiceOk());
+                        }
+
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
+                            try {
+                                Producto producto = gson.fromJson(jsonObject.getJSONObject("data").toString(),Producto.class);
+                                result.ok(new ResultWebServiceOk(producto));
+                            } catch (JSONException e) {
+                                result.fail(new ResultWebServiceFail(e));
+                            } catch (Exception e) {
+                                result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+                        }
+
+                        @Override
+                        public void onErrorResponse(String s) {
+                            errorWebService(s, result);
+                        }
+                    },
+                    admin
+            );
+            callWebServiceJson.setMessage(activity.getString(R.string.consultando));
+            callWebServiceJson.execute();
+        } catch (Exception e){
+            result.fail(new ResultWebServiceFail(e.getMessage()));
+        }
+
+
     }
 }

@@ -14,4 +14,14 @@
     <string name="usuarios">Usuarios</string>
     <string name="busqueda_y_georeferenciacion">Busqueda y Georeferenciacion</string>
     <string name="salir">Salir</string>
+    <string name="ean_plu">EAN/PLU</string>
+    <string name="desea_continuar">Desea continuar?</string>
+    <string name="no">No</string>
+    <string name="si">Si</string>
+    <string name="codigo">Codigo</string>
+    <string name="imagen_del_producto">Imagen del producto</string>
+    <string name="ingresando">Ingresando</string>
+    <string name="consultando">Consultando</string>
+    <string name="buscar">Buscar</string>
+    <string name="ingresar_mercancia">Ingresar Mercancia</string>
 </resources>

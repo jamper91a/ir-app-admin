@@ -52,7 +52,7 @@ public class Constants {
 
 
 //    public static final String url="http://192.168.0.10:3000/v1/";
-    public static final String url="http://192.168.43.105:1337/";
+    public static final String url="http://192.168.1.70:1337/";
     public static final String user="user";
     public static final String token="token";
     public static final String authorization= "Authorization";
@@ -68,9 +68,11 @@ public class Constants {
 
     public static final String ingresados="ingresados";
     public static final String vendidos="vendidos";
-
+    public static final String empleado="empleado";
+    public static final String codigo="codigo";
     //Region Web services
     public static final String ws_login="login";
-    public static final String empleado="empleado";
+    public static final String ws_getProductByEanPLu="productos";
+    public static final String where="where";
     //endregion
 }
