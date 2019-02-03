@@ -1,23 +1,23 @@
-package inventarioreal.com.inventarioreal_admin.util;
+package inventarioreal.com.inventarioreal_admin.util.WebServices;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddMercanciaResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponseWebService;
-import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceFail;
-import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceInterface;
-import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceOk;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMercanciaRequest;
+import inventarioreal.com.inventarioreal_admin.util.Constants;
 import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.CallWebServiceJson;
 import jamper91.com.easyway.Util.ResponseListener;
@@ -41,6 +41,16 @@ public class WebServices {
         } catch (JSONException e) {
             result.fail(new ResultWebServiceFail(s));
         }
+    }
+
+    private static void executeObtener(Activity activity, CallWebServiceJson callWebServiceJson){
+        callWebServiceJson.setMessage(activity.getString(R.string.consultando));
+        callWebServiceJson.execute();
+    }
+
+    private static void executeEnviar(Activity activity, CallWebServiceJson callWebServiceJson){
+        callWebServiceJson.setMessage(activity.getString(R.string.enviando_informacion));
+        callWebServiceJson.execute();
     }
 
     /**
@@ -159,12 +169,50 @@ public class WebServices {
                     },
                     admin
             );
-            callWebServiceJson.setMessage(activity.getString(R.string.consultando));
-            callWebServiceJson.execute();
+            executeObtener(activity, callWebServiceJson);
         } catch (Exception e){
             result.fail(new ResultWebServiceFail(e.getMessage()));
         }
 
 
+    }
+
+    public static void addMercancia(long products_id, long zonas_id, List<Epc> epcs, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_addMercancia;
+
+        AddMercanciaRequest request = new AddMercanciaRequest(products_id, zonas_id, epcs);
+
+        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                activity,
+                url,
+                request.getCampos(),
+                getHeaders(admin),
+                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                new ResponseListener() {
+                    @Override
+                    public void onResponse(String s) {
+
+                    }
+
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            AddMercanciaResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),AddMercanciaResponse.class);
+                            result.ok(new ResultWebServiceOk(response));
+                        } catch (JSONException e) {
+                            result.fail(new ResultWebServiceFail(e));
+                        } catch (Exception e) {
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(String s) {
+                        result.fail(new ResultWebServiceFail(s));
+                    }
+                },
+                admin
+        );
+        executeEnviar(activity, callWebServiceJson);
     }
 }

@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.util.WebServiceResult;
+package inventarioreal.com.inventarioreal_admin.util.WebServices;
 
 import android.util.Log;
 

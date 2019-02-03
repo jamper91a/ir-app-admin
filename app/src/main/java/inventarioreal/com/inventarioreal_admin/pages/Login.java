@@ -7,10 +7,10 @@ import com.daimajia.androidanimations.library.Techniques;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponseWebService;
-import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceFail;
-import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceInterface;
-import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceOk;
-import inventarioreal.com.inventarioreal_admin.util.WebServices;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 

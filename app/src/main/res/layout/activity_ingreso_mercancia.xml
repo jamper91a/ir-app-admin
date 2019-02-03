@@ -9,8 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -41,55 +40,121 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/lblDes1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/lblDes2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/lblDes3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/img1"
+    <LinearLayout
+        android:id="@+id/lnl1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:contentDescription="@string/imagen_del_producto"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <TextView
-        android:id="@+id/lbl2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/desea_continuar" />
+        <TextView
+            android:id="@+id/lblDes1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/lblDes2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/lblDes3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/img1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/imagen_del_producto"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/lbl2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/desea_continuar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/si" />
+
+            <Button
+                android:id="@+id/btnNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/no" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lnl2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:visibility="visible">
 
-        <Button
-            android:id="@+id/btnSi"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/si" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnNo"
-            android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/btnCan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancelar" />
+
+            <Button
+                android:id="@+id/btnEmp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Leer" />
+
+            <Button
+                android:id="@+id/btnGua"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Guardar" />
+
+            <Button
+                android:id="@+id/btnBor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Borrar" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lst1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/txtTags"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/no" />
+            android:text="@string/tag_leidos" />
     </LinearLayout>
 
 </LinearLayout>

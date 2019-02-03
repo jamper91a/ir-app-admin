@@ -1,28 +1,29 @@
 package inventarioreal.com.inventarioreal_admin.pages;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.SimpleAdapter;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.handheld.UHF.UhfManager;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pojo.EPC;
+import inventarioreal.com.inventarioreal_admin.adapters.ListAdapter1;
+import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
+import inventarioreal.com.inventarioreal_admin.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.Producto;
-import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceFail;
-import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceInterface;
-import inventarioreal.com.inventarioreal_admin.util.WebServiceResult.ResultWebServiceOk;
-import inventarioreal.com.inventarioreal_admin.util.WebServices;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -31,6 +32,8 @@ public class IngresoMercancia extends CicloActivity {
     private SlidingMenu menu;
     private String TAG="IngresoMercancia";
     private UhfManager uhfManager;
+    public ListAdapter1 adapter1;
+    private LinkedList<Epc> epcs = new LinkedList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,7 @@ public class IngresoMercancia extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.lbl1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtEanPlu),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBus),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes3),Techniques.FadeInLeft));
@@ -52,6 +56,31 @@ public class IngresoMercancia extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.lbl2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSi),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnNo),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft,null, false));
+        addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnCan),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnEmp),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnGua),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnBor),Techniques.FadeInLeft));
+
+        adapter1 = new ListAdapter1(this, admin, epcs, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object item) {
+            }
+
+            @Override
+            public void onLongItemClick(Object item) {
+
+            }
+
+            @Override
+            public void onItemClick(int view, Object item) {
+
+            }
+        });
+        RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1).getElemento();
+        lst1.setLayoutManager(new LinearLayoutManager(this));
+        lst1.setAdapter(adapter1);
     }
 
     @Override
@@ -93,12 +122,37 @@ public class IngresoMercancia extends CicloActivity {
         add_on_click(R.id.btnSi, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initSdk();
+                getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+                getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
                 if (!startFlag) {
                     startFlag = true;
                 } else {
                     startFlag = false;
                 }
+            }
+        });
+
+        add_on_click(R.id.btnGua, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebServices.addMercancia(
+                        1,
+                        1,
+                        epcs,
+                        IngresoMercancia.this,
+                        admin,
+                        new ResultWebServiceInterface() {
+                            @Override
+                            public void ok(ResultWebServiceOk ok) {
+                                admin.toast("Ok");
+                            }
+
+                            @Override
+                            public void fail(ResultWebServiceFail fail) {
+                                admin.toast(fail.getError());
+                            }
+                        }
+                );
             }
         });
     }
@@ -114,6 +168,7 @@ public class IngresoMercancia extends CicloActivity {
 
     }
 
+    //region UHD Sdk
     public void initSdk(){
         try {
             uhfManager = UhfManager.getInstance();
@@ -127,8 +182,6 @@ public class IngresoMercancia extends CicloActivity {
 
     private boolean runFlag=true;
     private boolean startFlag = false;
-    private ArrayList<EPC> listEPC = new ArrayList<EPC>();
-    private ArrayList<String> listepc = new ArrayList<String>();
 
     @Override
     protected void onResume() {
@@ -160,43 +213,41 @@ public class IngresoMercancia extends CicloActivity {
         super.onDestroy();
     }
 
-    private void addToList(final List<EPC> list, final String epc) {
+    private Epc createEpc(String epc){
+        Epc epcTag = new Epc();
+        epcTag.setEpc(epc);
+        epcTag.setCount(1);
+        epcs.add(epcTag);
+        adapter1.add(epcTag);
+        return epcTag;
+    }
+
+    private void addToList(final String epc) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 // The epc for the first time
-                if (list.isEmpty()) {
-                    EPC epcTag = new EPC();
-                    epcTag.setEpc(epc);
-                    epcTag.setCount(1);
-                    list.add(epcTag);
-                    listepc.add(epc);
+                if (epcs.isEmpty()) {
+                    createEpc(epc);
                 } else {
-                    for (int i = 0; i < list.size(); i++) {
-                        EPC mEPC = list.get(i);
+                    for (int i = 0; i < epcs.size(); i++) {
+                        Epc mEPC = epcs.get(i);
                         // list contain this epc
                         if (epc.equals(mEPC.getEpc())) {
                             mEPC.setCount(mEPC.getCount() + 1);
-                            list.set(i, mEPC);
-                            Log.d(TAG, mEPC.getEpc());
                             break;
-                        } else if (i == (list.size() - 1)) {
-                            // list doesn't contain this epc
-                            EPC newEPC = new EPC();
-                            newEPC.setEpc(epc);
-                            newEPC.setCount(1);
-                            list.add(newEPC);
-                            listepc.add(epc);
-                            Log.d(TAG, mEPC.getEpc());
+                        } else if (i == (epcs.size() - 1)) {
+                            Epc epcObj = createEpc(epc);
                         }
                     }
+
                 }
             }
         });
     }
 
     /**
-     * Inventory EPC Thread
+     * Inventory Epc Thread
      */
 
     class InventoryThread extends Thread {
@@ -213,7 +264,7 @@ public class IngresoMercancia extends CicloActivity {
                         for (byte[] epc : epcList) {
                             String epcStr = Tools.Bytes2HexString(epc,
                                     epc.length);
-                            addToList(listEPC, epcStr);
+                            addToList(epcStr);
                         }
                     }
                     epcList = null;
@@ -227,5 +278,5 @@ public class IngresoMercancia extends CicloActivity {
             }
         }
     }
-
+    //endregion
 }

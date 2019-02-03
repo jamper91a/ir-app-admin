@@ -36,4 +36,5 @@ dependencies {
     //endregion
     implementation project(':SlidingMenu')
     implementation project(':EasyWay')
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
 }
