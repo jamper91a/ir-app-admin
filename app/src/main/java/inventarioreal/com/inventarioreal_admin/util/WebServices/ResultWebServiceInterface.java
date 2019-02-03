@@ -1,6 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.util.WebServiceResult;
-
-import org.json.JSONObject;
+package inventarioreal.com.inventarioreal_admin.util.WebServices;
 
 public interface ResultWebServiceInterface {
 
