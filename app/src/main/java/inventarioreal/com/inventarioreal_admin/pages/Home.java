@@ -39,17 +39,18 @@ public class Home extends CicloActivity {
 
     @Override
     public void initOnClick() {
-        add_on_click(R.id.btnIng, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menu.showMenu();
-            }
-        });
 
         add_on_click(R.id.btnIng, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 admin.callIntent(IngresoMercancia.class, null);
+            }
+        });
+        add_on_click(R.id.btnInv, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                admin.callIntent(Inventario_Home.class, null);
             }
         });
 

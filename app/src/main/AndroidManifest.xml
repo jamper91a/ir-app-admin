@@ -25,6 +25,8 @@
         <activity android:name=".pages.Login" />
         <activity android:name=".pages.Home" />
         <activity android:name=".pages.IngresoMercancia" />
+        <activity android:name=".pages.Inventario_Home" />
+        <activity android:name=".pages.Inventario_Crear" />
 
     </application>
 

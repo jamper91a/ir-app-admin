@@ -4,9 +4,9 @@ public class Zona {
 
     private long id;
     private String name;
-    private Local locales_id;
+    private long locales_id;
     private String createdAt;
-    private String UpdatedAt;
+    private String updatedAt;
 
     public Zona() {
     }
@@ -27,11 +27,11 @@ public class Zona {
         this.name = name;
     }
 
-    public Local getLocales_id() {
+    public long getLocales_id() {
         return locales_id;
     }
 
-    public void setLocales_id(Local locales_id) {
+    public void setLocales_id(long locales_id) {
         this.locales_id = locales_id;
     }
 
@@ -44,10 +44,15 @@ public class Zona {
     }
 
     public String getUpdatedAt() {
-        return UpdatedAt;
+        return updatedAt;
     }
 
     public void setUpdatedAt(String updatedAt) {
-        UpdatedAt = updatedAt;
+        updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

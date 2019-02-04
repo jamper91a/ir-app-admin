@@ -25,4 +25,12 @@
     <string name="buscar">Buscar</string>
     <string name="ingresar_mercancia">Ingresar Mercancia</string>
     <string name="tag_leidos" >Tag Leidos: 0</string>
+    <string name="crear_inventario_parcial">Crear inventario parcial</string>
+    <string name="consolidar_inventarios_parciales">Consolidar inventario parciales</string>
+    <string name="visualizar_inventarios_por_zona">Visualizar inventarios por zona</string>
+    <string name="visualizar_inventarios_consolidados">Visualizar inventarios consolidados</string>
+    <string name="local">Local</string>
+    <string name="zona">Zona</string>
+    <string name="poder_lectura">Poder de lectura</string>
+    <string name="iniciar">Iniciar</string>
 </resources>

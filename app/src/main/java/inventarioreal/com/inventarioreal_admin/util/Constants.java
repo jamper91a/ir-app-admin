@@ -78,5 +78,6 @@ public class Constants {
     public static String productos_id="productos_id";
     public static String productos_zona="productos_zona";
     public static String products_id="productos_id";
+    public static String was_listarzonas="zonas/listar";
     //endregion
 }

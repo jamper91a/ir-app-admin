@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.util.WebServices;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -16,7 +17,9 @@ import inventarioreal.com.inventarioreal_admin.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.Producto;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddMercanciaResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponseWebService;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.ZonasListarResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMercanciaRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.Zona;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.CallWebServiceJson;
@@ -198,6 +201,44 @@ public class WebServices {
                     public void onResponse(JSONObject jsonObject) {
                         try {
                             AddMercanciaResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),AddMercanciaResponse.class);
+                            result.ok(new ResultWebServiceOk(response));
+                        } catch (JSONException e) {
+                            result.fail(new ResultWebServiceFail(e));
+                        } catch (Exception e) {
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(String s) {
+                        result.fail(new ResultWebServiceFail(s));
+                    }
+                },
+                admin
+        );
+        executeEnviar(activity, callWebServiceJson);
+    }
+
+    public static void listarZonas(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.was_listarzonas;
+        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                activity,
+                url,
+                new HashMap<String, String>(),
+                getHeaders(admin),
+                jamper91.com.easyway.Util.Constants.REQUEST_GET,
+                new ResponseListener() {
+                    @Override
+                    public void onResponse(String s) {
+
+                    }
+
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            Log.d(TAG, jsonObject.getJSONArray("data").toString());
+                            Zona[] zonas = gson.fromJson(jsonObject.getJSONArray("data").toString(),Zona[].class);
+                            ZonasListarResponse response = new ZonasListarResponse(zonas);
                             result.ok(new ResultWebServiceOk(response));
                         } catch (JSONException e) {
                             result.fail(new ResultWebServiceFail(e));
