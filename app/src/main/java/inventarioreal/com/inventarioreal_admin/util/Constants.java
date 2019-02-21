@@ -26,16 +26,16 @@ public class Constants {
     public static final String state="state";
     public static final String epc="epc";
     public static final String companias_id="companias_id";
-    public static final String productos_id="";
-    public static final String zonas_id="";
-    public static final String fecha_ingreso="";
-    public static final String fecha_venta="";
-    public static final String fecha_devolucion="";
-    public static final String devolucion_observaciones="";
-    public static final String devoluciones_id="";
-    public static final String log_usuarios="";
-    public static final String ventas_id="";
-    public static final String epcs_id="";
+    public static final String productos_id="productos_id";
+    public static final String zonas_id="zonas_id";
+    public static final String fecha_ingreso="fecha_ingreso";
+    public static final String fecha_venta="fecha_venta";
+    public static final String fecha_devolucion="fecha_devolucion";
+    public static final String devolucion_observaciones="devolucion_observaciones";
+    public static final String devoluciones_id="devoluciones_id";
+    public static final String logs_usuarios ="logs_usuarios";
+    public static final String ventas_id="ventas_id";
+    public static final String epcs_id="epcs_id";
 
     public static final String createdAt ="createdAt";
     public static final String updatedAt ="updatedAt";
@@ -92,5 +92,4 @@ public class Constants {
     public static Object ecps_id;
     public static String table_zonas="zonas";
     public static String locales_id="locales_id";
-    public static String logs_usuarios="logs_usuarios";
 }

@@ -118,7 +118,7 @@ public class ProductosZonas {
         values.put(Constants.fecha_devolucion, fecha_devolucion);
         values.put(Constants.devolucion_observaciones, devolucion_observaciones);
         values.put(Constants.devoluciones_id, devoluciones_id.getId());
-        values.put(Constants.log_usuarios, log_usuarios);
+        values.put(Constants.logs_usuarios, log_usuarios);
         values.put(Constants.ventas_id, ventas_id.getId());
         values.put(Constants.epcs_id, epcs_id.getId());
         return values;

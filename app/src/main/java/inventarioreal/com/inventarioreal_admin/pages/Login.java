@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.pages;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -22,6 +23,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class Login extends CicloActivity {
     private DataBase db = DataBase.getInstance(this);
+    private String TAG="Login";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,20 +65,7 @@ public class Login extends CicloActivity {
                                     @Override
                                     public void ok(ResultWebServiceOk ok) {
                                         SyncResponse data = (SyncResponse)ok.getData();
-//                                        db.init_transaction();
-                                        try {
-                                            for (Epc epc: data.getEpcs()) {
-                                                db.add(Constants.table_epcs, epc.getContentValues());
-                                            }
-                                            for (Producto pro: data.getProductos()) {
-                                                db.add(Constants.table_productos, pro.getContentValues());
-                                            }
-//                                            db.commit();
-                                            admin.callIntent(Home.class, null);
-                                        } catch (Exception e) {
-                                            db.rollback();
-                                            admin.toast(e.getMessage());
-                                        }
+                                        admin.callIntent(Home.class, null);
                                     }
 
                                     @Override
