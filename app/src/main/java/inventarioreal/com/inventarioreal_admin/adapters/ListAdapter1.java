@@ -59,7 +59,7 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Epc item = items.get(position);
-        holder.getTxt1().setText(item.getEpc());
+        holder.getTxt1().setText(item.getEpc()+item.getCreatedAt());
         holder.bind(item);
 
     }

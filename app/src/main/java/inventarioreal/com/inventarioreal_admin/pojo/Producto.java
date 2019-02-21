@@ -1,5 +1,9 @@
 package inventarioreal.com.inventarioreal_admin.pojo;
 
+import android.content.ContentValues;
+
+import inventarioreal.com.inventarioreal_admin.util.Constants;
+
 public class Producto {
 
         private String createdAt;
@@ -189,5 +193,29 @@ public class Producto {
 
     public void setCompanias_id(Compania companias_id) {
         this.companias_id = companias_id;
+    }
+
+    public ContentValues getContentValues(){
+        ContentValues values = new ContentValues();
+        values.put(Constants.createdAt,createdAt);
+        values.put(Constants.updatedAt,updatedAt);
+        values.put(Constants.id,id);
+        values.put(Constants.ean,ean);
+        values.put(Constants.plu,plu);
+        values.put(Constants.plu2,plu2);
+        values.put(Constants.plu3,plu3);
+        values.put(Constants.marca,marca);
+        values.put(Constants.genero,genero);
+        values.put(Constants.color,color);
+        values.put(Constants.talla,talla);
+        values.put(Constants.categoria,categoria);
+        values.put(Constants.descripcion,descripcion);
+        values.put(Constants.cantidad,cantidad);
+        values.put(Constants.imagen,imagen);
+        values.put(Constants.precio_costo,precio_costo);
+        values.put(Constants.precio_venta,precio_venta);
+        values.put(Constants.companias_id,getCompanias_id().getId());
+
+        return values;
     }
 }

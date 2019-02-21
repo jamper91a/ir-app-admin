@@ -1,0 +1,68 @@
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents;
+
+import android.util.Log;
+
+import java.util.HashMap;
+
+import inventarioreal.com.inventarioreal_admin.util.IntentRequests;
+
+
+public class RequestInventariorCrear2 implements IntentRequests {
+    private static final String TAG = "RequestInventarioCrear2";
+    public long zona_id;
+    public String power;
+    public String fecha;
+
+    public RequestInventariorCrear2() {
+    }
+
+    public RequestInventariorCrear2(long zona_id, String power, String fecha) {
+        this.zona_id = zona_id;
+        this.power = power;
+        this.fecha = fecha;
+    }
+
+    public long getZona_id() {
+        return zona_id;
+    }
+
+    public void setZona_id(long zona_id) {
+        this.zona_id = zona_id;
+    }
+
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    @Override
+    public boolean validar() {
+        try {
+            if(this.fecha.isEmpty() && this.power.isEmpty() && this.zona_id<=0)
+            {
+                return false;
+            }else{
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public HashMap<String, String> getAtributos() {
+        return null;
+    }
+}

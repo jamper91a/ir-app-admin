@@ -15,12 +15,16 @@ import java.util.List;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddMercanciaResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponseWebService;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.ZonasListarResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMercanciaRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.Zona;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
+import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.CallWebServiceJson;
 import jamper91.com.easyway.Util.ResponseListener;
@@ -30,7 +34,11 @@ public class WebServices {
     private static String TAG="WebServices";
 
 
-
+    /**
+     * Se encarga de colocar los headers a la solicitud, autenticacion en este caso
+     * @param admin
+     * @return
+     */
     private static HashMap<String, String> getHeaders(Administrador admin){
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put(Constants.authorization, "Bearer  "+admin.obtener_preferencia(Constants.token));
@@ -90,7 +98,7 @@ public class WebServices {
                             if(jsonObject.getString("code").equals("OK")){
                                 //Almaceno la información del usuario
                                 try {
-                                    LoginResponseWebService data=gson.fromJson(jsonObject.getJSONObject("data").toString(), LoginResponseWebService.class);
+                                    LoginResponse data=gson.fromJson(jsonObject.getJSONObject("data").toString(), LoginResponse.class);
                                     admin.escribir_preferencia(Constants.user, gson.toJson(data));
                                     admin.escribir_preferencia(Constants.token, data.getToken());
                                     result.ok(new ResultWebServiceOk(data));
@@ -255,5 +263,71 @@ public class WebServices {
                 admin
         );
         executeEnviar(activity, callWebServiceJson);
+    }
+
+    public static void sync(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final DataBase db = DataBase.getInstance(activity);
+        final String url=Constants.url+Constants.ws_sync;
+        String last_update= admin.obtener_preferencia(Constants.last_updated);
+        if(last_update.isEmpty()) {
+            admin.escribir_preferencia(Constants.last_updated,admin.getCurrentDateAndTime());
+        }
+        SyncRequest request= new SyncRequest(last_update);
+
+        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                activity,
+                url,
+                request.getCampos(),
+                getHeaders(admin),
+                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                new ResponseListener() {
+                    @Override
+                    public void onResponse(String s) {
+
+                    }
+
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            SyncResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),SyncResponse.class);
+
+                            try {
+                                if (response.getEpcs()!=null) {
+                                    for (Epc epc: response.getEpcs()) {
+                                        db.add(Constants.table_epcs, epc.getContentValues());
+                                    }
+                                }
+                                if (response.getProductos()!=null) {
+                                    for (Producto pro: response.getProductos()) {
+                                        db.add(Constants.table_productos, pro.getContentValues());
+                                    }
+                                }
+                                if (response.getProductos_zona()!=null) {
+                                    for (ProductosZonas productosZona: response.getProductos_zona()) {
+                                        db.add(Constants.table_productos_zonas, productosZona.getContentValues());
+                                    }
+                                }
+                                result.ok(new ResultWebServiceOk(response));
+
+                            } catch (Exception e) {
+                                admin.toast(e.getMessage());
+                                result.fail(new ResultWebServiceFail(e.getMessage()));
+                            }
+
+                        } catch (JSONException e) {
+                            result.fail(new ResultWebServiceFail(e));
+                        } catch (Exception e) {
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(String s) {
+                        result.fail(new ResultWebServiceFail(s));
+                    }
+                },
+                admin
+        );
+        executeObtener(activity, callWebServiceJson);
     }
 }

@@ -7,6 +7,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioHome;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -50,7 +51,7 @@ public class Home extends CicloActivity {
             @Override
             public void onClick(View v) {
 
-                admin.callIntent(Inventario_Home.class, null);
+                admin.callIntent(InventarioHome.class, null);
             }
         });
 

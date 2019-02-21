@@ -4,9 +4,15 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
+import com.google.gson.Gson;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponseWebService;
+import inventarioreal.com.inventarioreal_admin.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
+import inventarioreal.com.inventarioreal_admin.util.Constants;
+import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -15,7 +21,7 @@ import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class Login extends CicloActivity {
-
+    private DataBase db = DataBase.getInstance(this);
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +55,37 @@ public class Login extends CicloActivity {
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                LoginResponseWebService data = (LoginResponseWebService)ok.getData();
-                                admin.toast("Thanks "+data.getEmpleado().getUser_id().getUsername());
-                                admin.callIntent(Home.class, null);
+                                Gson gson=new Gson();
+                                LoginResponse data = (LoginResponse)ok.getData();
+                                admin.escribir_preferencia(Constants.empleado, gson.toJson(data, LoginResponse.class));
+                                //Llamo a servicio web de sincronizacion
+                                WebServices.sync(Login.this, admin, new ResultWebServiceInterface() {
+                                    @Override
+                                    public void ok(ResultWebServiceOk ok) {
+                                        SyncResponse data = (SyncResponse)ok.getData();
+//                                        db.init_transaction();
+                                        try {
+                                            for (Epc epc: data.getEpcs()) {
+                                                db.add(Constants.table_epcs, epc.getContentValues());
+                                            }
+                                            for (Producto pro: data.getProductos()) {
+                                                db.add(Constants.table_productos, pro.getContentValues());
+                                            }
+//                                            db.commit();
+                                            admin.callIntent(Home.class, null);
+                                        } catch (Exception e) {
+                                            db.rollback();
+                                            admin.toast(e.getMessage());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void fail(ResultWebServiceFail fail) {
+                                        admin.toast(fail.getError());
+
+                                    }
+                                });
+
                             }
 
                             @Override

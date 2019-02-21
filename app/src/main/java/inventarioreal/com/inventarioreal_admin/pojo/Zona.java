@@ -1,14 +1,26 @@
 package inventarioreal.com.inventarioreal_admin.pojo;
 
-public class Zona {
+import android.content.ContentValues;
+
+import inventarioreal.com.inventarioreal_admin.util.Constants;
+
+public class Zona extends InventarioRealPojo {
 
     private long id;
     private String name;
-    private long locales_id;
+    private Local locales_id;
     private String createdAt;
     private String updatedAt;
 
     public Zona() {
+    }
+
+    public Zona(long id, String name, Local locales_id, String createdAt, String updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.locales_id = locales_id;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public long getId() {
@@ -27,11 +39,11 @@ public class Zona {
         this.name = name;
     }
 
-    public long getLocales_id() {
+    public Local getLocales_id() {
         return locales_id;
     }
 
-    public void setLocales_id(long locales_id) {
+    public void setLocales_id(Local locales_id) {
         this.locales_id = locales_id;
     }
 
@@ -54,5 +66,16 @@ public class Zona {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    @Override
+    public ContentValues getContentValues() {
+        ContentValues values = new ContentValues();
+        values.put(Constants.id, id);
+        values.put(Constants.name, name);
+        values.put(Constants.locales_id, locales_id.getId());
+        values.put(Constants.createdAt, createdAt);
+        values.put(Constants.updatedAt, updatedAt);
+        return values;
     }
 }

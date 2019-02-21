@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +10,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class Inventario_Home extends CicloActivity {
+public class InventarioHome extends CicloActivity {
 
     private SlidingMenu menu;
     @Override
@@ -37,7 +37,7 @@ public class Inventario_Home extends CicloActivity {
         add_on_click(R.id.btnCre, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(Inventario_Crear.class, null);
+                admin.callIntent(InventarioCrear1.class, null);
             }
         });
 

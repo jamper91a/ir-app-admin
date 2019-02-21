@@ -5,13 +5,17 @@ import android.os.Bundle;
 
 import com.daimajia.androidanimations.library.Techniques;
 
+import java.io.IOException;
+
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
+import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class SplashScreen extends CicloActivity {
 
+    DataBase dataBase = new DataBase(this);
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +33,6 @@ public class SplashScreen extends CicloActivity {
 
     @Override
     public void getData() {
-
     }
 
     @Override
@@ -39,6 +42,8 @@ public class SplashScreen extends CicloActivity {
 
     @Override
     public void hasAllPermissions() {
+        //Genero la base de datos local
+        DataBase dataBase=new DataBase(this);
         //Valido si esta logeado  o no
         if(!admin.obtener_preferencia(Constants.token).isEmpty()){
             admin.callIntent(Home.class, null);

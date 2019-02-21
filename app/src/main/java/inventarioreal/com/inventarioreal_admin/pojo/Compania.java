@@ -1,6 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.pojo;
 
-public class Compania {
+import android.content.ContentValues;
+
+public class Compania extends InventarioRealPojo {
     private String createdAt;
     private String updatedAt;
     private String id;
@@ -8,6 +10,8 @@ public class Compania {
 
     public Compania() {
     }
+
+
 
     public Compania(String createdAt, String updatedAt, String id, String name) {
         this.createdAt = createdAt;
@@ -46,5 +50,10 @@ public class Compania {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public ContentValues getContentValues() {
+        return null;
     }
 }

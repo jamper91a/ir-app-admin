@@ -8,11 +8,12 @@ public class User {
     private String username;
     private String username_rfdi;
     private String password_rfdi;
+    private Group groups_id;
 
     public User() {
     }
 
-    public User(String createdAt, String updatedAt, String id, String username, String username_rfdi, String password_rfdi, String groups_id) {
+    public User(String createdAt, String updatedAt, String id, String username, String username_rfdi, String password_rfdi, Group groups_id) {
 
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -72,13 +73,11 @@ public class User {
         this.password_rfdi = password_rfdi;
     }
 
-    public String getGroups_id() {
+    public Group getGroups_id() {
         return groups_id;
     }
 
-    public void setGroups_id(String groups_id) {
+    public void setGroups_id(Group groups_id) {
         this.groups_id = groups_id;
     }
-
-    private String groups_id;
 }

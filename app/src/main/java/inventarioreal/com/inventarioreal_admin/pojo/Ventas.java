@@ -5,7 +5,7 @@ public class Ventas {
     private User users_id;
     private String createdAt;
     private String modifiedAt;
-    private ProductosZona productos_ona_id;
+    private ProductosZonas productos_zonas_id;
 
     public long getId() {
         return id;
@@ -39,11 +39,11 @@ public class Ventas {
         this.modifiedAt = modifiedAt;
     }
 
-    public ProductosZona getProductos_ona_id() {
-        return productos_ona_id;
+    public ProductosZonas getProductos_zonas_id() {
+        return productos_zonas_id;
     }
 
-    public void setProductos_ona_id(ProductosZona productos_ona_id) {
-        this.productos_ona_id = productos_ona_id;
+    public void setProductos_zonas_id(ProductosZonas productos_zonas_id) {
+        this.productos_zonas_id = productos_zonas_id;
     }
 }

@@ -2,14 +2,14 @@ package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
 import inventarioreal.com.inventarioreal_admin.pojo.Empleado;
 
-public class LoginResponseWebService {
+public class LoginResponse {
     private Empleado empleado;
     private String token;
 
-    public LoginResponseWebService() {
+    public LoginResponse() {
     }
 
-    public LoginResponseWebService(Empleado empleado, String token) {
+    public LoginResponse(Empleado empleado, String token) {
         this.empleado = empleado;
         this.token = token;
     }

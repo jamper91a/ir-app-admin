@@ -33,4 +33,6 @@
     <string name="zona">Zona</string>
     <string name="poder_lectura">Poder de lectura</string>
     <string name="iniciar">Iniciar</string>
+    <string name="finalizar">Finalizar</string>
+    <string name="log_out">Log out</string>
 </resources>

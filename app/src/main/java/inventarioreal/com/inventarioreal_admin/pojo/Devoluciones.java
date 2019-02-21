@@ -1,6 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.pojo;
 
-public class Devoluciones {
+public class Devoluciones  {
     private long id;
     private String name;
     private String createdAt;

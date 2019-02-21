@@ -1,6 +1,10 @@
 package inventarioreal.com.inventarioreal_admin.pojo;
 
-public class ProductosZona {
+import android.content.ContentValues;
+
+import inventarioreal.com.inventarioreal_admin.util.Constants;
+
+public class ProductosZonas {
 
     private long id;
     private Producto productos_id;
@@ -12,7 +16,9 @@ public class ProductosZona {
     private Devoluciones devoluciones_id;
     private String log_usuarios;
     private Ventas ventas_id;
-    private Epc ecps_id;
+    private Epc epcs_id;
+    private String createdAt;
+    private String updatedAt;
 
     public long getId() {
         return id;
@@ -94,11 +100,27 @@ public class ProductosZona {
         this.ventas_id = ventas_id;
     }
 
-    public Epc getEcps_id() {
-        return ecps_id;
+    public Epc getEpcs_id() {
+        return epcs_id;
     }
 
-    public void setEcps_id(Epc ecps_id) {
-        this.ecps_id = ecps_id;
+    public void setEpcs_id(Epc epcs_id) {
+        this.epcs_id = epcs_id;
+    }
+
+    public ContentValues getContentValues(){
+        ContentValues values = new ContentValues();
+        values.put(Constants.id, id);
+        values.put(Constants.productos_id, productos_id.getId());
+        values.put(Constants.zonas_id, zonas_id.getId());
+        values.put(Constants.fecha_ingreso, fecha_ingreso);
+        values.put(Constants.fecha_venta, fecha_venta);
+        values.put(Constants.fecha_devolucion, fecha_devolucion);
+        values.put(Constants.devolucion_observaciones, devolucion_observaciones);
+        values.put(Constants.devoluciones_id, devoluciones_id.getId());
+        values.put(Constants.log_usuarios, log_usuarios);
+        values.put(Constants.ventas_id, ventas_id.getId());
+        values.put(Constants.epcs_id, epcs_id.getId());
+        return values;
     }
 }

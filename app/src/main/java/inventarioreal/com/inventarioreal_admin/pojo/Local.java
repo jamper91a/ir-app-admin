@@ -4,12 +4,12 @@ public class Local {
     private String createdAt;
     private String updatedAt;
     private String id;
-    private String companias_id;
+    private Compania companias_id;
 
     public Local() {
     }
 
-    public Local(String createdAt, String updatedAt, String id, String companias_id) {
+    public Local(String createdAt, String updatedAt, String id, Compania companias_id) {
 
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -42,11 +42,11 @@ public class Local {
         this.id = id;
     }
 
-    public String getCompanias_id() {
+    public Compania getCompanias_id() {
         return companias_id;
     }
 
-    public void setCompanias_id(String companias_id) {
+    public void setCompanias_id(Compania companias_id) {
         this.companias_id = companias_id;
     }
 }
