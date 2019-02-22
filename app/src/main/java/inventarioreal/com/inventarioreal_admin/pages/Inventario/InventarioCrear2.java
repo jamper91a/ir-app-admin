@@ -7,9 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.handheld.UHF.UhfManager;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -23,14 +21,9 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapter1;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Epc;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
-import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
-import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
-import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
-import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 

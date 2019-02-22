@@ -74,8 +74,8 @@ public class Constants {
     public static String was_listarzonas="zonas/listar";
     //endregion
       public static String ean="ean";
-            public static String plu="plu";
-                public static String plu2="plu2";
+    public static String plu="plu";
+    public static String plu2="plu2";
       public static String plu3="plu3";
       public static String marca="marca";
       public static String genero="genero";

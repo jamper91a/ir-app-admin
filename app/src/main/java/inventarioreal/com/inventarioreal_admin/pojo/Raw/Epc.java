@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pojo;
+package inventarioreal.com.inventarioreal_admin.pojo.Raw;
 
 import android.content.ContentValues;
 import android.util.Log;
@@ -12,7 +12,7 @@ public class Epc {
 	private long id;
 	private int state;
 	private String epc;
-	private Compania companias_id;
+	private long companias_id;
 	private String createdAt;
 	private String updatedAt;
 
@@ -60,11 +60,11 @@ public class Epc {
 		this.epc = epc;
 	}
 
-	public Compania getCompanias_id() {
+	public long getCompanias_id() {
 		return companias_id;
 	}
 
-	public void setCompanias_id(Compania companias_id) {
+	public void setCompanias_id(long companias_id) {
 		this.companias_id = companias_id;
 	}
 
@@ -94,7 +94,7 @@ public class Epc {
 
 	@Override
 	public String toString() {
-		return "Epc [id=" + id + ", epc=" + epc +  "]";
+		return "long [id=" + id + ", epc=" + epc +  "]";
 	}
 
 	public HashMap<String,String> toHashMap(){
@@ -109,7 +109,7 @@ public class Epc {
 		values.put(Constants.id,getId());
 		values.put(Constants.state,getEpc());
 		values.put(Constants.epc,getEpc());
-		values.put(Constants.companias_id,getCompanias_id().getId());
+		values.put(Constants.companias_id,companias_id);
 		values.put(Constants.createdAt,getCreatedAt());
 		values.put(Constants.updatedAt,getUpdatedAt());
 

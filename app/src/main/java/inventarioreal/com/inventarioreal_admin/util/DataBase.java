@@ -16,8 +16,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
-
 /**
  * Created by jamper91 on 27/01/2015.
  */

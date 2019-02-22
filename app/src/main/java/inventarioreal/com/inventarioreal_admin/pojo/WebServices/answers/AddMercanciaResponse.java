@@ -2,8 +2,8 @@ package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
 import java.util.List;
 
-import inventarioreal.com.inventarioreal_admin.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Producto;
 
 public class AddMercanciaResponse {
     private Producto producto;

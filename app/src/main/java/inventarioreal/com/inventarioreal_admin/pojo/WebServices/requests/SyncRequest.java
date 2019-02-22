@@ -2,11 +2,8 @@ package inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import inventarioreal.com.inventarioreal_admin.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.RequestWebServiceInterface;
 

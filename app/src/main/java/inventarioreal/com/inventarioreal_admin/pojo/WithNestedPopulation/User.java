@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pojo;
+package inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation;
 
 public class User {
 

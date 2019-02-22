@@ -1,15 +1,12 @@
 package inventarioreal.com.inventarioreal_admin.pages;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.Producto;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.util.Constants;

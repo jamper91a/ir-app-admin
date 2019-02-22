@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pojo;
+package inventarioreal.com.inventarioreal_admin.pojo.Raw;
 
 import android.content.ContentValues;
 
@@ -23,12 +23,12 @@ public class Producto {
         private String imagen;
         private String precio_costo;
         private String precio_venta;
-        private Compania companias_id;
+        private long companias_id;
 
     public Producto() {
     }
 
-    public Producto(String createdAt, String updatedAt, String id, String ean, String plu, String plu2, String plu3, String marca, String genero, String color, String talla, String categoria, String descripcion, String cantidad, String imagen, String precio_costo, String precio_venta, Compania companias_id) {
+    public Producto(String createdAt, String updatedAt, String id, String ean, String plu, String plu2, String plu3, String marca, String genero, String color, String talla, String categoria, String descripcion, String cantidad, String imagen, String precio_costo, String precio_venta, long companias_id) {
 
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -187,11 +187,11 @@ public class Producto {
         this.precio_venta = precio_venta;
     }
 
-    public Compania getCompanias_id() {
+    public long getCompanias_id() {
         return companias_id;
     }
 
-    public void setCompanias_id(Compania companias_id) {
+    public void setCompanias_id(long companias_id) {
         this.companias_id = companias_id;
     }
 
@@ -214,7 +214,7 @@ public class Producto {
         values.put(Constants.imagen,imagen);
         values.put(Constants.precio_costo,precio_costo);
         values.put(Constants.precio_venta,precio_venta);
-        values.put(Constants.companias_id,getCompanias_id().getId());
+        values.put(Constants.companias_id,companias_id);
 
         return values;
     }

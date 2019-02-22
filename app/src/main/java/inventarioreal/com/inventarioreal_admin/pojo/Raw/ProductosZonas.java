@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pojo;
+package inventarioreal.com.inventarioreal_admin.pojo.Raw;
 
 import android.content.ContentValues;
 
@@ -7,16 +7,16 @@ import inventarioreal.com.inventarioreal_admin.util.Constants;
 public class ProductosZonas {
 
     private long id;
-    private Producto productos_id;
-    private Zona zonas_id;
+    private long productos_id;
+    private long zonas_id;
     private String fecha_ingreso;
     private String fecha_venta;
     private String fecha_devolucion;
     private String devolucion_observaciones;
-    private Devoluciones devoluciones_id;
+    private long devoluciones_id;
     private String log_usuarios;
-    private Ventas ventas_id;
-    private Epc epcs_id;
+    private long ventas_id;
+    private long epcs_id;
     private String createdAt;
     private String updatedAt;
 
@@ -28,19 +28,19 @@ public class ProductosZonas {
         this.id = id;
     }
 
-    public Producto getProductos_id() {
+    public long getProductos_id() {
         return productos_id;
     }
 
-    public void setProductos_id(Producto productos_id) {
+    public void setProductos_id(long productos_id) {
         this.productos_id = productos_id;
     }
 
-    public Zona getZonas_id() {
+    public long getZonas_id() {
         return zonas_id;
     }
 
-    public void setZonas_id(Zona zonas_id) {
+    public void setZonas_id(long zonas_id) {
         this.zonas_id = zonas_id;
     }
 
@@ -76,11 +76,11 @@ public class ProductosZonas {
         this.devolucion_observaciones = devolucion_observaciones;
     }
 
-    public Devoluciones getDevoluciones_id() {
+    public long getDevoluciones_id() {
         return devoluciones_id;
     }
 
-    public void setDevoluciones_id(Devoluciones devoluciones_id) {
+    public void setDevoluciones_id(long devoluciones_id) {
         this.devoluciones_id = devoluciones_id;
     }
 
@@ -92,35 +92,35 @@ public class ProductosZonas {
         this.log_usuarios = log_usuarios;
     }
 
-    public Ventas getVentas_id() {
+    public long getVentas_id() {
         return ventas_id;
     }
 
-    public void setVentas_id(Ventas ventas_id) {
+    public void setVentas_id(long ventas_id) {
         this.ventas_id = ventas_id;
     }
 
-    public Epc getEpcs_id() {
+    public long getEpcs_id() {
         return epcs_id;
     }
 
-    public void setEpcs_id(Epc epcs_id) {
+    public void setEpcs_id(long epcs_id) {
         this.epcs_id = epcs_id;
     }
 
     public ContentValues getContentValues(){
         ContentValues values = new ContentValues();
         values.put(Constants.id, id);
-        values.put(Constants.productos_id, productos_id.getId());
-        values.put(Constants.zonas_id, zonas_id.getId());
+        values.put(Constants.productos_id, productos_id);
+        values.put(Constants.zonas_id, zonas_id);
         values.put(Constants.fecha_ingreso, fecha_ingreso);
         values.put(Constants.fecha_venta, fecha_venta);
         values.put(Constants.fecha_devolucion, fecha_devolucion);
         values.put(Constants.devolucion_observaciones, devolucion_observaciones);
-        values.put(Constants.devoluciones_id, devoluciones_id.getId());
+        values.put(Constants.devoluciones_id, devoluciones_id);
         values.put(Constants.logs_usuarios, log_usuarios);
-        values.put(Constants.ventas_id, ventas_id.getId());
-        values.put(Constants.epcs_id, epcs_id.getId());
+        values.put(Constants.ventas_id, ventas_id);
+        values.put(Constants.epcs_id, epcs_id);
         return values;
     }
 }

@@ -1,8 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
-import inventarioreal.com.inventarioreal_admin.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.Producto;
-import inventarioreal.com.inventarioreal_admin.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.ProductosZonas;
 
 public class SyncResponse {
     private Epc[] epcs;
