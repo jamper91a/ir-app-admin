@@ -1,11 +1,9 @@
-package inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation;
+package inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo;
 
 import android.content.ContentValues;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
-
-import inventarioreal.com.inventarioreal_admin.util.Constants;
 
 public abstract class InventarioRealPojo {
     public InventarioRealPojo() {

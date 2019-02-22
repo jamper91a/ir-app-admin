@@ -14,8 +14,8 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
+import inventarioreal.com.inventarioreal_admin.pojo.Raw.Zona;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Zona;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -84,7 +84,7 @@ public class InventarioCrear1 extends CicloActivity {
         final LinkedList<Zona> zonas=db.getByColumn(Constants.table_zonas,Constants.locales_id, empleado.getEmpleado().getLocales_id().getId(), Zona.class);
 
         ArrayAdapter<Zona> adapter =
-                new ArrayAdapter<Zona>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, zonas);
+                new ArrayAdapter<>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, zonas);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
 
         ((Spinner)getElemento(R.id.spnZona).getElemento()).setAdapter(adapter);

@@ -2,7 +2,7 @@ package inventarioreal.com.inventarioreal_admin.pojo.Raw;
 
 import android.content.ContentValues;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.InventarioRealPojo;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventarioRealPojo;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
 public class Zona extends InventarioRealPojo {

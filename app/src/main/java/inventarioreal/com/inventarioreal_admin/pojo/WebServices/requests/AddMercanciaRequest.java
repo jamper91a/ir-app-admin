@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
 public class AddMercanciaRequest {

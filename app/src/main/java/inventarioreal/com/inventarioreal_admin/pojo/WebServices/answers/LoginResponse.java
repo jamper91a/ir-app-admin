@@ -1,6 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Empleado;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Empleado;
 
 public class LoginResponse {
     private Empleado empleado;

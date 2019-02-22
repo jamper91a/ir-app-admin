@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation;
+package inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo;
 
 public class Empleado {
 

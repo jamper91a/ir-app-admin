@@ -1,6 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Zona;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zona;
 
 public class ZonasListarResponse {
     private Zona[] zonas;

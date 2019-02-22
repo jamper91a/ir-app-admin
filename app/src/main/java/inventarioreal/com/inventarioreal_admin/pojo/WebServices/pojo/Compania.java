@@ -1,24 +1,26 @@
-package inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation;
+package inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo;
 
-public class Local {
+import android.content.ContentValues;
+
+public class Compania extends InventarioRealPojo {
     private String createdAt;
     private String updatedAt;
     private String id;
-    private Compania companias_id;
+    private String name;
 
-    public Local() {
+    public Compania() {
     }
 
-    public Local(String createdAt, String updatedAt, String id, Compania companias_id) {
 
+
+    public Compania(String createdAt, String updatedAt, String id, String name) {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.id = id;
-        this.companias_id = companias_id;
+        this.name = name;
     }
 
     public String getCreatedAt() {
-
         return createdAt;
     }
 
@@ -42,11 +44,16 @@ public class Local {
         this.id = id;
     }
 
-    public Compania getCompanias_id() {
-        return companias_id;
+    public String getName() {
+        return name;
     }
 
-    public void setCompanias_id(Compania companias_id) {
-        this.companias_id = companias_id;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public ContentValues getContentValues() {
+        return null;
     }
 }

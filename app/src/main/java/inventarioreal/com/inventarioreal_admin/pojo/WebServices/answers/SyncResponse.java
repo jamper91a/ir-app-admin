@@ -1,13 +1,15 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Producto;
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zona;
 
 public class SyncResponse {
     private Epc[] epcs;
     private Producto[] productos;
     private ProductosZonas[] productos_zona;
+    private Zona[] zonas;
 
     public SyncResponse() {
     }
@@ -34,5 +36,13 @@ public class SyncResponse {
 
     public void setProductos_zona(ProductosZonas[] productos_zona) {
         this.productos_zona = productos_zona;
+    }
+
+    public Zona[] getZonas() {
+        return zonas;
+    }
+
+    public void setZonas(Zona[] zonas) {
+        this.zonas = zonas;
     }
 }

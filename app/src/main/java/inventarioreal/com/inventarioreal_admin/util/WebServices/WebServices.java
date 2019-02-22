@@ -13,16 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Producto;
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddMercanciaResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.ZonasListarResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zona;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMercanciaRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Zona;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import jamper91.com.easyway.Util.Administrador;
@@ -305,6 +305,11 @@ public class WebServices {
                                 if (response.getProductos_zona()!=null) {
                                     for (ProductosZonas productosZona: response.getProductos_zona()) {
                                         db.add(Constants.table_productos_zonas, productosZona.getContentValues());
+                                    }
+                                }
+                                if (response.getZonas()!=null) {
+                                    for (Zona zona: response.getZonas()) {
+                                        db.add(Constants.table_zonas, zona.getContentValues());
                                     }
                                 }
                                 result.ok(new ResultWebServiceOk(response));

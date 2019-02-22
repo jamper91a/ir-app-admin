@@ -10,12 +10,11 @@ import android.widget.Filter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WithNestedPopulation.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import jamper91.com.easyway.Util.Administrador;
 
 
