@@ -99,4 +99,9 @@ public class Constants {
     public static String inventarios_id="inventarios_id";
     public static String productos_epcs_id="productos_epcs_id";
     public static String inventarios_consolidados_id="inventarios_consolidados_id";
+    public static String inventario="inventario";
+    public static String inventario_productos="inventario_productos";
+    public static String log_usuarios="log_usuarios";
+    public static String ws_crearInventario="inventarios/crear";
+    public static String content_type="Content-Type";
 }

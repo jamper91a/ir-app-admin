@@ -22,6 +22,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMercanciaRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -42,6 +43,8 @@ public class WebServices {
     private static HashMap<String, String> getHeaders(Administrador admin){
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put(Constants.authorization, "Bearer  "+admin.obtener_preferencia(Constants.token));
+        headers.put(Constants.content_type, "application/json");
+        headers.put("Content-Type", "application/json");
         return  headers;
     }
 
@@ -298,43 +301,40 @@ public class WebServices {
         executeObtener(activity, callWebServiceJson);
     }
 
-//    public static void crearInventario(Inventario inventario, List<InventariosProductos> inventario_productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-//        final String url=Constants.url+Constants.ws_addMercancia;
-//
-//        AddMercanciaRequest request = new AddMercanciaRequest(products_id, zonas_id, epcs);
-//
-//        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
-//                activity,
-//                url,
-//                request.getCampos(),
-//                getHeaders(admin),
-//                jamper91.com.easyway.Util.Constants.REQUEST_POST,
-//                new ResponseListener() {
-//                    @Override
-//                    public void onResponse(String s) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onResponse(JSONObject jsonObject) {
-//                        try {
-//                            AddMercanciaResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),AddMercanciaResponse.class);
-//                            result.ok(new ResultWebServiceOk(response));
-//                        } catch (JSONException e) {
-//                            result.fail(new ResultWebServiceFail(e));
-//                        } catch (Exception e) {
-//                            result.fail(new ResultWebServiceFail(e.getMessage()));
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onErrorResponse(String s) {
-//                        result.fail(new ResultWebServiceFail(s));
-//                    }
-//                },
-//                admin
-//        );
-//        executeEnviar(activity, callWebServiceJson);
-//    }
+    public static void crearInventario(long zonas_id, List<InventariosProductos> inventario_productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_crearInventario;
+
+        CrearInventarioRequest request = new CrearInventarioRequest(zonas_id, inventario_productos);
+
+        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                activity,
+                url,
+                request.getCampos(),
+                getHeaders(admin),
+                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                new ResponseListener() {
+                    @Override
+                    public void onResponse(String s) {
+
+                    }
+
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            result.ok(new ResultWebServiceOk(null));
+                        } catch (Exception e) {
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(String s) {
+                        result.fail(new ResultWebServiceFail(s));
+                    }
+                },
+                admin
+        );
+        executeEnviar(activity, callWebServiceJson);
+    }
 
 }

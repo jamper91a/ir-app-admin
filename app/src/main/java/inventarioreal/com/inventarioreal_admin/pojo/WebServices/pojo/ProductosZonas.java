@@ -17,7 +17,7 @@ public class ProductosZonas extends InventarioRealPojo {
     public String fecha_devolucion;
     public String devolucion_observaciones;
     public Devoluciones devoluciones_id;
-    public String log_usuarios;
+    public String logs_usuarios;
     public Ventas ventas_id;
     public Epcs epcs_id;
 
@@ -37,6 +37,40 @@ public class ProductosZonas extends InventarioRealPojo {
 
     @Override
     public void fromCursor(Cursor c) {
+
+        this.id = c.getLong(c.getColumnIndexOrThrow(Constants.id));
+        this.createdAt = c.getString(c.getColumnIndexOrThrow(Constants.createdAt));
+        this.updatedAt = c.getString(c.getColumnIndexOrThrow(Constants.updatedAt));
+        this.productos_id = new Productos(
+                c.getLong(
+                        c.getColumnIndexOrThrow(Constants.productos_id)
+                )
+        );
+        this.zonas_id = new Zonas(
+                c.getLong(
+                        c.getColumnIndexOrThrow(Constants.zonas_id)
+                )
+        );
+        this.fecha_ingreso = c.getString(c.getColumnIndex(Constants.fecha_ingreso));
+        this.fecha_venta = c.getString(c.getColumnIndex(Constants.fecha_venta));
+        this.fecha_devolucion = c.getString(c.getColumnIndex(Constants.fecha_devolucion));
+        this.devolucion_observaciones = c.getString(c.getColumnIndex(Constants.devolucion_observaciones));
+        this.devoluciones_id = new Devoluciones(
+                c.getLong(
+                        c.getColumnIndexOrThrow(Constants.devoluciones_id)
+                )
+        );
+        this.logs_usuarios = c.getString(c.getColumnIndex(Constants.logs_usuarios));
+        this.ventas_id = new Ventas(
+                c.getLong(
+                        c.getColumnIndexOrThrow(Constants.ventas_id)
+                )
+        );
+        this.epcs_id = new Epcs(
+                c.getLong(
+                        c.getColumnIndexOrThrow(Constants.epcs_id)
+                )
+        );
 
     }
 
@@ -97,11 +131,11 @@ public class ProductosZonas extends InventarioRealPojo {
     }
 
     public String getLog_usuarios() {
-        return log_usuarios;
+        return logs_usuarios;
     }
 
     public void setLog_usuarios(String log_usuarios) {
-        this.log_usuarios = log_usuarios;
+        this.logs_usuarios = log_usuarios;
     }
 
     public Ventas getVentas_id() {
@@ -131,7 +165,7 @@ public class ProductosZonas extends InventarioRealPojo {
         values.put(Constants.fecha_devolucion, fecha_devolucion);
         values.put(Constants.devolucion_observaciones, devolucion_observaciones);
         values.put(Constants.devoluciones_id, devoluciones_id.id);
-        values.put(Constants.logs_usuarios, log_usuarios);
+        values.put(Constants.logs_usuarios, logs_usuarios);
         values.put(Constants.ventas_id, ventas_id.id);
         values.put(Constants.epcs_id, epcs_id.id);
         values.put(Constants.createdAt, createdAt);

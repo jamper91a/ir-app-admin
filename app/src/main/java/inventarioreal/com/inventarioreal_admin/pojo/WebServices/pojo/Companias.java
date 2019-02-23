@@ -12,6 +12,9 @@ public class Companias extends InventarioRealPojo {
 
     public Companias() {
     }
+    public Companias(Long id) {
+        super(id);
+    }
 
     @Override
     public void fromHashMap(Class myClass, HashMap<String, String> data) {

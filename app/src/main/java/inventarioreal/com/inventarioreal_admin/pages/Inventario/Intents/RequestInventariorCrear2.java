@@ -4,29 +4,30 @@ import android.util.Log;
 
 import java.util.HashMap;
 
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.util.IntentRequests;
 
 
 public class RequestInventariorCrear2 implements IntentRequests {
     private static final String TAG = "RequestInventarioCrear2";
-    public long zona_id;
+    public Zonas zona_id;
     public String power;
     public String fecha;
 
     public RequestInventariorCrear2() {
     }
 
-    public RequestInventariorCrear2(long zona_id, String power, String fecha) {
+    public RequestInventariorCrear2(Zonas zona_id, String power, String fecha) {
         this.zona_id = zona_id;
         this.power = power;
         this.fecha = fecha;
     }
 
-    public long getZona_id() {
+    public Zonas getZona_id() {
         return zona_id;
     }
 
-    public void setZona_id(long zona_id) {
+    public void setZona_id(Zonas zona_id) {
         this.zona_id = zona_id;
     }
 
@@ -49,7 +50,7 @@ public class RequestInventariorCrear2 implements IntentRequests {
     @Override
     public boolean validar() {
         try {
-            if(this.fecha.isEmpty() && this.power.isEmpty() && this.zona_id<=0)
+            if(this.fecha.isEmpty() && this.power.isEmpty() && this.zona_id.id<=0)
             {
                 return false;
             }else{

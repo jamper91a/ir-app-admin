@@ -2,7 +2,6 @@ package inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
 
 import java.util.HashMap;
 
@@ -20,6 +19,10 @@ public class Epcs extends InventarioRealPojo {
 
 	public Epcs() {
 	}
+
+    public Epcs(long id) {
+        super(id);
+    }
 
     @Override
     public void fromHashMap(Class myClass, HashMap<String, String> data) {
@@ -82,6 +85,16 @@ public class Epcs extends InventarioRealPojo {
     @Override
     public void fromCursor(Cursor c) {
 
+        this.id = c.getLong(c.getColumnIndexOrThrow(Constants.id));
+        this.state = c.getInt(c.getColumnIndexOrThrow(Constants.id));
+        this.epc = c.getString(c.getColumnIndexOrThrow(Constants.id));
+        this.companias_id = new Companias(
+                c.getLong(
+                        c.getColumnIndexOrThrow(Constants.companias_id)
+                )
+        );
+        this.createdAt = c.getString(c.getColumnIndexOrThrow(Constants.createdAt));
+        this.updatedAt = c.getString(c.getColumnIndexOrThrow(Constants.updatedAt));
     }
 
     @Override

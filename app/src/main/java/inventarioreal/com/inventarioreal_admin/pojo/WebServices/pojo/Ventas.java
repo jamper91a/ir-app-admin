@@ -11,6 +11,10 @@ public class Ventas extends InventarioRealPojo {
     public Users users_id;
     public ProductosZonas productos_zonas_id;
 
+    public Ventas(long id) {
+        super(id);
+    }
+
     public Users getUsers_id() {
         return users_id;
     }

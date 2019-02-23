@@ -18,12 +18,6 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
 
-import static android.database.Cursor.FIELD_TYPE_BLOB;
-import static android.database.Cursor.FIELD_TYPE_FLOAT;
-import static android.database.Cursor.FIELD_TYPE_INTEGER;
-import static android.database.Cursor.FIELD_TYPE_NULL;
-import static android.database.Cursor.FIELD_TYPE_STRING;
-
 /**
  * Created by jamper91 on 27/01/2015.
  */
@@ -455,6 +449,48 @@ public class DataBase extends SQLiteOpenHelper {
                 return  datos;
             else
                 return null;
+        }else{
+            return null;
+        }
+
+    }
+
+    /**
+     * Esta funcion se encarga de consultar el elemento de una tabla, basado en el id y retornar el
+     * resultado como el objecto dado
+     * @param table_name
+     * @param column
+     * @param value
+     * @param myClass
+     * @return
+     */
+    public Object getById(String table_name, String column, String value, Class myClass)
+    {
+        String sql="SELECT * FROM %table where %column=%value";
+        sql=sql.replace("%table",table_name);
+        sql=sql.replace("%column", column);
+        sql=sql.replace("%value", value);
+        Cursor c=this.execQuery(sql);
+        if(c!=null)
+        {
+            while (c.moveToNext())
+            {
+                //Se inicia la clase que se ha de retornar
+                InventarioRealPojo inventarioRealPojo = null;
+                try {
+                    inventarioRealPojo = (InventarioRealPojo)myClass.newInstance();
+                    inventarioRealPojo.fromCursor(c);
+                    return inventarioRealPojo;
+                } catch (IllegalAccessException e) {
+                    Log.e(TAG, e.getLocalizedMessage());
+                    return null;
+                } catch (InstantiationException e) {
+                    Log.e(TAG, e.getLocalizedMessage());
+                    return null;
+                }
+            }
+            return null;
+
         }else{
             return null;
         }

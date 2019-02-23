@@ -4,14 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
@@ -55,29 +50,3 @@ public class AddMercanciaRequest {
 
 
 }
-
-//class ProductosZonaHere{
-//    private long zonas_id;
-//    private long productos_id;
-//    private String ecps_id;
-//    private long devoluciones;
-//    private long ventas_id;
-//
-//    public ProductosZonaHere() {
-//    }
-//
-//    public ProductosZonaHere(long zonas_id, long productos_id, String ecps_id) {
-//        this.zonas_id = zonas_id;
-//        this.productos_id = productos_id;
-//        this.ecps_id = ecps_id;
-//        this.ventas_id = 1;
-//    }
-//
-//    public ProductosZonaHere(long zonas_id, long productos_id, String ecps_id, long devoluciones, long ventas_id) {
-//        this.zonas_id = zonas_id;
-//        this.productos_id = productos_id;
-//        this.ecps_id = ecps_id;
-//        this.devoluciones = devoluciones;
-//        this.ventas_id = ventas_id;
-//    }
-//}

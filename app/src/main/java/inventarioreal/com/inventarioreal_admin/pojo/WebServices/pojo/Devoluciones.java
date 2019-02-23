@@ -10,6 +10,10 @@ import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
 public class Devoluciones extends InventarioRealPojo {
     public String name;
 
+    public Devoluciones(long id) {
+        super(id);
+    }
+
     public String getName() {
         return name;
     }

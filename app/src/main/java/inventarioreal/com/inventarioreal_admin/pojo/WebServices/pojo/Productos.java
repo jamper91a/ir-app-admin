@@ -26,6 +26,10 @@ public class Productos extends InventarioRealPojo {
         private String precio_venta;
         private Companias companias_id;
 
+    public Productos(long id){
+        super(id);
+    }
+
     public String getEan() {
         return ean;
     }
