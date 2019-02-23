@@ -16,6 +16,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
+
 import static android.database.Cursor.FIELD_TYPE_BLOB;
 import static android.database.Cursor.FIELD_TYPE_FLOAT;
 import static android.database.Cursor.FIELD_TYPE_INTEGER;
@@ -599,9 +601,15 @@ public class DataBase extends SQLiteOpenHelper {
 
     }
 
-    //Obtiene los datos y retornar el objecto de respuesta
+    /**
+     * Get rows from table based in a column given
+     * @param table_name Name of the table
+     * @param column Name of the column
+     * @param value Value to filter
+     * @param myClass Class of object to return
+     * @return List of object
+     */
     public LinkedList getByColumn(String table_name, String column, String value, Class myClass){
-//        LinkedList<HashMap<String,String>> retornar= new LinkedList<HashMap<String,String>>();
         LinkedList<Object> retornar= new LinkedList<>();
         String sql="SELECT * FROM %table where %column=%valor";
         sql=sql.replace("%table",table_name);
@@ -612,11 +620,12 @@ public class DataBase extends SQLiteOpenHelper {
         {
             while (c.moveToNext())
             {
-                HashMap<String, String> datos = new HashMap<String, String>();
                 //Se inicia la clase que se ha de retornar
-                Object instance = null;
+                InventarioRealPojo instance = null;
                 try {
-                    instance = myClass.newInstance();
+                    instance = (InventarioRealPojo)myClass.newInstance();
+                    instance.fromCursor(c);
+                    retornar.add(instance);
                 } catch (IllegalAccessException e) {
                     Log.e(TAG, e.getLocalizedMessage());
                     return null;
@@ -624,45 +633,7 @@ public class DataBase extends SQLiteOpenHelper {
                     Log.e(TAG, e.getLocalizedMessage());
                     return null;
                 }
-                for(int i=0;i<c.getColumnCount();i++)
-                {
-                    if(c.getString(i)!=null)
-                    {
 
-                        //region Nombre de la columna
-                        String columna=c.getColumnName(i);
-                        columna=columna.replace("\n","\n ");
-                        columna=columna.replace("\r","\r ");
-                        columna=columna.replace("&ntilde;","ñ");
-                        //endregion
-                        //region Valor de la columna
-                        switch (c.getType(i)){
-                            case FIELD_TYPE_NULL:
-                                set(instance, columna, null);
-                                break;
-                            case FIELD_TYPE_INTEGER:
-                                set(instance, columna, c.getInt(i));
-                                break;
-                            case FIELD_TYPE_FLOAT:
-                                set(instance, columna, c.getFloat(i));
-                                break;
-                            case FIELD_TYPE_STRING:
-                                String valor=c.getString(i);
-                                valor=valor.replace("\n","\n ");
-                                valor=valor.replace("\r","\r ");
-                                valor = valor.replace("&ntilde;","ñ");
-                                set(instance, columna, valor);
-                                break;
-                            case FIELD_TYPE_BLOB:
-                                set(instance, columna, c.getBlob(i));
-                                break;
-                        }
-                    }else{
-                        datos.put(c.getColumnName(i), "null");
-                        set(instance, c.getColumnName(i), null);
-                    }
-                }
-                retornar.add(instance);
             }
             if(retornar.size()>0)
                 return  retornar;

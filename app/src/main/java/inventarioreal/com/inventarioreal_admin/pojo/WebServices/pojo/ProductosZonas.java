@@ -1,46 +1,58 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 
+import java.util.HashMap;
+
+import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class ProductosZonas {
+public class ProductosZonas extends InventarioRealPojo {
 
-    private long id;
-    private Producto productos_id;
-    private Zona zonas_id;
-    private String fecha_ingreso;
-    private String fecha_venta;
-    private String fecha_devolucion;
-    private String devolucion_observaciones;
-    private Devoluciones devoluciones_id;
-    private String log_usuarios;
-    private Ventas ventas_id;
-    private Epc epcs_id;
-    private String createdAt;
-    private String updatedAt;
+    public Productos productos_id;
+    public Zonas zonas_id;
+    public String fecha_ingreso;
+    public String fecha_venta;
+    public String fecha_devolucion;
+    public String devolucion_observaciones;
+    public Devoluciones devoluciones_id;
+    public String log_usuarios;
+    public Ventas ventas_id;
+    public Epcs epcs_id;
 
-    public long getId() {
-        return id;
+    public ProductosZonas() {
     }
 
-    public void setId(long id) {
-        this.id = id;
+    @Override
+    public void fromHashMap(Class myClass, HashMap<String, String> data) {
+
     }
 
-    public Producto getProductos_id() {
+    @Override
+    public void toHashMap(Class myClass) {
+
+    }
+
+
+    @Override
+    public void fromCursor(Cursor c) {
+
+    }
+
+    public Productos getProductos_id() {
         return productos_id;
     }
 
-    public void setProductos_id(Producto productos_id) {
+    public void setProductos_id(Productos productos_id) {
         this.productos_id = productos_id;
     }
 
-    public Zona getZonas_id() {
+    public Zonas getZonas_id() {
         return zonas_id;
     }
 
-    public void setZonas_id(Zona zonas_id) {
+    public void setZonas_id(Zonas zonas_id) {
         this.zonas_id = zonas_id;
     }
 
@@ -100,27 +112,31 @@ public class ProductosZonas {
         this.ventas_id = ventas_id;
     }
 
-    public Epc getEpcs_id() {
+    public Epcs getEpcs_id() {
         return epcs_id;
     }
 
-    public void setEpcs_id(Epc epcs_id) {
+    public void setEpcs_id(Epcs epcs_id) {
         this.epcs_id = epcs_id;
     }
 
+    @Override
     public ContentValues getContentValues(){
         ContentValues values = new ContentValues();
         values.put(Constants.id, id);
-        values.put(Constants.productos_id, productos_id.getId());
-        values.put(Constants.zonas_id, zonas_id.getId());
+        values.put(Constants.productos_id, productos_id.id);
+        values.put(Constants.zonas_id, zonas_id.id);
         values.put(Constants.fecha_ingreso, fecha_ingreso);
         values.put(Constants.fecha_venta, fecha_venta);
         values.put(Constants.fecha_devolucion, fecha_devolucion);
         values.put(Constants.devolucion_observaciones, devolucion_observaciones);
-        values.put(Constants.devoluciones_id, devoluciones_id.getId());
+        values.put(Constants.devoluciones_id, devoluciones_id.id);
         values.put(Constants.logs_usuarios, log_usuarios);
-        values.put(Constants.ventas_id, ventas_id.getId());
-        values.put(Constants.epcs_id, epcs_id.getId());
+        values.put(Constants.ventas_id, ventas_id.id);
+        values.put(Constants.epcs_id, epcs_id.id);
+        values.put(Constants.createdAt, createdAt);
+        values.put(Constants.updatedAt, updatedAt);
         return values;
     }
+
 }

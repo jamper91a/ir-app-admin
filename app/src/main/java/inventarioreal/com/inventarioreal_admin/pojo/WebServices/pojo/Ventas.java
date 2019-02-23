@@ -1,42 +1,22 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo;
 
-public class Ventas {
-    private long id;
-    private User users_id;
-    private String createdAt;
-    private String modifiedAt;
-    private ProductosZonas productos_zonas_id;
+import android.content.ContentValues;
+import android.database.Cursor;
 
-    public long getId() {
-        return id;
-    }
+import java.util.HashMap;
 
-    public void setId(long id) {
-        this.id = id;
-    }
+import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
 
-    public User getUsers_id() {
+public class Ventas extends InventarioRealPojo {
+    public Users users_id;
+    public ProductosZonas productos_zonas_id;
+
+    public Users getUsers_id() {
         return users_id;
     }
 
-    public void setUsers_id(User users_id) {
+    public void setUsers_id(Users users_id) {
         this.users_id = users_id;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getModifiedAt() {
-        return modifiedAt;
-    }
-
-    public void setModifiedAt(String modifiedAt) {
-        this.modifiedAt = modifiedAt;
     }
 
     public ProductosZonas getProductos_zonas_id() {
@@ -45,5 +25,25 @@ public class Ventas {
 
     public void setProductos_zonas_id(ProductosZonas productos_zonas_id) {
         this.productos_zonas_id = productos_zonas_id;
+    }
+
+    @Override
+    public void fromHashMap(Class myClass, HashMap<String, String> data) {
+
+    }
+
+    @Override
+    public void toHashMap(Class myClass) {
+
+    }
+
+    @Override
+    public ContentValues getContentValues() {
+        return null;
+    }
+
+    @Override
+    public void fromCursor(Cursor c) {
+
     }
 }

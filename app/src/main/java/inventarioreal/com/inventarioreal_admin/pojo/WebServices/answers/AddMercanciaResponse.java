@@ -2,34 +2,34 @@ package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
 import java.util.List;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 
 public class AddMercanciaResponse {
-    private Producto producto;
-    private List<Epc> epcs;
+    private Productos productos;
+    private List<Epcs> epcs;
 
     public AddMercanciaResponse() {
     }
 
-    public AddMercanciaResponse(Producto producto, List<Epc> epcs) {
-        this.producto = producto;
+    public AddMercanciaResponse(Productos productos, List<Epcs> epcs) {
+        this.productos = productos;
         this.epcs = epcs;
     }
 
-    public Producto getProducto() {
-        return producto;
+    public Productos getProductos() {
+        return productos;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setProductos(Productos productos) {
+        this.productos = productos;
     }
 
-    public List<Epc> getEpcs() {
+    public List<Epcs> getEpcs() {
         return epcs;
     }
 
-    public void setEpcs(List<Epc> epcs) {
+    public void setEpcs(List<Epcs> epcs) {
         this.epcs = epcs;
     }
 }

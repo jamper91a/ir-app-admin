@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
 
-public class Devoluciones extends InventarioRealPojo {
+class Groups extends InventarioRealPojo {
     public String name;
 
     public String getName() {
@@ -37,8 +37,4 @@ public class Devoluciones extends InventarioRealPojo {
     public void fromCursor(Cursor c) {
 
     }
-    //    @Override
-//    public ContentValues getContentValues() {
-//        return null;
-//    }
 }

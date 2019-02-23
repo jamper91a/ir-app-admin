@@ -1,7 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.util.WebServices;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -10,17 +9,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddMercanciaResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.ZonasListarResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zona;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMercanciaRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
@@ -164,8 +164,8 @@ public class WebServices {
                         @Override
                         public void onResponse(JSONObject jsonObject) {
                             try {
-                                Producto producto = gson.fromJson(jsonObject.getJSONObject("data").toString(),Producto.class);
-                                result.ok(new ResultWebServiceOk(producto));
+                                Productos productos = gson.fromJson(jsonObject.getJSONObject("data").toString(), Productos.class);
+                                result.ok(new ResultWebServiceOk(productos));
                             } catch (JSONException e) {
                                 result.fail(new ResultWebServiceFail(e));
                             } catch (Exception e) {
@@ -188,10 +188,10 @@ public class WebServices {
 
     }
 
-    public static void addMercancia(long products_id, long zonas_id, List<Epc> epcs, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void addMercancia(long productos_id, LinkedList<ProductosZonas> productosZonas, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_addMercancia;
 
-        AddMercanciaRequest request = new AddMercanciaRequest(products_id, zonas_id, epcs);
+        AddMercanciaRequest request = new AddMercanciaRequest(productos_id, productosZonas);
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
                 activity,
@@ -209,44 +209,6 @@ public class WebServices {
                     public void onResponse(JSONObject jsonObject) {
                         try {
                             AddMercanciaResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),AddMercanciaResponse.class);
-                            result.ok(new ResultWebServiceOk(response));
-                        } catch (JSONException e) {
-                            result.fail(new ResultWebServiceFail(e));
-                        } catch (Exception e) {
-                            result.fail(new ResultWebServiceFail(e.getMessage()));
-                        }
-                    }
-
-                    @Override
-                    public void onErrorResponse(String s) {
-                        result.fail(new ResultWebServiceFail(s));
-                    }
-                },
-                admin
-        );
-        executeEnviar(activity, callWebServiceJson);
-    }
-
-    public static void listarZonas(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.was_listarzonas;
-        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
-                activity,
-                url,
-                new HashMap<String, String>(),
-                getHeaders(admin),
-                jamper91.com.easyway.Util.Constants.REQUEST_GET,
-                new ResponseListener() {
-                    @Override
-                    public void onResponse(String s) {
-
-                    }
-
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            Log.d(TAG, jsonObject.getJSONArray("data").toString());
-                            Zona[] zonas = gson.fromJson(jsonObject.getJSONArray("data").toString(),Zona[].class);
-                            ZonasListarResponse response = new ZonasListarResponse(zonas);
                             result.ok(new ResultWebServiceOk(response));
                         } catch (JSONException e) {
                             result.fail(new ResultWebServiceFail(e));
@@ -293,12 +255,12 @@ public class WebServices {
 
                             try {
                                 if (response.getEpcs()!=null) {
-                                    for (Epc epc: response.getEpcs()) {
+                                    for (Epcs epc: response.getEpcs()) {
                                         db.add(Constants.table_epcs, epc.getContentValues());
                                     }
                                 }
                                 if (response.getProductos()!=null) {
-                                    for (Producto pro: response.getProductos()) {
+                                    for (Productos pro: response.getProductos()) {
                                         db.add(Constants.table_productos, pro.getContentValues());
                                     }
                                 }
@@ -308,7 +270,7 @@ public class WebServices {
                                     }
                                 }
                                 if (response.getZonas()!=null) {
-                                    for (Zona zona: response.getZonas()) {
+                                    for (Zonas zona: response.getZonas()) {
                                         db.add(Constants.table_zonas, zona.getContentValues());
                                     }
                                 }
@@ -335,4 +297,44 @@ public class WebServices {
         );
         executeObtener(activity, callWebServiceJson);
     }
+
+//    public static void crearInventario(Inventario inventario, List<InventariosProductos> inventario_productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+//        final String url=Constants.url+Constants.ws_addMercancia;
+//
+//        AddMercanciaRequest request = new AddMercanciaRequest(products_id, zonas_id, epcs);
+//
+//        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+//                activity,
+//                url,
+//                request.getCampos(),
+//                getHeaders(admin),
+//                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+//                new ResponseListener() {
+//                    @Override
+//                    public void onResponse(String s) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onResponse(JSONObject jsonObject) {
+//                        try {
+//                            AddMercanciaResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),AddMercanciaResponse.class);
+//                            result.ok(new ResultWebServiceOk(response));
+//                        } catch (JSONException e) {
+//                            result.fail(new ResultWebServiceFail(e));
+//                        } catch (Exception e) {
+//                            result.fail(new ResultWebServiceFail(e.getMessage()));
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onErrorResponse(String s) {
+//                        result.fail(new ResultWebServiceFail(s));
+//                    }
+//                },
+//                admin
+//        );
+//        executeEnviar(activity, callWebServiceJson);
+//    }
+
 }

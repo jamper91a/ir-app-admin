@@ -7,15 +7,16 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
 
-public class Devoluciones extends InventarioRealPojo {
-    public String name;
+class InventarioConsolidados extends InventarioRealPojo {
 
-    public String getName() {
-        return name;
+    public Empleados empleados_id;
+
+    public Empleados getEmpleados_id() {
+        return empleados_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmpleados_id(Empleados empleados_id) {
+        this.empleados_id = empleados_id;
     }
 
     @Override
@@ -37,8 +38,4 @@ public class Devoluciones extends InventarioRealPojo {
     public void fromCursor(Cursor c) {
 
     }
-    //    @Override
-//    public ContentValues getContentValues() {
-//        return null;
-//    }
 }

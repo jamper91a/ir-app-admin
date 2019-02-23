@@ -89,7 +89,14 @@ public class Constants {
       public static String precio_venta="precio_venta";
     public static String ws_sync="sync";
     public static String table_productos_zonas ="productos_zonas";
-    public static Object ecps_id;
+    public static String ecps_id="ecps_id";
     public static String table_zonas="zonas";
     public static String locales_id="locales_id";
+    public static String fecha="fecha";
+    public static String parcial="parcial";
+    public static String colaborativo="colaborativo";
+    public static String productos_zona_id ="productos_zona_id";
+    public static String inventarios_id="inventarios_id";
+    public static String productos_epcs_id="productos_epcs_id";
+    public static String inventarios_consolidados_id="inventarios_consolidados_id";
 }

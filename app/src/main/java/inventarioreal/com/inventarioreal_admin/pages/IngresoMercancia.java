@@ -5,9 +5,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.androidanimations.library.Techniques;
+import com.google.gson.Gson;
 import com.handheld.UHF.UhfManager;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
@@ -18,8 +22,13 @@ import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapter1;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.util.Constants;
+import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -29,19 +38,24 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class IngresoMercancia extends CicloActivity {
 
-    private SlidingMenu menu;
     private String TAG="IngresoMercancia";
     private UhfManager uhfManager;
     public ListAdapter1 adapter1;
-    private LinkedList<Epc> epcs = new LinkedList<>();
+    private LinkedList<Epcs> epcs = new LinkedList<>();
+    private LinkedList<ProductosZonas> productos_zonas = new LinkedList<>();
+    final DataBase db = DataBase.getInstance(this);
+
+    private Zonas zonas_id;
+    private Productos productos_id;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_ingreso_mercancia);
-        //start inventory thread
+        //region Lector Rhfi
         Thread thread = new InventoryThread();
         thread.start();
-//        this.menu =init_menu(this,R.layout.layout_menu);
+        //endregion
     }
     @Override
     public void initGui() {
@@ -53,6 +67,7 @@ public class IngresoMercancia extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.lblDes2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes3),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.img1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.spnZona),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lbl2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSi),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnNo),Techniques.FadeInLeft));
@@ -85,7 +100,7 @@ public class IngresoMercancia extends CicloActivity {
 
     @Override
     public void getData() {
-
+        this.getZonas();
     }
 
     @Override
@@ -100,7 +115,7 @@ public class IngresoMercancia extends CicloActivity {
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                Producto producto = (Producto) ok.getData();
+                                Productos producto = (Productos) ok.getData();
                                 mostrarInformacionProducto(producto);
                                 admin.loadImageFromInternet(
                                         "https://m.media-amazon.com/images/I/A13usaonutL._CLa%7C2140,2000%7C5118hwdonfL.png%7C0,0,2140,2000+0.0,0.0,2140.0,2000.0._UX522_.png",
@@ -137,8 +152,7 @@ public class IngresoMercancia extends CicloActivity {
             public void onClick(View v) {
                 WebServices.addMercancia(
                         1,
-                        1,
-                        epcs,
+                        productos_zonas,
                         IngresoMercancia.this,
                         admin,
                         new ResultWebServiceInterface() {
@@ -157,7 +171,8 @@ public class IngresoMercancia extends CicloActivity {
         });
     }
 
-    private void mostrarInformacionProducto(Producto p){
+    private void mostrarInformacionProducto(Productos p){
+        this.productos_id = p;
         getElemento(R.id.lblDes1).setText(p.getDescripcion());
         getElemento(R.id.lblDes2).setText(p.getMarca());
         getElemento(R.id.lblDes3).setText(p.getColor());
@@ -168,6 +183,50 @@ public class IngresoMercancia extends CicloActivity {
 
     }
 
+    private void getZonas(){
+        Gson gson = new Gson();
+        //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
+        //Obtengo las zonas usando el local del empleado
+//        LinkedList<HashMap<String, String>> zonas=db.getByColumn(Constants.table_zonas,Constants.locales_id, empleado.getEmpleado().getLocales_id().getId());
+        final LinkedList zonas=db.getByColumn(
+                Constants.table_zonas,
+                Constants.locales_id,
+                empleado.getEmpleado().getLocales_id().getId()+"",
+                Zonas.class);
+
+        ArrayAdapter<Zonas> adapter =
+                new ArrayAdapter<>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, zonas);
+        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+
+        ((Spinner)getElemento(R.id.spnZona).getElemento()).setAdapter(adapter);
+
+        ((Spinner)getElemento(R.id.spnZona).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                zonas_id = (Zonas) zonas.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+//        WebServices.listarZonas(this, admin, new ResultWebServiceInterface() {
+//            @Override
+//            public void ok(ResultWebServiceOk ok) {
+//                final ZonasListarResponse response = (ZonasListarResponse)ok.getData();
+//
+//
+//            }
+//
+//            @Override
+//            public void fail(ResultWebServiceFail fail) {
+//                admin.toast(fail.getError());
+//            }
+//        });
+    }
     //region UHD Sdk
     public void initSdk(){
         try {
@@ -213,12 +272,18 @@ public class IngresoMercancia extends CicloActivity {
         super.onDestroy();
     }
 
-    private Epc createEpc(String epc){
-        Epc epcTag = new Epc();
+    private Epcs createEpc(String epc){
+        Epcs epcTag = new Epcs();
         epcTag.setEpc(epc);
         epcTag.setCount(1);
         epcs.add(epcTag);
         adapter1.add(epcTag);
+        //Creo el producto zona a enviar
+        ProductosZonas productosZonas = new ProductosZonas();
+        productosZonas.setZonas_id(this.zonas_id);
+        productosZonas.setProductos_id(this.productos_id);
+        productosZonas.setEpcs_id(epcTag);
+        productos_zonas.add(productosZonas);
         return epcTag;
     }
 
@@ -231,13 +296,13 @@ public class IngresoMercancia extends CicloActivity {
                     createEpc(epc);
                 } else {
                     for (int i = 0; i < epcs.size(); i++) {
-                        Epc mEPC = epcs.get(i);
+                        Epcs mEPC = epcs.get(i);
                         // list contain this epc
                         if (epc.equals(mEPC.getEpc())) {
                             mEPC.setCount(mEPC.getCount() + 1);
                             break;
                         } else if (i == (epcs.size() - 1)) {
-                            Epc epcObj = createEpc(epc);
+                            Epcs epcObj = createEpc(epc);
                         }
                     }
 
@@ -247,7 +312,7 @@ public class IngresoMercancia extends CicloActivity {
     }
 
     /**
-     * Inventory Epc Thread
+     * Inventory Epcs Thread
      */
 
     class InventoryThread extends Thread {

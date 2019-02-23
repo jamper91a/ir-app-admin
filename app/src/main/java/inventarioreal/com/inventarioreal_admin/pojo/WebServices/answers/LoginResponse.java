@@ -1,24 +1,24 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Empleado;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Empleados;
 
 public class LoginResponse {
-    private Empleado empleado;
+    private Empleados empleado;
     private String token;
 
     public LoginResponse() {
     }
 
-    public LoginResponse(Empleado empleado, String token) {
+    public LoginResponse(Empleados empleado, String token) {
         this.empleado = empleado;
         this.token = token;
     }
 
-    public Empleado getEmpleado() {
+    public Empleados getEmpleado() {
         return empleado;
     }
 
-    public void setEmpleado(Empleado empleado) {
+    public void setEmpleado(Empleados empleado) {
         this.empleado = empleado;
     }
 

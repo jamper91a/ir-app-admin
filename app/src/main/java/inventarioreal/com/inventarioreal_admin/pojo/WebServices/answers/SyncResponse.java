@@ -1,32 +1,32 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Producto;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zona;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 
 public class SyncResponse {
-    private Epc[] epcs;
-    private Producto[] productos;
+    private Epcs[] epcs;
+    private Productos[] productos;
     private ProductosZonas[] productos_zona;
-    private Zona[] zonas;
+    private Zonas[] zonas;
 
     public SyncResponse() {
     }
 
-    public Epc[] getEpcs() {
+    public Epcs[] getEpcs() {
         return epcs;
     }
 
-    public void setEpcs(Epc[] epcs) {
+    public void setEpcs(Epcs[] epcs) {
         this.epcs = epcs;
     }
 
-    public Producto[] getProductos() {
+    public Productos[] getProductos() {
         return productos;
     }
 
-    public void setProductos(Producto[] productos) {
+    public void setProductos(Productos[] productos) {
         this.productos = productos;
     }
 
@@ -38,11 +38,11 @@ public class SyncResponse {
         this.productos_zona = productos_zona;
     }
 
-    public Zona[] getZonas() {
+    public Zonas[] getZonas() {
         return zonas;
     }
 
-    public void setZonas(Zona[] zonas) {
+    public void setZonas(Zonas[] zonas) {
         this.zonas = zonas;
     }
 }

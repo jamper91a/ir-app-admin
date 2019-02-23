@@ -1,14 +1,15 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 
+import java.util.HashMap;
+
+import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class Producto {
+public class Productos extends InventarioRealPojo {
 
-        private String createdAt;
-        private String updatedAt;
-        private String id;
         private String ean;
         private String plu;
         private String plu2;
@@ -23,57 +24,7 @@ public class Producto {
         private String imagen;
         private String precio_costo;
         private String precio_venta;
-        private Compania companias_id;
-
-    public Producto() {
-    }
-
-    public Producto(String createdAt, String updatedAt, String id, String ean, String plu, String plu2, String plu3, String marca, String genero, String color, String talla, String categoria, String descripcion, String cantidad, String imagen, String precio_costo, String precio_venta, Compania companias_id) {
-
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.id = id;
-        this.ean = ean;
-        this.plu = plu;
-        this.plu2 = plu2;
-        this.plu3 = plu3;
-        this.marca = marca;
-        this.genero = genero;
-        this.color = color;
-        this.talla = talla;
-        this.categoria = categoria;
-        this.descripcion = descripcion;
-        this.cantidad = cantidad;
-        this.imagen = imagen;
-        this.precio_costo = precio_costo;
-        this.precio_venta = precio_venta;
-        this.companias_id = companias_id;
-    }
-
-    public String getCreatedAt() {
-
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+        private Companias companias_id;
 
     public String getEan() {
         return ean;
@@ -187,14 +138,15 @@ public class Producto {
         this.precio_venta = precio_venta;
     }
 
-    public Compania getCompanias_id() {
+    public Companias getCompanias_id() {
         return companias_id;
     }
 
-    public void setCompanias_id(Compania companias_id) {
+    public void setCompanias_id(Companias companias_id) {
         this.companias_id = companias_id;
     }
 
+    @Override
     public ContentValues getContentValues(){
         ContentValues values = new ContentValues();
         values.put(Constants.createdAt,createdAt);
@@ -214,8 +166,23 @@ public class Producto {
         values.put(Constants.imagen,imagen);
         values.put(Constants.precio_costo,precio_costo);
         values.put(Constants.precio_venta,precio_venta);
-        values.put(Constants.companias_id,getCompanias_id().getId());
+        values.put(Constants.companias_id,companias_id.id);
 
         return values;
+    }
+
+    @Override
+    public void fromHashMap(Class myClass, HashMap<String, String> data) {
+
+    }
+
+    @Override
+    public void toHashMap(Class myClass) {
+
+    }
+
+    @Override
+    public void fromCursor(Cursor c) {
+
     }
 }

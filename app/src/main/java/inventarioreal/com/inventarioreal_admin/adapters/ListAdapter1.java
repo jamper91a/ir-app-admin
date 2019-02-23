@@ -14,7 +14,7 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import jamper91.com.easyway.Util.Administrador;
 
 
@@ -27,11 +27,11 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
     private static final String TAG = "ListAdapter1";
     private Activity activity;
     private Administrador admin;
-    private LinkedList<Epc> items;
-    private LinkedList<Epc> todos;
+    private LinkedList<Epcs> items;
+    private LinkedList<Epcs> todos;
     private OnItemClickListener onItemClickListener;
 
-    public ListAdapter1(Activity activity, Administrador admin, LinkedList<Epc> items, OnItemClickListener onItemClickListener) {
+    public ListAdapter1(Activity activity, Administrador admin, LinkedList<Epcs> items, OnItemClickListener onItemClickListener) {
         this.activity = activity;
         this.admin = admin;
         this.items = items;
@@ -39,7 +39,7 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setItems(LinkedList<Epc> items) {
+    public void setItems(LinkedList<Epcs> items) {
         this.items = items;
     }
 
@@ -57,7 +57,7 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Epc item = items.get(position);
+        final Epcs item = items.get(position);
         holder.getTxt1().setText(item.getEpc()+item.getCreatedAt());
         holder.bind(item);
 
@@ -68,7 +68,7 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
         return items.size();
     }
 
-    public void add(Epc item) {
+    public void add(Epcs item) {
         try {
             int position = items.indexOf(item);
             notifyItemInserted(position);
@@ -77,13 +77,13 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
         }
     }
 
-    public void remove(Epc item) {
+    public void remove(Epcs item) {
         int position = items.indexOf(item);
         items.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void update(Epc item, int position){
+    public void update(Epcs item, int position){
         items.set(position, item);
         notifyItemChanged(position);
     }
@@ -99,7 +99,7 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
                 {
                     notifyDataSetChanged();
                 }else{
-                    items = (LinkedList<Epc>) results.values;
+                    items = (LinkedList<Epcs>) results.values;
                     notifyDataSetChanged();
                 }
 
@@ -117,9 +117,9 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
                     results.values = todos;
                     results.count = todos.size();
                 }else{
-                    LinkedList<Epc> FilteredArrayNames = new LinkedList<>();
+                    LinkedList<Epcs> FilteredArrayNames = new LinkedList<>();
                     for (int i = 0; i < todos.size(); i++) {
-                        Epc dataNames = todos.get(i);
+                        Epcs dataNames = todos.get(i);
                         if (dataNames.getEpc().toLowerCase().contains(constraint))  {
                             FilteredArrayNames.add(dataNames);
                         }
@@ -163,7 +163,7 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
 
 
 
-        public void bind(final Epc item) {
+        public void bind(final Epcs item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     onItemClickListener.onItemClick(item);
