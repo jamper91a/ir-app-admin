@@ -1,9 +1,13 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -20,9 +24,11 @@ import java.util.List;
 
 import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.adapters.ListAdapter1;
-import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.tabs.EanPluFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.tabs.EanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.tabs.TotalFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
@@ -36,13 +42,13 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class InventarioCrear2 extends CicloActivity {
+public class CrearInventarioStep2 extends CicloActivity {
 
     private SlidingMenu menu;
     private UhfManager uhfManager;
-    public ListAdapter1 adapter1;
-    private LinkedList<Epcs> epcs = new LinkedList<>();
-    private String TAG="InventarioCrear2";
+//    public ListAdapter1 adapter1;
+//    private LinkedList<Epcs> epcs = new LinkedList<>();
+    private String TAG="CrearInventarioStep2";
     private DataBase db = DataBase.getInstance(this);
     private Toolbar mTopToolbar;
     private RequestInventariorCrear2 requestInventariorCrear2;
@@ -51,7 +57,7 @@ public class InventarioCrear2 extends CicloActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this,this,R.layout.activity_inventario_crear_2);
+        init(this,this,R.layout.activity_inventario_parcial_crear_inventario_step_2);
         //region UhF
         Thread thread = new InventoryThread();
         thread.start();
@@ -62,42 +68,28 @@ public class InventarioCrear2 extends CicloActivity {
         Gson gson = new Gson();
         this.requestInventariorCrear2 = gson.fromJson(message, RequestInventariorCrear2.class);
         //endregion
-        mTopToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(mTopToolbar);
+        this.tabsInit();
+//        mTopToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+//        setSupportActionBar(mTopToolbar);
     }
     @Override
     public void initGui() {
 
+
         addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCan),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnLee),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnFin),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBor),Techniques.FadeInLeft));
 
-        adapter1 = new ListAdapter1(this, admin, epcs, new OnItemClickListener() {
-            @Override
-            public void onItemClick(Object item) {
-            }
 
-            @Override
-            public void onLongItemClick(Object item) {
-
-            }
-
-            @Override
-            public void onItemClick(int view, Object item) {
-
-            }
-        });
-        RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1).getElemento();
-        lst1.setLayoutManager(new LinearLayoutManager(this));
-        lst1.setAdapter(adapter1);
     }
 
     @Override
     public void getData() {
-
+        totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
+        eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
+        eanPluVieModel.init();
     }
 
     @Override
@@ -108,7 +100,7 @@ public class InventarioCrear2 extends CicloActivity {
                 WebServices.crearInventario(
                         requestInventariorCrear2.getZona_id().getId(),
                         inventariosProductos,
-                        InventarioCrear2.this,
+                        CrearInventarioStep2.this,
                         admin,
                         new ResultWebServiceInterface() {
                             @Override
@@ -205,8 +197,9 @@ public class InventarioCrear2 extends CicloActivity {
             ip.setProductos_epcs_id(epcDb);
 
             inventariosProductos.add(ip);
-            epcs.add(epcTag);
-            adapter1.add(epcTag);
+            eanPluVieModel.addEpc(epcTag);
+//            epcs.add(epcTag);
+            totalViewModel.setAmount(inventariosProductos.size());
         }
         return epcTag;
     }
@@ -216,16 +209,16 @@ public class InventarioCrear2 extends CicloActivity {
             @Override
             public void run() {
                 // The epc for the first time
-                if (epcs.isEmpty()) {
+                if (eanPluVieModel.getEpcs().getValue().isEmpty()) {
                     createEpc(epc);
                 } else {
-                    for (int i = 0; i < epcs.size(); i++) {
-                        Epcs mEPC = epcs.get(i);
+                    for (int i = 0; i < eanPluVieModel.getEpcs().getValue().size(); i++) {
+                        Epcs mEPC = eanPluVieModel.getEpcs().getValue().get(i);
                         // list contain this epc
                         if (epc.equals(mEPC.getEpc())) {
                             mEPC.setCount(mEPC.getCount() + 1);
                             break;
-                        } else if (i == (epcs.size() - 1)) {
+                        } else if (i == (eanPluVieModel.getEpcs().getValue().size() - 1)) {
                             Epcs epcObj = createEpc(epc);
                         }
                     }
@@ -296,5 +289,63 @@ public class InventarioCrear2 extends CicloActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //endregion
+
+    //region Tab Total
+    private ViewPager mViewPager;
+    TotalViewModel totalViewModel;
+    EanPluViewModel eanPluVieModel;
+    //endregion
+
+    //region Tabs configuration
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    public void tabsInit() {
+//        /region Tabs section
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new CrearInventarioStep2.SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        //endregion
+    }
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    TotalFragment total = new TotalFragment();
+                    return total;
+                case 1:
+                    EanPluFragment eanPlu = EanPluFragment.newInstance();
+                    eanPlu.setAdmin(admin);
+                    return eanPlu;
+//                case 2:
+//                    Epc epc = new Epc();
+//                    return epc;
+                default:
+                    return null;
+
+            }
+        }
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return 2;
+        }
+    }
     //endregion
 }

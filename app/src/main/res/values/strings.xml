@@ -24,7 +24,7 @@
     <string name="consultando">Consultando</string>
     <string name="buscar">Buscar</string>
     <string name="ingresar_mercancia">Ingresar Mercancia</string>
-    <string name="tag_leidos" >Tag Leidos: 0</string>
+    <string name="tag_leidos">Tag Leidos: 0</string>
     <string name="crear_inventario_parcial">Crear inventario parcial</string>
     <string name="consolidar_inventarios_parciales">Consolidar inventario parciales</string>
     <string name="visualizar_inventarios_por_zona">Visualizar inventarios por zona</string>
@@ -35,4 +35,10 @@
     <string name="iniciar">Iniciar</string>
     <string name="finalizar">Finalizar</string>
     <string name="log_out">Log out</string>
+    <string name="title_activity_crear_inventario">Crear Inventario</string>
+    <string name="total">Total</string>
+    <string name="eanPlu">Ean/Plu</string>
+    <string name="epc">Epc</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
