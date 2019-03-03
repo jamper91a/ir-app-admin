@@ -22,16 +22,16 @@ import jamper91.com.easyway.Util.Administrador;
  * Created by jorge.moreno on 16/02/2017.
  */
 
-public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> {
+public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHolder> {
 
-    private static final String TAG = "ListAdapter1";
+    private static final String TAG = "ListAdapterEpcs";
     private Activity activity;
     private Administrador admin;
     private LinkedList<Epcs> items;
     private LinkedList<Epcs> todos;
     private OnItemClickListener onItemClickListener;
 
-    public ListAdapter1(Activity activity, Administrador admin, LinkedList<Epcs> items, OnItemClickListener onItemClickListener) {
+    public ListAdapterEpcs(Activity activity, Administrador admin, LinkedList<Epcs> items, OnItemClickListener onItemClickListener) {
         this.activity = activity;
         this.admin = admin;
         this.items = items;

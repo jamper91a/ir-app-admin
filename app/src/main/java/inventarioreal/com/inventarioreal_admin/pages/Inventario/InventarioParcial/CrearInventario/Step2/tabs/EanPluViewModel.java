@@ -6,25 +6,26 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.LinkedList;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 
 public class EanPluViewModel extends ViewModel {
-    MutableLiveData<LinkedList<Epcs>> epcsLiveData = null;
-    private LinkedList<Epcs> epcs = null;
+    MutableLiveData<LinkedList<ProductosZonas>> productosZonasLiveData = null;
+    private LinkedList<ProductosZonas> productosZona = null;
 
-    public void init(){
-    }
 
-    public void addEpc(Epcs epc){
-        epcs.add(epc);
-        epcsLiveData.setValue(epcs);
+
+    public void addProductoZona(ProductosZonas productosZonas){
+        productosZona.add(productosZonas);
+        productosZonasLiveData.setValue(productosZona);
     }
-    public LiveData<LinkedList<Epcs>> getEpcs(){
-        if(epcsLiveData==null){
-            epcsLiveData = new MutableLiveData<>();
-            epcs = new LinkedList<>();
-            epcsLiveData.setValue(epcs);
+    public LiveData<LinkedList<ProductosZonas>> getProductosZona(){
+        if(productosZonasLiveData ==null){
+            productosZonasLiveData = new MutableLiveData<>();
+            productosZona = new LinkedList<>();
+            //Add Header
+//            productosZona.add(new ProductosZonas());
+            productosZonasLiveData.setValue(productosZona);
         }
-        return epcsLiveData;
+        return productosZonasLiveData;
     }
 }

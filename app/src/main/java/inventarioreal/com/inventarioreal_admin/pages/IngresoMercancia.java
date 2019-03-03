@@ -13,14 +13,13 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 import com.handheld.UHF.UhfManager;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.adapters.ListAdapter1;
+import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterEpcs;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
@@ -40,7 +39,7 @@ public class IngresoMercancia extends CicloActivity {
 
     private String TAG="IngresoMercancia";
     private UhfManager uhfManager;
-    public ListAdapter1 adapter1;
+    public ListAdapterEpcs adapter1;
     private LinkedList<Epcs> epcs = new LinkedList<>();
     private LinkedList<ProductosZonas> productos_zonas = new LinkedList<>();
     final DataBase db = DataBase.getInstance(this);
@@ -78,7 +77,7 @@ public class IngresoMercancia extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.btnGua),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBor),Techniques.FadeInLeft));
 
-        adapter1 = new ListAdapter1(this, admin, epcs, new OnItemClickListener() {
+        adapter1 = new ListAdapterEpcs(this, admin, epcs, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
             }

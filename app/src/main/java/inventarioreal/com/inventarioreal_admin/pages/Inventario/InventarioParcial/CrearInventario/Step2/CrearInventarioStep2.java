@@ -46,7 +46,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 
     private SlidingMenu menu;
     private UhfManager uhfManager;
-//    public ListAdapter1 adapter1;
+//    public ListAdapterEpcs adapter1;
 //    private LinkedList<Epcs> epcs = new LinkedList<>();
     private String TAG="CrearInventarioStep2";
     private DataBase db = DataBase.getInstance(this);
@@ -89,7 +89,6 @@ public class CrearInventarioStep2 extends CicloActivity {
     public void getData() {
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
-        eanPluVieModel.init();
     }
 
     @Override
@@ -172,8 +171,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         super.onDestroy();
     }
 
-    private Epcs createEpc(String epc){
-        Epcs epcTag = new Epcs();
+    private void createEpc(String epc){
         //Busco el epc en la base de datos interna
         Epcs epcDb= (Epcs) db.getById(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epcs.class);
         if(epcDb!=null){
@@ -184,12 +182,8 @@ public class CrearInventarioStep2 extends CicloActivity {
                             Constants.epcs_id,
                             epcDb.getId()+"",
                             ProductosZonas.class).get(0);
-            if(epcTag.getId()==0)
-            {
-                epcTag.setEpc(epc);
-                epcTag.setCount(1);
-            }
 
+            proZon.getEpcs_id().setEpc(epc);
             //Informacion requeria por el servicio web de crear inventario
             InventariosProductos ip = new InventariosProductos();
             ip.setZonas_id(requestInventariorCrear2.getZona_id());
@@ -197,11 +191,9 @@ public class CrearInventarioStep2 extends CicloActivity {
             ip.setProductos_epcs_id(epcDb);
 
             inventariosProductos.add(ip);
-            eanPluVieModel.addEpc(epcTag);
-//            epcs.add(epcTag);
+            eanPluVieModel.addProductoZona(proZon);
             totalViewModel.setAmount(inventariosProductos.size());
         }
-        return epcTag;
     }
 
     private void addToList(final String epc) {
@@ -209,18 +201,15 @@ public class CrearInventarioStep2 extends CicloActivity {
             @Override
             public void run() {
                 // The epc for the first time
-                if (eanPluVieModel.getEpcs().getValue().isEmpty()) {
+                if (eanPluVieModel.getProductosZona().getValue().isEmpty()) {
                     createEpc(epc);
                 } else {
-                    for (int i = 0; i < eanPluVieModel.getEpcs().getValue().size(); i++) {
-                        Epcs mEPC = eanPluVieModel.getEpcs().getValue().get(i);
+                    for (int i = 0; i < eanPluVieModel.getProductosZona().getValue().size(); i++) {
+//                        Epcs mEPC = eanPluVieModel.getProductosZona().getValue().get(i);
+                        ProductosZonas mEPC = eanPluVieModel.getProductosZona().getValue().get(i);
                         // list contain this epc
-                        if (epc.equals(mEPC.getEpc())) {
-                            mEPC.setCount(mEPC.getCount() + 1);
-                            break;
-                        } else if (i == (eanPluVieModel.getEpcs().getValue().size() - 1)) {
-                            Epcs epcObj = createEpc(epc);
-                        }
+                        if (!epc.equals(mEPC.getEpcs_id().getEpc()))
+                            createEpc(epc);
                     }
 
                 }

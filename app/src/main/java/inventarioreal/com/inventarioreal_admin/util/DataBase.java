@@ -489,6 +489,7 @@ public class DataBase extends SQLiteOpenHelper {
                     return null;
                 }
             }
+            c.close();
             return null;
 
         }else{
@@ -662,6 +663,7 @@ public class DataBase extends SQLiteOpenHelper {
                     instance = (InventarioRealPojo)myClass.newInstance();
                     instance.fromCursor(c);
                     retornar.add(instance);
+
                 } catch (IllegalAccessException e) {
                     Log.e(TAG, e.getLocalizedMessage());
                     return null;
@@ -671,11 +673,13 @@ public class DataBase extends SQLiteOpenHelper {
                 }
 
             }
+            c.close();
             if(retornar.size()>0)
                 return  retornar;
             else
                 return null;
         }else{
+            c.close();
             return null;
         }
 
