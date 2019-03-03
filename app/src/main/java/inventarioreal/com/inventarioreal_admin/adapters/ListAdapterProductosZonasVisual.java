@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import jamper91.com.easyway.Util.Administrador;
 
@@ -22,10 +24,8 @@ import jamper91.com.easyway.Util.Administrador;
  * Created by jorge.moreno on 16/02/2017.
  */
 
-public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterProductosZonas.ViewHolder> {
+public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAdapterProductosZonasVisual.ViewHolder> {
 
-    private static final int TYPE_HEADER=0;
-    private static final int TYPE_ITEM=1;
 
     private static final String TAG = "ListAdapterEpcs";
     private Activity activity;
@@ -34,7 +34,7 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
     private LinkedList<ProductosZonas> todos;
     private OnItemClickListener onItemClickListener;
 
-    public ListAdapterProductosZonas(Activity activity, Administrador admin, LinkedList<ProductosZonas> items, OnItemClickListener onItemClickListener) {
+    public ListAdapterProductosZonasVisual(Activity activity, Administrador admin, LinkedList<ProductosZonas> items, OnItemClickListener onItemClickListener) {
         this.activity = activity;
         this.admin = admin;
         this.items = items;
@@ -54,40 +54,23 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view=null;
-        switch (viewType){
-            case TYPE_HEADER:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_list_productos_zonas, parent, false);
-                break;
-            case TYPE_ITEM:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_productos_zonas, parent, false);
-                break;
-        }
-        ViewHolder viewHolder = new ViewHolder(view, viewType);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_productos_zona_visual, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        switch (holder.viewType){
-            case TYPE_HEADER:
-//                holder.bind(item);
-                break;
-            case TYPE_ITEM:
-                final ProductosZonas item = items.get(position-1);
-                holder.getTxt1().setText(item.getTotal()+"");
-                holder.getTxt2().setText(item.getEpcs_id().getEpc());
-                holder.getTxt3().setText(item.getProductos_id().getDescripcion());
-                holder.bind(item);
-                break;
-        }
-
-
-
+        final ProductosZonas item = items.get(position);
+        holder.getTxtSize().setText(item.getProductos_id().getTalla());
+        holder.getTxtTotal().setText(item.getTotal()+"");
+//        holder.getImgProduct().setIm(item.getProductos_id().getTalla());
+        holder.bind(item);
     }
 
     @Override
     public int getItemCount() {
-        return items.size()+1;
+        return items.size();
     }
 
     public void add(ProductosZonas item) {
@@ -163,72 +146,20 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
         return filter;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if(position==0){
-            return TYPE_HEADER;
-        }
-        return TYPE_ITEM;
-    }
 
     class ViewHolder extends  RecyclerView.ViewHolder{
-        LinearLayout lnl1;
-        TextView txt1;
-        TextView txt2;
-        TextView txt3;
-        int viewType;
-
-        //region Header items
-        TextView txtTotal, txtEanPlu, txtDetails;
-
-        //endregion
+        TextView txtTotal;
+        TextView txtSize;
+        ImageView imgProduct;
 
 
-        public ViewHolder(View view, int viewType) {
+        public ViewHolder(View view) {
             super(view);
-            if(viewType==TYPE_ITEM)
-            {
-                this.lnl1 = (LinearLayout)view.findViewById(R.id.lnl1);
-                this.txt1 = (TextView)view.findViewById(R.id.txt1);
-                this.txt2 = (TextView)view.findViewById(R.id.txt2);
-                this.txt3 = (TextView)view.findViewById(R.id.txt3);
-            }
-            else{
                 this.txtTotal = (TextView)view.findViewById(R.id.txtTotal);
-                this.txtEanPlu = (TextView)view.findViewById(R.id.txtEanPlu);
-                this.txtDetails = (TextView)view.findViewById(R.id.txtDetails);
+                this.txtSize = (TextView)view.findViewById(R.id.txtSize);
+                this.imgProduct = (ImageView) view.findViewById(R.id.imgProduct);
 
-            }
-            this.viewType = viewType;
 
-        }
-
-        public LinearLayout getLnl1() {
-            return lnl1;
-        }
-
-        public TextView getTxt1() {
-            return txt1;
-        }
-
-        public void setTxt1(TextView txt1) {
-            this.txt1 = txt1;
-        }
-
-        public TextView getTxt2() {
-            return txt2;
-        }
-
-        public void setTxt2(TextView txt2) {
-            this.txt2 = txt2;
-        }
-
-        public TextView getTxt3() {
-            return txt3;
-        }
-
-        public void setTxt3(TextView txt3) {
-            this.txt3 = txt3;
         }
 
         public TextView getTxtTotal() {
@@ -239,22 +170,21 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
             this.txtTotal = txtTotal;
         }
 
-        public TextView getTxtEanPlu() {
-            return txtEanPlu;
+        public TextView getTxtSize() {
+            return txtSize;
         }
 
-        public void setTxtEanPlu(TextView txtEanPlu) {
-            this.txtEanPlu = txtEanPlu;
+        public void setTxtSize(TextView txtSize) {
+            this.txtSize = txtSize;
         }
 
-        public TextView getTxtDetails() {
-            return txtDetails;
+        public ImageView getImgProduct() {
+            return imgProduct;
         }
 
-        public void setTxtDetails(TextView txtDetails) {
-            this.txtDetails = txtDetails;
+        public void setImgProduct(ImageView imgProduct) {
+            this.imgProduct = imgProduct;
         }
-
         public void bind(final ProductosZonas item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
@@ -262,6 +192,5 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
                 }
             });
         }
-
     }
 }

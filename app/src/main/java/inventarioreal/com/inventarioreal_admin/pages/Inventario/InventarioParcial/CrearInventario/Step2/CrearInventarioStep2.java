@@ -32,6 +32,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcia
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -173,7 +174,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 
     private void createEpc(String epc){
         //Busco el epc en la base de datos interna
-        Epcs epcDb= (Epcs) db.getById(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epcs.class);
+        Epcs epcDb= (Epcs) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epcs.class);
         if(epcDb!=null){
             //Busco el producto zonas al que pertenece este tag
             ProductosZonas proZon=
@@ -182,8 +183,19 @@ public class CrearInventarioStep2 extends CicloActivity {
                             Constants.epcs_id,
                             epcDb.getId()+"",
                             ProductosZonas.class).get(0);
+            //Busco el producto de este producto zona
+            Productos producto= (Productos) db.findById(
+                    Constants.table_productos,
+                    proZon.getId()+"",
+                    Productos.class
+                    );
 
-            proZon.getEpcs_id().setEpc(epc);
+            if (epc!=null) {
+                proZon.setEpcs_id(epcDb);
+            }
+            if(producto!=null){
+                proZon.setProductos_id(producto);
+            }
             //Informacion requeria por el servicio web de crear inventario
             InventariosProductos ip = new InventariosProductos();
             ip.setZonas_id(requestInventariorCrear2.getZona_id());

@@ -23,7 +23,7 @@ public class EanPluViewModel extends ViewModel {
             productosZonasLiveData = new MutableLiveData<>();
             productosZona = new LinkedList<>();
             //Add Header
-//            productosZona.add(new ProductosZonas());
+//            productosZona.insert(new ProductosZonas());
             productosZonasLiveData.setValue(productosZona);
         }
         return productosZonasLiveData;

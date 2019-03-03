@@ -86,8 +86,8 @@ public class Epcs extends InventarioRealPojo {
     public void fromCursor(Cursor c) {
 
         this.id = c.getLong(c.getColumnIndexOrThrow(Constants.id));
-        this.state = c.getInt(c.getColumnIndexOrThrow(Constants.id));
-        this.epc = c.getString(c.getColumnIndexOrThrow(Constants.id));
+        this.state = c.getInt(c.getColumnIndexOrThrow(Constants.state));
+        this.epc = c.getString(c.getColumnIndexOrThrow(Constants.epc));
         this.companias_id = new Companias(
                 c.getLong(
                         c.getColumnIndexOrThrow(Constants.companias_id)

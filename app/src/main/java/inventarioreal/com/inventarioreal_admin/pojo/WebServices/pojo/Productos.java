@@ -26,6 +26,9 @@ public class Productos extends InventarioRealPojo {
         private String precio_venta;
         private Companias companias_id;
 
+    public Productos() {
+    }
+
     public Productos(long id){
         super(id);
     }
@@ -187,6 +190,23 @@ public class Productos extends InventarioRealPojo {
 
     @Override
     public void fromCursor(Cursor c) {
-
+        this.id = c.getLong(c.getColumnIndexOrThrow(Constants.id));
+        this.createdAt = c.getString(c.getColumnIndexOrThrow(Constants.createdAt));
+        this.updatedAt = c.getString(c.getColumnIndexOrThrow(Constants.updatedAt));
+        this.ean = c.getString(c.getColumnIndexOrThrow(Constants.ean));
+        this.plu = c.getString(c.getColumnIndexOrThrow(Constants.plu));
+        this.plu2 = c.getString(c.getColumnIndexOrThrow(Constants.plu2));
+        this.plu3 = c.getString(c.getColumnIndexOrThrow(Constants.plu3));
+        this.marca = c.getString(c.getColumnIndexOrThrow(Constants.marca));
+        this.genero = c.getString(c.getColumnIndexOrThrow(Constants.genero));
+        this.color = c.getString(c.getColumnIndexOrThrow(Constants.color));
+        this.talla = c.getString(c.getColumnIndexOrThrow(Constants.talla));
+        this.categoria = c.getString(c.getColumnIndexOrThrow(Constants.categoria));
+        this.descripcion = c.getString(c.getColumnIndexOrThrow(Constants.descripcion));
+        this.cantidad = c.getString(c.getColumnIndexOrThrow(Constants.cantidad));
+        this.imagen = c.getString(c.getColumnIndexOrThrow(Constants.imagen));
+        this.precio_costo = c.getString(c.getColumnIndexOrThrow(Constants.precio_costo));
+        this.precio_venta = c.getString(c.getColumnIndexOrThrow(Constants.precio_venta));
+        this.companias_id = new Companias(c.getLong(c.getColumnIndexOrThrow(Constants.companias_id)));
     }
 }

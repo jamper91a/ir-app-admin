@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ import java.util.LinkedList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterEpcs;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonas;
+import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasVisual;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import jamper91.com.easyway.Util.Administrador;
@@ -27,6 +29,7 @@ public class EanPluFragment extends Fragment {
     private EanPluViewModel mViewModel;
     private LinkedHashMap<Integer, View> elementos;
     public ListAdapterProductosZonas adapter1;
+    public ListAdapterProductosZonasVisual adapterVisual;
     private Administrador admin;
 //    private LinkedList<Epcs> epcs = new LinkedList<>();
 
@@ -45,6 +48,7 @@ public class EanPluFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.ean_plu_fragment, container, false);
         this.elementos = new LinkedHashMap<>();
+        addElemento(v.findViewById(R.id.btnVisual));
         addElemento(v.findViewById(R.id.lnl2));
         addElemento(v.findViewById(R.id.lst1));
 
@@ -70,11 +74,27 @@ public class EanPluFragment extends Fragment {
 
             }
         });
+        adapterVisual = new ListAdapterProductosZonasVisual(getActivity(), admin, mViewModel.getProductosZona().getValue(), new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object item) {
+            }
+
+            @Override
+            public void onLongItemClick(Object item) {
+
+            }
+
+            @Override
+            public void onItemClick(int view, Object item) {
+
+            }
+        });
         RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1);
         lst1.setLayoutManager(new LinearLayoutManager(getContext()));
         lst1.setHasFixedSize(true);
         lst1.setAdapter(adapter1);
         // TODO: Use the ViewModel
+        onClick();
     }
 
     private void getData(){
@@ -84,10 +104,22 @@ public class EanPluFragment extends Fragment {
             public void onChanged(@Nullable LinkedList<ProductosZonas> productosZonas) {
                 if(productosZonas.size()>0){
                     adapter1.add(productosZonas.getLast());
+                    adapterVisual.add(productosZonas.getLast());
                 }
             }
         });
 
+    }
+
+    private void onClick(){
+        Button btnVisual = (Button)getElemento(R.id.btnVisual);
+        btnVisual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1);
+                lst1.setAdapter(adapterVisual);
+            }
+        });
     }
 
     private void addElemento(View v){

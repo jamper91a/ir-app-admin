@@ -14,6 +14,11 @@
         android:visibility="visible">
 
 
+        <Button
+            android:id="@+id/btnVisual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/visual" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lst1"
