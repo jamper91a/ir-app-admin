@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.NetworkImageView;
+
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
@@ -64,7 +66,9 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
         final ProductosZonas item = items.get(position);
         holder.getTxtSize().setText(item.getProductos_id().getTalla());
         holder.getTxtTotal().setText(item.getTotal()+"");
-//        holder.getImgProduct().setIm(item.getProductos_id().getTalla());
+        if(item.getProductos_id().getImagen()==null)
+            item.getProductos_id().setImagen("");
+        admin.loadImageFromInternet(item.getProductos_id().getImagen(), holder.getImgProduct(), R.drawable.lost, R.drawable.inventory);
         holder.bind(item);
     }
 
@@ -150,14 +154,14 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
     class ViewHolder extends  RecyclerView.ViewHolder{
         TextView txtTotal;
         TextView txtSize;
-        ImageView imgProduct;
+        NetworkImageView imgProduct;
 
 
         public ViewHolder(View view) {
             super(view);
                 this.txtTotal = (TextView)view.findViewById(R.id.txtTotal);
                 this.txtSize = (TextView)view.findViewById(R.id.txtSize);
-                this.imgProduct = (ImageView) view.findViewById(R.id.imgProduct);
+                this.imgProduct = (NetworkImageView) view.findViewById(R.id.imgProduct);
 
 
         }
@@ -178,11 +182,11 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
             this.txtSize = txtSize;
         }
 
-        public ImageView getImgProduct() {
+        public NetworkImageView getImgProduct() {
             return imgProduct;
         }
 
-        public void setImgProduct(ImageView imgProduct) {
+        public void setImgProduct(NetworkImageView imgProduct) {
             this.imgProduct = imgProduct;
         }
         public void bind(final ProductosZonas item) {

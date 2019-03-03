@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -48,7 +51,7 @@ public class EanPluFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.ean_plu_fragment, container, false);
         this.elementos = new LinkedHashMap<>();
-        addElemento(v.findViewById(R.id.btnVisual));
+        addElemento(v.findViewById(R.id.swtVisual));
         addElemento(v.findViewById(R.id.lnl2));
         addElemento(v.findViewById(R.id.lst1));
 
@@ -112,12 +115,19 @@ public class EanPluFragment extends Fragment {
     }
 
     private void onClick(){
-        Button btnVisual = (Button)getElemento(R.id.btnVisual);
-        btnVisual.setOnClickListener(new View.OnClickListener() {
+        Switch swtVisual = (Switch)getElemento(R.id.swtVisual);
+        swtVisual.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1);
-                lst1.setAdapter(adapterVisual);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1);
+                    lst1.setLayoutManager(new GridLayoutManager(getContext(), 3));
+                    lst1.setAdapter(adapterVisual);
+                }else{
+                    RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1);
+                    lst1.setLayoutManager(new LinearLayoutManager(getContext()));
+                    lst1.setAdapter(adapter1);
+                }
             }
         });
     }

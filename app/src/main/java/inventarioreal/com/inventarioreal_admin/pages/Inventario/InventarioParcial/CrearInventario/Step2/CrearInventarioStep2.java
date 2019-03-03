@@ -117,6 +117,20 @@ public class CrearInventarioStep2 extends CicloActivity {
                 );
             }
         });
+
+        add_on_click(R.id.btnLee, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(startFlag==false)
+                {
+                    startFlag=true;
+                    getElemento(R.id.btnLee).setText("Detener");
+                }else{
+                    startFlag=false;
+                    getElemento(R.id.btnLee).setText("Leer");
+                }
+            }
+        });
     }
 
 
