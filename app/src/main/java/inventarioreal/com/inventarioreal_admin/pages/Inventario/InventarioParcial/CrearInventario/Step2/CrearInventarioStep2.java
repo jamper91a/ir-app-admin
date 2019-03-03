@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.handheld.UHF.UhfManager;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,15 +46,14 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class CrearInventarioStep2 extends CicloActivity {
 
-    private SlidingMenu menu;
     private UhfManager uhfManager;
-//    public ListAdapterEpcs adapter1;
-//    private LinkedList<Epcs> epcs = new LinkedList<>();
     private String TAG="CrearInventarioStep2";
     private DataBase db = DataBase.getInstance(this);
-    private Toolbar mTopToolbar;
     private RequestInventariorCrear2 requestInventariorCrear2;
     private LinkedList<InventariosProductos> inventariosProductos = new LinkedList<>();
+
+    //Lista de productos que ya se han agregado
+    private List<Productos> productos = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -229,13 +229,15 @@ public class CrearInventarioStep2 extends CicloActivity {
                 // The epc for the first time
                 if (eanPluVieModel.getProductosZona().getValue().isEmpty()) {
                     createEpc(epc);
+                    createEpc(epc);
+                    createEpc(epc);
                 } else {
                     for (int i = 0; i < eanPluVieModel.getProductosZona().getValue().size(); i++) {
-//                        Epcs mEPC = eanPluVieModel.getProductosZona().getValue().get(i);
                         ProductosZonas mEPC = eanPluVieModel.getProductosZona().getValue().get(i);
-                        // list contain this epc
-                        if (!epc.equals(mEPC.getEpcs_id().getEpc()))
+                        if (!epc.equals(mEPC.getEpcs_id().getEpc())){
                             createEpc(epc);
+                        }
+
                     }
 
                 }

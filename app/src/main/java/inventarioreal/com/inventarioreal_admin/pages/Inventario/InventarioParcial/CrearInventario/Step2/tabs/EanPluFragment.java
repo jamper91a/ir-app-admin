@@ -106,8 +106,10 @@ public class EanPluFragment extends Fragment {
             @Override
             public void onChanged(@Nullable LinkedList<ProductosZonas> productosZonas) {
                 if(productosZonas.size()>0){
-                    adapter1.add(productosZonas.getLast());
-                    adapterVisual.add(productosZonas.getLast());
+                    adapter1.setItems(productosZonas);
+                    adapter1.notifyDataSetChanged();
+                    adapterVisual.setItems(productosZonas);
+                    adapterVisual.notifyDataSetChanged();
                 }
             }
         });

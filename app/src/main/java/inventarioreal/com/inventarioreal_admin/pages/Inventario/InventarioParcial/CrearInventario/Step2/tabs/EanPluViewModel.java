@@ -15,15 +15,28 @@ public class EanPluViewModel extends ViewModel {
 
 
     public void addProductoZona(ProductosZonas productosZonas){
-        productosZona.add(productosZonas);
-        productosZonasLiveData.setValue(productosZona);
+        //Valido si ya se ha agregado el producto
+        int count=0;
+        if(productosZonas.getProductos_id()!=null){
+            for (ProductosZonas pz: productosZona
+                 ) {
+                if(pz.getProductos_id().getId() == productosZonas.getProductos_id().getId()){
+                    pz.setTotal(pz.getTotal()+1);
+                    productosZona.set(count,pz);
+                    productosZonasLiveData.setValue(productosZona);
+                    return;
+                }
+                count+=1;
+            }
+            productosZona.add(productosZonas);
+            productosZonasLiveData.setValue(productosZona);
+        }
+
     }
     public LiveData<LinkedList<ProductosZonas>> getProductosZona(){
         if(productosZonasLiveData ==null){
             productosZonasLiveData = new MutableLiveData<>();
             productosZona = new LinkedList<>();
-            //Add Header
-//            productosZona.insert(new ProductosZonas());
             productosZonasLiveData.setValue(productosZona);
         }
         return productosZonasLiveData;
