@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,16 +9,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 import com.handheld.UHF.UhfManager;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -31,6 +34,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcia
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.tabs.TotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
@@ -51,6 +55,7 @@ public class CrearInventarioStep2 extends CicloActivity {
     private DataBase db = DataBase.getInstance(this);
     private RequestInventariorCrear2 requestInventariorCrear2;
     private LinkedList<InventariosProductos> inventariosProductos = new LinkedList<>();
+    private Gson gson = new Gson();
 
     //Lista de productos que ya se han agregado
     private List<Productos> productos = new ArrayList<>();
@@ -97,24 +102,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         add_on_click(R.id.btnFin, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebServices.crearInventario(
-                        requestInventariorCrear2.getZona_id().getId(),
-                        inventariosProductos,
-                        CrearInventarioStep2.this,
-                        admin,
-                        new ResultWebServiceInterface() {
-                            @Override
-                            public void ok(ResultWebServiceOk ok) {
-                                admin.toast("Ok");
-                            }
-
-                            @Override
-                            public void fail(ResultWebServiceFail fail) {
-                                admin.toast("fail");
-                            }
-                        }
-
-                );
+                showDialog();
             }
         });
 
@@ -365,4 +353,56 @@ public class CrearInventarioStep2 extends CicloActivity {
         }
     }
     //endregion
+
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Crear Inventario");
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
+        final TextView txtLocal = dialogView.findViewById(R.id.txtLocal);
+        final TextView txtZona = dialogView.findViewById(R.id.txtZona);
+        final TextView txtTime = dialogView.findViewById(R.id.txtTime);
+        final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
+
+
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
+        txtLocal.setText("Local : "+empleado.getEmpleado().getLocales_id().getName());
+        txtZona.setText("Zonas : "+requestInventariorCrear2.getZona_id().getName());
+        builder.setView(dialogView);
+
+
+// Set up the buttons
+        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                WebServices.crearInventario(
+                        requestInventariorCrear2.getZona_id().getId(),
+                        inventariosProductos,
+                        CrearInventarioStep2.this,
+                        admin,
+                        new ResultWebServiceInterface() {
+                            @Override
+                            public void ok(ResultWebServiceOk ok) {
+                                admin.toast("Ok");
+                            }
+
+                            @Override
+                            public void fail(ResultWebServiceFail fail) {
+                                admin.toast("fail");
+                            }
+                        }
+
+                );
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
 }
