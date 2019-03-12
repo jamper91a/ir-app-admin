@@ -1,20 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="inventarioreal.com.inventarioreal_admin">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
-        tools:replace="android:allowBackup"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
-
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup">
         <activity android:name=".pages.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,10 +27,8 @@
         <activity android:name=".pages.Home" />
         <activity android:name=".pages.IngresoMercancia" />
         <activity android:name=".pages.Inventario.InventarioHome" />
-        <activity android:name=".pages.Inventario.InventarioCrear1" />
-        <activity android:name=".pages.Inventario.InventarioCrear2" />
-
+        <activity android:name=".pages.Inventario.InventarioParcial.CrearInventario.CrearInventarioStep1" />
+        <activity android:name=".pages.Inventario.InventarioParcial.CrearInventario.Step2.CrearInventarioStep2" />
     </application>
-
 
 </manifest>

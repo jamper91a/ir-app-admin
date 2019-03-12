@@ -259,22 +259,22 @@ public class WebServices {
                             try {
                                 if (response.getEpcs()!=null) {
                                     for (Epcs epc: response.getEpcs()) {
-                                        db.add(Constants.table_epcs, epc.getContentValues());
+                                        db.insert(Constants.table_epcs, epc.getContentValues());
                                     }
                                 }
                                 if (response.getProductos()!=null) {
                                     for (Productos pro: response.getProductos()) {
-                                        db.add(Constants.table_productos, pro.getContentValues());
+                                        db.insert(Constants.table_productos, pro.getContentValues());
                                     }
                                 }
                                 if (response.getProductos_zona()!=null) {
                                     for (ProductosZonas productosZona: response.getProductos_zona()) {
-                                        db.add(Constants.table_productos_zonas, productosZona.getContentValues());
+                                        db.insert(Constants.table_productos_zonas, productosZona.getContentValues());
                                     }
                                 }
                                 if (response.getZonas()!=null) {
                                     for (Zonas zona: response.getZonas()) {
-                                        db.add(Constants.table_zonas, zona.getContentValues());
+                                        db.insert(Constants.table_zonas, zona.getContentValues());
                                     }
                                 }
                                 result.ok(new ResultWebServiceOk(response));

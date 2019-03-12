@@ -181,6 +181,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     }
 
+    //region Inserts
     /**
      * Se encarga de ingresar un registro dentro de una tabla
      * @param table_name Nombre de la tabla donde se va a insertar
@@ -189,7 +190,7 @@ public class DataBase extends SQLiteOpenHelper {
      *                 y el segundo es el valor a ingresar, ejemplo: [name][Julian]
      * @return
      */
-    public String add(String table_name, LinkedList<String[]> columnas)
+    public String insert(String table_name, LinkedList<String[]> columnas)
     {
         String sql="";
         sql="INSERT INTO %table (%campos) values(%valores)";
@@ -206,11 +207,11 @@ public class DataBase extends SQLiteOpenHelper {
         sql=sql.replace("%campos",campos);
         sql=sql.replace("%valores", valores);
 
-        this.execQuery(null,sql);
+        this.sql(null,sql);
         return sql;
     }
 
-    public long add(String table_name, ContentValues fields)
+    public long insert(String table_name, ContentValues fields)
     {
         try {
             SQLiteDatabase db=null;
@@ -222,6 +223,8 @@ public class DataBase extends SQLiteOpenHelper {
             return -1;
         }
     }
+    //endregion
+    //region Delete
 
     /**
      * Esta funcion se encarga de eliminar el registro de una tabla especifica
@@ -229,26 +232,26 @@ public class DataBase extends SQLiteOpenHelper {
      * @param id Id del elemento a eliminar
      * @return
      */
-    public String remove(String table_name, String id)
+    public String delete(String table_name, String id)
     {
         String sql="delete from %table where id=%id";
         sql=sql.replace("%table",table_name);
         sql=sql.replace("%id",id);
-        this.execQuery(null,sql);
+        this.sql(null,sql);
         return sql;
     }
 
-    public String remove(String table_name, String column_name, String id)
+    public String delete(String table_name, String column_name, String id)
     {
         String sql="delete from %table where %column_name=%id";
         sql=sql.replace("%table",table_name);
         sql=sql.replace("%column_name",column_name);
         sql=sql.replace("%id",id);
-        this.execQuery(null,sql);
+        this.sql(null,sql);
         return sql;
     }
-
-
+    //endregion
+    //region Update
     /**
      * Esta funcion se encarga de actualizar un elemento dentro de una tabla en especifico
      * @param table_name Nombre de la tabla a actualizar
@@ -258,7 +261,7 @@ public class DataBase extends SQLiteOpenHelper {
      *                 y el segundo es el valor a ingresar, ejemplo: [name][Julian]
      * @return
      */
-    public String setByKey(String table_name, String id, LinkedList<String[]> columnas)
+    public String update(String table_name, String id, LinkedList<String[]> columnas)
     {
         String sql="UPDATE %table SET %campos WHERE id=%id";
         String campos="";
@@ -272,11 +275,11 @@ public class DataBase extends SQLiteOpenHelper {
         sql=sql.replace("%table",table_name);
         sql=sql.replace("%campos",campos);
         sql=sql.replace("%id",id);
-        this.execQuery(null,sql);
+        this.sql(null,sql);
         Log.d("update", sql);
         return sql;
     }
-    public long setByKey(String table_name, String id, ContentValues values){
+    public long update(String table_name, String id, ContentValues values){
         try {
             String where = "id="+id;
             SQLiteDatabase db=null;
@@ -288,7 +291,7 @@ public class DataBase extends SQLiteOpenHelper {
             return -1;
         }
     }
-    public String setByKey(String table_name, String key, String key_name, LinkedList<String[]> columnas)
+    public String update(String table_name, String key, String key_name, LinkedList<String[]> columnas)
     {
         String sql="UPDATE %table SET %campos WHERE %key_name=%key";
         String campos="";
@@ -303,27 +306,18 @@ public class DataBase extends SQLiteOpenHelper {
         sql=sql.replace("%campos",campos);
         sql=sql.replace("%key_name",key_name);
         sql=sql.replace("%key",key);
-        this.execQuery(null,sql);
+        this.sql(null,sql);
         Log.d("update", sql);
         return sql;
     }
-
-    private String unescapeHtml4(String text)
-    {
-        text = text.replace("\n","\n ");
-        text = text.replace("\r","\r ");
-//        text = StringEscapeUtils.unescapeHtml4(text);
-        text = text.replace("&ntilde;","ñ");
-
-        return text;
-    }
-
+    //endregion
+    //region Raw queries
     /**
-     * Esta funcion se encarga de ejecutar una sentencia sql que no sea un execQuery
+     * Esta funcion se encarga de ejecutar una sentencia sql que no sea un sql
      * @param sql Codigo sql a ejecutar
      * @return
      */
-    public boolean execQuery(SQLiteDatabase db, String sql)
+    public boolean sql(SQLiteDatabase db, String sql)
     {
         try{
             db = this.get_db();
@@ -340,11 +334,11 @@ public class DataBase extends SQLiteOpenHelper {
     }
 
     /**
-     * Esta funcion se encarga de ejecutar una accion execQuery de sql y retornar los resultados
+     * Esta funcion se encarga de ejecutar una accion sql de sql y retornar los resultados
      * @param sql Sentencia sql a ejecutar
      * @return
      */
-    private Cursor execQuery(String sql)
+    private Cursor sql(String sql)
     {
         try{
             SQLiteDatabase db = this.get_db();
@@ -359,19 +353,65 @@ public class DataBase extends SQLiteOpenHelper {
         }
     }
 
+    public LinkedList<HashMap<String,String>> query(String sql)
+    {
+        LinkedList<HashMap<String,String>> retornar= new LinkedList<HashMap<String,String>>();
+
+        Cursor c=this.sql(sql);
+        if(c!=null)
+        {
+
+            while (c.moveToNext())
+            {
+
+                HashMap<String, String> datos = new HashMap<String, String>();
+                for(int i=0;i<c.getColumnCount();i++)
+                {
+                    if(c.getString(i)!=null)
+                    {
+                        String columna=c.getColumnName(i);
+                        columna=columna.replace("\n","\n ");
+                        columna=columna.replace("\r","\r ");
+//                        columna= StringEscapeUtils.unescapeHtml4(columna);
+                        columna=columna.replace("&ntilde;","ñ");
+                        String valor=c.getString(i);
+                        valor=valor.replace("\n", "\n ");
+                        valor=valor.replace("\r","\r ");
+//                        valor = StringEscapeUtils.unescapeHtml4(valor);
+                        valor = valor.replace("&ntilde;", "ñ");
+                        valor = valor.replaceAll("\\s+$", "");
+                        datos.put( columna, valor);
+                    }else
+                        datos.put(c.getColumnName(i), "null");
+                }
+                retornar.add(datos);
+            }
+            if(retornar.size()>0)
+                return  retornar;
+            else
+                return null;
+        }else{
+            return null;
+        }
+
+    }
+    //endregion
+    //region Find
+
+    //region FindById
     /**
      * Esta funcion se encarga de consultar el elemento de una tabla, basado en el id
      * @param table_name
      * @param id
      * @return
      */
-    public HashMap<String,String> getById(String table_name, String id)
+    public HashMap<String,String> findById(String table_name, String id)
     {
         HashMap<String, String> datos = new HashMap<String, String>();
         String sql="SELECT * FROM %table where id=%id";
         sql=sql.replace("%table",table_name);
         sql=sql.replace("%id", id);
-        Cursor c=this.execQuery(sql);
+        Cursor c=this.sql(sql);
         if(c!=null)
         {
             while (c.moveToNext())
@@ -405,6 +445,17 @@ public class DataBase extends SQLiteOpenHelper {
         }
 
     }
+    public Object findById(String table_name, String id, Class myClass)
+    {
+        HashMap<String, String> datos = new HashMap<String, String>();
+        String sql="SELECT * FROM %table where id=%id";
+        sql=sql.replace("%table",table_name);
+        sql=sql.replace("%id", id);
+        Cursor c=this.sql(sql);
+        Object r = toClass(c, myClass);
+        return r;
+
+    }
 
     /**
      * Esta funcion se encarga de consultar el elemento de una tabla, basado en el id
@@ -413,14 +464,14 @@ public class DataBase extends SQLiteOpenHelper {
      * @param value Valor a consultar
      * @return
      */
-    public HashMap<String,String> getById(String table_name, String column, String value)
+    public HashMap<String,String> findOneByColumn(String table_name, String column, String value)
     {
         HashMap<String, String> datos = new HashMap<String, String>();
         String sql="SELECT * FROM %table where %column=%value";
         sql=sql.replace("%table",table_name);
         sql=sql.replace("%column", column);
         sql=sql.replace("%value", value);
-        Cursor c=this.execQuery(sql);
+        Cursor c=this.sql(sql);
         if(c!=null)
         {
             while (c.moveToNext())
@@ -464,128 +515,20 @@ public class DataBase extends SQLiteOpenHelper {
      * @param myClass
      * @return
      */
-    public Object getById(String table_name, String column, String value, Class myClass)
+    public Object findOneByColumn(String table_name, String column, String value, Class myClass)
     {
         String sql="SELECT * FROM %table where %column=%value";
         sql=sql.replace("%table",table_name);
         sql=sql.replace("%column", column);
         sql=sql.replace("%value", value);
-        Cursor c=this.execQuery(sql);
-        if(c!=null)
-        {
-            while (c.moveToNext())
-            {
-                //Se inicia la clase que se ha de retornar
-                InventarioRealPojo inventarioRealPojo = null;
-                try {
-                    inventarioRealPojo = (InventarioRealPojo)myClass.newInstance();
-                    inventarioRealPojo.fromCursor(c);
-                    return inventarioRealPojo;
-                } catch (IllegalAccessException e) {
-                    Log.e(TAG, e.getLocalizedMessage());
-                    return null;
-                } catch (InstantiationException e) {
-                    Log.e(TAG, e.getLocalizedMessage());
-                    return null;
-                }
-            }
-            return null;
-
-        }else{
-            return null;
-        }
+        Cursor c=this.sql(sql);
+        Object r = toClass(c, myClass);
+        return r;
 
     }
+    //endregion
 
-    /**
-     * Esta accion se encarga de consultar todos los elementos de una tabla
-     * @param table_name Nombre de la tabla a consultar
-     * @return
-     */
-    public LinkedList<HashMap<String,String>> getByTable(String table_name)
-    {
-        LinkedList<HashMap<String,String>> retornar= new LinkedList<HashMap<String,String>>();
-        String sql="SELECT * FROM %table";
-        sql=sql.replace("%table",table_name);
-        Cursor c=this.execQuery(sql);
-        if(c!=null)
-        {
-            while (c.moveToNext())
-            {
-                HashMap<String, String> datos = new HashMap<String, String>();
-                for(int i=0;i<c.getColumnCount();i++)
-                {
-                    if(c.getString(i)!=null)
-                    {
-                        String columna=c.getColumnName(i);
-                        columna=columna.replace("\n","\n ");
-                        columna=columna.replace("\r","\r ");
-//                        columna= StringEscapeUtils.unescapeHtml4(columna);
-                        columna=columna.replace("&ntilde;","ñ");
-                        String valor=c.getString(i);
-                        valor=valor.replace("\n","\n ");
-                        valor=valor.replace("\r","\r ");
-//                        valor = StringEscapeUtils.unescapeHtml4(valor);
-                        valor = valor.replace("&ntilde;","ñ");
-
-                        datos.put(columna,valor);
-                    }else
-                        datos.put(c.getColumnName(i), "null");
-                }
-                retornar.add(datos);
-            }
-            if(retornar.size()>0)
-                return  retornar;
-            else
-                return null;
-        }else{
-            return null;
-        }
-
-    }
-
-    public LinkedList<HashMap<String,String>> getByTable(String table_name, String order_by)
-    {
-        LinkedList<HashMap<String,String>> retornar= new LinkedList<HashMap<String,String>>();
-        String sql="SELECT * FROM %table order by %order_by";
-        sql=sql.replace("%table",table_name);
-        sql=sql.replace("%order_by",order_by);
-        Cursor c=this.execQuery(sql);
-        if(c!=null)
-        {
-            while (c.moveToNext())
-            {
-                HashMap<String, String> datos = new HashMap<String, String>();
-                for(int i=0;i<c.getColumnCount();i++)
-                {
-                    if(c.getString(i)!=null)
-                    {
-                        String columna=c.getColumnName(i);
-                        columna=columna.replace("\n","\n ");
-                        columna=columna.replace("\r","\r ");
-//                        columna= StringEscapeUtils.unescapeHtml4(columna);
-                        columna=columna.replace("&ntilde;","ñ");
-                        String valor=c.getString(i);
-                        valor=valor.replace("\n","\n ");
-                        valor=valor.replace("\r","\r ");
-//                        valor = StringEscapeUtils.unescapeHtml4(valor);
-                        valor = valor.replace("&ntilde;","ñ");
-
-                        datos.put(columna,valor);
-                    }else
-                        datos.put(c.getColumnName(i), "null");
-                }
-                retornar.add(datos);
-            }
-            if(retornar.size()>0)
-                return  retornar;
-            else
-                return null;
-        }else{
-            return null;
-        }
-
-    }
+    //region indByColumn
     /**
      * Se encarga de obtener todos los datos de una tabla dada, filtrandolos por una columna
      * @param table_name Nombre de la tabla a consultar
@@ -600,7 +543,7 @@ public class DataBase extends SQLiteOpenHelper {
         sql=sql.replace("%table",table_name);
         sql=sql.replace("%column",column);
         sql=sql.replace("%valor",value);
-        Cursor c=this.execQuery(sql);
+        Cursor c=this.sql(sql);
         if(c!=null)
         {
             while (c.moveToNext())
@@ -651,7 +594,7 @@ public class DataBase extends SQLiteOpenHelper {
         sql=sql.replace("%table",table_name);
         sql=sql.replace("%column",column);
         sql=sql.replace("%valor",value);
-        Cursor c=this.execQuery(sql);
+        Cursor c=this.sql(sql);
         if(c!=null)
         {
             while (c.moveToNext())
@@ -662,6 +605,7 @@ public class DataBase extends SQLiteOpenHelper {
                     instance = (InventarioRealPojo)myClass.newInstance();
                     instance.fromCursor(c);
                     retornar.add(instance);
+
                 } catch (IllegalAccessException e) {
                     Log.e(TAG, e.getLocalizedMessage());
                     return null;
@@ -671,33 +615,17 @@ public class DataBase extends SQLiteOpenHelper {
                 }
 
             }
+            c.close();
             if(retornar.size()>0)
                 return  retornar;
             else
                 return null;
         }else{
+            c.close();
             return null;
         }
 
     }
-
-    public static boolean set(Object object, String fieldName, Object fieldValue) {
-        Class<?> clazz = object.getClass();
-        while (clazz != null) {
-            try {
-                Field field = clazz.getDeclaredField(fieldName);
-                field.setAccessible(true);
-                field.set(object, fieldValue);
-                return true;
-            } catch (NoSuchFieldException e) {
-                clazz = clazz.getSuperclass();
-            } catch (Exception e) {
-                throw new IllegalStateException(e);
-            }
-        }
-        return false;
-    }
-
 
     /**
      * Se encarga de obtener todos los datos de una tabla dada, filtrandolos por una columna y ordenandolos por una columna dada
@@ -715,7 +643,56 @@ public class DataBase extends SQLiteOpenHelper {
         sql=sql.replace("%column",column);
         sql=sql.replace("%valor",value);
         sql=sql.replace("%order",order);
-        Cursor c=this.execQuery(sql);
+        Cursor c=this.sql(sql);
+        if(c!=null)
+        {
+            while (c.moveToNext())
+            {
+                HashMap<String, String> datos = new HashMap<String, String>();
+                for(int i=0;i<c.getColumnCount();i++)
+                {
+                    if(c.getString(i)!=null)
+                    {
+                        String columna=c.getColumnName(i);
+                        columna=columna.replace("\n","\n ");
+                        columna=columna.replace("\r","\r ");
+//                        columna= StringEscapeUtils.unescapeHtml4(columna);
+                        columna=columna.replace("&ntilde;","ñ");
+                        String valor=c.getString(i);
+                        valor=valor.replace("\n","\n ");
+                        valor=valor.replace("\r","\r ");
+//                        valor = StringEscapeUtils.unescapeHtml4(valor);
+                        valor = valor.replace("&ntilde;","ñ");
+
+                        datos.put(columna,valor);
+                    }else
+                        datos.put(c.getColumnName(i), "null");
+                }
+                retornar.add(datos);
+            }
+            if(retornar.size()>0)
+                return  retornar;
+            else
+                return null;
+        }else{
+            return null;
+        }
+
+    }
+    //endregion
+
+    //region FindByTable
+    /**
+     * Esta accion se encarga de consultar todos los elementos de una tabla
+     * @param table_name Nombre de la tabla a consultar
+     * @return
+     */
+    public LinkedList<HashMap<String,String>> getByTable(String table_name)
+    {
+        LinkedList<HashMap<String,String>> retornar= new LinkedList<HashMap<String,String>>();
+        String sql="SELECT * FROM %table";
+        sql=sql.replace("%table",table_name);
+        Cursor c=this.sql(sql);
         if(c!=null)
         {
             while (c.moveToNext())
@@ -752,17 +729,17 @@ public class DataBase extends SQLiteOpenHelper {
 
     }
 
-    public LinkedList<HashMap<String,String>> query(String sql)
+    public LinkedList<HashMap<String,String>> getByTable(String table_name, String order_by)
     {
         LinkedList<HashMap<String,String>> retornar= new LinkedList<HashMap<String,String>>();
-
-        Cursor c=this.execQuery(sql);
+        String sql="SELECT * FROM %table order by %order_by";
+        sql=sql.replace("%table",table_name);
+        sql=sql.replace("%order_by",order_by);
+        Cursor c=this.sql(sql);
         if(c!=null)
         {
-
             while (c.moveToNext())
             {
-
                 HashMap<String, String> datos = new HashMap<String, String>();
                 for(int i=0;i<c.getColumnCount();i++)
                 {
@@ -774,12 +751,12 @@ public class DataBase extends SQLiteOpenHelper {
 //                        columna= StringEscapeUtils.unescapeHtml4(columna);
                         columna=columna.replace("&ntilde;","ñ");
                         String valor=c.getString(i);
-                        valor=valor.replace("\n", "\n ");
+                        valor=valor.replace("\n","\n ");
                         valor=valor.replace("\r","\r ");
 //                        valor = StringEscapeUtils.unescapeHtml4(valor);
-                        valor = valor.replace("&ntilde;", "ñ");
-                        valor = valor.replaceAll("\\s+$", "");
-                        datos.put( columna, valor);
+                        valor = valor.replace("&ntilde;","ñ");
+
+                        datos.put(columna,valor);
                     }else
                         datos.put(c.getColumnName(i), "null");
                 }
@@ -794,7 +771,69 @@ public class DataBase extends SQLiteOpenHelper {
         }
 
     }
+    //endregion
+    //endregion
 
+    public static boolean set(Object object, String fieldName, Object fieldValue) {
+        Class<?> clazz = object.getClass();
+        while (clazz != null) {
+            try {
+                Field field = clazz.getDeclaredField(fieldName);
+                field.setAccessible(true);
+                field.set(object, fieldValue);
+                return true;
+            } catch (NoSuchFieldException e) {
+                clazz = clazz.getSuperclass();
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            }
+        }
+        return false;
+    }
+
+    //endregion
+
+
+    //region Utils
+
+    /**
+     * This funcion will transform one cursor to an Object
+     * @return
+     */
+    public Object toClass(Cursor c, Class myClass) {
+        InventarioRealPojo inventarioRealPojo = null;
+        if(c!=null){
+            while (c.moveToNext())
+            {
+                //Se inicia la clase que se ha de retornar
+
+                try {
+                    inventarioRealPojo = (InventarioRealPojo)myClass.newInstance();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    return null;
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+                inventarioRealPojo.fromCursor(c);
+                return inventarioRealPojo;
+            }
+        }else{
+            return null;
+        }
+
+        return null;
+    }
+    private String unescapeHtml4(String text)
+    {
+        text = text.replace("\n","\n ");
+        text = text.replace("\r","\r ");
+//        text = StringEscapeUtils.unescapeHtml4(text);
+        text = text.replace("&ntilde;","ñ");
+
+        return text;
+    }
 
     //endregion
 

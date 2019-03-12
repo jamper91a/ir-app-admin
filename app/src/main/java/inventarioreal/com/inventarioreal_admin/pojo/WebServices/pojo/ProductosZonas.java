@@ -10,16 +10,19 @@ import inventarioreal.com.inventarioreal_admin.util.Constants;
 
 public class ProductosZonas extends InventarioRealPojo {
 
-    public Productos productos_id;
-    public Zonas zonas_id;
-    public String fecha_ingreso;
-    public String fecha_venta;
-    public String fecha_devolucion;
-    public String devolucion_observaciones;
-    public Devoluciones devoluciones_id;
-    public String logs_usuarios;
-    public Ventas ventas_id;
-    public Epcs epcs_id;
+    private Productos productos_id;
+    private Zonas zonas_id;
+    private String fecha_ingreso;
+    private String fecha_venta;
+    private String fecha_devolucion;
+    private String devolucion_observaciones;
+    private Devoluciones devoluciones_id;
+    private String logs_usuarios;
+    private Ventas ventas_id;
+    private Epcs epcs_id;
+
+    //Extra field to get the Total of items
+    private int total=1;
 
     public ProductosZonas() {
     }
@@ -173,4 +176,19 @@ public class ProductosZonas extends InventarioRealPojo {
         return values;
     }
 
+    public String getLogs_usuarios() {
+        return logs_usuarios;
+    }
+
+    public void setLogs_usuarios(String logs_usuarios) {
+        this.logs_usuarios = logs_usuarios;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
 }

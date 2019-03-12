@@ -7,6 +7,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.CrearInventarioStep1;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -37,7 +38,7 @@ public class InventarioHome extends CicloActivity {
         add_on_click(R.id.btnCre, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(InventarioCrear1.class, null);
+                admin.callIntent(CrearInventarioStep1.class, null);
             }
         });
 

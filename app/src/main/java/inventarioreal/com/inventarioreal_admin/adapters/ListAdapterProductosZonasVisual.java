@@ -7,14 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import jamper91.com.easyway.Util.Administrador;
 
 
@@ -22,16 +26,17 @@ import jamper91.com.easyway.Util.Administrador;
  * Created by jorge.moreno on 16/02/2017.
  */
 
-public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> {
+public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAdapterProductosZonasVisual.ViewHolder> {
 
-    private static final String TAG = "ListAdapter1";
+
+    private static final String TAG = "ListAdapterEpcs";
     private Activity activity;
     private Administrador admin;
-    private LinkedList<Epcs> items;
-    private LinkedList<Epcs> todos;
+    private LinkedList<ProductosZonas> items;
+    private LinkedList<ProductosZonas> todos;
     private OnItemClickListener onItemClickListener;
 
-    public ListAdapter1(Activity activity, Administrador admin, LinkedList<Epcs> items, OnItemClickListener onItemClickListener) {
+    public ListAdapterProductosZonasVisual(Activity activity, Administrador admin, LinkedList<ProductosZonas> items, OnItemClickListener onItemClickListener) {
         this.activity = activity;
         this.admin = admin;
         this.items = items;
@@ -39,28 +44,32 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setItems(LinkedList<Epcs> items) {
+    public void setItems(LinkedList<ProductosZonas> items) {
         this.items = items;
     }
 
     @Override
     public long getItemId(int position) {
-        return Long.parseLong(items.get(position).getEpc());
+        return Long.parseLong(items.get(position).getEpcs_id().getEpc());
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_1, parent, false);
+        View view=null;
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_productos_zona_visual, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Epcs item = items.get(position);
-        holder.getTxt1().setText(item.getEpc()+item.getCreatedAt());
+        final ProductosZonas item = items.get(position);
+        holder.getTxtSize().setText(item.getProductos_id().getTalla());
+        holder.getTxtTotal().setText(item.getTotal()+"");
+        if(item.getProductos_id().getImagen()==null)
+            item.getProductos_id().setImagen("");
+        admin.loadImageFromInternet(item.getProductos_id().getImagen(), holder.getImgProduct(), R.drawable.lost, R.drawable.inventory);
         holder.bind(item);
-
     }
 
     @Override
@@ -68,7 +77,7 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
         return items.size();
     }
 
-    public void add(Epcs item) {
+    public void add(ProductosZonas item) {
         try {
             int position = items.indexOf(item);
             notifyItemInserted(position);
@@ -77,13 +86,13 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
         }
     }
 
-    public void remove(Epcs item) {
+    public void remove(ProductosZonas item) {
         int position = items.indexOf(item);
         items.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void update(Epcs item, int position){
+    public void update(ProductosZonas item, int position){
         items.set(position, item);
         notifyItemChanged(position);
     }
@@ -99,7 +108,7 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
                 {
                     notifyDataSetChanged();
                 }else{
-                    items = (LinkedList<Epcs>) results.values;
+                    items = (LinkedList<ProductosZonas>) results.values;
                     notifyDataSetChanged();
                 }
 
@@ -117,10 +126,10 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
                     results.values = todos;
                     results.count = todos.size();
                 }else{
-                    LinkedList<Epcs> FilteredArrayNames = new LinkedList<>();
+                    LinkedList<ProductosZonas> FilteredArrayNames = new LinkedList<>();
                     for (int i = 0; i < todos.size(); i++) {
-                        Epcs dataNames = todos.get(i);
-                        if (dataNames.getEpc().toLowerCase().contains(constraint))  {
+                        ProductosZonas dataNames = todos.get(i);
+                        if (dataNames.getEpcs_id().getEpc().toLowerCase().contains(constraint))  {
                             FilteredArrayNames.add(dataNames);
                         }
                     }
@@ -141,35 +150,51 @@ public class ListAdapter1 extends RecyclerView.Adapter<ListAdapter1.ViewHolder> 
         return filter;
     }
 
+
     class ViewHolder extends  RecyclerView.ViewHolder{
-        LinearLayout lnl1;
-        TextView txt1;
+        TextView txtTotal;
+        TextView txtSize;
+        NetworkImageView imgProduct;
 
 
         public ViewHolder(View view) {
             super(view);
-            this.lnl1 = (LinearLayout)view.findViewById(R.id.lnl1);
-            this.txt1 = (TextView)view.findViewById(R.id.txt1);
+                this.txtTotal = (TextView)view.findViewById(R.id.txtTotal);
+                this.txtSize = (TextView)view.findViewById(R.id.txtSize);
+                this.imgProduct = (NetworkImageView) view.findViewById(R.id.imgProduct);
+
 
         }
 
-        public LinearLayout getLnl1() {
-            return lnl1;
+        public TextView getTxtTotal() {
+            return txtTotal;
         }
 
-        public TextView getTxt1() {
-            return txt1;
+        public void setTxtTotal(TextView txtTotal) {
+            this.txtTotal = txtTotal;
         }
 
+        public TextView getTxtSize() {
+            return txtSize;
+        }
 
+        public void setTxtSize(TextView txtSize) {
+            this.txtSize = txtSize;
+        }
 
-        public void bind(final Epcs item) {
+        public NetworkImageView getImgProduct() {
+            return imgProduct;
+        }
+
+        public void setImgProduct(NetworkImageView imgProduct) {
+            this.imgProduct = imgProduct;
+        }
+        public void bind(final ProductosZonas item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     onItemClickListener.onItemClick(item);
                 }
             });
         }
-
     }
 }
