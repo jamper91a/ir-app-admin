@@ -11,8 +11,8 @@ import inventarioreal.com.inventarioreal_admin.util.Constants;
 public class Inventarios extends InventarioRealPojo {
 
     public String fecha;
-    public boolean parcial;
-    public boolean colaborativo;
+    public int parcial;
+    public int colaborativo;
     public Zonas zonas_id;
     public InventarioConsolidados inventarios_consolidados_id;
 
@@ -24,19 +24,19 @@ public class Inventarios extends InventarioRealPojo {
         this.fecha = fecha;
     }
 
-    public boolean isParcial() {
+    public int isParcial() {
         return parcial;
     }
 
-    public void setParcial(boolean parcial) {
+    public void setParcial(int parcial) {
         this.parcial = parcial;
     }
 
-    public boolean isColaborativo() {
+    public int isColaborativo() {
         return colaborativo;
     }
 
-    public void setColaborativo(boolean colaborativo) {
+    public void setColaborativo(int colaborativo) {
         this.colaborativo = colaborativo;
     }
 

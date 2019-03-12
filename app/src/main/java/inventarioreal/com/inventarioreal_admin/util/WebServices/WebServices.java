@@ -8,15 +8,19 @@ import com.google.gson.JsonSyntaxException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.ConsolidarInventario.ConsolidarInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddMercanciaResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
@@ -322,6 +326,73 @@ public class WebServices {
                     public void onResponse(JSONObject jsonObject) {
                         try {
                             result.ok(new ResultWebServiceOk(null));
+                        } catch (Exception e) {
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(String s) {
+                        result.fail(new ResultWebServiceFail(s));
+                    }
+                },
+                admin
+        );
+        executeEnviar(activity, callWebServiceJson);
+    }
+
+    public static void listarInventarioParcialesNoConsolidados(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_listarInventarios;
+
+        HashMap<String, String> campos = new HashMap<>();
+        campos.put(Constants.tipo, Constants.tipo_no_consolidado);
+        campos.put(Constants.colaborativo, "0");
+
+        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                activity,
+                url,
+                campos,
+                getHeaders(admin),
+                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                new ResponseListener() {
+                    @Override
+                    public void onResponse(String s) {
+
+                    }
+
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            //Obtengo la respuesta y la completo, debido a que el servicio web no me
+                            // trae informacion de las zonas
+                            try {
+                                Inventarios[] inventarios = gson.fromJson(jsonObject.getJSONArray("data").toString(),Inventarios[].class);
+
+                                try {
+                                    if (inventarios!=null && inventarios.length>0) {
+                                        final DataBase db = DataBase.getInstance(activity);
+                                        for (Inventarios inventario: inventarios) {
+                                            Zonas zona=(Zonas)db.findById(Constants.table_zonas, inventario.getZonas_id().getId()+"", Zonas.class);
+                                            if(zona!=null){
+                                                inventario.setZonas_id(zona);
+                                            }
+                                        }
+                                        ArrayList<Inventarios> arrayInventarios = new ArrayList<Inventarios>(Arrays.asList(inventarios));
+                                        result.ok(new ResultWebServiceOk(arrayInventarios));
+                                    }else{
+                                        result.fail(new ResultWebServiceFail("No hay inventarios"));
+                                    }
+
+                                } catch (Exception e) {
+                                    admin.toast(e.getMessage());
+                                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                                }
+
+                            } catch (JSONException e) {
+                                result.fail(new ResultWebServiceFail(e));
+                            } catch (Exception e) {
+                                result.fail(new ResultWebServiceFail(e.getMessage()));
+                            }
                         } catch (Exception e) {
                             result.fail(new ResultWebServiceFail(e.getMessage()));
                         }
