@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
+import jamper91.com.easyway.Util.Administrador;
 
 /**
  * Created by sonu on 19/09/16.
@@ -40,17 +41,19 @@ public class RecyclerAdapterInventarios extends RecyclerView.Adapter<RecyclerAda
     private ArrayList<Inventarios> inventarios;
     private Context context;
     private ArrayList<Integer> inventariosSeleccionados = new ArrayList<>();
+    private Administrador admin;
 
 
 
-    public RecyclerAdapterInventarios(Context context, ArrayList<Inventarios> inventarios) {
+    public RecyclerAdapterInventarios(Context context, ArrayList<Inventarios> inventarios, Administrador admin) {
         this.inventarios = inventarios;
         this.context = context;
+        this.admin = admin;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_custom_row_layout, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_inventarios, viewGroup, false);
         return new RecyclerViewHolder(v);
     }
 
@@ -85,9 +88,13 @@ public class RecyclerAdapterInventarios extends RecyclerView.Adapter<RecyclerAda
             @Override
             public void onClick(View v) {
                 if(((CompoundButton) v).isChecked()){
-                    itemCheckBoxChanged(v);
+                    boolean r=itemCheckBoxChanged(v);
+                    ((CompoundButton) v).setChecked(r);
+                    if(!r){
+                        admin.toast("No se pueden escoger inventarios de la misma zona");
+                    }
                 } else {
-                    inventariosSeleccionados.remove((Integer) v.getTag());
+                    inventariosSeleccionados.remove(v.getTag());
                 }
 
             }
@@ -98,9 +105,16 @@ public class RecyclerAdapterInventarios extends RecyclerView.Adapter<RecyclerAda
 
 
     //On selecting any view set the current position to selectedPositon and notify adapter
-    private void itemCheckBoxChanged(View v) {
+    private boolean itemCheckBoxChanged(View v) {
+        //Reviso que no se haya agregado antes la misma zona
+        for (int i:inventariosSeleccionados) {
+            Inventarios inv = inventarios.get(i);
+            if(inv.getZonas_id().getId()==(Integer)v.getTag())
+                return false;
+        }
         inventariosSeleccionados.add((Integer) v.getTag());
         notifyDataSetChanged();
+        return true;
     }
 
 

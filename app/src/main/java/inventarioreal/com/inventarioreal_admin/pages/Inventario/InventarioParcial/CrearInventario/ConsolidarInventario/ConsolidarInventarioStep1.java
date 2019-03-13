@@ -3,6 +3,7 @@ package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParci
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -22,8 +23,9 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class ConsolidarInventarioStep1 extends CicloActivity {
 
+    private static final String TAG = "ConsolidarInventario";
     private RecyclerAdapterInventarios adapter;
-    private ArrayList<Inventarios> inventariosPorConsolidar;
+    private ArrayList<Inventarios> inventariosPorConsolidar= new ArrayList<>();
     RecyclerView recyclerView = null;
 
     @Override
@@ -36,22 +38,39 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
     public void initGui() {
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.lst1), Techniques.SlideInLeft));
-        addElemento(new Animacion(findViewById(R.id.button2), Techniques.SlideInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnIni), Techniques.SlideInLeft));
 
     }
 
     @Override
     public void getData() {
-        getInventarios();
+        getInventariosNoConsolidados();
     }
 
     @Override
     public void initOnClick() {
-        add_on_click(R.id.button2, new View.OnClickListener() {
+        add_on_click(R.id.btnIni, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    adapter.getInventariosSeleccionados();
+                    ArrayList<Integer> itemsSeleccionados =adapter.getInventariosSeleccionados();
+                    if(itemsSeleccionados.size()>1){
+                        WebServices.consolidarInventarios(itemsSeleccionados, ConsolidarInventarioStep1.this, admin, new ResultWebServiceInterface() {
+                            @Override
+                            public void ok(ResultWebServiceOk ok) {
+                                admin.toast("Inventarios Consolidados exitosamente");
+                            }
+
+                            @Override
+                            public void fail(ResultWebServiceFail fail) {
+                                admin.toast("Error al consolidar los inventarios");
+                                Log.e(TAG, fail.getError());
+                            }
+                        });
+                    }else{
+                        admin.toast("Debes seleccionar al menos 2 inventarios");
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -64,23 +83,15 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
 
     }
 
-    private void getInventarios() {
+    private void getInventariosNoConsolidados() {
         recyclerView = (RecyclerView) getElemento(R.id.lst1).getElemento();
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ConsolidarInventarioStep1.this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        inventariosPorConsolidar = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Inventarios aux = new Inventarios();
-            Zonas aux2= new Zonas();
-            aux2.setName("Zotano "+i);
-            aux.setZonas_id(aux2);
-            inventariosPorConsolidar.add(aux);
-        }
-        adapter = new RecyclerAdapterInventarios(ConsolidarInventarioStep1.this, inventariosPorConsolidar);
+        adapter = new RecyclerAdapterInventarios(ConsolidarInventarioStep1.this, inventariosPorConsolidar, admin);
         recyclerView.setAdapter(adapter);
 //        adapter.notifyDataSetChanged();
-        WebServices.listarInventarioParcialesNoConsolidados(this, admin, new ResultWebServiceInterface() {
+        WebServices.listarInventario(Constants.tipo_no_consolidado,false,this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 inventariosPorConsolidar = (ArrayList<Inventarios>) ok.getData();
@@ -95,7 +106,5 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
             }
         });
 
-
     }
-
 }

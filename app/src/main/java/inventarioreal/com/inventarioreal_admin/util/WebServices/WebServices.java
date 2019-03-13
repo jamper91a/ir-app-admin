@@ -3,6 +3,7 @@ package inventarioreal.com.inventarioreal_admin.util.WebServices;
 import android.app.Activity;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONException;
@@ -15,7 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.ConsolidarInventario.ConsolidarInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddMercanciaResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
@@ -341,12 +341,16 @@ public class WebServices {
         executeEnviar(activity, callWebServiceJson);
     }
 
-    public static void listarInventarioParcialesNoConsolidados(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    /**
+     *
+     * @param tipo Tipo de inventario: Constants.tipo_consolidado o Constants.tipo_no_consolidado
+     * @param colaborativo true or false
+     */
+    public static void listarInventario(String tipo, boolean colaborativo,final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_listarInventarios;
-
         HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.tipo, Constants.tipo_no_consolidado);
-        campos.put(Constants.colaborativo, "0");
+        campos.put(Constants.tipo, Constants.tipo);
+        campos.put(Constants.colaborativo, colaborativo ? "1" : "0");
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
                 activity,
@@ -395,6 +399,46 @@ public class WebServices {
                             }
                         } catch (Exception e) {
                             result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(String s) {
+                        result.fail(new ResultWebServiceFail(s));
+                    }
+                },
+                admin
+        );
+        executeEnviar(activity, callWebServiceJson);
+    }
+
+    public static void consolidarInventarios(ArrayList<Integer> inventariosAConsolidar,final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_consolidarInventarios;
+        JsonArray array = new JsonArray();
+        for (int iac: inventariosAConsolidar)  array.add(iac);
+        HashMap<String, String> campos = new HashMap<>();
+        campos.put(Constants.inventarios_id, gson.toJson(array));
+
+        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                activity,
+                url,
+                campos,
+                getHeaders(admin),
+                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                new ResponseListener() {
+                    @Override
+                    public void onResponse(String s) {
+
+                    }
+
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            if(jsonObject.getString("code").equals("OK")){
+                                result.ok(new ResultWebServiceOk(null));
+                            }
+                        } catch (JSONException e) {
+                            result.fail(new ResultWebServiceFail(e));
                         }
                     }
 
