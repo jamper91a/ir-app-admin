@@ -10,7 +10,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventarios;
+import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventariosAConsolidar;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -23,7 +23,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 public class ConsolidarInventarioStep1 extends CicloActivity {
 
     private static final String TAG = "ConsolidarInventario";
-    private RecyclerAdapterInventarios adapter;
+    private RecyclerAdapterInventariosAConsolidar adapter;
     private ArrayList<Inventarios> inventariosPorConsolidar= new ArrayList<>();
     RecyclerView recyclerView = null;
 
@@ -65,7 +65,7 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ConsolidarInventarioStep1.this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new RecyclerAdapterInventarios(ConsolidarInventarioStep1.this, inventariosPorConsolidar, admin);
+        adapter = new RecyclerAdapterInventariosAConsolidar(ConsolidarInventarioStep1.this, inventariosPorConsolidar, admin);
         recyclerView.setAdapter(adapter);
 //        adapter.notifyDataSetChanged();
         WebServices.listarInventario(Constants.tipo_no_consolidado,false,this, admin, new ResultWebServiceInterface() {

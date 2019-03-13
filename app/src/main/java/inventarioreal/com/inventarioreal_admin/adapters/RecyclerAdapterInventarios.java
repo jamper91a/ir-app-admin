@@ -5,13 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import jamper91.com.easyway.Util.Administrador;
 
@@ -21,34 +21,20 @@ import jamper91.com.easyway.Util.Administrador;
 
 public class RecyclerAdapterInventarios extends RecyclerView.Adapter<RecyclerAdapterInventarios.RecyclerViewHolder> {
 
-    static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView txtZona;
-        private TextView txtFecha;
-        private TextView txtHora;
-        private CheckBox chb1;
-
-        RecyclerViewHolder(View view) {
-            super(view);
-            txtZona = (TextView) view.findViewById(R.id.txtZona);
-            txtFecha = (TextView) view.findViewById(R.id.txtFecha);
-            txtHora = (TextView) view.findViewById(R.id.txtHora);
-            chb1 = (CheckBox) view.findViewById(R.id.chb1);
-        }
-
-    }
 
     private ArrayList<Inventarios> inventarios;
     private Context context;
-    private ArrayList<Integer> inventariosSeleccionados = new ArrayList<>();
     private Administrador admin;
+    private OnItemClickListener onItemClickListener;
 
 
 
-    public RecyclerAdapterInventarios(Context context, ArrayList<Inventarios> inventarios, Administrador admin) {
+    public RecyclerAdapterInventarios(Context context, ArrayList<Inventarios> inventarios, Administrador admin, OnItemClickListener onItemClickListener) {
         this.inventarios = inventarios;
         this.context = context;
         this.admin = admin;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -59,7 +45,7 @@ public class RecyclerAdapterInventarios extends RecyclerView.Adapter<RecyclerAda
 
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, final int i) {
-
+        final Inventarios item = inventarios.get(i);
         holder.txtZona.setText(inventarios.get(i).getZonas_id().getName());
         try {
             holder.txtFecha.setText(inventarios.get(i).getFecha().split("T")[0]);
@@ -67,55 +53,13 @@ public class RecyclerAdapterInventarios extends RecyclerView.Adapter<RecyclerAda
         } catch (Exception e) {
 
         }
-
-        //check the radio button if both position and selectedPosition matches
-        holder.chb1.setChecked(inventariosSeleccionados.contains(i));
-
-
-        //Set the position tag to both radio button and txtZona
-        holder.chb1.setTag(i);
         holder.txtZona.setTag(i);
-        holder.txtZona.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.chb1.performClick();
-            }
-
-
-        });
-
-        holder.chb1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(((CompoundButton) v).isChecked()){
-                    boolean r=itemCheckBoxChanged(v);
-                    ((CompoundButton) v).setChecked(r);
-                    if(!r){
-                        admin.toast("No se pueden escoger inventarios de la misma zona");
-                    }
-                } else {
-                    inventariosSeleccionados.remove(v.getTag());
-                }
-
-            }
-        });
+        holder.bind(item);
 
 
     }
 
 
-    //On selecting any view set the current position to selectedPositon and notify adapter
-    private boolean itemCheckBoxChanged(View v) {
-        //Reviso que no se haya agregado antes la misma zona
-        for (int i:inventariosSeleccionados) {
-            Inventarios inv = inventarios.get(i);
-            if(inv.getZonas_id().getId()==(Integer)v.getTag())
-                return false;
-        }
-        inventariosSeleccionados.add((Integer) v.getTag());
-        notifyDataSetChanged();
-        return true;
-    }
 
 
     @Override
@@ -123,16 +67,31 @@ public class RecyclerAdapterInventarios extends RecyclerView.Adapter<RecyclerAda
         return (null != inventarios ? inventarios.size() : 0);
     }
 
-    //Return the selectedPosition item
-    public ArrayList<Integer> getInventariosSeleccionados() throws Exception {
-        if(!inventariosSeleccionados.isEmpty()){
-            return inventariosSeleccionados;
-        }else{
-            throw new Exception("No se seleccionaron inventarios");
-        }
-    }
-
     public void setInventarios(ArrayList<Inventarios> inventarios) {
         this.inventarios = inventarios;
+    }
+
+
+    class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView txtZona;
+        private TextView txtFecha;
+        private TextView txtHora;
+
+        RecyclerViewHolder(View view) {
+            super(view);
+            txtZona = (TextView) view.findViewById(R.id.txtZona);
+            txtFecha = (TextView) view.findViewById(R.id.txtFecha);
+            txtHora = (TextView) view.findViewById(R.id.txtHora);
+        }
+
+        public void bind(final Inventarios item) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    onItemClickListener.onItemClick(item);
+                }
+            });
+        }
+
     }
 }

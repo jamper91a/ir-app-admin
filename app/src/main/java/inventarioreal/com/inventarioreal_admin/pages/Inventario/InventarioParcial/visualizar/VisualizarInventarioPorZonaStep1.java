@@ -1,6 +1,5 @@
 package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,8 @@ import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventarios;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.ConsolidarInventario.ConsolidarInventarioStep1;
+import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventariosAConsolidar;
+import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -68,7 +68,23 @@ public class VisualizarInventarioPorZonaStep1 extends CicloActivity {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(VisualizarInventarioPorZonaStep1.this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new RecyclerAdapterInventarios(VisualizarInventarioPorZonaStep1.this, inventariosPorConsolidar, admin);
+        adapter = new RecyclerAdapterInventarios(VisualizarInventarioPorZonaStep1.this, inventariosPorConsolidar, admin, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object item) {
+                Inventarios inv = (Inventarios) item;
+                admin.toast(inv.createdAt);
+            }
+
+            @Override
+            public void onLongItemClick(Object item) {
+
+            }
+
+            @Override
+            public void onItemClick(int view, Object item) {
+
+            }
+        });
         recyclerView.setAdapter(adapter);
         WebServices.listarInventario(Constants.tipo_no_consolidado,false,this, admin, new ResultWebServiceInterface() {
             @Override
