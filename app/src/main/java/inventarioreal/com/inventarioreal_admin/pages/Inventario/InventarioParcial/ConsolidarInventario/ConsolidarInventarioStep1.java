@@ -1,9 +1,8 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.ConsolidarInventario;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.ConsolidarInventario;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -39,12 +38,11 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.lst1), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.btnIni), Techniques.SlideInLeft));
-
     }
 
     @Override
     public void getData() {
-        getInventariosNoConsolidados();
+        getinventariosPorConsolidar();
     }
 
     @Override
@@ -52,28 +50,7 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
         add_on_click(R.id.btnIni, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    ArrayList<Integer> itemsSeleccionados =adapter.getInventariosSeleccionados();
-                    if(itemsSeleccionados.size()>1){
-                        WebServices.consolidarInventarios(itemsSeleccionados, ConsolidarInventarioStep1.this, admin, new ResultWebServiceInterface() {
-                            @Override
-                            public void ok(ResultWebServiceOk ok) {
-                                admin.toast("Inventarios Consolidados exitosamente");
-                            }
 
-                            @Override
-                            public void fail(ResultWebServiceFail fail) {
-                                admin.toast("Error al consolidar los inventarios");
-                                Log.e(TAG, fail.getError());
-                            }
-                        });
-                    }else{
-                        admin.toast("Debes seleccionar al menos 2 inventarios");
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         });
     }
@@ -83,7 +60,7 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
 
     }
 
-    private void getInventariosNoConsolidados() {
+    private void getinventariosPorConsolidar() {
         recyclerView = (RecyclerView) getElemento(R.id.lst1).getElemento();
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ConsolidarInventarioStep1.this);
