@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar.Step1;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventarios;
-import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventariosAConsolidar;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar.Step2.VisualizarInventarioPorZonaStep2;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -73,6 +73,7 @@ public class VisualizarInventarioPorZonaStep1 extends CicloActivity {
             public void onItemClick(Object item) {
                 Inventarios inv = (Inventarios) item;
                 admin.toast(inv.createdAt);
+                admin.callIntent(VisualizarInventarioPorZonaStep2.class, inv, Inventarios.class);
             }
 
             @Override

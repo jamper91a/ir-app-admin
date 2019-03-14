@@ -71,6 +71,20 @@ public class WebServices {
         callWebServiceJson.execute();
     }
 
+    private static void post(final String url, final HashMap<String, String> campos, final int mensaje, final Activity activity, final Administrador admin, final ResponseListener result){
+        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                activity,
+                url,
+                campos,
+                getHeaders(admin),
+                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                result,
+                admin
+        );
+        callWebServiceJson.setMessage(activity.getString(mensaje));
+        callWebServiceJson.execute();
+    }
+
     /**
      * Llamado a servicio web de login
      * @param username Nombre de usuario
@@ -452,4 +466,31 @@ public class WebServices {
         executeEnviar(activity, callWebServiceJson);
     }
 
+    public static void getProductsByInventario(final long inventario_id, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_getProductsByInventory;
+        HashMap<String, String> campos = new HashMap<>();
+        campos.put(Constants.inventarios_id, inventario_id+"");
+        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    Inventarios inventario = gson.fromJson(jsonObject.getJSONObject("data").toString(),Inventarios.class);
+                    result.ok(new ResultWebServiceOk(inventario));
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
 }

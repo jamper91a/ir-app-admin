@@ -8,8 +8,8 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.ConsolidarInventario.ConsolidarInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.CrearInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar.VisualizarInventarioPorZonaStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step1.CrearInventarioStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar.Step1.VisualizarInventarioPorZonaStep1;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
