@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar.Step1;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarConsolidados.Step1;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,11 +9,11 @@ import com.daimajia.androidanimations.library.Techniques;
 import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventarios;
+import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar.Step2.VisualizarInventarioPorZonaStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.VisualizarInventarioPorZonaStep2;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
-import inventarioreal.com.inventarioreal_admin.util.Constants;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -21,13 +21,11 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class VisualizarInventarioPorZonaStep1 extends CicloActivity {
-
-
-
-    private RecyclerAdapterInventarios adapter;
-    private ArrayList<Inventarios> inventariosPorConsolidar= new ArrayList<>();
+public class VisualizarInventariosConsolidadosStep1 extends CicloActivity {
+    private RecyclerAdapterInventariosConsolidados adapter;
+    private ArrayList<InventariosConsolidados> inventariosConsolidados = new ArrayList<>();
     RecyclerView recyclerView = null;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,12 +43,11 @@ public class VisualizarInventarioPorZonaStep1 extends CicloActivity {
 
         getElemento(R.id.txt1).setText("Selecciones el inventario a visualizar");
         getElemento(R.id.btnIni).setText("Visualizar");
-
     }
 
     @Override
     public void getData() {
-        getinventariosPorConsolidar();
+        getInventariosConsolidados();
     }
 
     @Override
@@ -63,12 +60,12 @@ public class VisualizarInventarioPorZonaStep1 extends CicloActivity {
 
     }
 
-    private void getinventariosPorConsolidar() {
+    private void getInventariosConsolidados() {
         recyclerView = (RecyclerView) getElemento(R.id.lst1).getElemento();
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(VisualizarInventarioPorZonaStep1.this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new RecyclerAdapterInventarios(VisualizarInventarioPorZonaStep1.this, inventariosPorConsolidar, admin, new OnItemClickListener() {
+        adapter = new RecyclerAdapterInventariosConsolidados(this, inventariosConsolidados, admin, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
                 Inventarios inv = (Inventarios) item;
@@ -87,11 +84,11 @@ public class VisualizarInventarioPorZonaStep1 extends CicloActivity {
             }
         });
         recyclerView.setAdapter(adapter);
-        WebServices.listarInventario(Constants.tipo_no_consolidado,false,this, admin, new ResultWebServiceInterface() {
+        WebServices.listarInventarioConsolidados(this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                inventariosPorConsolidar = (ArrayList<Inventarios>) ok.getData();
-                adapter.setInventarios(inventariosPorConsolidar);
+                inventariosConsolidados = (ArrayList<InventariosConsolidados>) ok.getData();
+                adapter.setInventarios(inventariosConsolidados);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }

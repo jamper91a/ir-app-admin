@@ -110,4 +110,5 @@ public class Constants {
     public static String tipo_consolidado = "consolidado";
     public static String ws_consolidarInventarios="inventarios/consolidar";
     public static String ws_getProductsByInventory="inventarios/listarProductosInventario";
+    public static String ws_listarInventariosConsolidados="inventariosConsolidados/listar";
 }

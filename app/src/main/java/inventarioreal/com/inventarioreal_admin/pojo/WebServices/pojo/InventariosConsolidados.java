@@ -7,8 +7,9 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
 
-class InventarioConsolidados extends InventarioRealPojo {
+public class InventariosConsolidados extends InventarioRealPojo {
 
+    public String name;
     public Empleados empleados_id;
 
     public Empleados getEmpleados_id() {
@@ -37,5 +38,13 @@ class InventarioConsolidados extends InventarioRealPojo {
     @Override
     public void fromCursor(Cursor c) {
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

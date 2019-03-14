@@ -16,8 +16,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name=".pages.Inventario.InventarioParcial.visualizar.Step2.VisualizarInventarioPorZonaStep2"></activity>
-        <activity android:name=".pages.Inventario.InventarioParcial.visualizar.Step1.VisualizarInventarioPorZonaStep1" />
+        <activity android:name=".pages.Inventario.InventarioParcial.VisualizarConsolidados.Step1.VisualizarInventariosConsolidadosStep1"></activity>
+        <activity android:name=".pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.VisualizarInventarioPorZonaStep2" />
+        <activity android:name=".pages.Inventario.InventarioParcial.VisualizarPorZona.Step1.VisualizarInventarioPorZonaStep1" />
         <activity android:name=".pages.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

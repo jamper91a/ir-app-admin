@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar.Step2;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -11,16 +11,19 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar.Step2.tabs.EanPluFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar.Step2.tabs.EanPluViewModel;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar.Step2.tabs.TotalFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar.Step2.tabs.TotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step1.VisualizarInventarioPorZonaStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.tabs.EanPluFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.tabs.EanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.tabs.TotalFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
@@ -32,6 +35,7 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebService
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
+import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
@@ -58,6 +62,10 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
 
     @Override
     public void initGui() {
+
+        addElemento(new Animacion(findViewById(R.id.lnl2), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnSal),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
 
     }
 
@@ -93,7 +101,19 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
 
     @Override
     public void initOnClick() {
+        add_on_click(R.id.btnSal, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(VisualizarInventarioPorZonaStep1.class, null);
+            }
+        });
 
+        add_on_click(R.id.btnEnv, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.toast("No implemented yet");
+            }
+        });
     }
 
     @Override

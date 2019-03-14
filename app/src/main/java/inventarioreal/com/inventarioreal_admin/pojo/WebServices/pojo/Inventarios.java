@@ -14,7 +14,7 @@ public class Inventarios extends InventarioRealPojo {
     public int parcial;
     public int colaborativo;
     public Zonas zonas_id;
-    public InventarioConsolidados inventarios_consolidados_id;
+    public InventariosConsolidados inventarios_consolidados_id;
     public ProductosZonas[] productos_zona;
 
     public String getFecha() {
@@ -49,11 +49,11 @@ public class Inventarios extends InventarioRealPojo {
         this.zonas_id = zonas_id;
     }
 
-    public InventarioConsolidados getInventarios_consolidados_id() {
+    public InventariosConsolidados getInventarios_consolidados_id() {
         return inventarios_consolidados_id;
     }
 
-    public void setInventarios_consolidados_id(InventarioConsolidados inventarios_consolidados_id) {
+    public void setInventarios_consolidados_id(InventariosConsolidados inventarios_consolidados_id) {
         this.inventarios_consolidados_id = inventarios_consolidados_id;
     }
 

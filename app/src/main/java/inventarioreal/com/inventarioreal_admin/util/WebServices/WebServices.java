@@ -21,6 +21,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginRes
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
@@ -425,13 +426,61 @@ public class WebServices {
         );
         executeEnviar(activity, callWebServiceJson);
     }
+    public static void listarInventarioConsolidados(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_listarInventariosConsolidados;
+        HashMap<String, String> campos = new HashMap<>();
 
-    public static void consolidarInventarios(ArrayList<Integer> inventariosAConsolidar,final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
+                    // trae informacion de las zonas
+                    try {
+                        InventariosConsolidados[] inventariosConsolidados = gson.fromJson(jsonObject.getJSONArray("data").toString(),InventariosConsolidados[].class);
+
+                        try {
+                            if (inventariosConsolidados!=null && inventariosConsolidados.length>0) {
+                                ArrayList<InventariosConsolidados> arrayInventarios = new ArrayList<InventariosConsolidados>(Arrays.asList(inventariosConsolidados));
+                                result.ok(new ResultWebServiceOk(arrayInventarios));
+                            }else{
+                                result.fail(new ResultWebServiceFail("No hay inventarios"));
+                            }
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
+
+    public static void consolidarInventarios(final ArrayList<Integer> inventariosAConsolidar, final String name, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_consolidarInventarios;
         JsonArray array = new JsonArray();
         for (int iac: inventariosAConsolidar)  array.add(iac);
         HashMap<String, String> campos = new HashMap<>();
         campos.put(Constants.inventarios_id, gson.toJson(array));
+        campos.put(Constants.name, name);
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
                 activity,
