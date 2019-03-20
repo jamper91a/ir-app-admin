@@ -50,6 +50,32 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
         add_on_click(R.id.btnIni, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    ArrayList<Integer> invenntariosSeleccionados = adapter.getInventariosSeleccionados();
+                    String inventarioName = "";
+                    for (int i: invenntariosSeleccionados
+                         ) {
+                        inventarioName+=" / "+ inventariosPorConsolidar.get(i).getZonas_id().getName();
+                    }
+                    WebServices.consolidarInventarios(
+                            invenntariosSeleccionados,
+                            inventarioName,
+                            ConsolidarInventarioStep1.this,
+                            admin,
+                            new ResultWebServiceInterface() {
+                                @Override
+                                public void ok(ResultWebServiceOk ok) {
+                                    admin.toast("Inventarios consolidados con exito");
+                                }
+
+                                @Override
+                                public void fail(ResultWebServiceFail fail) {
+
+                                }
+                            });
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                }
 
             }
         });

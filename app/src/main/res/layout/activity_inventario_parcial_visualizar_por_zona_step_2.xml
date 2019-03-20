@@ -55,32 +55,18 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnCan"
+                android:id="@+id/btnSal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cancelar" />
+                android:text="Salir" />
 
             <Button
-                android:id="@+id/btnLee"
+                android:id="@+id/btnEnv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Detener" />
-
-            <Button
-                android:id="@+id/btnFin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/finalizar" />
-
-            <Button
-                android:id="@+id/btnBor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Borrar" />
+                android:text="Enviar email" />
         </LinearLayout>
 
 

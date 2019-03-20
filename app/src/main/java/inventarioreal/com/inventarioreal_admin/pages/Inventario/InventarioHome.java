@@ -8,8 +8,9 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.ConsolidarInventario.ConsolidarInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.CrearInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.visualizar.VisualizarInventarioPorZonaStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step1.CrearInventarioStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarConsolidados.Step1.VisualizarInventariosConsolidadosStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step1.VisualizarInventarioPorZonaStep1;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -60,6 +61,7 @@ public class InventarioHome extends CicloActivity {
         add_on_click(R.id.btnVisCon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                admin.callIntent(VisualizarInventariosConsolidadosStep1.class, null);
             }
         });
     }

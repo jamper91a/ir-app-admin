@@ -122,7 +122,10 @@ public class Productos extends InventarioRealPojo {
     }
 
     public String getImagen() {
-        return imagen;
+        if(imagen==null)
+            return "";
+        else
+            return imagen;
     }
 
     public void setImagen(String imagen) {
