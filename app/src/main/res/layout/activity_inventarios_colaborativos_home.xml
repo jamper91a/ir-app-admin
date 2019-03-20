@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnCre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/crear_inventario_cooperativo" />
+
+    <Button
+        android:id="@+id/btnUni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/unirse_inventario_colaborativo" />
+
+    <Button
+        android:id="@+id/btnCon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/consolidar_inventarios_cooperativos" />
+
+    <Button
+        android:id="@+id/btnVisPorZon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/visualizar_inventarios_por_zona" />
+
+    <Button
+        android:id="@+id/btnVisCon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/visualizar_inventarios_consolidados" />
+
+</LinearLayout>

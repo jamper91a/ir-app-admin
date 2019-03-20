@@ -1,5 +1,6 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step1;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step1;
 
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step1.CrearInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.CrearInventarioStep2;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
@@ -26,7 +28,7 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class CrearInventarioStep1 extends CicloActivity {
+public class CrearInventarioColaborativoStep1 extends CicloActivity {
 
     private SlidingMenu menu;
     final DataBase db = DataBase.getInstance(this);
@@ -35,8 +37,7 @@ public class CrearInventarioStep1 extends CicloActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this, this, R.layout.activity_inventario_parcial_crear_inventario_step_1);
-
+        init(this, this, R.layout.activity_inventario_colaborativo_crear_step1);
         this.menu = init_menu(this, R.layout.layout_menu);
     }
 
@@ -56,7 +57,7 @@ public class CrearInventarioStep1 extends CicloActivity {
 
     private void sync() {
 
-        WebServices.sync(CrearInventarioStep1.this, admin, new ResultWebServiceInterface() {
+        WebServices.sync(CrearInventarioColaborativoStep1.this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 //Obtener Zonas
@@ -153,9 +154,4 @@ public class CrearInventarioStep1 extends CicloActivity {
     public void hasAllPermissions() {
 
     }
-
-
-
 }
-
-
