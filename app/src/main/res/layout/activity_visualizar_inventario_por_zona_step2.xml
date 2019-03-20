@@ -3,6 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.VisualizarInventarioPorZonaStep2">
+    tools:context=".pages.Inventario.Inventarios.VisualizarPorZona.Step2.VisualizarInventarioPorZonaStep2">
 
 </android.support.constraint.ConstraintLayout>

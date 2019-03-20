@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,10 +7,10 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.ConsolidarInventario.ConsolidarInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step1.CrearInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarConsolidados.Step1.VisualizarInventariosConsolidadosStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step1.VisualizarInventarioPorZonaStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Consolidar.ConsolidarInventarioStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarConsolidados.Step1.VisualizarInventariosConsolidadosStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step1.VisualizarInventarioPorZonaStep1;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 

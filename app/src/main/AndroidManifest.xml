@@ -16,11 +16,12 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name=".pages.Inventario.InventariosColaborativos.InventariosColaborativosHome"></activity>
+        <activity android:name=".pages.Inventario.InventariosColaborativos.Crear.Step2.CrearInventarioColaborativoStep2"></activity>
+        <activity android:name=".pages.Inventario.InventariosColaborativos.InventariosColaborativosHome" />
         <activity android:name=".pages.Inventario.InventariosColaborativos.Crear.Step1.CrearInventarioColaborativoStep1" />
-        <activity android:name=".pages.Inventario.InventarioParcial.VisualizarConsolidados.Step1.VisualizarInventariosConsolidadosStep1" />
-        <activity android:name=".pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.VisualizarInventarioPorZonaStep2" />
-        <activity android:name=".pages.Inventario.InventarioParcial.VisualizarPorZona.Step1.VisualizarInventarioPorZonaStep1" />
+        <activity android:name=".pages.Inventario.Inventarios.VisualizarConsolidados.Step1.VisualizarInventariosConsolidadosStep1" />
+        <activity android:name=".pages.Inventario.Inventarios.VisualizarPorZona.Step2.VisualizarInventarioPorZonaStep2" />
+        <activity android:name=".pages.Inventario.Inventarios.VisualizarPorZona.Step1.VisualizarInventarioPorZonaStep1" />
         <activity android:name=".pages.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,10 +32,10 @@
         <activity android:name=".pages.Login" />
         <activity android:name=".pages.Home" />
         <activity android:name=".pages.IngresoMercancia" />
-        <activity android:name=".pages.Inventario.InventarioParcial.InventarioParcialHome" />
-        <activity android:name=".pages.Inventario.InventarioParcial.CrearInventario.Step1.CrearInventarioStep1" />
-        <activity android:name=".pages.Inventario.InventarioParcial.CrearInventario.Step2.CrearInventarioStep2" />
-        <activity android:name=".pages.Inventario.InventarioParcial.ConsolidarInventario.ConsolidarInventarioStep1" />
+        <activity android:name=".pages.Inventario.Inventarios.InventarioParcialHome" />
+        <activity android:name=".pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1" />
+        <activity android:name=".pages.Inventario.Inventarios.Crear.Step2.CrearInventarioStep2" />
+        <activity android:name=".pages.Inventario.Inventarios.Consolidar.ConsolidarInventarioStep1" />
     </application>
 
 </manifest>

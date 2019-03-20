@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -19,11 +19,11 @@ import com.google.gson.Gson;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step1.VisualizarInventarioPorZonaStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.tabs.EanPluFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.tabs.EanPluViewModel;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.tabs.TotalFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.tabs.TotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step1.VisualizarInventarioPorZonaStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.tabs.EanPluFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.tabs.EanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.tabs.TotalFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;

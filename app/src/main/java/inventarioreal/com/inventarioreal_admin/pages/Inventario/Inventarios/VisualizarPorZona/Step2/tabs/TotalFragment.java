@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.tabs;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.tabs;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.LinkedHashMap;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 
 public class TotalFragment extends Fragment {
 
@@ -29,7 +30,12 @@ public class TotalFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.total_fragment, container, false);
         this.elementos = new LinkedHashMap<>();
+        addElemento(v.findViewById(R.id.txt0));
         addElemento(v.findViewById(R.id.txtCant));
+        addElemento(v.findViewById(R.id.txt1));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txt2));
+        addElemento(v.findViewById(R.id.txtZona));
         return v;
     }
 
@@ -37,16 +43,20 @@ public class TotalFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(getActivity()).get(TotalViewModel.class);
-        mViewModel.getAmount().observe(this, new Observer<Integer>() {
+        mViewModel.getInventario().observe(this, new Observer<Inventarios>() {
             @Override
-            public void onChanged(@Nullable Integer integer) {
-                TextView txtCant = (TextView)getElemento(R.id.txtCant);
-                txtCant.setText(integer+"");
+            public void onChanged(@Nullable Inventarios inventarios) {
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtZona = (TextView) getElemento(R.id.txtZona);
+                txtFecha.setText(inventarios.getFecha().replace("T", " - "));
+                txtZona.setText(inventarios.getZonas_id().getName());
+
             }
         });
     }
 
     private void addElemento(View v){
+        v.setVisibility(View.VISIBLE);
         this.elementos.put(v.getId(), v);
     }
     private View getElemento(int id){

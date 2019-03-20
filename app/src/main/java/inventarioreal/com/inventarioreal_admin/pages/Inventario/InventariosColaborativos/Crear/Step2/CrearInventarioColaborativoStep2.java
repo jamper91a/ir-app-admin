@@ -1,15 +1,16 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step2;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,17 +23,17 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 import com.handheld.UHF.UhfManager;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.tabs.EanPluFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.tabs.EanPluViewModel;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.tabs.TotalFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.tabs.TotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.CrearInventarioStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
@@ -48,7 +49,7 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class CrearInventarioStep2 extends CicloActivity {
+public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
     private UhfManager uhfManager;
     private String TAG="CrearInventarioStep2";
@@ -56,16 +57,13 @@ public class CrearInventarioStep2 extends CicloActivity {
     private RequestInventariorCrear2 requestInventariorCrear2;
     private LinkedList<InventariosProductos> inventariosProductos = new LinkedList<>();
     private Gson gson = new Gson();
-
-    //Lista de productos que ya se han agregado
-    private List<Productos> productos = new ArrayList<>();
-
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this,this,R.layout.activity_inventario_parcial_crear_inventario_step_2);
+        init(this,this,R.layout.activity_crear_inventario_colaborativo_step2);
         //region UhF
-        Thread thread = new InventoryThread();
+        Thread thread = new CrearInventarioColaborativoStep2.InventoryThread();
         thread.start();
         //endregion
         //region Obtener parametros
@@ -75,20 +73,16 @@ public class CrearInventarioStep2 extends CicloActivity {
         this.requestInventariorCrear2 = gson.fromJson(message, RequestInventariorCrear2.class);
         //endregion
         this.tabsInit();
-//        mTopToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-//        setSupportActionBar(mTopToolbar);
+        
     }
+
     @Override
     public void initGui() {
-
-
-        addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lnl2), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCan),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnLee),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnFin),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBor),Techniques.FadeInLeft));
-
-
     }
 
     @Override
@@ -120,8 +114,6 @@ public class CrearInventarioStep2 extends CicloActivity {
             }
         });
     }
-
-
 
     @Override
     public void hasAllPermissions() {
@@ -190,7 +182,7 @@ public class CrearInventarioStep2 extends CicloActivity {
                     Constants.table_productos,
                     proZon.getId()+"",
                     Productos.class
-                    );
+            );
 
             if (epc!=null) {
                 proZon.setEpcs_id(epcDb);
@@ -303,12 +295,12 @@ public class CrearInventarioStep2 extends CicloActivity {
     //endregion
 
     //region Tabs configuration
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private CrearInventarioColaborativoStep2.SectionsPagerAdapter mSectionsPagerAdapter;
     public void tabsInit() {
 //        /region Tabs section
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new CrearInventarioStep2.SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new CrearInventarioColaborativoStep2.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -356,7 +348,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Crear Inventario");
+        builder.setTitle("Crear Inventario Colaborativo");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
@@ -376,10 +368,10 @@ public class CrearInventarioStep2 extends CicloActivity {
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                WebServices.crearInventario(
+                WebServices.crearInventarioColaborativo(
                         requestInventariorCrear2.getZona_id().getId(),
                         inventariosProductos,
-                        CrearInventarioStep2.this,
+                        CrearInventarioColaborativoStep2.this,
                         admin,
                         new ResultWebServiceInterface() {
                             @Override

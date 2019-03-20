@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.tabs;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -6,12 +6,10 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.LinkedList;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 
 public class EanPluViewModel extends ViewModel {
     MutableLiveData<LinkedList<ProductosZonas>> productosZonasLiveData = null;
-    MutableLiveData<Inventarios> inventario = null;
     private LinkedList<ProductosZonas> productosZona = null;
 
 
@@ -42,13 +40,5 @@ public class EanPluViewModel extends ViewModel {
             productosZonasLiveData.setValue(productosZona);
         }
         return productosZonasLiveData;
-    }
-
-    public LiveData<Inventarios> getInventario() {
-        return inventario;
-    }
-
-    public void setInventario(Inventarios inventario) {
-        this.inventario.setValue(inventario);
     }
 }

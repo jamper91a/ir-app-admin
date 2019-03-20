@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.VisualizarPorZona.Step2.tabs;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -32,6 +32,8 @@ public class EanPluFragment extends Fragment {
     public ListAdapterProductosZonas adapter1;
     public ListAdapterProductosZonasVisual adapterVisual;
     private Administrador admin;
+//    private LinkedList<Epcs> epcs = new LinkedList<>();
+
 
 
     public static EanPluFragment newInstance() {
@@ -47,8 +49,6 @@ public class EanPluFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.ean_plu_fragment, container, false);
         this.elementos = new LinkedHashMap<>();
-        addElemento(v.findViewById(R.id.txtZona));
-        addElemento(v.findViewById(R.id.txtFecha));
         addElemento(v.findViewById(R.id.swtVisual));
         addElemento(v.findViewById(R.id.lnl2));
         addElemento(v.findViewById(R.id.lst1));
@@ -133,7 +133,6 @@ public class EanPluFragment extends Fragment {
     }
 
     private void addElemento(View v){
-        v.setVisibility(View.VISIBLE);
         this.elementos.put(v.getId(), v);
     }
     private View getElemento(int id){

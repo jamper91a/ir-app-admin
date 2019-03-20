@@ -1,6 +1,5 @@
 package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step1;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,8 +14,8 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step1.CrearInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.CrearInventario.Step2.CrearInventarioStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.CrearInventarioStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step2.CrearInventarioColaborativoStep2;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
@@ -142,7 +141,7 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
             public void onClick(View v) {
                 //Valido que la informacion este completa
                 if (request.validar())
-                    admin.callIntent(CrearInventarioStep2.class, request, RequestInventariorCrear2.class);
+                    admin.callIntent(CrearInventarioColaborativoStep2.class, request, RequestInventariorCrear2.class);
                 else
                     admin.toast("Revisa los datos");
 

@@ -27,6 +27,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMercanciaRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioColaborativoRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
@@ -324,6 +325,42 @@ public class WebServices {
         final String url=Constants.url+Constants.ws_crearInventario;
 
         CrearInventarioRequest request = new CrearInventarioRequest(zonas_id, inventario_productos);
+
+        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                activity,
+                url,
+                request.getCampos(),
+                getHeaders(admin),
+                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                new ResponseListener() {
+                    @Override
+                    public void onResponse(String s) {
+
+                    }
+
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            result.ok(new ResultWebServiceOk(null));
+                        } catch (Exception e) {
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(String s) {
+                        result.fail(new ResultWebServiceFail(s));
+                    }
+                },
+                admin
+        );
+        executeEnviar(activity, callWebServiceJson);
+    }
+
+    public static void crearInventarioColaborativo(long zonas_id, List<InventariosProductos> inventario_productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_crearInventario;
+
+        CrearInventarioColaborativoRequest request = new CrearInventarioColaborativoRequest(zonas_id, inventario_productos);
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
                 activity,

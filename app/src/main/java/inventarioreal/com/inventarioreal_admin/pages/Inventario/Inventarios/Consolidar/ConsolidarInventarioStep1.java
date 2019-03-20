@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioParcial.ConsolidarInventario;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Consolidar;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
