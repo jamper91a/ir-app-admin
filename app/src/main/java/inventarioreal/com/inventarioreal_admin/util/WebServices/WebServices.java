@@ -401,7 +401,7 @@ public class WebServices {
     public static void listarInventario(String tipo, boolean colaborativo,final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_listarInventarios;
         HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.tipo, Constants.tipo);
+        campos.put(Constants.tipo, tipo);
         campos.put(Constants.colaborativo, colaborativo ? "1" : "0");
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(

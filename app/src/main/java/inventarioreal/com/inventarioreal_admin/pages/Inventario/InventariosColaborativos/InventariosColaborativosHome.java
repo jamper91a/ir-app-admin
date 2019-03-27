@@ -8,6 +8,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step1.CrearInventarioColaborativoStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Unir.UnirseInventariosColaborativos;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -41,6 +42,13 @@ public class InventariosColaborativosHome extends CicloActivity {
             @Override
             public void onClick(View v) {
                 admin.callIntent(CrearInventarioColaborativoStep1.class, null);
+            }
+        });
+
+        add_on_click(R.id.btnUni, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(UnirseInventariosColaborativos.class, null);
             }
         });
 

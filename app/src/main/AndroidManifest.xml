@@ -16,7 +16,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name=".pages.Inventario.InventariosColaborativos.Crear.Step2.CrearInventarioColaborativoStep2"></activity>
+        <activity android:name=".pages.Inventario.InventariosColaborativos.Unir.UnirseInventariosColaborativos"></activity>
+        <activity android:name=".pages.Inventario.InventariosColaborativos.Crear.Step2.CrearInventarioColaborativoStep2" />
         <activity android:name=".pages.Inventario.InventariosColaborativos.InventariosColaborativosHome" />
         <activity android:name=".pages.Inventario.InventariosColaborativos.Crear.Step1.CrearInventarioColaborativoStep1" />
         <activity android:name=".pages.Inventario.Inventarios.VisualizarConsolidados.Step1.VisualizarInventariosConsolidadosStep1" />
