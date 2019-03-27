@@ -7,6 +7,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Consolidar.ConsolidarInventariosColaborativosStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step1.CrearInventarioColaborativoStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Unir.UnirseInventariosColaborativos;
 import jamper91.com.easyway.Util.Animacion;
@@ -55,20 +56,20 @@ public class InventariosColaborativosHome extends CicloActivity {
         add_on_click(R.id.btnCon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                admin.callIntent(ConsolidarInventarioStep1.class, null);
+                admin.callIntent(ConsolidarInventariosColaborativosStep1.class, null);
             }
         });
 
         add_on_click(R.id.btnVisPorZon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                admin.callIntent(VisualizarInventarioPorZonaStep1.class, null);
+//                admin.callIntent(VisualizarInventarioColaborativoPorZonaStep1.class, null);
             }
         });
         add_on_click(R.id.btnVisCon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                admin.callIntent(VisualizarInventariosConsolidadosStep1.class, null);
+//                admin.callIntent(VisualizarInventariosColaborativosConsolidadosStep1.class, null);
             }
         });
     }

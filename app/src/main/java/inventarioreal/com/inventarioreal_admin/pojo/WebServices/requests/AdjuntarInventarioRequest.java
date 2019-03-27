@@ -12,13 +12,12 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class CrearInventarioRequest {
+public class AdjuntarInventarioRequest {
     private Inventarios inventarios;
     private List<InventariosProductos> inventario_productos;
 
-    public CrearInventarioRequest(long zonas_id, List<InventariosProductos> inventario_productos) {
-        this.inventarios = new Inventarios();
-        this.inventarios.setZonas_id(new Zonas(zonas_id));
+    public AdjuntarInventarioRequest(Inventarios inventarios, List<InventariosProductos> inventario_productos) {
+        this.inventarios = inventarios;
         this.inventario_productos = inventario_productos;
     }
 
@@ -34,12 +33,7 @@ public class CrearInventarioRequest {
 
     private String getInventario(){
         Gson gson = new Gson();
-        JsonObject object = new JsonObject();
-        object.addProperty(Constants.parcial, true);
-        object.addProperty(Constants.colaborativo, false);
-        object.addProperty(Constants.zonas_id, this.inventarios.getZonas_id().getId());
-        object.addProperty(Constants.inventarios_consolidados_id, 1);
-        return gson.toJson(object);
+        return gson.toJson(inventarios);
     }
 
     private String getInventarioProductos(){

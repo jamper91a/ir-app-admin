@@ -368,24 +368,48 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                WebServices.crearInventarioColaborativo(
-                        requestInventariorCrear2.getZona_id().getId(),
-                        inventariosProductos,
-                        CrearInventarioColaborativoStep2.this,
-                        admin,
-                        new ResultWebServiceInterface() {
-                            @Override
-                            public void ok(ResultWebServiceOk ok) {
-                                admin.toast("Ok");
+
+                //Determino si es para crear o para adjuntar
+                if(requestInventariorCrear2.inventario==null){
+                    WebServices.crearInventarioColaborativo(
+                            requestInventariorCrear2.getZona_id().getId(),
+                            inventariosProductos,
+                            CrearInventarioColaborativoStep2.this,
+                            admin,
+                            new ResultWebServiceInterface() {
+                                @Override
+                                public void ok(ResultWebServiceOk ok) {
+                                    admin.toast("Ok");
+                                }
+
+                                @Override
+                                public void fail(ResultWebServiceFail fail) {
+                                    admin.toast("fail");
+                                }
                             }
 
-                            @Override
-                            public void fail(ResultWebServiceFail fail) {
-                                admin.toast("fail");
-                            }
-                        }
+                    );
+                }else{
+                    WebServices.adjuntarInventario(
+                            requestInventariorCrear2.inventario,
+                            inventariosProductos,
+                            CrearInventarioColaborativoStep2.this,
+                            admin,
+                            new ResultWebServiceInterface() {
+                                @Override
+                                public void ok(ResultWebServiceOk ok) {
+                                    admin.toast("Ok");
+                                }
 
-                );
+                                @Override
+                                public void fail(ResultWebServiceFail fail) {
+                                    admin.toast("fail");
+                                }
+                            }
+
+                    );
+                }
+
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

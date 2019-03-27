@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step2;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -38,7 +38,7 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
+public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity {
 
     final DataBase db = DataBase.getInstance(this);
     private String TAG="VisualizarInventarioColaborativoPorZonaStep2";
