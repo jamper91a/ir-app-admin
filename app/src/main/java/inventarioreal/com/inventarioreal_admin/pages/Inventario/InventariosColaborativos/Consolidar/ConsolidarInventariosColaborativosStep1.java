@@ -52,13 +52,16 @@ public class ConsolidarInventariosColaborativosStep1 extends CicloActivity {
             public void onClick(View v) {
                 try {
                     ArrayList<Integer> invenntariosSeleccionados = adapter.getInventariosSeleccionados();
+                    ArrayList<Long> invenntariosSeleccionadosId = new ArrayList<>();
                     String inventarioName = "";
-                    for (int i: invenntariosSeleccionados
+                    for (Integer i: invenntariosSeleccionados
                          ) {
-                        inventarioName+=" / "+ inventariosPorConsolidar.get(i).getZonas_id().getName();
+                        inventarioName+=" / "+ inventariosPorConsolidar.get(i.intValue()).getZonas_id().getName();
+                        invenntariosSeleccionadosId.add(inventariosPorConsolidar.get(i).getId());
                     }
+                    inventarioName += "/ Colaborativo";
                     WebServices.consolidarInventarios(
-                            invenntariosSeleccionados,
+                            invenntariosSeleccionadosId,
                             inventarioName,
                             ConsolidarInventariosColaborativosStep1.this,
                             admin,

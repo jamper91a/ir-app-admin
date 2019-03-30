@@ -106,15 +106,22 @@ public class RecyclerAdapterInventariosAConsolidar extends RecyclerView.Adapter<
 
     //On selecting any view set the current position to selectedPositon and notify adapter
     private boolean itemCheckBoxChanged(View v) {
-        //Reviso que no se haya agregado antes la misma zona
-        for (int i:inventariosSeleccionados) {
-            Inventarios inv = inventarios.get(i);
-            if(inv.getZonas_id().getId()==(Integer)v.getTag())
-                return false;
+        try {
+            //Inventario seleccionado
+            Inventarios invSel = inventarios.get((int)v.getTag());
+            //Reviso que no se haya agregado antes la misma zona
+            for (Integer i:inventariosSeleccionados) {
+                Inventarios inv = inventarios.get(i.intValue());
+                if(inv.getZonas_id().getId()==invSel.getZonas_id().getId())
+                    return false;
+            }
+            inventariosSeleccionados.add((int) v.getTag());
+            notifyDataSetChanged();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-        inventariosSeleccionados.add((Integer) v.getTag());
-        notifyDataSetChanged();
-        return true;
     }
 
 

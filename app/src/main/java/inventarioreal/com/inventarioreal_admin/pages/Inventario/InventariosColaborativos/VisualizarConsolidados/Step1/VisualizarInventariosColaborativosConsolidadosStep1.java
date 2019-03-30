@@ -84,7 +84,7 @@ public class VisualizarInventariosColaborativosConsolidadosStep1 extends CicloAc
             }
         });
         recyclerView.setAdapter(adapter);
-        WebServices.listarInventarioConsolidados(this, admin, new ResultWebServiceInterface() {
+        WebServices.listarInventarioConsolidados(true, this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 inventariosConsolidados = (ArrayList<InventariosConsolidados>) ok.getData();

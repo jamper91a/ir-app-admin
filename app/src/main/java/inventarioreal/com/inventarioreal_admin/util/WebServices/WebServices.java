@@ -500,10 +500,10 @@ public class WebServices {
         );
         executeEnviar(activity, callWebServiceJson);
     }
-    public static void listarInventarioConsolidados(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void listarInventarioConsolidados(boolean colaborativo, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_listarInventariosConsolidados;
         HashMap<String, String> campos = new HashMap<>();
-
+        campos.put(Constants.colaborativo, colaborativo ? "1" : "0");
         post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
@@ -548,10 +548,10 @@ public class WebServices {
         });
     }
 
-    public static void consolidarInventarios(final ArrayList<Integer> inventariosAConsolidar, final String name, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void consolidarInventarios(final ArrayList<Long> inventariosAConsolidar, final String name, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_consolidarInventarios;
         JsonArray array = new JsonArray();
-        for (int iac: inventariosAConsolidar)  array.add(iac);
+        for (Long iac: inventariosAConsolidar)  array.add(iac);
         HashMap<String, String> campos = new HashMap<>();
         campos.put(Constants.inventarios_id, gson.toJson(array));
         campos.put(Constants.name, name);
