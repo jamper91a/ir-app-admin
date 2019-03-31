@@ -7,7 +7,8 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventarioHome;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.InventarioParcialHome;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.InventariosColaborativosHome;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -51,7 +52,14 @@ public class Home extends CicloActivity {
             @Override
             public void onClick(View v) {
 
-                admin.callIntent(InventarioHome.class, null);
+                admin.callIntent(InventarioParcialHome.class, null);
+            }
+        });
+        add_on_click(R.id.btnInvCoo, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                admin.callIntent(InventariosColaborativosHome.class, null);
             }
         });
 

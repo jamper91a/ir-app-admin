@@ -17,6 +17,7 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddMercanciaResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductosInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
@@ -27,6 +28,8 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMercanciaRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AdjuntarInventarioRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioColaborativoRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
@@ -356,6 +359,78 @@ public class WebServices {
         executeEnviar(activity, callWebServiceJson);
     }
 
+    public static void adjuntarInventario(Inventarios inventarios, List<InventariosProductos> inventario_productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_adjuntarInvenario;
+
+        AdjuntarInventarioRequest request = new AdjuntarInventarioRequest(inventarios, inventario_productos);
+
+        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                activity,
+                url,
+                request.getCampos(),
+                getHeaders(admin),
+                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                new ResponseListener() {
+                    @Override
+                    public void onResponse(String s) {
+
+                    }
+
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            result.ok(new ResultWebServiceOk(null));
+                        } catch (Exception e) {
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(String s) {
+                        result.fail(new ResultWebServiceFail(s));
+                    }
+                },
+                admin
+        );
+        executeEnviar(activity, callWebServiceJson);
+    }
+
+    public static void crearInventarioColaborativo(long zonas_id, List<InventariosProductos> inventario_productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_crearInventario;
+
+        CrearInventarioColaborativoRequest request = new CrearInventarioColaborativoRequest(zonas_id, inventario_productos);
+
+        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                activity,
+                url,
+                request.getCampos(),
+                getHeaders(admin),
+                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                new ResponseListener() {
+                    @Override
+                    public void onResponse(String s) {
+
+                    }
+
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            result.ok(new ResultWebServiceOk(null));
+                        } catch (Exception e) {
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(String s) {
+                        result.fail(new ResultWebServiceFail(s));
+                    }
+                },
+                admin
+        );
+        executeEnviar(activity, callWebServiceJson);
+    }
+
     /**
      *
      * @param tipo Tipo de inventario: Constants.tipo_consolidado o Constants.tipo_no_consolidado
@@ -364,7 +439,7 @@ public class WebServices {
     public static void listarInventario(String tipo, boolean colaborativo,final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_listarInventarios;
         HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.tipo, Constants.tipo);
+        campos.put(Constants.tipo, tipo);
         campos.put(Constants.colaborativo, colaborativo ? "1" : "0");
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
@@ -426,10 +501,10 @@ public class WebServices {
         );
         executeEnviar(activity, callWebServiceJson);
     }
-    public static void listarInventarioConsolidados(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void listarInventarioConsolidados(boolean colaborativo, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_listarInventariosConsolidados;
         HashMap<String, String> campos = new HashMap<>();
-
+        campos.put(Constants.colaborativo, colaborativo ? "1" : "0");
         post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
@@ -474,10 +549,10 @@ public class WebServices {
         });
     }
 
-    public static void consolidarInventarios(final ArrayList<Integer> inventariosAConsolidar, final String name, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void consolidarInventarios(final ArrayList<Long> inventariosAConsolidar, final String name, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_consolidarInventarios;
         JsonArray array = new JsonArray();
-        for (int iac: inventariosAConsolidar)  array.add(iac);
+        for (Long iac: inventariosAConsolidar)  array.add(iac);
         HashMap<String, String> campos = new HashMap<>();
         campos.put(Constants.inventarios_id, gson.toJson(array));
         campos.put(Constants.name, name);
@@ -542,4 +617,34 @@ public class WebServices {
             }
         });
     }
+
+    public static void getProductsByInventariConsolidado(final long inventario_id, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_getProductsByInventoryColaborativo;
+        HashMap<String, String> campos = new HashMap<>();
+        campos.put(Constants.inventarios_consolidados_id, inventario_id+"");
+        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    GetProductosInventariosConsolidados aux = gson.fromJson(jsonObject.getJSONObject("data").toString(),GetProductosInventariosConsolidados.class);
+                    result.ok(new ResultWebServiceOk(aux));
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+
 }

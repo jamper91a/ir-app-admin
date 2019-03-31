@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.HashMap;
 
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.util.IntentRequests;
 
@@ -13,6 +14,7 @@ public class RequestInventariorCrear2 implements IntentRequests {
     public Zonas zona_id;
     public String power;
     public String fecha;
+    public Inventarios inventario;
 
     public RequestInventariorCrear2() {
     }
@@ -21,6 +23,12 @@ public class RequestInventariorCrear2 implements IntentRequests {
         this.zona_id = zona_id;
         this.power = power;
         this.fecha = fecha;
+    }
+
+    public RequestInventariorCrear2(Inventarios inventario) {
+        this.inventario = inventario;
+        this.zona_id = inventario.zonas_id;
+        this.fecha = inventario.fecha;
     }
 
     public Zonas getZona_id() {
@@ -65,5 +73,13 @@ public class RequestInventariorCrear2 implements IntentRequests {
     @Override
     public HashMap<String, String> getAtributos() {
         return null;
+    }
+
+    public Inventarios getInventario() {
+        return inventario;
+    }
+
+    public void setInventario(Inventarios inventario) {
+        this.inventario = inventario;
     }
 }

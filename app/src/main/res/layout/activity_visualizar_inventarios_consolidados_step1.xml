@@ -3,6 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.Inventario.InventarioParcial.VisualizarConsolidados.Step1.VisualizarInventariosConsolidadosStep1">
+    tools:context=".pages.Inventario.Inventarios.VisualizarConsolidados.Step1.VisualizarInventariosConsolidadosStep1">
 
 </android.support.constraint.ConstraintLayout>

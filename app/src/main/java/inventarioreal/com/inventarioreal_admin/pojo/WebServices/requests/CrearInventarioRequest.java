@@ -22,6 +22,7 @@ public class CrearInventarioRequest {
         this.inventario_productos = inventario_productos;
     }
 
+
     public HashMap<String, String> getCampos(){
 
         HashMap<String, String> campos = new HashMap<>();
