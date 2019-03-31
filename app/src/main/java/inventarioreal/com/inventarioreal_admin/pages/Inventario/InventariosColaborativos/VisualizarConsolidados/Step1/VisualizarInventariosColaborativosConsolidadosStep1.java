@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventarioPorZonaStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.VisualizarInventarioPorZonaStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step2.VisualizarInventarioColaborativoPorZonaStep2;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -68,9 +70,10 @@ public class VisualizarInventariosColaborativosConsolidadosStep1 extends CicloAc
         adapter = new RecyclerAdapterInventariosConsolidados(this, inventariosConsolidados, admin, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
-                Inventarios inv = (Inventarios) item;
+                InventariosConsolidados inv = (InventariosConsolidados) item;
                 admin.toast(inv.createdAt);
-                admin.callIntent(VisualizarInventarioPorZonaStep2.class, inv, Inventarios.class);
+                RequestInventarioPorZonaStep2 requestInventarioPorZonaStep2 = new RequestInventarioPorZonaStep2(inv);
+                admin.callIntent(VisualizarInventarioColaborativoPorZonaStep2.class, requestInventarioPorZonaStep2, RequestInventarioPorZonaStep2.class);
             }
 
             @Override

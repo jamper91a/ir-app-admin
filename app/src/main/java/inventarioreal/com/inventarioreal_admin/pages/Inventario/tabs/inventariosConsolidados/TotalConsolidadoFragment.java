@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step2.tabs;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventariosConsolidados;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -14,16 +14,15 @@ import android.widget.TextView;
 import java.util.LinkedHashMap;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.tabs.TotalViewModel;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
 
-public class TotalFragment extends Fragment {
+public class TotalConsolidadoFragment extends Fragment {
 
-    private TotalViewModel mViewModel;
+    private TotalConsolidadoViewModel mViewModel;
     private LinkedHashMap<Integer, View> elementos;
 
-    public static TotalFragment newInstance() {
-        return new TotalFragment();
+    public static TotalConsolidadoFragment newInstance() {
+        return new TotalConsolidadoFragment();
     }
 
     @Override
@@ -43,14 +42,14 @@ public class TotalFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(TotalViewModel.class);
-        mViewModel.getInventario().observe(this, new Observer<Inventarios>() {
+        mViewModel = ViewModelProviders.of(getActivity()).get(TotalConsolidadoViewModel.class);
+        mViewModel.getInventario().observe(this, new Observer<InventariosConsolidados>() {
             @Override
-            public void onChanged(@Nullable Inventarios inventarios) {
+            public void onChanged(@Nullable InventariosConsolidados inventarios) {
                 TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
                 TextView txtZona = (TextView) getElemento(R.id.txtZona);
-                txtFecha.setText(inventarios.getFecha().replace("T", " - "));
-                txtZona.setText(inventarios.getZonas_id().getName());
+                txtFecha.setText(inventarios.getCreatedAt().replace("T", " - "));
+                txtZona.setText(inventarios.getName());
 
             }
         });

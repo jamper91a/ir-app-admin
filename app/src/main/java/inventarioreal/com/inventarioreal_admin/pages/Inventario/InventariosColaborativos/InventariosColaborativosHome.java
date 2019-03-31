@@ -10,6 +10,8 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Consolidar.ConsolidarInventariosColaborativosStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step1.CrearInventarioColaborativoStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Unir.UnirseInventariosColaborativos;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.VisualizarConsolidados.Step1.VisualizarInventariosColaborativosConsolidadosStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step1.VisualizarInventarioColaborativoPorZonaStep1;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -63,13 +65,13 @@ public class InventariosColaborativosHome extends CicloActivity {
         add_on_click(R.id.btnVisPorZon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                admin.callIntent(VisualizarInventarioColaborativoPorZonaStep1.class, null);
+                admin.callIntent(VisualizarInventarioColaborativoPorZonaStep1.class, null);
             }
         });
         add_on_click(R.id.btnVisCon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                admin.callIntent(VisualizarInventariosColaborativosConsolidadosStep1.class, null);
+                admin.callIntent(VisualizarInventariosColaborativosConsolidadosStep1.class, null);
             }
         });
     }

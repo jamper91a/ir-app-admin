@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step2.tabs;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventario;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;

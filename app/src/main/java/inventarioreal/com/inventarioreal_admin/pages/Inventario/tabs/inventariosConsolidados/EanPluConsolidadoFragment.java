@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.tabs;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventariosConsolidados;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -25,17 +25,17 @@ import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import jamper91.com.easyway.Util.Administrador;
 
-public class EanPluFragment extends Fragment {
+public class EanPluConsolidadoFragment extends Fragment {
 
-    private EanPluViewModel mViewModel;
+    private EanPluConsolidadoViewModel mViewModel;
     private LinkedHashMap<Integer, View> elementos;
     public ListAdapterProductosZonas adapter1;
     public ListAdapterProductosZonasVisual adapterVisual;
     private Administrador admin;
 
 
-    public static EanPluFragment newInstance() {
-        return new EanPluFragment();
+    public static EanPluConsolidadoFragment newInstance() {
+        return new EanPluConsolidadoFragment();
     }
 
     public void setAdmin(Administrador admin) {
@@ -99,7 +99,7 @@ public class EanPluFragment extends Fragment {
     }
 
     private void getData(){
-        mViewModel = ViewModelProviders.of(getActivity()).get(EanPluViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(EanPluConsolidadoViewModel.class);
         mViewModel.getProductosZona().observe(this, new Observer<LinkedList<ProductosZonas>>() {
             @Override
             public void onChanged(@Nullable LinkedList<ProductosZonas> productosZonas) {

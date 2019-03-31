@@ -17,6 +17,7 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddMercanciaResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductosInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
@@ -616,4 +617,34 @@ public class WebServices {
             }
         });
     }
+
+    public static void getProductsByInventariConsolidado(final long inventario_id, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_getProductsByInventoryColaborativo;
+        HashMap<String, String> campos = new HashMap<>();
+        campos.put(Constants.inventarios_consolidados_id, inventario_id+"");
+        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    GetProductosInventariosConsolidados aux = gson.fromJson(jsonObject.getJSONObject("data").toString(),GetProductosInventariosConsolidados.class);
+                    result.ok(new ResultWebServiceOk(aux));
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+
 }

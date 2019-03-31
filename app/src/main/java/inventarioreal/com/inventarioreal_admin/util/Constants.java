@@ -112,4 +112,5 @@ public class Constants {
     public static String ws_getProductsByInventory="inventarios/listarProductosInventario";
     public static String ws_listarInventariosConsolidados="inventariosConsolidados/listar";
     public static String ws_adjuntarInvenario="inventarios/adjuntar";
+    public static String ws_getProductsByInventoryColaborativo="inventariosConsolidados/listarProductos";
 }

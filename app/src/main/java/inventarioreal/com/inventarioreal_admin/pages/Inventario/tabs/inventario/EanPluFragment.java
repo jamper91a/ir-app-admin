@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step2.tabs;
+package inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventario;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -22,7 +22,6 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonas;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasVisual;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.tabs.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import jamper91.com.easyway.Util.Administrador;
 

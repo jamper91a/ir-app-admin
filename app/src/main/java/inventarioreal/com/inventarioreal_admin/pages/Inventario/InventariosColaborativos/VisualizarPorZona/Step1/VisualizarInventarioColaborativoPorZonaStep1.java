@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventarios;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.VisualizarInventarioPorZonaStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventarioPorZonaStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step2.VisualizarInventarioColaborativoPorZonaStep2;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -43,7 +44,7 @@ public class VisualizarInventarioColaborativoPorZonaStep1 extends CicloActivity 
 
         //Cambiar los textos a mostrar
 
-        getElemento(R.id.txt1).setText("Selecciones el inventario a visualizar");
+        getElemento(R.id.txt1).setText("Selecciones el inventario colaborativo a visualizar");
         getElemento(R.id.btnIni).setText("Visualizar");
 
     }
@@ -73,7 +74,8 @@ public class VisualizarInventarioColaborativoPorZonaStep1 extends CicloActivity 
             public void onItemClick(Object item) {
                 Inventarios inv = (Inventarios) item;
                 admin.toast(inv.createdAt);
-                admin.callIntent(VisualizarInventarioPorZonaStep2.class, inv, Inventarios.class);
+                RequestInventarioPorZonaStep2 requestInventarioPorZonaStep2 = new RequestInventarioPorZonaStep2(inv);
+                admin.callIntent(VisualizarInventarioColaborativoPorZonaStep2.class, requestInventarioPorZonaStep2, RequestInventarioPorZonaStep2.class);
             }
 
             @Override
@@ -87,7 +89,7 @@ public class VisualizarInventarioColaborativoPorZonaStep1 extends CicloActivity 
             }
         });
         recyclerView.setAdapter(adapter);
-        WebServices.listarInventario(Constants.tipo_no_consolidado,false,this, admin, new ResultWebServiceInterface() {
+        WebServices.listarInventario(Constants.tipo_no_consolidado,true,this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 inventariosPorZonas = (ArrayList<Inventarios>) ok.getData();

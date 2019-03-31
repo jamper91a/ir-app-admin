@@ -15,17 +15,25 @@ import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step1.VisualizarInventarioPorZonaStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.tabs.EanPluFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.tabs.EanPluViewModel;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.tabs.TotalFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.tabs.TotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventarioPorZonaStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step1.VisualizarInventarioColaborativoPorZonaStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventario.EanPluFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventario.EanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventario.TotalFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventario.TotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventariosConsolidados.EanPluConsolidadoFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventariosConsolidados.EanPluConsolidadoViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventariosConsolidados.TotalConsolidadoFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventariosConsolidados.TotalConsolidadoViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductosInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
@@ -44,7 +52,9 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
     private String TAG="VisualizarInventarioColaborativoPorZonaStep2";
     private LinkedList<InventariosProductos> inventariosProductos = new LinkedList<>();
     private Gson gson = new Gson();
-    private Inventarios inventario;
+    private RequestInventarioPorZonaStep2 requestInventarioPorZonaStep2=null;
+    private Inventarios inventario=null;
+    private InventariosConsolidados inventarioConsolidado=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +63,13 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         Intent intent = getIntent();
         String message = intent.getStringExtra(Constants.parameters);
         Gson gson = new Gson();
-        this.inventario = gson.fromJson(message, Inventarios.class);
+        try {
+            this.requestInventarioPorZonaStep2 = gson.fromJson(message, RequestInventarioPorZonaStep2.class);
+            this.inventario = requestInventarioPorZonaStep2.getInventarios();
+            this.inventarioConsolidado = requestInventarioPorZonaStep2.inventariosConsolidados;
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
 
         init(this,this,R.layout.activity_inventario_parcial_visualizar_por_zona_step_2);
         this.tabsInit();
@@ -71,32 +87,67 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
 
     @Override
     public void getData() {
-        totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
-        eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
 
-        WebServices.getProductsByInventario(inventario.getId(), this, admin, new ResultWebServiceInterface() {
-            @Override
-            public void ok(ResultWebServiceOk ok) {
-                inventario = (Inventarios) ok.getData();
-                //Busco la zona del inventario
-                Zonas zona = (Zonas) db.findById(Constants.table_zonas, inventario.getZonas_id().getId()+"", Zonas.class);
-                if(zona!=null){
-                    inventario.setZonas_id(zona);
+        if(inventario!=null){
+            totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
+            eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
+
+            WebServices.getProductsByInventario(inventario.getId(), this, admin, new ResultWebServiceInterface() {
+                @Override
+                public void ok(ResultWebServiceOk ok) {
+                    inventario = (Inventarios) ok.getData();
+                    //Busco la zona del inventario
+                    Zonas zona = (Zonas) db.findById(Constants.table_zonas, inventario.getZonas_id().getId()+"", Zonas.class);
+                    if(zona!=null){
+                        inventario.setZonas_id(zona);
+                    }
+                    //Actualizo la cantidad
+                    totalViewModel.stInventario(inventario);
+                    for (ProductosZonas pz: inventario.getProductos_zona()
+                    ) {
+                        eanPluVieModel.addProductoZona(pz);
+                    }
+
                 }
-                //Actualizo la cantidad
-                totalViewModel.stInventario(inventario);
-                for (ProductosZonas pz: inventario.getProductos_zona()
-                     ) {
-                    eanPluVieModel.addProductoZona(pz);
+
+                @Override
+                public void fail(ResultWebServiceFail fail) {
+                    admin.toast(fail.getError());
+                }
+            });
+        }
+
+        if(inventarioConsolidado!=null){
+            totalConsolidadoViewModel = ViewModelProviders.of(this).get(TotalConsolidadoViewModel.class);
+            eanPluConsolidadoVieModel = ViewModelProviders.of(this).get(EanPluConsolidadoViewModel.class);
+            WebServices.getProductsByInventariConsolidado(inventarioConsolidado.getId(), this, admin, new ResultWebServiceInterface() {
+                @Override
+                public void ok(ResultWebServiceOk ok) {
+                    GetProductosInventariosConsolidados aux = (GetProductosInventariosConsolidados) ok.getData();
+                    //Busco la zona del inventario
+                    for (ProductosZonas pz: aux.getProductosZonas()){
+                        Zonas zona = (Zonas) db.findById(Constants.table_zonas, pz.getZonas_id().getId()+"", Zonas.class);
+                        if(zona!=null){
+                            pz.setZonas_id(zona);
+                        }
+                    }
+
+                    //Actualizo la cantidad
+                    totalConsolidadoViewModel.stInventario(aux.getInventariosConsolidados());
+                    for (ProductosZonas pz: aux.getProductosZonas()){
+                        eanPluConsolidadoVieModel.addProductoZona(pz);
+                    }
+
+
                 }
 
-            }
+                @Override
+                public void fail(ResultWebServiceFail fail) {
+                    admin.toast(fail.getError());
+                }
+            });
+        }
 
-            @Override
-            public void fail(ResultWebServiceFail fail) {
-                admin.toast(fail.getError());
-            }
-        });
     }
 
     @Override
@@ -104,7 +155,7 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         add_on_click(R.id.btnSal, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(VisualizarInventarioPorZonaStep1.class, null);
+                admin.callIntent(VisualizarInventarioColaborativoPorZonaStep1.class, null);
             }
         });
 
@@ -149,6 +200,9 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
     private ViewPager mViewPager;
     TotalViewModel totalViewModel;
     EanPluViewModel eanPluVieModel;
+
+    TotalConsolidadoViewModel totalConsolidadoViewModel;
+    EanPluConsolidadoViewModel eanPluConsolidadoVieModel;
     //endregion
 
     //region Tabs configuration
@@ -180,12 +234,23 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    TotalFragment total = new TotalFragment();
-                    return total;
+                    if(inventario!=null){
+                        TotalFragment total = new TotalFragment();
+                        return total;
+                    } else{
+                        TotalConsolidadoFragment total = new TotalConsolidadoFragment();
+                        return total;
+                    }
                 case 1:
-                    EanPluFragment eanPlu = EanPluFragment.newInstance();
-                    eanPlu.setAdmin(admin);
-                    return eanPlu;
+                    if(inventario!=null){
+                        EanPluFragment eanPlu = EanPluFragment.newInstance();
+                        eanPlu.setAdmin(admin);
+                        return eanPlu;
+                    } else{
+                        EanPluConsolidadoFragment eanPlu = EanPluConsolidadoFragment.newInstance();
+                        eanPlu.setAdmin(admin);
+                        return eanPlu;
+                    }
 //                case 2:
 //                    Epc epc = new Epc();
 //                    return epc;
