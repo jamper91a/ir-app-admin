@@ -31,6 +31,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventarios
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventariosConsolidados.TotalConsolidadoViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductosInventariosConsolidados;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
@@ -104,6 +105,14 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                     totalViewModel.stInventario(inventario);
                     for (ProductosZonas pz: inventario.getProductos_zona()
                     ) {
+                        //Busco el epc del producto
+                        Epcs epc = (Epcs) db.findById(
+                                Constants.table_epcs,
+                                pz.getEpcs_id().getId()+"",
+                                Epcs.class
+                        );
+                        if(epc!=null)
+                            pz.setEpcs_id(epc);
                         eanPluVieModel.addProductoZona(pz);
                     }
 

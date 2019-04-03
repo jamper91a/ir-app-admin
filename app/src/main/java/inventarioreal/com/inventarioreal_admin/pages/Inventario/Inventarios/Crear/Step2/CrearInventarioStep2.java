@@ -22,7 +22,6 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 import com.handheld.UHF.UhfManager;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -187,11 +186,11 @@ public class CrearInventarioStep2 extends CicloActivity {
             //Busco el producto de este producto zona
             Productos producto= (Productos) db.findById(
                     Constants.table_productos,
-                    proZon.getId()+"",
+                    proZon.getProductos_id().getId()+"",
                     Productos.class
                     );
 
-            if (epc!=null) {
+            if (epcDb!=null) {
                 proZon.setEpcs_id(epcDb);
             }
             if(producto!=null){
@@ -215,8 +214,6 @@ public class CrearInventarioStep2 extends CicloActivity {
             public void run() {
                 // The epc for the first time
                 if (eanPluVieModel.getProductosZona().getValue().isEmpty()) {
-                    createEpc(epc);
-                    createEpc(epc);
                     createEpc(epc);
                 } else {
                     for (int i = 0; i < eanPluVieModel.getProductosZona().getValue().size(); i++) {

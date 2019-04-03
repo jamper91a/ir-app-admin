@@ -70,7 +70,7 @@ public class UnirseInventariosColaborativos extends CicloActivity {
             @Override
             public void onItemClick(Object item) {
                 Inventarios inv = (Inventarios) item;
-                //Busco la zona
+                //Busco la zonaz
                 RequestInventariorCrear2 requestInventariorCrear2 = new RequestInventariorCrear2(inv);
                 admin.callIntent(CrearInventarioColaborativoStep2.class, requestInventariorCrear2, RequestInventariorCrear2.class);
             }

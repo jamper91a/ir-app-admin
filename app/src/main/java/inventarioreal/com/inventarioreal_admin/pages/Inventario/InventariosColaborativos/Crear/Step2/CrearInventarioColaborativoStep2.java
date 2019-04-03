@@ -3,14 +3,13 @@ package inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosCola
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +28,6 @@ import java.util.List;
 import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.CrearInventarioStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalFragment;
@@ -180,7 +178,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
             //Busco el producto de este producto zona
             Productos producto= (Productos) db.findById(
                     Constants.table_productos,
-                    proZon.getId()+"",
+                    proZon.getProductos_id().getId()+"",
                     Productos.class
             );
 
@@ -208,8 +206,6 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
             public void run() {
                 // The epc for the first time
                 if (eanPluVieModel.getProductosZona().getValue().isEmpty()) {
-                    createEpc(epc);
-                    createEpc(epc);
                     createEpc(epc);
                 } else {
                     for (int i = 0; i < eanPluVieModel.getProductosZona().getValue().size(); i++) {

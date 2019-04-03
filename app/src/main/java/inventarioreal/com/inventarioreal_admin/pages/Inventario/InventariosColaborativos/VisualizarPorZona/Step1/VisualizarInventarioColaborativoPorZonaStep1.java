@@ -89,7 +89,7 @@ public class VisualizarInventarioColaborativoPorZonaStep1 extends CicloActivity 
             }
         });
         recyclerView.setAdapter(adapter);
-        WebServices.listarInventario(Constants.tipo_no_consolidado,true,this, admin, new ResultWebServiceInterface() {
+        WebServices.listarInventario(Constants.tipo_all,true,this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 inventariosPorZonas = (ArrayList<Inventarios>) ok.getData();

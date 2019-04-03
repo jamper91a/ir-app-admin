@@ -39,7 +39,7 @@ public class AddMercanciaRequest {
             JsonObject object = new JsonObject();
             object.addProperty(Constants.zonas_id, pz.getZonas_id().getId());
             object.addProperty(Constants.productos_id, pz.getProductos_id().getId());
-            object.addProperty(Constants.ecps_id, pz.getEpcs_id().getEpc());
+            object.addProperty(Constants.epc, pz.getEpcs_id().getEpc());
             object.addProperty(Constants.devoluciones_id,1);
             object.addProperty(Constants.ventas_id,1);
             array.add(object);

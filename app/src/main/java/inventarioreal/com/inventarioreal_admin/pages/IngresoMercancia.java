@@ -41,11 +41,12 @@ public class IngresoMercancia extends CicloActivity {
     private UhfManager uhfManager;
     public ListAdapterEpcs adapter1;
     private LinkedList<Epcs> epcs = new LinkedList<>();
+    private LinkedList<Epcs> epcsBanned = new LinkedList<>();
     private LinkedList<ProductosZonas> productos_zonas = new LinkedList<>();
     final DataBase db = DataBase.getInstance(this);
 
     private Zonas zonas_id;
-    private Productos productos_id;
+    private Productos productos_id=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,20 +77,26 @@ public class IngresoMercancia extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.btnEmp),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnGua),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBor),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txtTags),Techniques.FadeInLeft));
 
         adapter1 = new ListAdapterEpcs(this, admin, epcs, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
+                admin.toast("onItemClick");
             }
 
             @Override
             public void onLongItemClick(Object item) {
-
+                //Agrego el item a una lista de elementos baneados para esta lectura
+                Epcs epc = (Epcs) item;
+                epcsBanned.add(epc);
+                adapter1.remove(epc);
+                updatedAmountTags();
             }
 
             @Override
             public void onItemClick(int view, Object item) {
-
+                admin.toast("onItemClick");
             }
         });
         RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1).getElemento();
@@ -114,13 +121,9 @@ public class IngresoMercancia extends CicloActivity {
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                Productos producto = (Productos) ok.getData();
-                                mostrarInformacionProducto(producto);
-                                admin.loadImageFromInternet(
-                                        "https://m.media-amazon.com/images/I/A13usaonutL._CLa%7C2140,2000%7C5118hwdonfL.png%7C0,0,2140,2000+0.0,0.0,2140.0,2000.0._UX522_.png",
-                                        (NetworkImageView)getElemento(R.id.img1).getElemento(),
-                                        R.drawable.ic_launcher_background,
-                                        R.drawable.ic_launcher_background);
+                                Productos productoConsultado = (Productos) ok.getData();
+                                mostrarInformacionProducto(productoConsultado);
+
 
 
                             }
@@ -133,15 +136,34 @@ public class IngresoMercancia extends CicloActivity {
             }
         });
 
+        add_on_click(R.id.btnCan, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(IngresoMercancia.class, null);
+            }
+        });
+
+        add_on_click(R.id.btnBor, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(IngresoMercancia.class, null);
+            }
+        });
+
         add_on_click(R.id.btnSi, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
-                getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
-                if (!startFlag) {
-                    startFlag = true;
-                } else {
-                    startFlag = false;
+                if(productos_id!=null){
+
+                    getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+                    getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
+                    if (!startFlag) {
+                        startFlag = true;
+                    } else {
+                        startFlag = false;
+                    }
+                }else{
+                    admin.toast("Se debe buscar un producto");
                 }
             }
         });
@@ -150,7 +172,7 @@ public class IngresoMercancia extends CicloActivity {
             @Override
             public void onClick(View v) {
                 WebServices.addMercancia(
-                        1,
+                        productos_id.id,
                         productos_zonas,
                         IngresoMercancia.this,
                         admin,
@@ -175,6 +197,11 @@ public class IngresoMercancia extends CicloActivity {
         getElemento(R.id.lblDes1).setText(p.getDescripcion());
         getElemento(R.id.lblDes2).setText(p.getMarca());
         getElemento(R.id.lblDes3).setText(p.getColor());
+        admin.loadImageFromInternet(
+                p.getImagen(),
+                (NetworkImageView)getElemento(R.id.img1).getElemento(),
+                R.drawable.ic_launcher_background,
+                R.drawable.ic_launcher_background);
     }
 
     @Override
@@ -283,7 +310,27 @@ public class IngresoMercancia extends CicloActivity {
         productosZonas.setProductos_id(this.productos_id);
         productosZonas.setEpcs_id(epcTag);
         productos_zonas.add(productosZonas);
+        updatedAmountTags();
         return epcTag;
+
+    }
+
+    private void updatedAmountTags(){
+        getElemento(R.id.txtTags).setText("Tags leidos: "+epcs.size());
+    }
+
+    private void borrar(){
+        epcs.clear();
+        adapter1.clear();
+        productos_zonas.clear();
+    }
+
+    private boolean isBanned(String epc){
+        for (Epcs epcB:epcsBanned){
+            if(epcB.getEpc().equals(epc))
+                return true;
+        }
+        return false;
     }
 
     private void addToList(final String epc) {
@@ -301,7 +348,10 @@ public class IngresoMercancia extends CicloActivity {
                             mEPC.setCount(mEPC.getCount() + 1);
                             break;
                         } else if (i == (epcs.size() - 1)) {
-                            Epcs epcObj = createEpc(epc);
+                            //Valido que el epc no este baneado
+                            if(!isBanned(epc)){
+                                createEpc(epc);
+                            }
                         }
                     }
 

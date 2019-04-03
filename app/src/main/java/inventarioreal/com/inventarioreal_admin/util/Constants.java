@@ -46,7 +46,7 @@ public class Constants {
 
 
     //    public static final String url="http://192.168.0.10:3000/v1/";
-    public static final String url = "http://192.168.1.72:1337/";
+    public static final String url = "http://192.168.1.71:1337/";
     public static final String user = "user";
     public static final String token = "token";
     public static final String authorization = "Authorization";
@@ -108,6 +108,7 @@ public class Constants {
     public static String tipo = "tipo";
     public static String tipo_no_consolidado = "no_consolidado";
     public static String tipo_consolidado = "consolidado";
+    public static String tipo_all = "all";
     public static String ws_consolidarInventarios="inventarios/consolidar";
     public static String ws_getProductsByInventory="inventarios/listarProductosInventario";
     public static String ws_listarInventariosConsolidados="inventariosConsolidados/listar";

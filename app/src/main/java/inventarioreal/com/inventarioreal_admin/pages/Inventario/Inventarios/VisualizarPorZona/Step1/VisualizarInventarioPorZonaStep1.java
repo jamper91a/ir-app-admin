@@ -13,7 +13,6 @@ import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventari
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventarioPorZonaStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step2.VisualizarInventarioPorZonaStep2;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step2.VisualizarInventarioColaborativoPorZonaStep2;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -90,7 +89,7 @@ public class VisualizarInventarioPorZonaStep1 extends CicloActivity {
             }
         });
         recyclerView.setAdapter(adapter);
-        WebServices.listarInventario(Constants.tipo_no_consolidado,false,this, admin, new ResultWebServiceInterface() {
+        WebServices.listarInventario(Constants.tipo_all,false,this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 inventariosPorZonas = (ArrayList<Inventarios>) ok.getData();

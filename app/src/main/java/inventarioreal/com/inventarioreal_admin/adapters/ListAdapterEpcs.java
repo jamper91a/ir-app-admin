@@ -58,7 +58,7 @@ public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Epcs item = items.get(position);
-        holder.getTxt1().setText(item.getEpc()+item.getCreatedAt());
+        holder.getTxt1().setText(item.getEpc());
         holder.bind(item);
 
     }
@@ -72,6 +72,16 @@ public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHo
         try {
             int position = items.indexOf(item);
             notifyItemInserted(position);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    public void clear() {
+        try {
+            int amountItems = items.size();
+            items = new LinkedList<>();
+            notifyItemRangeRemoved(0, amountItems);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -144,12 +154,18 @@ public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHo
     class ViewHolder extends  RecyclerView.ViewHolder{
         LinearLayout lnl1;
         TextView txt1;
+        TextView txt2;
+        TextView txt3;
 
 
         public ViewHolder(View view) {
             super(view);
             this.lnl1 = (LinearLayout)view.findViewById(R.id.lnl1);
             this.txt1 = (TextView)view.findViewById(R.id.txt1);
+            this.txt2 = (TextView)view.findViewById(R.id.txt2);
+            this.txt3 = (TextView)view.findViewById(R.id.txt3);
+            txt2.setVisibility(View.GONE);
+            txt3.setVisibility(View.GONE);
 
         }
 
@@ -167,6 +183,13 @@ public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     onItemClickListener.onItemClick(item);
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onItemClickListener.onLongItemClick(item);
+                    return true;
                 }
             });
         }
