@@ -80,8 +80,8 @@ public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHo
     public void clear() {
         try {
             int amountItems = items.size();
-            items = new LinkedList<>();
-            notifyItemRangeRemoved(0, amountItems);
+//            items.clear();
+//            notifyItemRangeRemoved(0, amountItems);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }

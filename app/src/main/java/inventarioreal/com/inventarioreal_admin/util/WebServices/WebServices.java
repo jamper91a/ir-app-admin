@@ -279,22 +279,22 @@ public class WebServices {
                             SyncResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),SyncResponse.class);
 
                             try {
-                                if (response.getEpcs()!=null) {
+                                if (response.getEpcs()!=null && response.getEpcs().length>0) {
                                     for (Epcs epc: response.getEpcs()) {
                                         db.insert(Constants.table_epcs, epc.getContentValues());
                                     }
                                 }
-                                if (response.getProductos()!=null) {
+                                if (response.getProductos()!=null && response.getProductos().length>0) {
                                     for (Productos pro: response.getProductos()) {
                                         db.insert(Constants.table_productos, pro.getContentValues());
                                     }
                                 }
-                                if (response.getProductos_zona()!=null) {
+                                if (response.getProductos_zona()!=null && response.getProductos_zona().length>0) {
                                     for (ProductosZonas productosZona: response.getProductos_zona()) {
                                         db.insert(Constants.table_productos_zonas, productosZona.getContentValues());
                                     }
                                 }
-                                if (response.getZonas()!=null) {
+                                if (response.getZonas()!=null && response.getZonas().length>0) {
                                     for (Zonas zona: response.getZonas()) {
                                         db.insert(Constants.table_zonas, zona.getContentValues());
                                     }

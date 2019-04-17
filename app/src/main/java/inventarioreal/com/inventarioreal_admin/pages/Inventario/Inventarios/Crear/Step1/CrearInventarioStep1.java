@@ -8,6 +8,7 @@ import android.widget.Spinner;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.LinkedList;
@@ -51,6 +52,15 @@ public class CrearInventarioStep1 extends CicloActivity {
 
     @Override
     public void getData() {
+        //Obtener informacion actual del usuario
+        try {
+            LoginResponse empleado = new Gson().fromJson(admin.obtener_preferencia(Constants.empleado),LoginResponse.class);
+            if(empleado != null){
+                getElemento(R.id.txtLocal).setText(empleado.getEmpleado().getLocales_id().getName());
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
         sync();
     }
 

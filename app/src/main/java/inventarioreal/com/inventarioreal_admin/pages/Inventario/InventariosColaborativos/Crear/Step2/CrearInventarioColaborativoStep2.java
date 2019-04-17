@@ -22,6 +22,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 import com.handheld.UHF.UhfManager;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -85,6 +86,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
     @Override
     public void getData() {
+        epcs = new ArrayList<>();
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
     }
@@ -197,7 +199,28 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
             inventariosProductos.add(ip);
             eanPluVieModel.addProductoZona(proZon);
             totalViewModel.setAmount(inventariosProductos.size());
+            epcs.add(epc);
         }
+    }
+
+    private List<String> epcs;
+
+    private boolean wasRead(String epc){
+//        for (int i = 0; i < eanPluVieModel.getProductosZona().getValue().size(); i++) {
+//            //Determino si ese epc ya se leyo antes
+//            ProductosZonas mEPC = eanPluVieModel.getProductosZona().getValue().get(i);
+//            if (epc.equals(mEPC.getEpcs_id().getEpc())){
+//                return true;
+//            }
+//
+//        }
+//        return false;
+        for (String epcR:epcs){
+            if(epcR.equals(epc))
+                return true;
+        }
+
+        return false;
     }
 
     private void addToList(final String epc) {
@@ -205,17 +228,23 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
             @Override
             public void run() {
                 // The epc for the first time
-                if (eanPluVieModel.getProductosZona().getValue().isEmpty()) {
+//                if (eanPluVieModel.getProductosZona().getValue().isEmpty()) {
+//                    createEpc(epc);
+//                } else {
+//                    for (int i = 0; i < eanPluVieModel.getProductosZona().getValue().size(); i++) {
+//                        ProductosZonas mEPC = eanPluVieModel.getProductosZona().getValue().get(i);
+//                        if (!epc.equals(mEPC.getEpcs_id().getEpc())){
+//                            createEpc(epc);
+//                        }
+//
+//                    }
+//
+//                }
+                if(epcs.isEmpty())
                     createEpc(epc);
-                } else {
-                    for (int i = 0; i < eanPluVieModel.getProductosZona().getValue().size(); i++) {
-                        ProductosZonas mEPC = eanPluVieModel.getProductosZona().getValue().get(i);
-                        if (!epc.equals(mEPC.getEpcs_id().getEpc())){
-                            createEpc(epc);
-                        }
-
-                    }
-
+                else{
+                    if(!wasRead(epc))
+                        createEpc(epc);
                 }
             }
         });

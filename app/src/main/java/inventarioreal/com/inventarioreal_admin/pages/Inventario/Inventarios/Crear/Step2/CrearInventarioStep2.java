@@ -22,12 +22,14 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 import com.handheld.UHF.UhfManager;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalFragment;
@@ -91,6 +93,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 
     @Override
     public void getData() {
+        epcs = new ArrayList<>();
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
     }
@@ -115,6 +118,13 @@ public class CrearInventarioStep2 extends CicloActivity {
                     startFlag=false;
                     getElemento(R.id.btnLee).setText("Leer");
                 }
+            }
+        });
+
+        add_on_click(R.id.btnCan, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(CrearInventarioStep1.class, null);
             }
         });
     }
@@ -205,7 +215,29 @@ public class CrearInventarioStep2 extends CicloActivity {
             inventariosProductos.add(ip);
             eanPluVieModel.addProductoZona(proZon);
             totalViewModel.setAmount(inventariosProductos.size());
+            epcs.add(epc);
         }
+    }
+
+
+    private List<String> epcs;
+
+    private boolean wasRead(String epc){
+//        for (int i = 0; i < eanPluVieModel.getProductosZona().getValue().size(); i++) {
+//            //Determino si ese epc ya se leyo antes
+//            ProductosZonas mEPC = eanPluVieModel.getProductosZona().getValue().get(i);
+//            if (epc.equals(mEPC.getEpcs_id().getEpc())){
+//                return true;
+//            }
+//
+//        }
+//        return false;
+        for (String epcR:epcs){
+            if(epcR.equals(epc))
+                return true;
+        }
+
+        return false;
     }
 
     private void addToList(final String epc) {
@@ -213,17 +245,19 @@ public class CrearInventarioStep2 extends CicloActivity {
             @Override
             public void run() {
                 // The epc for the first time
-                if (eanPluVieModel.getProductosZona().getValue().isEmpty()) {
+//                if (eanPluVieModel.getProductosZona().getValue().isEmpty()) {
+//                    createEpc(epc);
+//                } else {
+//                    //Determino si ese epc ya se leyo antes
+//                    if(!wasRead(epc))
+//                        createEpc(epc);
+//                }
+
+                if(epcs.isEmpty())
                     createEpc(epc);
-                } else {
-                    for (int i = 0; i < eanPluVieModel.getProductosZona().getValue().size(); i++) {
-                        ProductosZonas mEPC = eanPluVieModel.getProductosZona().getValue().get(i);
-                        if (!epc.equals(mEPC.getEpcs_id().getEpc())){
-                            createEpc(epc);
-                        }
-
-                    }
-
+                else{
+                    if(!wasRead(epc))
+                        createEpc(epc);
                 }
             }
         });
@@ -380,7 +414,8 @@ public class CrearInventarioStep2 extends CicloActivity {
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                admin.toast("Ok");
+                                admin.toast("Inventario Creado con 'exito");
+                                admin.callIntent(CrearInventarioStep1.class, null);
                             }
 
                             @Override

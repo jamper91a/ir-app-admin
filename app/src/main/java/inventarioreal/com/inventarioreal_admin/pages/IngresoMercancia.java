@@ -146,7 +146,7 @@ public class IngresoMercancia extends CicloActivity {
         add_on_click(R.id.btnBor, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(IngresoMercancia.class, null);
+                borrar();
             }
         });
 
@@ -178,8 +178,10 @@ public class IngresoMercancia extends CicloActivity {
                         admin,
                         new ResultWebServiceInterface() {
                             @Override
-                            public void ok(ResultWebServiceOk ok) {
-                                admin.toast("Ok");
+                            public void ok(ResultWebServiceOk ok)
+                            {
+                                admin.toast("Productos agregados con 'exito");
+                                admin.callIntent(IngresoMercancia.class, null);
                             }
 
                             @Override
@@ -321,8 +323,8 @@ public class IngresoMercancia extends CicloActivity {
 
     private void borrar(){
         epcs.clear();
-        adapter1.clear();
         productos_zonas.clear();
+        adapter1.notifyDataSetChanged();
     }
 
     private boolean isBanned(String epc){

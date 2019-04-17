@@ -47,4 +47,5 @@
     <string name="crear_inventario_cooperativo">Crear Inventrio cooperativo</string>
     <string name="unirse_inventario_colaborativo">Unirse inventario cooperativo</string>
     <string name="consolidar_inventarios_cooperativos">Consolidar inventarios cooperativos</string>
+    <string name="title_activity_home_transferencia">HomeTransferencia</string>
 </resources>
