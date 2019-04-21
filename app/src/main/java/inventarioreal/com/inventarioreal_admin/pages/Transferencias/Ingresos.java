@@ -120,6 +120,15 @@ public class Ingresos extends CicloActivity {
         add_on_click(R.id.btnFin, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Check if there are not errors
+                for (ProductosZonasHasTransferencias pzt:  productosZonasHasTransferencias)
+                {
+                    if(pzt.getEstado()==false)
+                    {
+                        admin.toast("Hay productos que no pertenecen a este local");
+                        return;
+                    }
+                }
                 showDialog();
             }
         });
@@ -145,8 +154,6 @@ public class Ingresos extends CicloActivity {
             }
         });
     }
-
-
 
     @Override
     public void hasAllPermissions() {
@@ -236,7 +243,7 @@ public class Ingresos extends CicloActivity {
                                 if(transferencia.getLocal_destino_id().getId() == local.getId())
                                     pzt.setEstado(true);
                             } catch (Exception e) {
-
+                                pzt.setEstado(false);
                             }
 
                             pzt.setTransferencias_id(transferencia);
@@ -282,13 +289,6 @@ public class Ingresos extends CicloActivity {
             @Override
             public void run() {
                 // The epc for the first time
-//                if (eanPluVieModel.getProductosZonaHasTransferencia().getValue().isEmpty()) {
-//                    createEpc(epc);
-//                } else {
-//                    //Determino si ese epc ya se leyo antes
-//                    if(!wasRead(epc))
-//                        createEpc(epc);
-//                }
 
                 if(epcs.isEmpty())
                     createEpc(epc);
@@ -422,55 +422,54 @@ public class Ingresos extends CicloActivity {
     //endregion
 
     private void showDialog(){
+        //Stop reading
+        startFlag=false;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Crear Inventario");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
         final TextView txtLocal = dialogView.findViewById(R.id.txtLocal);
-        final TextView txtZona = dialogView.findViewById(R.id.txtZona);
         final TextView txtTime = dialogView.findViewById(R.id.txtTime);
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
 
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
         txtLocal.setText("Local : "+empleado.getEmpleado().getLocales_id().getName());
-//        txtZona.setText("Zonas : "+requestInventariorCrear2.getZona_id().getName());
-//        builder.setView(dialogView);
-//
-//
-//// Set up the buttons
-//        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                WebServices.crearInventario(
-//                        requestInventariorCrear2.getZona_id().getId(),
-//                        auxProZonTrans,
-//                        Ingresos.this,
-//                        admin,
-//                        new ResultWebServiceInterface() {
-//                            @Override
-//                            public void ok(ResultWebServiceOk ok) {
-//                                admin.toast("Inventario Creado con 'exito");
-//                                admin.callIntent(CrearInventarioStep1.class, null);
-//                            }
-//
-//                            @Override
-//                            public void fail(ResultWebServiceFail fail) {
-//                                admin.toast("fail");
-//                            }
-//                        }
-//
-//                );
-//            }
-//        });
-//        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//
-//        builder.show();
+        builder.setView(dialogView);
+
+
+// Set up the buttons
+        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                WebServices.finalizarTransferencia(
+                        productosZonasHasTransferencias,
+                        Ingresos.this,
+                        admin,
+                        new ResultWebServiceInterface() {
+                            @Override
+                            public void ok(ResultWebServiceOk ok) {
+                                admin.toast("Transferencia realizada con 'exito");
+                                admin.callIntent(HomeTransferencia.class, null);
+                            }
+
+                            @Override
+                            public void fail(ResultWebServiceFail fail) {
+                                admin.toast("fail");
+                            }
+                        }
+
+                );
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 }

@@ -26,12 +26,14 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMercanciaRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AdjuntarInventarioRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioColaborativoRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FinalizarTransferenciaRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -326,7 +328,6 @@ public class WebServices {
 
     public static void crearInventario(long zonas_id, List<InventariosProductos> inventario_productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_crearInventario;
-
         CrearInventarioRequest request = new CrearInventarioRequest(zonas_id, inventario_productos);
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
@@ -676,5 +677,30 @@ public class WebServices {
         });
     }
 
+    public static void finalizarTransferencia(final LinkedList<ProductosZonasHasTransferencias> pzt,final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_finalizarTransferencia;
+        FinalizarTransferenciaRequest request = new FinalizarTransferenciaRequest(pzt);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    result.ok(new ResultWebServiceOk());
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
 
 }

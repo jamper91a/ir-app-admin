@@ -116,4 +116,7 @@ public class Constants {
     public static String ws_getProductsByInventoryColaborativo="inventariosConsolidados/listarProductos";
     public static String ws_obtenerTransferencias="transferencias/obtenerTransferencias";
     public static String local_id="local_id";
+    public static String ws_finalizarTransferencia="transferencias/finalizarTransferencia";
+    public static String productos_zona_has_transferencias="productos_zona_has_transferencias";
+    public static String transferencias_id="transferencias_id";
 }
