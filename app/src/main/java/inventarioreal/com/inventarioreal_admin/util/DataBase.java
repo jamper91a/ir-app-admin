@@ -220,6 +220,7 @@ public class DataBase extends SQLiteOpenHelper {
             close_db(db);
             return id;
         } catch (Exception e) {
+            Log.e("SQL", e.getMessage());
             return -1;
         }
     }

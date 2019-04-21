@@ -30,7 +30,7 @@ public class ProductosZonasHasTransferencias extends InventarioRealPojo {
         this.transferencias_id = transferencias_id;
     }
 
-    public boolean isEstado() {
+    public boolean getEstado() {
         return estado;
     }
 

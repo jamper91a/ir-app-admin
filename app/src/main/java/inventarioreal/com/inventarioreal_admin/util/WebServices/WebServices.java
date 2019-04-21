@@ -26,6 +26,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMercanciaRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AdjuntarInventarioRequest;
@@ -632,6 +633,35 @@ public class WebServices {
             public void onResponse(JSONObject jsonObject) {
                 try {
                     GetProductosInventariosConsolidados aux = gson.fromJson(jsonObject.getJSONObject("data").toString(),GetProductosInventariosConsolidados.class);
+                    result.ok(new ResultWebServiceOk(aux));
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+    public static void getTransferencias(final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_obtenerTransferencias;
+        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
+        HashMap<String, String> campos = new HashMap<>();
+        campos.put(Constants.local_id, loginResponse.getEmpleado().getLocales_id().getId()+"");
+        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    Transferencias[] aux = gson.fromJson(jsonObject.getJSONArray("data").toString(),Transferencias[].class);
                     result.ok(new ResultWebServiceOk(aux));
                 } catch (Exception e) {
                     admin.toast(e.getMessage());

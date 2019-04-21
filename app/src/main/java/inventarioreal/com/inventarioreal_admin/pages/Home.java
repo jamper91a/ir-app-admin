@@ -9,6 +9,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.InventarioParcialHome;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.InventariosColaborativosHome;
+import inventarioreal.com.inventarioreal_admin.pages.Transferencias.HomeTransferencia;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -58,8 +59,14 @@ public class Home extends CicloActivity {
         add_on_click(R.id.btnInvCoo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 admin.callIntent(InventariosColaborativosHome.class, null);
+            }
+        });
+
+        add_on_click(R.id.btnTrans, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(HomeTransferencia.class, null);
             }
         });
 

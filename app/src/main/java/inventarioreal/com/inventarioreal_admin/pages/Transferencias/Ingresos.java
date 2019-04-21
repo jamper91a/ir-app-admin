@@ -1,8 +1,7 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2;
+package inventarioreal.com.inventarioreal_admin.pages.Transferencias;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -23,24 +22,23 @@ import com.google.gson.Gson;
 import com.handheld.UHF.UhfManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluViewModel;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
+import inventarioreal.com.inventarioreal_admin.pages.Transferencias.tabs.EanPluFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Transferencias.tabs.EanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Transferencias.tabs.TotalFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Transferencias.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Locales;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -50,14 +48,16 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class CrearInventarioStep2 extends CicloActivity {
+public class Ingresos extends CicloActivity {
 
     private UhfManager uhfManager;
     private String TAG="CrearInventarioStep2";
     private DataBase db = DataBase.getInstance(this);
-    private RequestInventariorCrear2 requestInventariorCrear2;
-    private LinkedList<InventariosProductos> inventariosProductos = new LinkedList<>();
+    private LinkedList<ProductosZonasHasTransferencias> auxProZonTrans = new LinkedList<>();
     private Gson gson = new Gson();
+    private Transferencias[] transferencias = null;
+    private LinkedList<ProductosZonasHasTransferencias> productosZonasHasTransferencias= new LinkedList<>();
+    private Locales local= null;
 
 
 
@@ -65,15 +65,10 @@ public class CrearInventarioStep2 extends CicloActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_inventario_parcial_crear_inventario_step_2);
+        local = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class)).getEmpleado().getLocales_id();
         //region UhF
         Thread thread = new InventoryThread();
         thread.start();
-        //endregion
-        //region Obtener parametros
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(Constants.parameters);
-        Gson gson = new Gson();
-        this.requestInventariorCrear2 = gson.fromJson(message, RequestInventariorCrear2.class);
         //endregion
         this.tabsInit();
 //        mTopToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -97,6 +92,27 @@ public class CrearInventarioStep2 extends CicloActivity {
         epcs = new ArrayList<>();
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
+        getTransferencias();
+    }
+
+    public void getTransferencias(){
+        WebServices.getTransferencias(
+                this,
+                admin,
+                new ResultWebServiceInterface() {
+                    @Override
+                    public void ok(ResultWebServiceOk ok) {
+                        transferencias = (Transferencias[]) ok.getData();
+                        startFlag=true;
+
+                    }
+
+                    @Override
+                    public void fail(ResultWebServiceFail fail) {
+
+                    }
+                }
+        );
     }
 
     @Override
@@ -125,7 +141,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         add_on_click(R.id.btnCan, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(CrearInventarioStep1.class, null);
+                admin.callIntent(HomeTransferencia.class, null);
             }
         });
     }
@@ -134,7 +150,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 
     @Override
     public void hasAllPermissions() {
-        startFlag=true;
+
     }
 
     //region UHD Sdk
@@ -143,7 +159,6 @@ public class CrearInventarioStep2 extends CicloActivity {
             uhfManager = UhfManager.getInstance();
             uhfManager.setOutputPower(26);
             uhfManager.setWorkArea(2);
-            startFlag=true;
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -187,38 +202,57 @@ public class CrearInventarioStep2 extends CicloActivity {
         //Busco el epc en la base de datos interna
         Epcs epcDb= (Epcs) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epcs.class);
         if(epcDb!=null){
-            //Busco el producto zonas al que pertenece este tag
-            ProductosZonas proZon=
-                    (ProductosZonas) db.getByColumn(
-                            Constants.table_productos_zonas,
-                            Constants.epcs_id,
-                            epcDb.getId()+"",
-                            ProductosZonas.class).get(0);
-            //Busco el producto de este producto zona
-            Productos producto= (Productos) db.findById(
-                    Constants.table_productos,
-                    proZon.getProductos_id().getId()+"",
-                    Productos.class
-                    );
+            try {
+                //Busco el producto zonas al que pertenece este tag
+                ProductosZonas proZon=
+                        (ProductosZonas) db.getByColumn(
+                                Constants.table_productos_zonas,
+                                Constants.epcs_id,
+                                epcDb.getId()+"",
+                                ProductosZonas.class).get(0);
+                //Busco el producto de este producto zona
+                Productos producto= (Productos) db.findById(
+                        Constants.table_productos,
+                        proZon.getProductos_id().getId()+"",
+                        Productos.class
+                        );
 
-            if (epcDb!=null) {
-                proZon.setEpcs_id(epcDb);
-            }
-            if(producto!=null){
-                proZon.setProductos_id(producto);
-            }
-            //Informacion requeria por el servicio web de crear inventario
-            InventariosProductos ip = new InventariosProductos();
-            ip.setZonas_id(requestInventariorCrear2.getZona_id());
-            ip.setProductoz_zona_id(proZon);
-            ip.setProductos_epcs_id(epcDb);
+                if (epcDb!=null) {
+                    proZon.setEpcs_id(epcDb);
+                }
+                if(producto!=null){
+                    proZon.setProductos_id(producto);
+                }
+                //Determino si el productozona de este tag esta en la lista de transferencia
+                for (Transferencias transferencia :
+                        transferencias) {
 
-            inventariosProductos.add(ip);
-            eanPluVieModel.addProductoZona(proZon);
-            totalViewModel.setAmount(inventariosProductos.size());
+                    for(ProductosZonasHasTransferencias pzt: transferencia.getProductos()){
+
+                        if(pzt.getProductos_zona_id().getId() == proZon.getId()){
+                            pzt.setProductos_zona_id(proZon);
+                            //Check if the pzt belongs to the current local
+                            try {
+                                if(transferencia.getLocal_destino_id().getId() == local.getId())
+                                    pzt.setEstado(true);
+                            } catch (Exception e) {
+
+                            }
+
+                            pzt.setTransferencias_id(transferencia);
+                            productosZonasHasTransferencias.add(pzt);
+                            eanPluVieModel.addProductoZonaHasTransferencia(pzt);
+                        }
+
+                    }
+                }
+
+                //Informacion requeria por el servicio web de crear inventario
+                totalViewModel.setAmount(auxProZonTrans.size());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             epcs.add(epc);
-        }else{
-            admin.toast("Epc no found: "+ epc);
         }
     }
 
@@ -341,7 +375,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 //        /region Tabs section
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new CrearInventarioStep2.SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new Ingresos.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -401,42 +435,42 @@ public class CrearInventarioStep2 extends CicloActivity {
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
         txtLocal.setText("Local : "+empleado.getEmpleado().getLocales_id().getName());
-        txtZona.setText("Zonas : "+requestInventariorCrear2.getZona_id().getName());
-        builder.setView(dialogView);
-
-
-// Set up the buttons
-        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                WebServices.crearInventario(
-                        requestInventariorCrear2.getZona_id().getId(),
-                        inventariosProductos,
-                        CrearInventarioStep2.this,
-                        admin,
-                        new ResultWebServiceInterface() {
-                            @Override
-                            public void ok(ResultWebServiceOk ok) {
-                                admin.toast("Inventario Creado con 'exito");
-                                admin.callIntent(CrearInventarioStep1.class, null);
-                            }
-
-                            @Override
-                            public void fail(ResultWebServiceFail fail) {
-                                admin.toast("fail");
-                            }
-                        }
-
-                );
-            }
-        });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
+//        txtZona.setText("Zonas : "+requestInventariorCrear2.getZona_id().getName());
+//        builder.setView(dialogView);
+//
+//
+//// Set up the buttons
+//        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                WebServices.crearInventario(
+//                        requestInventariorCrear2.getZona_id().getId(),
+//                        auxProZonTrans,
+//                        Ingresos.this,
+//                        admin,
+//                        new ResultWebServiceInterface() {
+//                            @Override
+//                            public void ok(ResultWebServiceOk ok) {
+//                                admin.toast("Inventario Creado con 'exito");
+//                                admin.callIntent(CrearInventarioStep1.class, null);
+//                            }
+//
+//                            @Override
+//                            public void fail(ResultWebServiceFail fail) {
+//                                admin.toast("fail");
+//                            }
+//                        }
+//
+//                );
+//            }
+//        });
+//        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        builder.show();
     }
 }

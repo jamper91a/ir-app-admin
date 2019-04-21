@@ -8,11 +8,12 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
 
 public class EanPluViewModel extends ViewModel {
+
     MutableLiveData<LinkedList<ProductosZonas>> productosZonasLiveData = null;
-    MutableLiveData<Inventarios> inventario = null;
-    private LinkedList<ProductosZonas> productosZona = null;
+    private LinkedList<ProductosZonas> productosZonaHasTransferencia = null;
 
 
 
@@ -20,35 +21,27 @@ public class EanPluViewModel extends ViewModel {
         //Valido si ya se ha agregado el producto
         int count=0;
         if(productosZonas.getProductos_id()!=null){
-            for (ProductosZonas pz: productosZona
-                 ) {
+            for (ProductosZonas pz: productosZonaHasTransferencia
+            ) {
                 if(pz.getProductos_id().getId() == productosZonas.getProductos_id().getId()){
                     pz.setTotal(pz.getTotal()+1);
-                    productosZona.set(count,pz);
-                    productosZonasLiveData.setValue(productosZona);
+                    productosZonaHasTransferencia.set(count,pz);
+                    productosZonasLiveData.setValue(productosZonaHasTransferencia);
                     return;
                 }
                 count+=1;
             }
-            productosZona.add(productosZonas);
-            productosZonasLiveData.setValue(productosZona);
+            productosZonaHasTransferencia.add(productosZonas);
+            productosZonasLiveData.setValue(productosZonaHasTransferencia);
         }
 
     }
     public LiveData<LinkedList<ProductosZonas>> getProductosZona(){
         if(productosZonasLiveData ==null){
             productosZonasLiveData = new MutableLiveData<>();
-            productosZona = new LinkedList<>();
-            productosZonasLiveData.setValue(productosZona);
+            productosZonaHasTransferencia = new LinkedList<>();
+            productosZonasLiveData.setValue(productosZonaHasTransferencia);
         }
         return productosZonasLiveData;
-    }
-
-    public LiveData<Inventarios> getInventario() {
-        return inventario;
-    }
-
-    public void setInventario(Inventarios inventario) {
-        this.inventario.setValue(inventario);
     }
 }

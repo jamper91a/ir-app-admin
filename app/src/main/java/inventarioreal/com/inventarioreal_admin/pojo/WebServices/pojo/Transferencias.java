@@ -16,6 +16,7 @@ public class Transferencias extends InventarioRealPojo {
     private boolean estado;
     private String fecha;
     private String mensaje;
+    private ProductosZonasHasTransferencias[] productos;
 
     public Transferencias() {
     }
@@ -94,5 +95,13 @@ public class Transferencias extends InventarioRealPojo {
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
+    }
+
+    public ProductosZonasHasTransferencias[] getProductos() {
+        return productos;
+    }
+
+    public void setProductos(ProductosZonasHasTransferencias productos[]) {
+        this.productos = productos;
     }
 }

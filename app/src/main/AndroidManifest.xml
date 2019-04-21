@@ -44,6 +44,7 @@
         <activity android:name=".pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1" />
         <activity android:name=".pages.Inventario.Inventarios.Crear.Step2.CrearInventarioStep2" />
         <activity android:name=".pages.Inventario.Inventarios.Consolidar.ConsolidarInventarioStep1" />
+        <activity android:name=".pages.Transferencias.Ingresos" />
     </application>
 
 </manifest>
