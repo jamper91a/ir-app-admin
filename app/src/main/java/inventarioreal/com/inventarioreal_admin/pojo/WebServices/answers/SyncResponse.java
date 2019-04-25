@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Locales;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
@@ -10,6 +11,7 @@ public class SyncResponse {
     private Productos[] productos;
     private ProductosZonas[] productos_zona;
     private Zonas[] zonas;
+    private Locales[] locales;
 
     public SyncResponse() {
     }
@@ -44,5 +46,13 @@ public class SyncResponse {
 
     public void setZonas(Zonas[] zonas) {
         this.zonas = zonas;
+    }
+
+    public Locales[] getLocales() {
+        return locales;
+    }
+
+    public void setLocales(Locales[] locales) {
+        this.locales = locales;
     }
 }

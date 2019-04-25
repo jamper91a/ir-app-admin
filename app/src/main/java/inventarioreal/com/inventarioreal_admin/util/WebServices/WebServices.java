@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.util.WebServices;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -24,6 +25,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Locales;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
@@ -33,6 +35,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMerc
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AdjuntarInventarioRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioColaborativoRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearTransferenciaRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FinalizarTransferenciaRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
@@ -300,6 +303,12 @@ public class WebServices {
                                 if (response.getZonas()!=null && response.getZonas().length>0) {
                                     for (Zonas zona: response.getZonas()) {
                                         db.insert(Constants.table_zonas, zona.getContentValues());
+                                    }
+                                }
+                                if (response.getLocales()!=null && response.getLocales().length>0) {
+                                    Log.d("Locales", response.getLocales().toString());
+                                    for (Locales local: response.getLocales()) {
+                                        db.insert(Constants.table_locales, local.getContentValues());
                                     }
                                 }
                                 result.ok(new ResultWebServiceOk(response));
@@ -702,5 +711,32 @@ public class WebServices {
             }
         });
     }
+
+    public static void crearTransferencia(final Transferencias transferencia,final LinkedList<ProductosZonasHasTransferencias> productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_crearTransferencia;
+        CrearTransferenciaRequest request = new CrearTransferenciaRequest(transferencia, productos);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    result.ok(new ResultWebServiceOk());
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
 
 }

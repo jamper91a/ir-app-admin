@@ -45,7 +45,7 @@ public class Constants {
     //endregion
 
 
-        public static final String url="http://192.168.1.66:1337/";
+        public static final String url="http://192.168.1.253:1337/";
 //    public static final String url = "http://coexnort.servehttp.com:8023/";
     public static final String user = "user";
     public static final String token = "token";
@@ -119,4 +119,11 @@ public class Constants {
     public static String ws_finalizarTransferencia="transferencias/finalizarTransferencia";
     public static String productos_zona_has_transferencias="productos_zona_has_transferencias";
     public static String transferencias_id="transferencias_id";
+    public static String table_locales="locales";
+    public static String ws_crearTransferencia="transferencias/crear";
+    public static String transferencia="transferencia";
+    public static String local_origen_id="local_origen_id";
+    public static String local_destino_id="local_destino_id";
+    public static String mensaje="mensaje";
+    public static String estado="estado";
 }

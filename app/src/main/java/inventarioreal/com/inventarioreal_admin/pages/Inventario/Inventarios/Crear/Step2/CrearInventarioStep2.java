@@ -23,7 +23,6 @@ import com.google.gson.Gson;
 import com.handheld.UHF.UhfManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class CrearInventarioStep2 extends CicloActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this,this,R.layout.activity_inventario_parcial_crear_inventario_step_2);
+        init(this,this,R.layout.get_product_by_epc);
         //region UhF
         Thread thread = new InventoryThread();
         thread.start();

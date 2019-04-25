@@ -9,6 +9,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Transferencias.CrearTransferencia.CrearTransferenciaStep1;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -18,6 +19,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class HomeTransferencia extends CicloActivity {
     private SlidingMenu menu;
+    private Class destino = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,15 @@ public class HomeTransferencia extends CicloActivity {
         add_on_click(R.id.btnIng, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                destino = Ingresos.class;
+                sync();
+
+            }
+        });
+        add_on_click(R.id.btnSal, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                destino = CrearTransferenciaStep1.class;
                 sync();
 
             }
@@ -52,13 +63,14 @@ public class HomeTransferencia extends CicloActivity {
         WebServices.sync(HomeTransferencia.this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                admin.callIntent(Ingresos.class, null);
+                admin.callIntent(destino, null);
             }
 
             @Override
             public void fail(ResultWebServiceFail fail) {
                 admin.toast(fail.getError());
-                admin.callIntent(Ingresos.class, null);
+                admin.callIntent(destino, null);
+
 
             }
         });

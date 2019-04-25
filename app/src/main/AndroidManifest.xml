@@ -16,9 +16,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
+        <activity android:name=".pages.Transferencias.CrearTransferencia.CrearTransferenciaStep2"></activity>
+        <activity android:name=".pages.Transferencias.CrearTransferencia.CrearTransferenciaStep1" />
         <activity
             android:name=".pages.Transferencias.HomeTransferencia"
-            android:label="@string/title_activity_home_transferencia"></activity>
+            android:label="@string/title_activity_home_transferencia" />
         <activity android:name=".pages.Inventario.InventariosColaborativos.VisualizarConsolidados.Step1.VisualizarInventariosColaborativosConsolidadosStep1" />
         <activity android:name=".pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step2.VisualizarInventarioColaborativoPorZonaStep2" />
         <activity android:name=".pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step1.VisualizarInventarioColaborativoPorZonaStep1" />
