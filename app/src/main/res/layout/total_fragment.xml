@@ -34,7 +34,7 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/txtFecha"
+            android:id="@+id/txtLocDes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
@@ -50,7 +50,7 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/txtZona"
+            android:id="@+id/txtNum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""

@@ -658,6 +658,7 @@ public class WebServices {
     }
 
     public static void getTransferencias(final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+
         final String url=Constants.url+Constants.ws_obtenerTransferencias;
         LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
         HashMap<String, String> campos = new HashMap<>();
@@ -672,7 +673,48 @@ public class WebServices {
             public void onResponse(JSONObject jsonObject) {
                 try {
                     Transferencias[] aux = gson.fromJson(jsonObject.getJSONArray("data").toString(),Transferencias[].class);
-                    result.ok(new ResultWebServiceOk(aux));
+                    if (aux!=null && aux.length>0) {
+                        ArrayList<Transferencias> arrayInventarios = new ArrayList<Transferencias>(Arrays.asList(aux));
+                        result.ok(new ResultWebServiceOk(arrayInventarios));
+                    }else{
+                        result.fail(new ResultWebServiceFail("No hay transferencias"));
+                    }
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+    public static void getTransferenciasByTipo(final String tipo, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+
+        final String url=Constants.url+Constants.ws_obtenerTransferencias;
+        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
+        HashMap<String, String> campos = new HashMap<>();
+        campos.put(Constants.local_id, loginResponse.getEmpleado().getLocales_id().getId()+"");
+        campos.put(Constants.tipo, tipo);
+        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    Transferencias[] aux = gson.fromJson(jsonObject.getJSONArray("data").toString(),Transferencias[].class);
+                    if (aux!=null && aux.length>0) {
+                        ArrayList<Transferencias> arrayInventarios = new ArrayList<Transferencias>(Arrays.asList(aux));
+                        result.ok(new ResultWebServiceOk(arrayInventarios));
+                    }else{
+                        result.fail(new ResultWebServiceFail("No hay transferencias"));
+                    }
                 } catch (Exception e) {
                     admin.toast(e.getMessage());
                     result.fail(new ResultWebServiceFail(e.getMessage()));
@@ -737,6 +779,7 @@ public class WebServices {
             }
         });
     }
+
 
 
 }

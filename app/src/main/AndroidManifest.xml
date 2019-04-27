@@ -16,7 +16,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name=".pages.Transferencias.CrearTransferencia.CrearTransferenciaStep2"></activity>
+        <activity android:name=".pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoIngresos"></activity>
+        <activity android:name=".pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoHome" />
+        <activity android:name=".pages.Transferencias.CrearTransferencia.CrearTransferenciaStep2" />
         <activity android:name=".pages.Transferencias.CrearTransferencia.CrearTransferenciaStep1" />
         <activity
             android:name=".pages.Transferencias.HomeTransferencia"

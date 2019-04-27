@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoHome">
 
     <TextView
-        android:id="@+id/txtLocal"
+        android:id="@+id/txtLoc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="TextView" />
 
-    <TextView
-        android:id="@+id/txtNum"
+    <Button
+        android:id="@+id/btnSal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="Salidas" />
 
-    <TextView
-        android:id="@+id/txtTime"
+    <Button
+        android:id="@+id/btnIng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <EditText
-        android:id="@+id/edtMensaje"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Mensaje"
-        android:inputType="textMultiLine" />
+        android:text="Ingresos" />
 </LinearLayout>

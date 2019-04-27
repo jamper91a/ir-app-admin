@@ -126,4 +126,5 @@ public class Constants {
     public static String local_destino_id="local_destino_id";
     public static String mensaje="mensaje";
     public static String estado="estado";
+    public static String transferencias_ingreso="entrada";
 }

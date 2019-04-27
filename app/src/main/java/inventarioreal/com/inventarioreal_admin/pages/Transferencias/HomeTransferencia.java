@@ -1,15 +1,14 @@
 package inventarioreal.com.inventarioreal_admin.pages.Transferencias;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Transferencias.CrearTransferencia.CrearTransferenciaStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoHome;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -52,6 +51,14 @@ public class HomeTransferencia extends CicloActivity {
             @Override
             public void onClick(View v) {
                 destino = CrearTransferenciaStep1.class;
+                sync();
+
+            }
+        });
+        add_on_click(R.id.btnMan, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                destino = ManifiestoElectronicoHome.class;
                 sync();
 
             }

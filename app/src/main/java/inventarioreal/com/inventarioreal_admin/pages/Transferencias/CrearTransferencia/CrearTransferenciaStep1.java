@@ -1,6 +1,5 @@
 package inventarioreal.com.inventarioreal_admin.pages.Transferencias.CrearTransferencia;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,19 +15,12 @@ import com.google.gson.Gson;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Locales;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
-import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
-import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
-import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
-import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -130,8 +122,8 @@ public class CrearTransferenciaStep1 extends CicloActivity {
     }
 
     private void getFecha() {
-        request.setFecha(admin.getCurrentDateAndTime());
-        getElemento(R.id.txtFecha).setText(request.getFecha());
+        request.setCreatedAt(admin.getCurrentDateAndTime());
+        getElemento(R.id.txtFecha).setText(request.getCreatedAt());
     }
 
     @Override
