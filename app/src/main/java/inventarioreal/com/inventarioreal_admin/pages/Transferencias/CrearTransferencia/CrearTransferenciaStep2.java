@@ -3,14 +3,13 @@ package inventarioreal.com.inventarioreal_admin.pages.Transferencias.CrearTransf
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,9 +28,7 @@ import java.util.List;
 
 import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.CrearInventarioStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalFragment;
@@ -39,8 +36,6 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crea
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
@@ -213,7 +208,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                 e.printStackTrace();
             }
         }else{
-            admin.toast("Epc no found: "+ epc);
+//            admin.toast("Epc no found: "+ epc);
         }
     }
 
@@ -389,14 +384,14 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
         final TextView txtLocal = dialogView.findViewById(R.id.txtLocal);
-        final TextView txtZona = dialogView.findViewById(R.id.txtZona);
+        final TextView txtNum = dialogView.findViewById(R.id.txtNum);
         final TextView txtTime = dialogView.findViewById(R.id.txtTime);
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
 
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
         txtLocal.setText("Local Origen : "+empleado.getEmpleado().getLocales_id().getName());
-        txtZona.setText("Local Destino: "+request.getLocal_destino_id().getName());
+        txtNum.setText("Local Destino: "+request.getLocal_destino_id().getName());
         builder.setView(dialogView);
 
 
@@ -404,7 +399,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                admin.toast(edtMensaje.getText().toString());
+//                admin.toast(edtMensaje.getText().toString());
                 WebServices.crearTransferencia(
                         request,
                         productos,
@@ -419,7 +414,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
                             @Override
                             public void fail(ResultWebServiceFail fail) {
-                                admin.toast("fail");
+                                admin.toast(fail.getError());
                             }
                         }
 

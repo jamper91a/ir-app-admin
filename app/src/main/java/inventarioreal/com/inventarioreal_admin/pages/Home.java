@@ -74,6 +74,7 @@ public class Home extends CicloActivity {
             @Override
             public void onClick(View v) {
 //                admin.callIntent(crear_inventario.class, null);
+                admin.callIntent(ReaderActivity.class, null);
             }
         });
 

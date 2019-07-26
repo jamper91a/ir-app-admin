@@ -55,6 +55,7 @@ public class RecyclerAdapterTransferencias extends RecyclerView.Adapter<Recycler
         } catch (Exception e) {
             Log.e(Tag, e.getMessage());
         }
+        holder.bind(transferencias.get(i));
 
     }
 

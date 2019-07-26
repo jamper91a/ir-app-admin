@@ -133,7 +133,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 
     @Override
     public void hasAllPermissions() {
-        startFlag=true;
+        startFlag=false;
     }
 
     //region UHD Sdk

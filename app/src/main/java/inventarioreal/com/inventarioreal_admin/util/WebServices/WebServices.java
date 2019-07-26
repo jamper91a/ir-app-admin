@@ -672,13 +672,17 @@ public class WebServices {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 try {
-                    Transferencias[] aux = gson.fromJson(jsonObject.getJSONArray("data").toString(),Transferencias[].class);
+                    String data = jsonObject.getJSONArray("data").toString();
+                    Transferencias[] aux = gson.fromJson(data,Transferencias[].class);
                     if (aux!=null && aux.length>0) {
-                        ArrayList<Transferencias> arrayInventarios = new ArrayList<Transferencias>(Arrays.asList(aux));
-                        result.ok(new ResultWebServiceOk(arrayInventarios));
+//                        ArrayList<Transferencias> arrayInventarios = new ArrayList<>(Arrays.asList(aux));
+                        result.ok(new ResultWebServiceOk(aux));
                     }else{
                         result.fail(new ResultWebServiceFail("No hay transferencias"));
                     }
+                } catch (JSONException e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
                 } catch (Exception e) {
                     admin.toast(e.getMessage());
                     result.fail(new ResultWebServiceFail(e.getMessage()));
@@ -710,7 +714,7 @@ public class WebServices {
                 try {
                     Transferencias[] aux = gson.fromJson(jsonObject.getJSONArray("data").toString(),Transferencias[].class);
                     if (aux!=null && aux.length>0) {
-                        ArrayList<Transferencias> arrayInventarios = new ArrayList<Transferencias>(Arrays.asList(aux));
+                        ArrayList<Transferencias> arrayInventarios = new ArrayList<>(Arrays.asList(aux));
                         result.ok(new ResultWebServiceOk(arrayInventarios));
                     }else{
                         result.fail(new ResultWebServiceFail("No hay transferencias"));

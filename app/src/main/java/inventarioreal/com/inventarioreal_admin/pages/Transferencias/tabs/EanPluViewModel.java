@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.LinkedList;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
 
 public class EanPluViewModel extends ViewModel {
@@ -24,7 +23,7 @@ public class EanPluViewModel extends ViewModel {
 //                if(pzt.getProductos_zona_id().getProductos_id().getId() == productosZonasHasTransferencia.getProductos_zona_id().getProductos_id().getId()){
 //                    pzt.getProductos_zona_id().setTotal(pzt.getProductos_zona_id().getTotal()+1);
 //                    productosZonaHasTransferencias.set(count,pzt);
-//                    productosZonasHasTransferenciasLiveData.setValue(productosZonaHasTransferencias);
+//                    transferenciaLiveData.setValue(productosZonaHasTransferencias);
 //                    return;
 //                }
 //                count+=1;

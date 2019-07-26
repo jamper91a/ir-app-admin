@@ -1,12 +1,15 @@
 package inventarioreal.com.inventarioreal_admin.pages.Transferencias;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Transferencias.CrearTransferencia.CrearTransferenciaStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoHome;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -88,4 +91,31 @@ public class HomeTransferencia extends CicloActivity {
 
     }
 
+    //region Menu
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(getString(R.string.log_out));
+//        getMenuInflater().inflate(menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        if(item.getTitle().equals(getString(R.string.log_out))){
+            admin.log_out(Login.class);
+        }
+
+        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_favorite) {
+//            Toast.makeText(MainActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
+//            return true;
+//        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //endregion
 }

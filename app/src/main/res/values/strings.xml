@@ -49,4 +49,14 @@
     <string name="consolidar_inventarios_cooperativos">Consolidar inventarios cooperativos</string>
     <string name="title_activity_home_transferencia">HomeTransferencia</string>
     <string name="ME">M.E</string>
+    <string name="recibido">Recibido</string>
+    <string name="enviado">Enviado</string>
+    <string name="enviar_email">Enviar email</string>
+    <string name="enviados">Enviados</string>
+    <string name="recibidos">Recibidos</string>
+    <string name="faltantes">Faltantes</string>
+    <string name="fecha_de_transferencia">Fecha de transferencia</string>
+    <string name="local_destino">Local Destino</string>
+    <string name="generado_por">Generado por:</string>
+    <string name="mensaje">Mensaje</string>
 </resources>
