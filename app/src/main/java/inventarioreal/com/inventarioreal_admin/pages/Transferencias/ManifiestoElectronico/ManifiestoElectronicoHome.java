@@ -44,6 +44,12 @@ public class ManifiestoElectronicoHome extends CicloActivity {
                 admin.callIntent(ManifiestoElectronicoIngresos.class, null);
             }
         });
+        add_on_click(R.id.btnSal, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(ManifiestoElectronicoSalidas.class, null);
+            }
+        });
     }
 
     @Override

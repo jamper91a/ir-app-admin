@@ -129,4 +129,5 @@ public class Constants {
     public static String estado="estado";
     public static String transferencias_ingreso="entrada";
     public static String ws_obtenerTransferencia="transferencias/obtenerTransferencia";
+    public static String transferencias_salida="salida";
 }

@@ -20,6 +20,7 @@
         <activity android:name=".pages.ReaderActivity"></activity>
         <activity android:name=".pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoDetalles" />
         <activity android:name=".pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoIngresos" />
+        <activity android:name=".pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoSalidas" />
         <activity android:name=".pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoHome" />
         <activity android:name=".pages.Transferencias.CrearTransferencia.CrearTransferenciaStep2" />
         <activity android:name=".pages.Transferencias.CrearTransferencia.CrearTransferenciaStep1" />
