@@ -74,8 +74,8 @@ public class ListAdapterTransferenciaDetails extends RecyclerView.Adapter<ListAd
                 break;
             case TYPE_ITEM:
                 final ProductosTransferenciaDetail item = data.getProductos()[position-1];
-                holder.getTxt1().setText(item.getEnviados());
-                holder.getTxt2().setText(item.getRecibidos());
+                holder.getTxt1().setText(item.getEnviados()+"");
+                holder.getTxt2().setText(item.getRecibidos()+"");
                 holder.getTxt3().setText(item.getProducto().getEan());
                 holder.getTxt4().setText(item.getProducto().getDescripcion());
                 holder.bind(item);

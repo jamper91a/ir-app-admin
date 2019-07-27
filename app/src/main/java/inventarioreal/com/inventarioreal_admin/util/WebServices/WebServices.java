@@ -698,7 +698,7 @@ public class WebServices {
 
     public static void getTransferenciasByTipo(final String tipo, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
 
-        final String url=Constants.url+Constants.ws_obtenerTransferencias;
+        final String url=Constants.url+Constants.ws_obtenerTransferencia;
         LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
         HashMap<String, String> campos = new HashMap<>();
         campos.put(Constants.local_id, loginResponse.getEmpleado().getLocales_id().getId()+"");

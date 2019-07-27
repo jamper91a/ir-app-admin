@@ -45,5 +45,5 @@ dependencies {
     implementation project(':SlidingMenu')
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation project(':EasyWay')
-    implementation files('libs/serialport.jar')
+    implementation files('libs/SerialPort.jar')
 }

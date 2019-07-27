@@ -109,7 +109,6 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
                             e.printStackTrace();
                         }
                     }
-
                 }
                 transferenciaDetails.setEnviados(productosUnicos);
                 transferenciaDetails.setRecibidos(recibidos);
@@ -119,7 +118,8 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
                 transferenciaDetails.setGenerador(transferencia.getCreador_id());
                 transferenciaDetails.setMensaje(transferencia.getMensaje());
                 transferenciaDetails.setManifiestoElectronico(transferencia.getManifiesto());
-                transferenciaDetails.setProductos((ProductosTransferenciaDetail[]) productos.toArray());
+                ProductosTransferenciaDetail [] auxProd = productos.toArray(new ProductosTransferenciaDetail[productos.size()]);
+                transferenciaDetails.setProductos(auxProd);
 
                 admin.callIntent(ManifiestoElectronicoDetalles.class, transferenciaDetails, TransferenciaDetails.class);
 

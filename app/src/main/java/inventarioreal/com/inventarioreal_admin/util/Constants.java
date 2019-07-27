@@ -47,7 +47,7 @@ public class Constants {
 
 //        public static final String url="http://c945485b.ngrok.io/";
 //    public static final String url = "http://coexnort.servehttp.com:8023/";
-    public static final String url = "http://192.168.1.7:1337/";
+    public static final String url = "http://192.168.1.3:1337/";
     public static final String user = "user";
     public static final String token = "token";
     public static final String authorization = "Authorization";
@@ -128,4 +128,5 @@ public class Constants {
     public static String mensaje="mensaje";
     public static String estado="estado";
     public static String transferencias_ingreso="entrada";
+    public static String ws_obtenerTransferencia="transferencias/obtenerTransferencia";
 }
