@@ -63,7 +63,7 @@ public class CrearInventarioStep2 extends CicloActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this,this,R.layout.activity_inventario_parcial_crear_inventario_step_2);
+        init(this,this,R.layout.get_product_by_epc);
         //region UhF
         Thread thread = new InventoryThread();
         thread.start();
@@ -133,7 +133,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 
     @Override
     public void hasAllPermissions() {
-        startFlag=true;
+        startFlag=false;
     }
 
     //region UHD Sdk
@@ -216,6 +216,8 @@ public class CrearInventarioStep2 extends CicloActivity {
             eanPluVieModel.addProductoZona(proZon);
             totalViewModel.setAmount(inventariosProductos.size());
             epcs.add(epc);
+        }else{
+            admin.toast("Epc no found: "+ epc);
         }
     }
 
@@ -223,9 +225,9 @@ public class CrearInventarioStep2 extends CicloActivity {
     private List<String> epcs;
 
     private boolean wasRead(String epc){
-//        for (int i = 0; i < eanPluVieModel.getProductosZona().getValue().size(); i++) {
+//        for (int i = 0; i < eanPluVieModel.getProductosZonaHasTransferencia().getValue().size(); i++) {
 //            //Determino si ese epc ya se leyo antes
-//            ProductosZonas mEPC = eanPluVieModel.getProductosZona().getValue().get(i);
+//            ProductosZonas mEPC = eanPluVieModel.getProductosZonaHasTransferencia().getValue().get(i);
 //            if (epc.equals(mEPC.getEpcs_id().getEpc())){
 //                return true;
 //            }
@@ -245,7 +247,7 @@ public class CrearInventarioStep2 extends CicloActivity {
             @Override
             public void run() {
                 // The epc for the first time
-//                if (eanPluVieModel.getProductosZona().getValue().isEmpty()) {
+//                if (eanPluVieModel.getProductosZonaHasTransferencia().getValue().isEmpty()) {
 //                    createEpc(epc);
 //                } else {
 //                    //Determino si ese epc ya se leyo antes

@@ -37,7 +37,6 @@ public class CrearInventarioStep1 extends CicloActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this, this, R.layout.activity_inventario_parcial_crear_inventario_step_1);
-
         this.menu = init_menu(this, R.layout.layout_menu);
     }
 

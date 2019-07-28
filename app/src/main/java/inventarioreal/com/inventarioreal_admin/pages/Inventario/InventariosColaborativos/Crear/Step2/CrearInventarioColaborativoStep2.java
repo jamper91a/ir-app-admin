@@ -206,9 +206,9 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     private List<String> epcs;
 
     private boolean wasRead(String epc){
-//        for (int i = 0; i < eanPluVieModel.getProductosZona().getValue().size(); i++) {
+//        for (int i = 0; i < eanPluVieModel.getProductosZonaHasTransferencia().getValue().size(); i++) {
 //            //Determino si ese epc ya se leyo antes
-//            ProductosZonas mEPC = eanPluVieModel.getProductosZona().getValue().get(i);
+//            ProductosZonas mEPC = eanPluVieModel.getProductosZonaHasTransferencia().getValue().get(i);
 //            if (epc.equals(mEPC.getEpcs_id().getEpc())){
 //                return true;
 //            }
@@ -228,11 +228,11 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
             @Override
             public void run() {
                 // The epc for the first time
-//                if (eanPluVieModel.getProductosZona().getValue().isEmpty()) {
+//                if (eanPluVieModel.getProductosZonaHasTransferencia().getValue().isEmpty()) {
 //                    createEpc(epc);
 //                } else {
-//                    for (int i = 0; i < eanPluVieModel.getProductosZona().getValue().size(); i++) {
-//                        ProductosZonas mEPC = eanPluVieModel.getProductosZona().getValue().get(i);
+//                    for (int i = 0; i < eanPluVieModel.getProductosZonaHasTransferencia().getValue().size(); i++) {
+//                        ProductosZonas mEPC = eanPluVieModel.getProductosZonaHasTransferencia().getValue().get(i);
 //                        if (!epc.equals(mEPC.getEpcs_id().getEpc())){
 //                            createEpc(epc);
 //                        }

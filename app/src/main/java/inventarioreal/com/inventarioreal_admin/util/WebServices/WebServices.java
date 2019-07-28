@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.util.WebServices;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -24,13 +25,18 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Locales;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMercanciaRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AdjuntarInventarioRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioColaborativoRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearTransferenciaRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FinalizarTransferenciaRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -299,6 +305,12 @@ public class WebServices {
                                         db.insert(Constants.table_zonas, zona.getContentValues());
                                     }
                                 }
+                                if (response.getLocales()!=null && response.getLocales().length>0) {
+                                    Log.d("Locales", response.getLocales().toString());
+                                    for (Locales local: response.getLocales()) {
+                                        db.insert(Constants.table_locales, local.getContentValues());
+                                    }
+                                }
                                 result.ok(new ResultWebServiceOk(response));
 
                             } catch (Exception e) {
@@ -325,7 +337,6 @@ public class WebServices {
 
     public static void crearInventario(long zonas_id, List<InventariosProductos> inventario_productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_crearInventario;
-
         CrearInventarioRequest request = new CrearInventarioRequest(zonas_id, inventario_productos);
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
@@ -645,6 +656,134 @@ public class WebServices {
             }
         });
     }
+
+    public static void getTransferencias(final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+
+        final String url=Constants.url+Constants.ws_obtenerTransferencias;
+        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
+        HashMap<String, String> campos = new HashMap<>();
+        campos.put(Constants.local_id, loginResponse.getEmpleado().getLocales_id().getId()+"");
+        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    String data = jsonObject.getJSONArray("data").toString();
+                    Transferencias[] aux = gson.fromJson(data,Transferencias[].class);
+                    if (aux!=null && aux.length>0) {
+//                        ArrayList<Transferencias> arrayInventarios = new ArrayList<>(Arrays.asList(aux));
+                        result.ok(new ResultWebServiceOk(aux));
+                    }else{
+                        result.fail(new ResultWebServiceFail("No hay transferencias"));
+                    }
+                } catch (JSONException e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+    public static void getTransferenciasByTipo(final String tipo, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+
+        final String url=Constants.url+Constants.ws_obtenerTransferencia;
+        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
+        HashMap<String, String> campos = new HashMap<>();
+        campos.put(Constants.local_id, loginResponse.getEmpleado().getLocales_id().getId()+"");
+        campos.put(Constants.tipo, tipo);
+        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    Transferencias[] aux = gson.fromJson(jsonObject.getJSONArray("data").toString(),Transferencias[].class);
+                    if (aux!=null && aux.length>0) {
+                        ArrayList<Transferencias> arrayInventarios = new ArrayList<>(Arrays.asList(aux));
+                        result.ok(new ResultWebServiceOk(arrayInventarios));
+                    }else{
+                        result.fail(new ResultWebServiceFail("No hay transferencias"));
+                    }
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+    public static void finalizarTransferencia(final LinkedList<ProductosZonasHasTransferencias> pzt,final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_finalizarTransferencia;
+        FinalizarTransferenciaRequest request = new FinalizarTransferenciaRequest(pzt);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    result.ok(new ResultWebServiceOk());
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+    public static void crearTransferencia(final Transferencias transferencia,final LinkedList<ProductosZonasHasTransferencias> productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_crearTransferencia;
+        CrearTransferenciaRequest request = new CrearTransferenciaRequest(transferencia, productos);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    result.ok(new ResultWebServiceOk());
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
 
 
 }

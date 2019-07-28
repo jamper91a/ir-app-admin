@@ -259,7 +259,7 @@ public class IngresoMercancia extends CicloActivity {
     public void initSdk(){
         try {
             uhfManager = UhfManager.getInstance();
-            uhfManager.setOutputPower(26);
+            uhfManager.setOutputPower(30);
             uhfManager.setWorkArea(2);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());

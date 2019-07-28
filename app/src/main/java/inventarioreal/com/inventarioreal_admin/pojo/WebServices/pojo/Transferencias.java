@@ -14,8 +14,8 @@ public class Transferencias extends InventarioRealPojo {
     private Locales local_origen_id;
     private Locales local_destino_id;
     private boolean estado;
-    private String fecha;
     private String mensaje;
+    private ProductosZonasHasTransferencias[] productos;
 
     public Transferencias() {
     }
@@ -80,19 +80,19 @@ public class Transferencias extends InventarioRealPojo {
         this.estado = estado;
     }
 
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
-
     public String getMensaje() {
         return mensaje;
     }
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
+    }
+
+    public ProductosZonasHasTransferencias[] getProductos() {
+        return productos;
+    }
+
+    public void setProductos(ProductosZonasHasTransferencias productos[]) {
+        this.productos = productos;
     }
 }

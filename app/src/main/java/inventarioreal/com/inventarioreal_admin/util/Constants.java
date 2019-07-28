@@ -45,8 +45,9 @@ public class Constants {
     //endregion
 
 
-    //    public static final String url="http://192.168.0.10:3000/v1/";
-    public static final String url = "http://coexnort.servehttp.com:8023/";
+//        public static final String url="http://c945485b.ngrok.io/";
+//    public static final String url = "http://coexnort.servehttp.com:8023/";
+    public static final String url = "http://192.168.1.3:1337/";
     public static final String user = "user";
     public static final String token = "token";
     public static final String authorization = "Authorization";
@@ -114,4 +115,19 @@ public class Constants {
     public static String ws_listarInventariosConsolidados="inventariosConsolidados/listar";
     public static String ws_adjuntarInvenario="inventarios/adjuntar";
     public static String ws_getProductsByInventoryColaborativo="inventariosConsolidados/listarProductos";
+    public static String ws_obtenerTransferencias="transferencias/obtenerTransferencias";
+    public static String local_id="local_id";
+    public static String ws_finalizarTransferencia="transferencias/finalizarTransferencia";
+    public static String productos_zona_has_transferencias="productos_zona_has_transferencias";
+    public static String transferencias_id="transferencias_id";
+    public static String table_locales="locales";
+    public static String ws_crearTransferencia="transferencias/crear";
+    public static String transferencia="transferencia";
+    public static String local_origen_id="local_origen_id";
+    public static String local_destino_id="local_destino_id";
+    public static String mensaje="mensaje";
+    public static String estado="estado";
+    public static String transferencias_ingreso="entrada";
+    public static String ws_obtenerTransferencia="transferencias/obtenerTransferencia";
+    public static String transferencias_salida="salida";
 }

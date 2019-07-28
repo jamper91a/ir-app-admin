@@ -27,6 +27,8 @@ public class ProductosZonas extends InventarioRealPojo {
     public ProductosZonas() {
     }
 
+
+
     @Override
     public void fromHashMap(Class myClass, HashMap<String, String> data) {
 
