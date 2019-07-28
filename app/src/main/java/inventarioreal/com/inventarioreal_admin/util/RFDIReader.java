@@ -47,8 +47,13 @@ public class RFDIReader {
     public static final int  BIG= 2;
     public static final String  TAG= "RFDIReader";
 
-    public RFDIReader(int type, RFDIListener listener){
-        this.type=type;
+//    public RFDIReader(int type, RFDIListener listener){
+//        this.type=type;
+//        this.listener= listener;
+//        epcs = new LinkedList<String>();
+//    }
+    public RFDIReader(RFDIListener listener){
+        this.type=BIG;
         this.listener= listener;
         epcs = new LinkedList<String>();
     }

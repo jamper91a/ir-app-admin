@@ -32,7 +32,7 @@ public class ReaderActivity extends CicloActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rfdiReader = new RFDIReader(RFDIReader.BIG, new RFDIListener() {
+        rfdiReader = new RFDIReader(new RFDIListener() {
             @Override
             public void onEpcAdded(String epc) {
                 Message msg = new Message();
