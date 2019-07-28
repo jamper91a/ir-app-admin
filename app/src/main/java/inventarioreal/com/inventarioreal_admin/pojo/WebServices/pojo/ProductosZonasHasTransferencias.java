@@ -6,13 +6,13 @@ import android.database.Cursor;
 import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
-import inventarioreal.com.inventarioreal_admin.util.Constants;
 
 public class ProductosZonasHasTransferencias extends InventarioRealPojo {
 
     public ProductosZonas productos_zona_id;
     public Transferencias transferencias_id;
     public boolean estado;
+
 
     public ProductosZonas getProductos_zona_id() {
         return productos_zona_id;
@@ -29,6 +29,8 @@ public class ProductosZonasHasTransferencias extends InventarioRealPojo {
     public void setTransferencias_id(Transferencias transferencias_id) {
         this.transferencias_id = transferencias_id;
     }
+
+
 
     public boolean getEstado() {
         return estado;

@@ -20,6 +20,22 @@ public class RFDIReader {
     private RFDIListener listener;
     public UHFManager manager = null;
 
+    public boolean isRunReader() {
+        return runReader;
+    }
+
+    public void setRunReader(boolean runReader) {
+        this.runReader = runReader;
+    }
+
+    public boolean isStartReader() {
+        return startReader;
+    }
+
+    public void setStartReader(boolean startReader) {
+        this.startReader = startReader;
+    }
+
     private boolean runReader=false;
     private boolean startReader=false;
 
@@ -250,6 +266,8 @@ public class RFDIReader {
                 return;
             }
             try {
+                isRunning=true;
+                isStart=true;
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();

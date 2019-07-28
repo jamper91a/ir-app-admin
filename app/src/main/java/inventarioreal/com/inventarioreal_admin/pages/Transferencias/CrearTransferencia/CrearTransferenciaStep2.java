@@ -4,6 +4,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,14 +22,13 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
-import com.handheld.UHF.UhfManager;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluViewModel;
@@ -42,6 +43,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZo
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -52,18 +54,53 @@ import jamper91.com.easyway.Util.CicloActivity;
 public class CrearTransferenciaStep2 extends CicloActivity {
 
     private Transferencias request = null;
-    private UhfManager uhfManager;
+
     private String TAG="CrearInventarioStep2";
     private DataBase db = DataBase.getInstance(this);
     private Gson gson = new Gson();
     private LinkedList<ProductosZonasHasTransferencias> productos = new LinkedList<>();
+    RFDIReader rfdiReader =  null;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    String epc = msg.getData().getString("epc");
+//                    admin.toast(epc);
+                    addToList(epc);
+                    break ;
+            }
+        }
+    } ;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        rfdiReader = new RFDIReader(RFDIReader.BIG, new RFDIListener() {
+            @Override
+            public void onEpcAdded(String epc) {
+                Message msg = new Message();
+                msg.what = 1;
+                Bundle b = new Bundle();
+                b.putString("epc", epc);
+                msg.setData(b);
+                handler.sendMessage(msg);
+            }
+
+            @Override
+            public void onEpcRepeated(String epc) {
+                Message msg = new Message();
+                msg.what = 1;
+                Bundle b = new Bundle();
+                b.putString("epc", "onEpcRepeated:"+epc);
+                msg.setData(b);
+                handler.sendMessage(msg);
+            }
+        });
+        rfdiReader.initSDK();
         init(this, this, R.layout.get_product_by_epc);
         //region UhF
-        Thread thread = new InventoryThread();
-        thread.start();
+//        Thread thread = new InventoryThread();
+//        thread.start();
         //endregion
         //region Obtener parametros
         Intent intent = getIntent();
@@ -102,12 +139,15 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         add_on_click(R.id.btnLee, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(startFlag==false)
+//                if(startFlag==false)
+                if(rfdiReader.isStartReader()==false)
                 {
-                    startFlag=true;
+                    rfdiReader.startReader();
+//                    startFlag=true;
                     getElemento(R.id.btnLee).setText("Detener");
                 }else{
-                    startFlag=false;
+                    rfdiReader.setStartReader(false);
+//                    startFlag=false;
                     getElemento(R.id.btnLee).setText("Leer");
                 }
             }
@@ -127,49 +167,52 @@ public class CrearTransferenciaStep2 extends CicloActivity {
     }
 
     //region UHD Sdk
-    public void initSdk(){
-        try {
-            uhfManager = UhfManager.getInstance();
-            uhfManager.setOutputPower(26);
-            uhfManager.setWorkArea(2);
-            startFlag=true;
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        }
+//    public void initSdk(){
+//        try {
+//            uhfManager = UhfManager.getInstance();
+//            uhfManager.setOutputPower(26);
+//            uhfManager.setWorkArea(2);
+//            startFlag=true;
+//        } catch (Exception e) {
+//            Log.e(TAG, e.getMessage());
+//        }
+//
+//    }
 
-    }
-
-    private boolean runFlag=true;
-    private boolean startFlag = false;
+//    private boolean runFlag=true;
+//    private boolean startFlag = false;
 
     @Override
     protected void onResume() {
         super.onResume();
-        uhfManager = UhfManager.getInstance();
-        if (uhfManager == null) {
-            return;
-        }
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        initSdk();
+        rfdiReader.onResume();
+//        uhfManager = UhfManager.getInstance();
+//        if (uhfManager == null) {
+//            return;
+//        }
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        initSdk();
     }
 
     @Override
     protected void onPause() {
-        startFlag = false;
-        uhfManager.close();
+//        startFlag = false;
+//        uhfManager.close();
         super.onPause();
+        rfdiReader.onPause();
     }
     @Override
     protected void onDestroy() {
-        startFlag = false;
-        if (uhfManager != null) {
-            uhfManager.close();
-        }
+//        startFlag = false;
+//        if (uhfManager != null) {
+//            uhfManager.close();
+//        }
         super.onDestroy();
+        rfdiReader.onDestroy();
     }
 
     private void createEpc(String epc){
@@ -260,34 +303,34 @@ public class CrearTransferenciaStep2 extends CicloActivity {
      * Inventory Epcs Thread
      */
 
-    class InventoryThread extends Thread {
-        private List<byte[]> epcList;
-
-        @Override
-        public void run() {
-            super.run();
-            while (runFlag) {
-                if (startFlag) {
-                    // manager.stopInventoryMulti()
-                    epcList = uhfManager.inventoryRealTime(); // inventory real time
-                    if (epcList != null && !epcList.isEmpty()) {
-                        for (byte[] epc : epcList) {
-                            String epcStr = Tools.Bytes2HexString(epc,
-                                    epc.length);
-                            addToList(epcStr);
-                        }
-                    }
-                    epcList = null;
-                    try {
-                        Thread.sleep( 40);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
+//    class InventoryThread extends Thread {
+//        private List<byte[]> epcList;
+//
+//        @Override
+//        public void run() {
+//            super.run();
+//            while (runFlag) {
+//                if (startFlag) {
+//                    // manager.stopInventoryMulti()
+//                    epcList = uhfManager.inventoryRealTime(); // inventory real time
+//                    if (epcList != null && !epcList.isEmpty()) {
+//                        for (byte[] epc : epcList) {
+//                            String epcStr = Tools.Bytes2HexString(epc,
+//                                    epc.length);
+//                            addToList(epcStr);
+//                        }
+//                    }
+//                    epcList = null;
+//                    try {
+//                        Thread.sleep( 40);
+//                    } catch (InterruptedException e) {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }
+//    }
     //endregion
 
     //region Menu
@@ -399,7 +442,8 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                admin.toast(edtMensaje.getText().toString());
+                admin.toast(edtMensaje.getText().toString());
+                request.setMensaje(edtMensaje.getText().toString());
                 WebServices.crearTransferencia(
                         request,
                         productos,
