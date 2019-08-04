@@ -55,7 +55,7 @@ public class Ingresos extends CicloActivity {
 //    private UhfManager uhfManager;
     private String TAG="Ingresos";
     private DataBase db = DataBase.getInstance(this);
-    private LinkedList<ProductosZonasHasTransferencias> auxProZonTrans = new LinkedList<>();
+//    private LinkedList<ProductosZonasHasTransferencias> auxProZonTrans = new LinkedList<>();
     private Gson gson = new Gson();
     private Transferencias[] transferencias = null;
     private LinkedList<ProductosZonasHasTransferencias> productosZonasHasTransferencias= new LinkedList<>();
@@ -312,7 +312,7 @@ public class Ingresos extends CicloActivity {
                 }
 
                 //Informacion requeria por el servicio web de crear inventario
-                totalViewModel.setAmount(auxProZonTrans.size());
+                totalViewModel.setAmount(productosZonasHasTransferencias.size());
             } catch (Exception e) {
                 e.printStackTrace();
             }
