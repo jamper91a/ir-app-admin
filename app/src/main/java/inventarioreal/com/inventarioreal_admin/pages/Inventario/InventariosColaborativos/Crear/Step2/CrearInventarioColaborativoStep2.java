@@ -4,6 +4,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +30,7 @@ import java.util.List;
 
 import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluViewModel;
@@ -41,6 +44,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -50,20 +54,60 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
-    private UhfManager uhfManager;
+    //private UhfManager uhfManager;
     private String TAG="CrearInventarioStep2";
     private DataBase db = DataBase.getInstance(this);
     private RequestInventariorCrear2 requestInventariorCrear2;
     private LinkedList<InventariosProductos> inventariosProductos = new LinkedList<>();
     private Gson gson = new Gson();
-    
+
+    RFDIReader rfdiReader =  null;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            String epc;
+            switch (msg.what){
+                case 1:
+                    epc = msg.getData().getString("epc");
+                    addToList(epc);
+                    //admin.toast("Epc found: "+epc); //readed
+                    break ;
+                case 2:
+                    epc = msg.getData().getString("epc");
+                    //admin.toast("Epc repeted: "+epc); // repeted
+                    break ;
+            }
+        }
+    } ;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_crear_inventario_colaborativo_step2);
         //region UhF
-        Thread thread = new CrearInventarioColaborativoStep2.InventoryThread();
-        thread.start();
+        rfdiReader = new RFDIReader(new RFDIListener() {
+            @Override
+            public void onEpcAdded(String epc) {
+                Message msg = new Message();
+                msg.what = 1;
+                Bundle b = new Bundle();
+                b.putString("epc", epc);
+                msg.setData(b);
+                handler.sendMessage(msg);
+            }
+
+            @Override
+            public void onEpcRepeated(String epc) {
+                Message msg = new Message();
+                msg.what = 2;
+                Bundle b = new Bundle();
+                b.putString("epc", "onEpcRepeated:"+epc);
+                msg.setData(b);
+                handler.sendMessage(msg);
+            }
+        });
+        rfdiReader.initSDK();
+        rfdiReader.startReader();
         //endregion
         //region Obtener parametros
         Intent intent = getIntent();
@@ -103,12 +147,14 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         add_on_click(R.id.btnLee, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(startFlag==false)
+                if(rfdiReader.isStartReader() ==false)
                 {
-                    startFlag=true;
+                    rfdiReader.startReader();
+//                    startFlag=true;
                     getElemento(R.id.btnLee).setText("Detener");
                 }else{
-                    startFlag=false;
+                    rfdiReader.setStartReader(false);
+//                    startFlag=false;
                     getElemento(R.id.btnLee).setText("Leer");
                 }
             }
@@ -117,11 +163,12 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
     @Override
     public void hasAllPermissions() {
-        startFlag=true;
+       // startFlag=true;
+
     }
 
     //region UHD Sdk
-    public void initSdk(){
+   /* public void initSdk(){
         try {
             uhfManager = UhfManager.getInstance();
             uhfManager.setOutputPower(26);
@@ -131,38 +178,29 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
             Log.e(TAG, e.getMessage());
         }
 
-    }
+    }*/
 
-    private boolean runFlag=true;
-    private boolean startFlag = false;
+    //private boolean runFlag=true;
+   // private boolean startFlag = false;
 
     @Override
     protected void onResume() {
         super.onResume();
-        uhfManager = UhfManager.getInstance();
-        if (uhfManager == null) {
-            return;
-        }
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        initSdk();
+        rfdiReader.onResume();
     }
 
     @Override
     protected void onPause() {
-        startFlag = false;
-        uhfManager.close();
         super.onPause();
+        rfdiReader.onPause();
     }
     @Override
     protected void onDestroy() {
-        startFlag = false;
+        /*startFlag = false;
         if (uhfManager != null) {
             uhfManager.close();
-        }
+        }*/
+        rfdiReader.onDestroy();
         super.onDestroy();
     }
 
@@ -231,15 +269,11 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 //                if (eanPluVieModel.getProductosZonaHasTransferencia().getValue().isEmpty()) {
 //                    createEpc(epc);
 //                } else {
-//                    for (int i = 0; i < eanPluVieModel.getProductosZonaHasTransferencia().getValue().size(); i++) {
-//                        ProductosZonas mEPC = eanPluVieModel.getProductosZonaHasTransferencia().getValue().get(i);
-//                        if (!epc.equals(mEPC.getEpcs_id().getEpc())){
-//                            createEpc(epc);
-//                        }
-//
-//                    }
-//
+//                    //Determino si ese epc ya se leyo antes
+//                    if(!wasRead(epc))
+//                        createEpc(epc);
 //                }
+
                 if(epcs.isEmpty())
                     createEpc(epc);
                 else{
@@ -253,7 +287,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     /**
      * Inventory Epcs Thread
      */
-
+/*
     class InventoryThread extends Thread {
         private List<byte[]> epcList;
 
@@ -281,7 +315,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                 }
             }
         }
-    }
+    }*/
     //endregion
 
     //region Menu
@@ -378,7 +412,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
         final TextView txtLocal = dialogView.findViewById(R.id.txtLocal);
-        final TextView txtZona = dialogView.findViewById(R.id.txtZona);
+        final TextView txtZona = dialogView.findViewById(R.id.txtNum);
         final TextView txtTime = dialogView.findViewById(R.id.txtTime);
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
 

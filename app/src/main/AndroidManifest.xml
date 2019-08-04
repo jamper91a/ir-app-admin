@@ -27,6 +27,9 @@
         <activity
             android:name=".pages.Transferencias.HomeTransferencia"
             android:label="@string/title_activity_home_transferencia" />
+        <activity android:name=".pages.Devoluciones.HomeDevoluciones"/>
+        <activity android:name=".pages.Devoluciones.DeClientes.DevolucionDeClientesStep1" />
+        <activity android:name=".pages.Devoluciones.DeClientes.DevolucionDeClientesStep2" />
         <activity android:name=".pages.Inventario.InventariosColaborativos.VisualizarConsolidados.Step1.VisualizarInventariosColaborativosConsolidadosStep1" />
         <activity android:name=".pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step2.VisualizarInventarioColaborativoPorZonaStep2" />
         <activity android:name=".pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step1.VisualizarInventarioColaborativoPorZonaStep1" />
@@ -53,6 +56,7 @@
         <activity android:name=".pages.Inventario.Inventarios.Crear.Step2.CrearInventarioStep2" />
         <activity android:name=".pages.Inventario.Inventarios.Consolidar.ConsolidarInventarioStep1" />
         <activity android:name=".pages.Transferencias.Ingresos" />
+
     </application>
 
 </manifest>

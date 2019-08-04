@@ -33,9 +33,9 @@ public class TotalFragment extends Fragment {
         addElemento(v.findViewById(R.id.txt0));
         addElemento(v.findViewById(R.id.txtCant));
         addElemento(v.findViewById(R.id.txt1));
-        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtLocDes));
         addElemento(v.findViewById(R.id.txt2));
-        addElemento(v.findViewById(R.id.txtZona));
+        addElemento(v.findViewById(R.id.txtNum));
         return v;
     }
 
@@ -46,8 +46,8 @@ public class TotalFragment extends Fragment {
         mViewModel.getInventario().observe(this, new Observer<Inventarios>() {
             @Override
             public void onChanged(@Nullable Inventarios inventarios) {
-                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
-                TextView txtZona = (TextView) getElemento(R.id.txtZona);
+                TextView txtFecha = (TextView) getElemento(R.id.txtLocDes);
+                TextView txtZona = (TextView) getElemento(R.id.txtNum);
                 txtFecha.setText(inventarios.getFecha().replace("T", " - "));
                 txtZona.setText(inventarios.getZonas_id().getName());
 

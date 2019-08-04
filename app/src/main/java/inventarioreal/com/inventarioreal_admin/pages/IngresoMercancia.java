@@ -1,6 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.pages;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,13 +23,16 @@ import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterEpcs;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
+import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -38,7 +43,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 public class IngresoMercancia extends CicloActivity {
 
     private String TAG="IngresoMercancia";
-    private UhfManager uhfManager;
+    //private UhfManager uhfManager;
     public ListAdapterEpcs adapter1;
     private LinkedList<Epcs> epcs = new LinkedList<>();
     private LinkedList<Epcs> epcsBanned = new LinkedList<>();
@@ -47,14 +52,53 @@ public class IngresoMercancia extends CicloActivity {
 
     private Zonas zonas_id;
     private Productos productos_id=null;
+    RFDIReader rfdiReader =  null;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            String epc;
+            switch (msg.what){
+                case 1:
+                    epc = msg.getData().getString("epc");
+                    addToList(epc);
+                    //admin.toast("Epc found: "+epc); //readed
+                    break ;
+                case 2:
+                    epc = msg.getData().getString("epc");
+                    //admin.toast("Epc repeted: "+epc); // repeted
+                    break ;
+            }
+        }
+    } ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_ingreso_mercancia);
         //region Lector Rhfi
-        Thread thread = new InventoryThread();
-        thread.start();
+        rfdiReader = new RFDIReader(new RFDIListener() {
+            @Override
+            public void onEpcAdded(String epc) {
+                Message msg = new Message();
+                msg.what = 1;
+                Bundle b = new Bundle();
+                b.putString("epc", epc);
+                msg.setData(b);
+                handler.sendMessage(msg);
+            }
+
+            @Override
+            public void onEpcRepeated(String epc) {
+                Message msg = new Message();
+                msg.what = 2;
+                Bundle b = new Bundle();
+                b.putString("epc", "onEpcRepeated:"+epc);
+                msg.setData(b);
+                handler.sendMessage(msg);
+            }
+        });
+        rfdiReader.initSDK();
         //endregion
     }
     @Override
@@ -123,9 +167,6 @@ public class IngresoMercancia extends CicloActivity {
                             public void ok(ResultWebServiceOk ok) {
                                 Productos productoConsultado = (Productos) ok.getData();
                                 mostrarInformacionProducto(productoConsultado);
-
-
-
                             }
 
                             @Override
@@ -157,11 +198,9 @@ public class IngresoMercancia extends CicloActivity {
 
                     getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
-                    if (!startFlag) {
-                        startFlag = true;
-                    } else {
-                        startFlag = false;
-                    }
+                    rfdiReader.initSDK();
+                    rfdiReader.startReader();
+
                 }else{
                     admin.toast("Se debe buscar un producto");
                 }
@@ -255,25 +294,16 @@ public class IngresoMercancia extends CicloActivity {
 //            }
 //        });
     }
-    //region UHD Sdk
-    public void initSdk(){
-        try {
-            uhfManager = UhfManager.getInstance();
-            uhfManager.setOutputPower(30);
-            uhfManager.setWorkArea(2);
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        }
 
-    }
 
-    private boolean runFlag=true;
-    private boolean startFlag = false;
+    //private boolean runFlag=true;
+    //private boolean startFlag = false;
 
     @Override
     protected void onResume() {
         super.onResume();
-        uhfManager = UhfManager.getInstance();
+        rfdiReader.onResume();
+        /*uhfManager = UhfManager.getInstance();
         if (uhfManager == null) {
             return;
         }
@@ -281,22 +311,24 @@ public class IngresoMercancia extends CicloActivity {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-        initSdk();
+        }*/
+
     }
 
     @Override
     protected void onPause() {
-        startFlag = false;
-        uhfManager.close();
+        /*startFlag = false;
+        uhfManager.close();*/
         super.onPause();
+        rfdiReader.onPause();
+
     }
     @Override
     protected void onDestroy() {
-        startFlag = false;
+        /*startFlag = false;
         if (uhfManager != null) {
             uhfManager.close();
-        }
+        }*/
         super.onDestroy();
     }
 
@@ -372,7 +404,7 @@ public class IngresoMercancia extends CicloActivity {
         @Override
         public void run() {
             super.run();
-            while (runFlag) {
+            /*while (runFlag) {
                 if (startFlag) {
                     // managerBig.stopInventoryMulti()
                     epcList = uhfManager.inventoryRealTime(); // inventory real time
@@ -391,7 +423,7 @@ public class IngresoMercancia extends CicloActivity {
                         e.printStackTrace();
                     }
                 }
-            }
+            }*/
         }
     }
     //endregion

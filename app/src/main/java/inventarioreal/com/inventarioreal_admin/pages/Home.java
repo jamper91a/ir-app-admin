@@ -7,6 +7,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Devoluciones.HomeDevoluciones;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.InventarioParcialHome;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.InventariosColaborativosHome;
 import inventarioreal.com.inventarioreal_admin.pages.Transferencias.HomeTransferencia;
@@ -71,6 +72,13 @@ public class Home extends CicloActivity {
             @Override
             public void onClick(View v) {
                 sync(HomeTransferencia.class);
+            }
+        });
+
+        add_on_click(R.id.btnDev, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(HomeDevoluciones.class, null);
             }
         });
 

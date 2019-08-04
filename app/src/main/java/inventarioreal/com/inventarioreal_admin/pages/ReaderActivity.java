@@ -99,5 +99,5 @@ public class ReaderActivity extends CicloActivity {
     protected void onDestroy() {
         rfdiReader.onDestroy();
         super.onDestroy();
-    }
+}
 }
