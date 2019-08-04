@@ -46,8 +46,8 @@ public class Constants {
 
 
 //        public static final String url="http://c945485b.ngrok.io/";
-//    public static final String url = "http://coexnort.servehttp.com:8023/";
-    public static final String url = "http://192.168.1.8:1337/";
+    public static final String url = "http://coexnort.servehttp.com:8023/";
+//    public static final String url = "http://192.168.1.8:1337/";
     public static final String user = "user";
     public static final String token = "token";
     public static final String authorization = "Authorization";
