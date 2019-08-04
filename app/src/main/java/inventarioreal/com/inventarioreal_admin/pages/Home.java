@@ -10,6 +10,10 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.InventarioParcialHome;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.InventariosColaborativosHome;
 import inventarioreal.com.inventarioreal_admin.pages.Transferencias.HomeTransferencia;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -46,27 +50,27 @@ public class Home extends CicloActivity {
         add_on_click(R.id.btnIng, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(IngresoMercancia.class, null);
+                sync(IngresoMercancia.class);
+
             }
         });
         add_on_click(R.id.btnInv, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                admin.callIntent(InventarioParcialHome.class, null);
+                sync(InventarioParcialHome.class);
             }
         });
         add_on_click(R.id.btnInvCoo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(InventariosColaborativosHome.class, null);
+                sync(InventariosColaborativosHome.class);
             }
         });
 
         add_on_click(R.id.btnTrans, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(HomeTransferencia.class, null);
+                sync(HomeTransferencia.class);
             }
         });
 
@@ -74,7 +78,7 @@ public class Home extends CicloActivity {
             @Override
             public void onClick(View v) {
 //                admin.callIntent(crear_inventario.class, null);
-                admin.callIntent(ReaderActivity.class, null);
+                sync(ReaderActivity.class);
             }
         });
 
@@ -94,5 +98,22 @@ public class Home extends CicloActivity {
     @Override
     public void onBackPressed() {
         admin.exitApp();
+    }
+
+    public void sync(final Class destino){
+        WebServices.sync(Home.this, admin, new ResultWebServiceInterface() {
+            @Override
+            public void ok(ResultWebServiceOk ok) {
+                admin.callIntent(destino, null);
+            }
+
+            @Override
+            public void fail(ResultWebServiceFail fail) {
+                admin.toast(fail.getError());
+                admin.callIntent(destino, null);
+
+
+            }
+        });
     }
 }

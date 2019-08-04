@@ -91,12 +91,12 @@ public class Ingresos extends CicloActivity {
 
             @Override
             public void onEpcRepeated(String epc) {
-                Message msg = new Message();
-                msg.what = 1;
-                Bundle b = new Bundle();
-                b.putString("epc", "onEpcRepeated:"+epc);
-                msg.setData(b);
-                handler.sendMessage(msg);
+//                Message msg = new Message();
+//                msg.what = 1;
+//                Bundle b = new Bundle();
+//                b.putString("epc", "onEpcRepeated:"+epc);
+//                msg.setData(b);
+//                handler.sendMessage(msg);
             }
         });
         rfdiReader.initSDK();
@@ -107,6 +107,7 @@ public class Ingresos extends CicloActivity {
 //        thread.start();
         //endregion
         this.tabsInit();
+//        rfdiReader.startReader();
 //        mTopToolbar = (Toolbar) findViewById(R.id.my_toolbar);
 //        setSupportActionBar(mTopToolbar);
     }
@@ -177,7 +178,7 @@ public class Ingresos extends CicloActivity {
                     rfdiReader.startReader();
                     getElemento(R.id.btnLee).setText("Detener");
                 }else{
-                    rfdiReader.setStartReader(false);
+                    rfdiReader.stopReader();
                     getElemento(R.id.btnLee).setText("Leer");
                 }
 //                if(startFlag==false)
@@ -280,34 +281,35 @@ public class Ingresos extends CicloActivity {
                 //Determino si el productozona de este tag esta en la lista de transferencia
                 for (Transferencias transferencia :
                         transferencias) {
+                    if(transferencia.getLocal_destino_id().id==local.id){
+                        for(ProductosZonasHasTransferencias pzt: transferencia.getProductos()){
 
-                    for(ProductosZonasHasTransferencias pzt: transferencia.getProductos()){
-
-                        if(pzt.getProductos_zona_id().getId() == proZon.getId()){
-                            //Product was transfered before
-                            if(pzt.getEstado()==true)
-                                pzt.setEstado(false);
-                            else{
-                                //Check if the pzt belongs to the current local
-                                try {
-
-                                    if(transferencia.getLocal_destino_id().getId() == local.getId())
-                                        pzt.setEstado(true);
-
-                                } catch (Exception e) {
+                            if(pzt.getProductos_zona_id().getId() == proZon.getId()){
+                                //Product was transfered before
+                                if(pzt.getEstado()==true)
                                     pzt.setEstado(false);
+                                else{
+                                    //Check if the pzt belongs to the current local
+                                    try {
+
+                                        if(transferencia.getLocal_destino_id().getId() == local.getId())
+                                            pzt.setEstado(true);
+
+                                    } catch (Exception e) {
+                                        pzt.setEstado(false);
+                                    }
+
+
                                 }
+                                pzt.setProductos_zona_id(proZon);
+                                pzt.setTransferencias_id(transferencia);
+                                productosZonasHasTransferencias.add(pzt);
+                                eanPluVieModel.addProductoZonaHasTransferencia(pzt);
 
 
                             }
-                            pzt.setProductos_zona_id(proZon);
-                            pzt.setTransferencias_id(transferencia);
-                            productosZonasHasTransferencias.add(pzt);
-                            eanPluVieModel.addProductoZonaHasTransferencia(pzt);
-
 
                         }
-
                     }
                 }
 
@@ -369,7 +371,7 @@ public class Ingresos extends CicloActivity {
 //            super.run();
 //            while (runFlag) {
 //                if (startFlag) {
-//                    // manager.stopInventoryMulti()
+//                    // managerBig.stopInventoryMulti()
 //                    epcList = uhfManager.inventoryRealTime(); // inventory real time
 //                    if (epcList != null && !epcList.isEmpty()) {
 //                        for (byte[] epc : epcList) {

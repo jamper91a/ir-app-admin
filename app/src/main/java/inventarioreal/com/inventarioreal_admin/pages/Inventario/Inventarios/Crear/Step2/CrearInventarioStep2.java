@@ -277,7 +277,7 @@ public class CrearInventarioStep2 extends CicloActivity {
             super.run();
             while (runFlag) {
                 if (startFlag) {
-                    // manager.stopInventoryMulti()
+                    // managerBig.stopInventoryMulti()
                     epcList = uhfManager.inventoryRealTime(); // inventory real time
                     if (epcList != null && !epcList.isEmpty()) {
                         for (byte[] epc : epcList) {
