@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2;
+package inventarioreal.com.inventarioreal_admin.pages.Devoluciones.DeClientes;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
@@ -17,22 +17,25 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
-import com.handheld.UHF.UhfManager;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
+import inventarioreal.com.inventarioreal_admin.pages.Devoluciones.HomeDevoluciones;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.CrearInventarioStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalFragment;
@@ -43,6 +46,8 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
@@ -53,10 +58,9 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class CrearInventarioStep2 extends CicloActivity {
+public class DevolucionDeClientesStep2 extends CicloActivity {
 
-    //private UhfManager uhfManager;
-    private String TAG="CrearInventarioStep2";
+    private String TAG="DevolucionDeClientesStep2";
     private DataBase db = DataBase.getInstance(this);
     private RequestInventariorCrear2 requestInventariorCrear2;
     private LinkedList<InventariosProductos> inventariosProductos = new LinkedList<>();
@@ -246,7 +250,7 @@ public class CrearInventarioStep2 extends CicloActivity {
                     Constants.table_productos,
                     proZon.getProductos_id().getId()+"",
                     Productos.class
-                    );
+            );
 
             if (epcDb!=null) {
                 proZon.setEpcs_id(epcDb);
@@ -325,7 +329,7 @@ public class CrearInventarioStep2 extends CicloActivity {
             super.run();
             while (runFlag) {
                 if (startFlag) {
-                    // managerBig.stopInventoryMulti()
+                    // manager.stopInventoryMulti()
                     epcList = uhfManager.inventoryRealTime(); // inventory real time
                     if (epcList != null && !epcList.isEmpty()) {
                         for (byte[] epc : epcList) {
@@ -383,12 +387,12 @@ public class CrearInventarioStep2 extends CicloActivity {
     //endregion
 
     //region Tabs configuration
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private DevolucionDeClientesStep2.SectionsPagerAdapter mSectionsPagerAdapter;
     public void tabsInit() {
 //        /region Tabs section
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new CrearInventarioStep2.SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new DevolucionDeClientesStep2.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -459,13 +463,13 @@ public class CrearInventarioStep2 extends CicloActivity {
                 WebServices.crearInventario(
                         requestInventariorCrear2.getZona_id().getId(),
                         inventariosProductos,
-                        CrearInventarioStep2.this,
+                        DevolucionDeClientesStep2.this,
                         admin,
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
                                 admin.toast("Inventario Creado con 'exito");
-                                admin.callIntent(CrearInventarioStep1.class, null);
+                                admin.callIntent(HomeDevoluciones.class, null);
                             }
 
                             @Override
@@ -486,4 +490,5 @@ public class CrearInventarioStep2 extends CicloActivity {
 
         builder.show();
     }
+    //endregion
 }

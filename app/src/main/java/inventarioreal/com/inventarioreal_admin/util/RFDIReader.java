@@ -47,7 +47,7 @@ public class RFDIReader {
 //        epcs = new LinkedList<String>();
 //    }
     public RFDIReader(RFDIListener listener){
-        this.type=BIG;
+        this.type=SMALL;
         this.listener= listener;
         epcs = new LinkedList<String>();
     }

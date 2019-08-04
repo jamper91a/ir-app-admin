@@ -46,7 +46,7 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.txtLocal), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.spnZona), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.spnPodLec), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txtFecha), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txtLocDes), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnIni), Techniques.FadeInLeft));
     }
 
@@ -140,7 +140,7 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
 
     private void getFecha() {
         request.setFecha(admin.getCurrentDateAndTime());
-        getElemento(R.id.txtFecha).setText(request.getFecha());
+        getElemento(R.id.txtLocDes).setText(request.getFecha());
     }
 
     @Override
