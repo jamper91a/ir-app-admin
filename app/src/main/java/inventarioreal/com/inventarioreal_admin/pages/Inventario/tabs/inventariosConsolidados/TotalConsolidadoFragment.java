@@ -47,9 +47,11 @@ public class TotalConsolidadoFragment extends Fragment {
             @Override
             public void onChanged(@Nullable InventariosConsolidados inventarios) {
                 TextView txtFecha = (TextView) getElemento(R.id.txtLocDes);
+                TextView txtCant = (TextView) getElemento(R.id.txtCant);
                 TextView txtZona = (TextView) getElemento(R.id.txtNum);
                 txtFecha.setText(inventarios.getCreatedAt().replace("T", " - "));
                 txtZona.setText(inventarios.getName());
+                txtCant.setText(inventarios.getProductos()+"");
 
             }
         });

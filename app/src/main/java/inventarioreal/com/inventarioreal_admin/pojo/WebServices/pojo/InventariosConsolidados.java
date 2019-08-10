@@ -11,6 +11,7 @@ public class InventariosConsolidados extends InventarioRealPojo {
 
     public String name;
     public Empleados empleados_id;
+    public int productos;
 
     public Empleados getEmpleados_id() {
         return empleados_id;
@@ -38,6 +39,14 @@ public class InventariosConsolidados extends InventarioRealPojo {
     @Override
     public void fromCursor(Cursor c) {
 
+    }
+
+    public int getProductos() {
+        return productos;
+    }
+
+    public void setProductos(int productos) {
+        this.productos = productos;
     }
 
     public String getName() {

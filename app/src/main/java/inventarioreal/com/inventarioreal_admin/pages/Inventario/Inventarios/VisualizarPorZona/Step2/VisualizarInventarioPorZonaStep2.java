@@ -20,6 +20,7 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventarioPorZonaStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarConsolidados.Step1.VisualizarInventariosConsolidadosStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarPorZona.Step1.VisualizarInventarioPorZonaStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventario.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventario.EanPluViewModel;
@@ -163,7 +164,10 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
         add_on_click(R.id.btnSal, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(VisualizarInventarioPorZonaStep1.class, null);
+                if(inventario!=null)
+                    admin.callIntent(VisualizarInventarioPorZonaStep1.class, null);
+                else
+                    admin.callIntent(VisualizarInventariosConsolidadosStep1.class, null);
             }
         });
 
