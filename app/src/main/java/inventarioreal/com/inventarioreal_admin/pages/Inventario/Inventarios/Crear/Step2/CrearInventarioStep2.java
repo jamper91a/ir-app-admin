@@ -22,13 +22,11 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
-import com.handheld.UHF.UhfManager;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
@@ -111,7 +109,6 @@ public class CrearInventarioStep2 extends CicloActivity {
             }
         });
         rfdiReader.initSDK();
-        rfdiReader.startReader();
         //endregion
         //region Obtener parametros
         Intent intent = getIntent();
@@ -154,7 +151,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         add_on_click(R.id.btnLee, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rfdiReader.isStartReader() ==false)
+                if(rfdiReader.isStartReader()==false)
                 {
                     rfdiReader.startReader();
 //                    startFlag=true;
@@ -235,35 +232,39 @@ public class CrearInventarioStep2 extends CicloActivity {
         Epcs epcDb= (Epcs) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epcs.class);
         if(epcDb!=null){
             //Busco el producto zonas al que pertenece este tag
-            ProductosZonas proZon=
-                    (ProductosZonas) db.getByColumn(
-                            Constants.table_productos_zonas,
-                            Constants.epcs_id,
-                            epcDb.getId()+"",
-                            ProductosZonas.class).get(0);
-            //Busco el producto de este producto zona
-            Productos producto= (Productos) db.findById(
-                    Constants.table_productos,
-                    proZon.getProductos_id().getId()+"",
-                    Productos.class
-                    );
+            try {
+                ProductosZonas proZon=
+                        (ProductosZonas) db.getByColumn(
+                                Constants.table_productos_zonas,
+                                Constants.epcs_id,
+                                epcDb.getId()+"",
+                                ProductosZonas.class).get(0);
+                //Busco el producto de este producto zona
+                Productos producto= (Productos) db.findById(
+                        Constants.table_productos,
+                        proZon.getProductos_id().getId()+"",
+                        Productos.class
+                        );
 
-            if (epcDb!=null) {
-                proZon.setEpcs_id(epcDb);
-            }
-            if(producto!=null){
-                proZon.setProductos_id(producto);
-            }
-            //Informacion requeria por el servicio web de crear inventario
-            InventariosProductos ip = new InventariosProductos();
-            ip.setZonas_id(requestInventariorCrear2.getZona_id());
-            ip.setProductoz_zona_id(proZon);
-            ip.setProductos_epcs_id(epcDb);
+                if (epcDb!=null) {
+                    proZon.setEpcs_id(epcDb);
+                }
+                if(producto!=null){
+                    proZon.setProductos_id(producto);
+                }
+                //Informacion requeria por el servicio web de crear inventario
+                InventariosProductos ip = new InventariosProductos();
+                ip.setZonas_id(requestInventariorCrear2.getZona_id());
+                ip.setProductoz_zona_id(proZon);
+                ip.setProductos_epcs_id(epcDb);
 
-            inventariosProductos.add(ip);
-            eanPluVieModel.addProductoZona(proZon);
-            totalViewModel.setAmount(inventariosProductos.size());
-            epcs.add(epc);
+                inventariosProductos.add(ip);
+                eanPluVieModel.addProductoZona(proZon);
+                totalViewModel.setAmount(inventariosProductos.size());
+                epcs.add(epc);
+            } catch (Exception e) {
+                admin.toast(e.getMessage());
+            }
         }else{
             admin.toast("Epc no found: "+ epc);
         }

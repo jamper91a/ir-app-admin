@@ -75,7 +75,7 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
             case TYPE_ITEM:
                 final ProductosZonas item = items.get(position-1);
                 holder.getTxt1().setText(item.getTotal()+"");
-                holder.getTxt2().setText(item.getEpcs_id().getEpc());
+                holder.getTxt2().setText(item.getProductos_id().getEan());
                 holder.getTxt3().setText(item.getProductos_id().getDescripcion());
                 holder.bind(item);
                 break;
