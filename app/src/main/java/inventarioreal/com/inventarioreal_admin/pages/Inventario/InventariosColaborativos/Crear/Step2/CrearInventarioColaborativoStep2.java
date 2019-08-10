@@ -22,13 +22,11 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
-import com.handheld.UHF.UhfManager;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
@@ -407,7 +405,10 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Crear Inventario Colaborativo");
+        if(!requestInventariorCrear2.isUnion())
+            builder.setTitle("Crear Inventario Colaborativo");
+        else
+            builder.setTitle("Modificar Inventario Colaborativo");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);

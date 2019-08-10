@@ -7,6 +7,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Consolidar.ConsolidarInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.VisualizarConsolidados.Step1.VisualizarInventariosConsolidadosStep1;
@@ -71,4 +72,8 @@ public class InventarioParcialHome extends CicloActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(Home.class, null);
+    }
 }

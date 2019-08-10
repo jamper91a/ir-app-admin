@@ -7,6 +7,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Consolidar.ConsolidarInventariosColaborativosStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step1.CrearInventarioColaborativoStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Unir.UnirseInventariosColaborativos;
@@ -79,5 +80,9 @@ public class InventariosColaborativosHome extends CicloActivity {
     @Override
     public void hasAllPermissions() {
 
+    }
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(Home.class, null);
     }
 }

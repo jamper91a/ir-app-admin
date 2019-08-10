@@ -487,4 +487,8 @@ public class CrearInventarioStep2 extends CicloActivity {
 
         builder.show();
     }
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(CrearInventarioStep1.class, null);
+    }
 }

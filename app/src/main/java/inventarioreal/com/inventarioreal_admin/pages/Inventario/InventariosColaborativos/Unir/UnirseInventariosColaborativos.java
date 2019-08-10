@@ -13,6 +13,7 @@ import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventari
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step2.CrearInventarioColaborativoStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.InventariosColaborativosHome;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -72,6 +73,7 @@ public class UnirseInventariosColaborativos extends CicloActivity {
                 Inventarios inv = (Inventarios) item;
                 //Busco la zonaz
                 RequestInventariorCrear2 requestInventariorCrear2 = new RequestInventariorCrear2(inv);
+                requestInventariorCrear2.setUnion(true);
                 admin.callIntent(CrearInventarioColaborativoStep2.class, requestInventariorCrear2, RequestInventariorCrear2.class);
             }
 
@@ -101,5 +103,9 @@ public class UnirseInventariosColaborativos extends CicloActivity {
             }
         });
 
+    }
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(InventariosColaborativosHome.class, null);
     }
 }

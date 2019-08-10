@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventariosAConsolidar;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.InventarioParcialHome;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -111,5 +112,9 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
             }
         });
 
+    }
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(InventarioParcialHome.class, null);
     }
 }

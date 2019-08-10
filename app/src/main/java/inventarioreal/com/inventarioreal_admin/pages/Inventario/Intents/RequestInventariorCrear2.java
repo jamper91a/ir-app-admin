@@ -15,6 +15,7 @@ public class RequestInventariorCrear2 implements IntentRequests {
     public String power;
     public String fecha;
     public Inventarios inventario;
+    public boolean union=false;
 
     public RequestInventariorCrear2() {
     }
@@ -81,5 +82,13 @@ public class RequestInventariorCrear2 implements IntentRequests {
 
     public void setInventario(Inventarios inventario) {
         this.inventario = inventario;
+    }
+
+    public boolean isUnion() {
+        return union;
+    }
+
+    public void setUnion(boolean union) {
+        this.union = union;
     }
 }
