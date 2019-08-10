@@ -105,7 +105,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
             }
         });
         rfdiReader.initSDK();
-        rfdiReader.startReader();
+//        rfdiReader.startReader();
         //endregion
         //region Obtener parametros
         Intent intent = getIntent();

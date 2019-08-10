@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,19 +13,16 @@ import android.widget.Spinner;
 import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
-import com.handheld.UHF.UhfManager;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import cn.pda.serialport.Tools;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterEpcs;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
@@ -98,7 +94,7 @@ public class IngresoMercancia extends CicloActivity {
                 handler.sendMessage(msg);
             }
         });
-        rfdiReader.initSDK();
+//        rfdiReader.initSDK();
         //endregion
     }
     @Override
