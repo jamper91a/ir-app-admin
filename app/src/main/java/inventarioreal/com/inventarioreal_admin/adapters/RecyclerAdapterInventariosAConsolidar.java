@@ -31,8 +31,8 @@ public class RecyclerAdapterInventariosAConsolidar extends RecyclerView.Adapter<
         RecyclerViewHolder(View view) {
             super(view);
             txtZona = (TextView) view.findViewById(R.id.txtNum);
-            txtFecha = (TextView) view.findViewById(R.id.txtFecha);
-            txtHora = (TextView) view.findViewById(R.id.txtHora);
+            txtFecha = (TextView) view.findViewById(R.id.txtLocDes);
+            txtHora = (TextView) view.findViewById(R.id.txtManEle);
             chb1 = (CheckBox) view.findViewById(R.id.chb1);
         }
 
