@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.CrearInventarioStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.InventarioParcialHome;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
@@ -163,8 +164,10 @@ public class CrearInventarioStep1 extends CicloActivity {
 
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(InventarioParcialHome.class, null);
+    }
 }
 
 

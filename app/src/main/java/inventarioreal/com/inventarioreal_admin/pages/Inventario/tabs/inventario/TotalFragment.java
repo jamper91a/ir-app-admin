@@ -46,8 +46,10 @@ public class TotalFragment extends Fragment {
         mViewModel.getInventario().observe(this, new Observer<Inventarios>() {
             @Override
             public void onChanged(@Nullable Inventarios inventarios) {
+                TextView txtCant = (TextView) getElemento(R.id.txtCant);
                 TextView txtFecha = (TextView) getElemento(R.id.txtLocDes);
                 TextView txtZona = (TextView) getElemento(R.id.txtNum);
+                txtCant.setText(inventarios.getProductos_zona().length+"");
                 txtFecha.setText(inventarios.getFecha().replace("T", " - "));
                 txtZona.setText(inventarios.getZonas_id().getName());
 
