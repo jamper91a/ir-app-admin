@@ -61,6 +61,8 @@ public class ConsolidarInventariosColaborativosStep1 extends CicloActivity {
                         invenntariosSeleccionadosId.add(inventariosPorConsolidar.get(i).getId());
                     }
                     inventarioName += "/ Colaborativo";
+                    if(inventarioName.length()>254)
+                        inventarioName = inventarioName.substring(0,254);
                     WebServices.consolidarInventarios(
                             invenntariosSeleccionadosId,
                             inventarioName,
