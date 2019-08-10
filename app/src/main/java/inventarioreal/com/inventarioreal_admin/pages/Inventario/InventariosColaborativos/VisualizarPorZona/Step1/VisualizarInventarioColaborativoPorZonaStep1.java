@@ -44,7 +44,7 @@ public class VisualizarInventarioColaborativoPorZonaStep1 extends CicloActivity 
 
         //Cambiar los textos a mostrar
 
-        getElemento(R.id.txt1).setText("Selecciones el inventario colaborativo a visualizar");
+        getElemento(R.id.txt1).setText("Seleccione el inventario cooperativo a visualizar");
         getElemento(R.id.btnIni).setText("Visualizar");
 
     }
