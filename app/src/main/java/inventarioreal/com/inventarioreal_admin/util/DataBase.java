@@ -151,6 +151,12 @@ public class DataBase extends SQLiteOpenHelper {
         columns.add(Constants.updatedAt+ " DATETIME NULL");
         db.execSQL(this.crear_tabla(Constants.table_locales, columns));
 
+        columns=new LinkedList<>();
+        columns.add(Constants.name+ " VARCHAR NULL");
+        columns.add(Constants.tipo+ " TINYINT NULL");
+        columns.add(Constants.createdAt+ " DATETIME NULL");
+        columns.add(Constants.updatedAt+ " DATETIME NULL");
+        db.execSQL(this.crear_tabla(Constants.table_devoluciones, columns));
 
 
 

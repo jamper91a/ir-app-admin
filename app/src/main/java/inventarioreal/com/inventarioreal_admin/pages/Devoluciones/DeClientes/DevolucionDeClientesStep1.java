@@ -1,5 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.pages.Devoluciones.DeClientes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -54,6 +55,12 @@ public class DevolucionDeClientesStep1 extends CicloActivity {
     @Override
     public void getData() {
         try {
+            Intent intent = getIntent();
+            String message = intent.getStringExtra(Constants.parameters);
+            Devoluciones devolucion = new Devoluciones();
+            devolucion.tipo = Integer.parseInt(message);
+            request.setDevoluciones_id(devolucion);
+            //admin.toast(message);
             //Obtener Zonas
             getZonas();
             //Obtener poder de lecura
@@ -134,7 +141,7 @@ public class DevolucionDeClientesStep1 extends CicloActivity {
         add_on_click(R.id.btnIni, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(DevolucionDeClientesStep2.class, request, Transferencias.class);
+                admin.callIntent(DevolucionDeClientesStep2.class, request, ProductosZonas.class);
             }
         });
     }

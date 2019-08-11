@@ -45,9 +45,11 @@ public class Constants {
     //endregion
 
 
-//        public static final String url="http://c945485b.ngrok.io/";
-//    public static final String url = "http://coexnort.servehttp.com:8023/";
-    public static final String url = "http://192.168.1.7:1337/";
+    //public static final String url="http://c945485b.ngrok.io/";
+    //public static final String url = "http://coexnort.servehttp.com:8023/";
+    //public static final String url = "http://192.168.1.7:1337/";
+    //public static final String url = "http://coexnort.servehttp.com:8023/";
+    public static final String url = "http://192.168.0.26:1337/";
     public static final String user = "user";
     public static final String token = "token";
     public static final String authorization = "Authorization";
@@ -92,6 +94,7 @@ public class Constants {
     public static String table_productos_zonas = "productos_zonas";
     public static String ecps_id = "ecps_id";
     public static String table_zonas = "zonas";
+    public static String table_devoluciones = "devoluciones";
     public static String locales_id = "locales_id";
     public static String fecha = "fecha";
     public static String parcial = "parcial";
@@ -116,6 +119,7 @@ public class Constants {
     public static String ws_adjuntarInvenario="inventarios/adjuntar";
     public static String ws_getProductsByInventoryColaborativo="inventariosConsolidados/listarProductos";
     public static String ws_obtenerTransferencias="transferencias/obtenerTransferencias";
+    public static String ws_devolverProductos="devoluciones/devolverProductos";
     public static String local_id="local_id";
     public static String ws_finalizarTransferencia="transferencias/finalizarTransferencia";
     public static String productos_zona_has_transferencias="productos_zona_has_transferencias";

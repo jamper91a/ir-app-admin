@@ -42,6 +42,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crea
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devoluciones;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
@@ -61,9 +62,10 @@ import jamper91.com.easyway.Util.CicloActivity;
 public class DevolucionDeClientesStep2 extends CicloActivity {
 
     private String TAG="DevolucionDeClientesStep2";
+    private ProductosZonas request = new ProductosZonas();
     private DataBase db = DataBase.getInstance(this);
-    private RequestInventariorCrear2 requestInventariorCrear2;
-    private LinkedList<InventariosProductos> inventariosProductos = new LinkedList<>();
+    private ProductosZonas requestProductosZonas;
+    private LinkedList<ProductosZonas> productosZonas = new LinkedList<>();
     private Gson gson = new Gson();
 
     RFDIReader rfdiReader =  null;
@@ -75,6 +77,7 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
             switch (msg.what){
                 case 1:
                     epc = msg.getData().getString("epc");
+                    //requestProductosZonas.getZonas_id().getName()
                     addToList(epc);
                     //admin.toast("Epc found: "+epc); //readed
                     break ;
@@ -115,17 +118,15 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
             }
         });
         rfdiReader.initSDK();
-        rfdiReader.startReader();
+        //rfdiReader.startReader();
         //endregion
         //region Obtener parametros
         Intent intent = getIntent();
         String message = intent.getStringExtra(Constants.parameters);
         Gson gson = new Gson();
-        this.requestInventariorCrear2 = gson.fromJson(message, RequestInventariorCrear2.class);
+        this.requestProductosZonas = gson.fromJson(message, ProductosZonas.class);
         //endregion
         this.tabsInit();
-//        mTopToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-//        setSupportActionBar(mTopToolbar);
     }
     @Override
     public void initGui() {
@@ -152,6 +153,8 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
         add_on_click(R.id.btnFin, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rfdiReader.setStartReader(false);
+                getElemento(R.id.btnLee).setText("Leer");
                 showDialog();
             }
         });
@@ -160,6 +163,7 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
             public void onClick(View v) {
                 if(rfdiReader.isStartReader() ==false)
                 {
+                    rfdiReader.initSDK();
                     rfdiReader.startReader();
 //                    startFlag=true;
                     getElemento(R.id.btnLee).setText("Detener");
@@ -183,53 +187,20 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
 
     @Override
     public void hasAllPermissions() {
-        //startFlag=false;
     }
-
-    //region UHD Sdk
-    /*public void initSdk(){
-        try {
-            uhfManager = UhfManager.getInstance();
-            uhfManager.setOutputPower(26);
-            uhfManager.setWorkArea(2);
-            startFlag=true;
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        }
-
-    }*/
-
-    //private boolean runFlag=true;
-    //private boolean startFlag = false;
 
     @Override
     protected void onResume() {
         super.onResume();
         rfdiReader.onResume();
-        /*uhfManager = UhfManager.getInstance();
-        if (uhfManager == null) {
-            return;
-        }
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        initSdk();*/
     }
 
     @Override
     protected void onPause() {
-        //startFlag = false;
-        //uhfManager.close();
         super.onPause();
     }
     @Override
     protected void onDestroy() {
-        /*startFlag = false;
-        if (uhfManager != null) {
-            uhfManager.close();
-        }*/
         super.onDestroy();
         rfdiReader.onDestroy();
     }
@@ -251,23 +222,29 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
                     proZon.getProductos_id().getId()+"",
                     Productos.class
             );
+            // verifico si el epc pertenece a la zona seleccionada
+            /*if (proZon.getZonas_id().getId() == requestProductosZonas.getZonas_id().getId())
+            {*/
+                if (epcDb!=null) {
+                    proZon.setEpcs_id(epcDb);
+                }
+                if(producto!=null){
+                    proZon.setProductos_id(producto);
+                }
+                /*
+                if (epcDb!=null) {
+                    //proZon.setDevoluciones_id(epcDb);
 
-            if (epcDb!=null) {
-                proZon.setEpcs_id(epcDb);
-            }
-            if(producto!=null){
-                proZon.setProductos_id(producto);
-            }
-            //Informacion requeria por el servicio web de crear inventario
-            InventariosProductos ip = new InventariosProductos();
-            ip.setZonas_id(requestInventariorCrear2.getZona_id());
-            ip.setProductoz_zona_id(proZon);
-            ip.setProductos_epcs_id(epcDb);
+                }*/
+                productosZonas.add(proZon);
+                eanPluVieModel.addProductoZona(proZon);
+                totalViewModel.setAmount(productosZonas.size());
+                epcs.add(epc);
+            /*}
+            else{
+                admin.toast("Epc no found: "+ epc);
+            }*/
 
-            inventariosProductos.add(ip);
-            eanPluVieModel.addProductoZona(proZon);
-            totalViewModel.setAmount(inventariosProductos.size());
-            epcs.add(epc);
         }else{
             admin.toast("Epc no found: "+ epc);
         }
@@ -298,15 +275,6 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // The epc for the first time
-//                if (eanPluVieModel.getProductosZonaHasTransferencia().getValue().isEmpty()) {
-//                    createEpc(epc);
-//                } else {
-//                    //Determino si ese epc ya se leyo antes
-//                    if(!wasRead(epc))
-//                        createEpc(epc);
-//                }
-
                 if(epcs.isEmpty())
                     createEpc(epc);
                 else{
@@ -317,39 +285,6 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
         });
     }
 
-    /**
-     * Inventory Epcs Thread
-     */
-/*
-    class InventoryThread extends Thread {
-        private List<byte[]> epcList;
-
-        @Override
-        public void run() {
-            super.run();
-            while (runFlag) {
-                if (startFlag) {
-                    // manager.stopInventoryMulti()
-                    epcList = uhfManager.inventoryRealTime(); // inventory real time
-                    if (epcList != null && !epcList.isEmpty()) {
-                        for (byte[] epc : epcList) {
-                            String epcStr = Tools.Bytes2HexString(epc,
-                                    epc.length);
-                            addToList(epcStr);
-                        }
-                    }
-                    epcList = null;
-                    try {
-                        Thread.sleep( 40);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }*/
-    //endregion
 
     //region Menu
 
@@ -392,7 +327,7 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
 //        /region Tabs section
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new DevolucionDeClientesStep2.SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -421,9 +356,6 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
                     EanPluFragment eanPlu = EanPluFragment.newInstance();
                     eanPlu.setAdmin(admin);
                     return eanPlu;
-//                case 2:
-//                    Epc epc = new Epc();
-//                    return epc;
                 default:
                     return null;
 
@@ -443,7 +375,7 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
         builder.setTitle("Crear Inventario");
 
         LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
+        View dialogView = inflater.inflate(R.layout.dialog_devolver_producto_zona, null);
         final TextView txtLocal = dialogView.findViewById(R.id.txtLocal);
         final TextView txtZona = dialogView.findViewById(R.id.txtNum);
         final TextView txtTime = dialogView.findViewById(R.id.txtTime);
@@ -452,7 +384,35 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
         txtLocal.setText("Local : "+empleado.getEmpleado().getLocales_id().getName());
-        txtZona.setText("Zonas : "+requestInventariorCrear2.getZona_id().getName());
+        txtZona.setText("Zonas : "+requestProductosZonas.getZonas_id().getName());
+        request.setCreatedAt(admin.getCurrentDateAndTime());
+        txtTime.setText(request.getCreatedAt());
+        // inicio spnMotDev
+        final LinkedList devoluciones = db.getByColumn(
+                Constants.table_devoluciones,"tipo",this.requestProductosZonas.getDevoluciones_id().tipo.toString(),Devoluciones.class);
+
+        ArrayAdapter<Zonas> adapter =
+                new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, devoluciones);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ((Spinner) dialogView.findViewById(R.id.spnMotDev)).setAdapter(adapter);
+
+        ((Spinner) dialogView.findViewById(R.id.spnMotDev)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                for (ProductosZonas pr: productosZonas) {
+                    pr.setDevoluciones_id((Devoluciones)devoluciones.get(position));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                request.setZonas_id(null);
+            }
+        });
+        // end region
+
+
         builder.setView(dialogView);
 
 
@@ -460,15 +420,17 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                WebServices.crearInventario(
-                        requestInventariorCrear2.getZona_id().getId(),
-                        inventariosProductos,
+                for (ProductosZonas pr: productosZonas) {
+                    pr.setDevolucion_observaciones(edtMensaje.getText().toString());
+                }
+                WebServices.devolucionProductos(
+                        productosZonas,
                         DevolucionDeClientesStep2.this,
                         admin,
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                admin.toast("Inventario Creado con 'exito");
+                                admin.toast("Productos devueltos con exito");
                                 admin.callIntent(HomeDevoluciones.class, null);
                             }
 

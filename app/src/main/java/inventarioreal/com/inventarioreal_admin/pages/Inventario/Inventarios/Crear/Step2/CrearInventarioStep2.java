@@ -153,6 +153,7 @@ public class CrearInventarioStep2 extends CicloActivity {
             public void onClick(View v) {
                 if(rfdiReader.isStartReader()==false)
                 {
+                    rfdiReader.initSDK();
                     rfdiReader.startReader();
 //                    startFlag=true;
                     getElemento(R.id.btnLee).setText("Detener");
