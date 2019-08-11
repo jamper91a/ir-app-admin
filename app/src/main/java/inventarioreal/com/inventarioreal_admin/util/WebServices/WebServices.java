@@ -21,6 +21,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddMerca
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductosInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.UltimoInventarioResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
@@ -771,6 +772,37 @@ public class WebServices {
             public void onResponse(JSONObject jsonObject) {
                 try {
                     result.ok(new ResultWebServiceOk());
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+    public static void getLastInventarioConsolidado(final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_ultimoInventario;
+        HashMap<String, String> campos = new HashMap<>();
+        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    UltimoInventarioResponse aux = gson.fromJson(jsonObject.getJSONObject("data").toString(),UltimoInventarioResponse.class);
+                    if (aux!=null) {
+                        result.ok(new ResultWebServiceOk(aux));
+                    }else{
+                        result.fail(new ResultWebServiceFail("No hay transferencias"));
+                    }
                 } catch (Exception e) {
                     admin.toast(e.getMessage());
                     result.fail(new ResultWebServiceFail(e.getMessage()));

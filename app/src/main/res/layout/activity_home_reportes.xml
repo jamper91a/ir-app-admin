@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnInvTot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/inventario_total" />
+
+    <Button
+        android:id="@+id/btnInvEanPlu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/inventario_eanplu" />
+
+    <Button
+        android:id="@+id/btnDifInvFis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/diferencias_inventarios_fisicos" />
+
+    <Button
+        android:id="@+id/btnDifInvFisYErp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/diferencias_inventarios_fisicos_inventarios_erp" />
+
+    <Button
+        android:id="@+id/btnHomDifInvFis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/homologar_diferencias_inventario_fisico" />
+
+    <Button
+        android:id="@+id/btnUniVen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/unidades_vendidas" />
+
+    <Button
+        android:id="@+id/btnRotInv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/rotacion_inventario" />
+
+    <Button
+        android:id="@+id/btnDevCli"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/devoluciones_clientes" />
+
+    <Button
+        android:id="@+id/btnDevPro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/devoluciones_proveedores" />
+
+    <Button
+        android:id="@+id/btnRotPro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/rotacion_proyectada" />
+
+</LinearLayout>

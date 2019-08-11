@@ -10,7 +10,7 @@
     <string name="inventario_cooperativo">Inventario Cooperativo</string>
     <string name="transferencias">Transferencias</string>
     <string name="devoluciones">Devoluciones</string>
-    <string name="reportes">Resportes</string>
+    <string name="reportes">Reportes</string>
     <string name="usuarios">Usuarios</string>
     <string name="busqueda_y_georeferenciacion">Busqueda y Georeferenciacion</string>
     <string name="salir">Salir</string>
@@ -59,4 +59,14 @@
     <string name="local_destino">Local Destino</string>
     <string name="generado_por">Generado por:</string>
     <string name="mensaje">Mensaje</string>
+    <string name="inventario_total">Inventario Total</string>
+    <string name="inventario_eanplu">Inventario EAN/PLU</string>
+    <string name="diferencias_inventarios_fisicos">Diferencias inventarios fisicos</string>
+    <string name="diferencias_inventarios_fisicos_inventarios_erp"><![CDATA[Diferencias inventarios fisicos & inventarios ERP]]></string>
+    <string name="homologar_diferencias_inventario_fisico">Homologar diferencias inventario fisico</string>
+    <string name="unidades_vendidas">Unidades vendidas</string>
+    <string name="rotacion_inventario">Rotacion inventario</string>
+    <string name="devoluciones_clientes">Devoluciones clientes</string>
+    <string name="devoluciones_proveedores">Devoluciones Proveedores</string>
+    <string name="rotacion_proyectada">Rotacion Proyectada</string>
 </resources>

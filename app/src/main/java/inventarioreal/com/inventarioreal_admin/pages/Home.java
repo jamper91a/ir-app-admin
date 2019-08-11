@@ -7,9 +7,9 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Devoluciones.HomeDevoluciones;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.InventarioParcialHome;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.InventariosColaborativosHome;
+import inventarioreal.com.inventarioreal_admin.pages.Reportes.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pages.Transferencias.HomeTransferencia;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
@@ -75,10 +75,17 @@ public class Home extends CicloActivity {
             }
         });
 
-        add_on_click(R.id.btnDev, new View.OnClickListener() {
+        add_on_click(R.id.btnRep, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(HomeDevoluciones.class, null);
+                admin.callIntent(HomeReportes.class, null);
+            }
+        });
+
+        add_on_click(R.id.btnInvCoo, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sync(InventariosColaborativosHome.class);
             }
         });
 

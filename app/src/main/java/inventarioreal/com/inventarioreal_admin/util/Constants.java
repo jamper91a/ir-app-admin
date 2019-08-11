@@ -130,4 +130,5 @@ public class Constants {
     public static String transferencias_ingreso="entrada";
     public static String ws_obtenerTransferencia="transferencias/obtenerTransferencia";
     public static String transferencias_salida="salida";
+    public static String ws_ultimoInventario="inventariosConsolidados/ultimoInventario";
 }
