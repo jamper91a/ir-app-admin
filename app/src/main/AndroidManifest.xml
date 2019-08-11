@@ -58,6 +58,7 @@
         <activity android:name=".pages.Transferencias.Ingresos" />
         <activity android:name=".pages.Reportes.HomeReportes" />
         <activity android:name=".pages.Reportes.InventarioTotal.ReporteInventarioTotal" />
+        <activity android:name=".pages.Reportes.InventarioEanPlu.InventarioEanPlu" />
 
     </application>
 

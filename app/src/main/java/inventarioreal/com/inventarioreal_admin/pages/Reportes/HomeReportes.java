@@ -8,6 +8,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Home;
+import inventarioreal.com.inventarioreal_admin.pages.Reportes.InventarioEanPlu.InventarioEanPlu;
 import inventarioreal.com.inventarioreal_admin.pages.Reportes.InventarioTotal.ReporteInventarioTotal;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
@@ -51,6 +52,13 @@ public class HomeReportes extends CicloActivity {
             @Override
             public void onClick(View v) {
                 sync(ReporteInventarioTotal.class);
+
+            }
+        });
+        add_on_click(R.id.btnInvEanPlu, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sync(InventarioEanPlu.class);
 
             }
         });

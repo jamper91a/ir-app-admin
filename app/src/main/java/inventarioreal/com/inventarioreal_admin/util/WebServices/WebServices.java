@@ -867,6 +867,39 @@ public class WebServices {
         });
     }
 
+    public static void findProductsByEanPlu(final long productos_id,final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_getProductByEanPlu;
+        HashMap<String, String> campos = new HashMap<>();
+        campos.put(Constants.productos_id, productos_id+"");
+        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    ProductosZonas[] aux = gson.fromJson(jsonObject.getJSONArray("data").toString(),ProductosZonas[].class);
+                    if (aux!=null && aux.length>0) {
+                        ArrayList<ProductosZonas> arrayProductosZonas = new ArrayList<ProductosZonas>(Arrays.asList(aux));
+                        result.ok(new ResultWebServiceOk(arrayProductosZonas));
+                    }else{
+                        result.fail(new ResultWebServiceFail("No hay productos"));
+                    }
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
 
 
 }
