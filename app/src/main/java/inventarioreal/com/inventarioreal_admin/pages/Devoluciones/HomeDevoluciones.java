@@ -12,6 +12,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Devoluciones.DeClientes.DevolucionDeClientesStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Transferencias.CrearTransferencia.CrearTransferenciaStep1;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -45,26 +46,25 @@ public class HomeDevoluciones extends CicloActivity {
             @Override
             public void onClick(View v) {
                 destino = DevolucionDeClientesStep1.class;
-                sync();
+                sync(1);
 
             }
         });
         add_on_click(R.id.btnProv, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                destino = CrearTransferenciaStep1.class;
-                sync();
+                destino = DevolucionDeClientesStep1.class;
+                sync(2);
 
             }
         });
     }
 
-    private void sync() {
-
+    private void sync(final int type) {
         WebServices.sync(HomeDevoluciones.this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                admin.callIntent(destino, null);
+                admin.callIntent(destino,type,Integer.class);
             }
 
             @Override

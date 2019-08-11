@@ -21,6 +21,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddMerca
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductosInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devoluciones;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
@@ -36,6 +37,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.Adjunta
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioColaborativoRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearTransferenciaRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.DevolverInventarioRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FinalizarTransferenciaRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
@@ -311,6 +313,13 @@ public class WebServices {
                                         db.insert(Constants.table_locales, local.getContentValues());
                                     }
                                 }
+
+                                if (response.getDevoluciones()!=null && response.getDevoluciones().length>0) {
+                                    Log.d("Devoluciones", response.getDevoluciones().toString());
+                                    for (Devoluciones devoluciones: response.getDevoluciones()) {
+                                        db.insert(Constants.table_devoluciones, devoluciones.getContentValues());
+                                    }
+                                }
                                 result.ok(new ResultWebServiceOk(response));
 
                             } catch (Exception e) {
@@ -338,6 +347,48 @@ public class WebServices {
     public static void crearInventario(long zonas_id, List<InventariosProductos> inventario_productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_crearInventario;
         CrearInventarioRequest request = new CrearInventarioRequest(zonas_id, inventario_productos);
+
+        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                activity,
+                url,
+                request.getCampos(),
+                getHeaders(admin),
+                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                new ResponseListener() {
+                    @Override
+                    public void onResponse(String s) {
+
+                    }
+
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            result.ok(new ResultWebServiceOk(null));
+                        } catch (Exception e) {
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(String s) {
+                        result.fail(new ResultWebServiceFail(s));
+                    }
+                },
+                admin
+        );
+        executeEnviar(activity, callWebServiceJson);
+    }
+
+    /**
+     * Encargado de la devolucion de productos
+     * @param productosZonas incluye el id de devolucion
+     * @param activity
+     * @param admin
+     * @param result
+     */
+    public static void devolucionProductos(List<ProductosZonas> productosZonas, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_devolverProductos;
+        DevolverInventarioRequest request = new DevolverInventarioRequest(productosZonas);
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
                 activity,
