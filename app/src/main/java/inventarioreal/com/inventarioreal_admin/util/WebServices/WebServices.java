@@ -611,6 +611,52 @@ public class WebServices {
             }
         });
     }
+    public static void listarTodosInventarioConsolidados(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_listarTodosInventariosConsolidados;
+        HashMap<String, String> campos = new HashMap<>();
+        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
+                    // trae informacion de las zonas
+                    try {
+                        InventariosConsolidados[] inventariosConsolidados = gson.fromJson(jsonObject.getJSONArray("data").toString(),InventariosConsolidados[].class);
+
+                        try {
+                            if (inventariosConsolidados!=null && inventariosConsolidados.length>0) {
+                                ArrayList<InventariosConsolidados> arrayInventarios = new ArrayList<InventariosConsolidados>(Arrays.asList(inventariosConsolidados));
+                                result.ok(new ResultWebServiceOk(arrayInventarios));
+                            }else{
+                                result.fail(new ResultWebServiceFail("No hay inventarios"));
+                            }
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
 
     public static void consolidarInventarios(final ArrayList<Long> inventariosAConsolidar, final String name, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_consolidarInventarios;
@@ -900,6 +946,54 @@ public class WebServices {
         });
     }
 
+    public static void diferenceBetweenInventories(final long firstInventory, final long secondInventory, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_diferenceBetweenInventories;
+        HashMap<String, String> campos = new HashMap<>();
+        campos.put(Constants.firstInventory, firstInventory+"");
+        campos.put(Constants.secondInventory, secondInventory+"");
+        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
+                    // trae informacion de las zonas
+                    try {
+                        ProductosZonas[] productosZonas = gson.fromJson(jsonObject.getJSONArray("data").toString(),ProductosZonas[].class);
+
+                        try {
+                            if (productosZonas!=null && productosZonas.length>0) {
+                                ArrayList<ProductosZonas> arrayInventarios = new ArrayList<>(Arrays.asList(productosZonas));
+                                result.ok(new ResultWebServiceOk(arrayInventarios));
+                            }else{
+                                result.fail(new ResultWebServiceFail("No hay productos"));
+                            }
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
 
 
 }

@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Reportes.InventarioTotal.tabs;
+package inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventariosFisicos.tabs;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -14,12 +14,10 @@ import android.widget.TextView;
 import java.util.LinkedHashMap;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventariosFisicos.tabs.RepDifInvTotalFragment;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.UltimoInventarioResponse;
 
-public class InvTotTotalFragment extends Fragment {
+public class RepDifInvTotalFragment extends Fragment {
 
-    private InvTotTotalViewModel mViewModel;
+    private RepDifInvTotalViewModel mViewModel;
     private LinkedHashMap<Integer, View> elementos;
 
     public static RepDifInvTotalFragment newInstance() {
@@ -43,19 +41,22 @@ public class InvTotTotalFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(InvTotTotalViewModel.class);
-        mViewModel.getInventario().observe(this, new Observer<UltimoInventarioResponse>() {
+        mViewModel = ViewModelProviders.of(getActivity()).get(RepDifInvTotalViewModel.class);
+        mViewModel.getAmount().observe(this, new Observer<Integer>() {
             @Override
-            public void onChanged(@Nullable UltimoInventarioResponse inventarios) {
-                TextView txtFecha = (TextView) getElemento(R.id.txtLocDes);
+            public void onChanged(@Nullable Integer amount) {
                 TextView txtCant = (TextView) getElemento(R.id.txtCant);
-                TextView txtZona = (TextView) getElemento(R.id.txtNum);
-                txtFecha.setText(inventarios.getCreatedAt().replace("T", " - "));
-                txtZona.setText(inventarios.getName());
-                txtCant.setText(inventarios.getProductos()+"");
-
+                txtCant.setText(amount+"");
             }
         });
+        mViewModel.getDate().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String fecha) {
+                TextView txtFecha = (TextView) getElemento(R.id.txtLocDes);
+                txtFecha.setText(fecha);
+            }
+        });
+
     }
 
     private void addElemento(View v){

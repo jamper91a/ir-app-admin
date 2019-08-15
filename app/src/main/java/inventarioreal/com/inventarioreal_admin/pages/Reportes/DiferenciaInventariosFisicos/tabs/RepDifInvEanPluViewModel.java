@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Reportes.InventarioTotal.tabs;
+package inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventariosFisicos.tabs;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -6,13 +6,10 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.LinkedList;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
 
-public class InvTotalEanPluViewModel extends ViewModel {
-
+public class RepDifInvEanPluViewModel extends ViewModel {
     MutableLiveData<LinkedList<ProductosZonas>> productosZonasLiveData = null;
-    MutableLiveData<Inventarios[]> inventario = null;
     private LinkedList<ProductosZonas> productosZona = null;
 
 
@@ -46,13 +43,4 @@ public class InvTotalEanPluViewModel extends ViewModel {
         }
         return productosZonasLiveData;
     }
-
-    public LiveData<Inventarios[]> getInventario() {
-        return inventario;
-    }
-
-    public void setInventario(Inventarios[] inventario) {
-        this.inventario.setValue(inventario);
-    }
-
 }

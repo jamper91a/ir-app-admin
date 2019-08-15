@@ -3,7 +3,9 @@ package inventarioreal.com.inventarioreal_admin.pojo;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -47,4 +49,21 @@ public abstract class InventarioRealPojo {
     public abstract void toHashMap(Class myClass);
     public abstract ContentValues getContentValues();
     public abstract void fromCursor(Cursor c);
+
+    public Date getDateCreatedAt(){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            return sdf.parse(this.createdAt);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+    public Date getDateUpdatedAt(){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            return sdf.parse(this.updatedAt);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
 }

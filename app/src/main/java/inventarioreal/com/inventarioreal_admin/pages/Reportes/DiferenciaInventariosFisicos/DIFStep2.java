@@ -1,0 +1,215 @@
+package inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventariosFisicos;
+
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+
+import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Login;
+import inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventariosFisicos.tabs.RepDifInvEanPluFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventariosFisicos.tabs.RepDifInvEanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventariosFisicos.tabs.RepDifInvTotalFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventariosFisicos.tabs.RepDifInvTotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Reportes.HomeReportes;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.util.Constants;
+import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
+import jamper91.com.easyway.Util.Animacion;
+import jamper91.com.easyway.Util.CicloActivity;
+
+public class DIFStep2 extends CicloActivity {
+
+        final DataBase db = DataBase.getInstance(this);
+        private String TAG="ReporteInventarioTotal";
+        private ArrayList<ProductosZonas> productosZona = new ArrayList<>();
+        private RequestDIFStep2 request=null;
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            Intent intent = getIntent();
+            String message = intent.getStringExtra(Constants.parameters);
+            Gson gson = new Gson();
+            this.request = gson.fromJson(message, RequestDIFStep2.class);
+            init(this,this, R.layout.activity_inventario_parcial_visualizar_por_zona_step_2);
+            this.tabsInit();
+            //endregion
+        }
+
+        @Override
+        public void initGui() {
+
+            addElemento(new Animacion(findViewById(R.id.lnl2), Techniques.FadeInLeft));
+            addElemento(new Animacion(findViewById(R.id.btnSal),Techniques.FadeInLeft));
+            addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
+
+        }
+
+        @Override
+        public void getData() {
+
+            WebServices.diferenceBetweenInventories(request.inventarioInicial.id, request.inventarioFinal.id, this, admin, new ResultWebServiceInterface() {
+                @Override
+                public void ok(ResultWebServiceOk ok) {
+                    productosZona = (ArrayList<ProductosZonas>) ok.getData();
+                    if(productosZona!=null){
+                        totalConsolidadoViewModel = ViewModelProviders.of(DIFStep2.this).get(RepDifInvTotalViewModel.class);
+                        eanPluConsolidadoVieModel = ViewModelProviders.of(DIFStep2.this).get(RepDifInvEanPluViewModel.class);
+                        //Busco la zona del inventario
+                        for(ProductosZonas pz: productosZona){
+                            Zonas zona = (Zonas) db.findById(Constants.table_zonas, pz.getZonas_id().getId()+"", Zonas.class);
+                            if(zona!=null){
+                                pz.setZonas_id(zona);
+                            }
+                            Productos producto = (Productos) db.findById(Constants.table_productos, pz.getProductos_id().getId()+"", Productos.class);
+                            if(producto!=null){
+                                pz.setProductos_id(producto);
+                            }
+                            eanPluConsolidadoVieModel.addProductoZona(pz);
+
+                        }
+
+
+                        //Actualizo la cantidad
+                        totalConsolidadoViewModel.setAmount(productosZona.size());
+                        totalConsolidadoViewModel.setDate(admin.getCurrentDateAndTime());
+
+
+                    }
+                }
+
+                @Override
+                public void fail(ResultWebServiceFail fail) {
+
+                }
+            });
+
+
+
+        }
+
+        @Override
+        public void initOnClick() {
+            add_on_click(R.id.btnSal, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    admin.callIntent(HomeReportes.class, null);
+                }
+            });
+
+            add_on_click(R.id.btnEnv, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    admin.toast("No implemented yet");
+                }
+            });
+        }
+
+        @Override
+        public void hasAllPermissions() {
+
+        }
+
+        //region Menu
+
+        public boolean onCreateOptionsMenu(Menu menu) {
+            // Inflate the menu; this adds items to the action bar if it is present.
+            menu.add(getString(R.string.log_out));
+            //        getMenuInflater().inflate(menu);
+            return true;
+        }
+
+
+        public boolean onOptionsItemSelected(MenuItem item) {
+            // Handle action bar item clicks here. The action bar will
+            // automatically handle clicks on the Home/Up button, so long
+            // as you specify a parent activity in AndroidManifest.xml.
+            Log.d(TAG,item.getTitle().toString());
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+
+            return super.onOptionsItemSelected(item);
+        }
+
+        //endregion
+
+        //region Tab Total
+        private ViewPager mViewPager;
+
+
+
+        RepDifInvTotalViewModel totalConsolidadoViewModel;
+        RepDifInvEanPluViewModel eanPluConsolidadoVieModel;
+        //endregion
+
+        //region Tabs configuration
+        private SectionsPagerAdapter mSectionsPagerAdapter;
+        public void tabsInit() {
+            //        /region Tabs section
+            // Create the adapter that will return a fragment for each of the three
+            // primary sections of the activity.
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.container);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+            mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+            //endregion
+        }
+
+        public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+            public SectionsPagerAdapter(FragmentManager fm) {
+                super(fm);
+            }
+
+            @Override
+            public Fragment getItem(int position) {
+                switch (position) {
+                    case 0:
+                        RepDifInvTotalFragment total = new RepDifInvTotalFragment();
+                        return total;
+
+                    case 1:
+                        RepDifInvEanPluFragment eanPlu = RepDifInvEanPluFragment.newInstance();
+                        eanPlu.setAdmin(admin);
+                        return eanPlu;
+                    default:
+                        return null;
+
+                }
+            }
+
+            @Override
+            public int getCount() {
+                // Show 3 total pages.
+                return 2;
+            }
+        }
+        //endregion
+    }

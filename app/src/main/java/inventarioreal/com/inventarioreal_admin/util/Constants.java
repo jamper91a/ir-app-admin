@@ -47,8 +47,8 @@ public class Constants {
 
     //public static final String url="http://c945485b.ngrok.io/";
     //public static final String url = "http://coexnort.servehttp.com:8023/";
-    public static final String url = "http://192.168.1.7:1337/";
-    //public static final String url = "http://coexnort.servehttp.com:8023/";
+    public static final String url = "http://192.168.1.14:1337/";
+//    public static final String url = "http://coexnort.servehttp.com:8023/";
 //    public static final String url = "http://192.168.0.26:1337/";
     public static final String user = "user";
     public static final String token = "token";
@@ -136,4 +136,8 @@ public class Constants {
     public static String transferencias_salida="salida";
     public static String ws_ultimoInventario="inventariosConsolidados/ultimoInventario";
     public static String ws_getProductByEanPlu="productos/findProductInLocalByEanPlu";
+    public static String ws_listarTodosInventariosConsolidados="inventariosConsolidados/listarTodos";
+    public static String ws_diferenceBetweenInventories="reportes/diferenceBetweenInventories";
+    public static String secondInventory="secondInventory";
+    public static String firstInventory="firstInventory";
 }

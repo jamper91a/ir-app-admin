@@ -59,6 +59,8 @@
         <activity android:name=".pages.Reportes.HomeReportes" />
         <activity android:name=".pages.Reportes.InventarioTotal.ReporteInventarioTotal" />
         <activity android:name=".pages.Reportes.InventarioEanPlu.InventarioEanPlu" />
+        <activity android:name=".pages.Reportes.DiferenciaInventariosFisicos.DIFStep1" />
+        <activity android:name=".pages.Reportes.DiferenciaInventariosFisicos.DIFStep2" />
 
     </application>
 
