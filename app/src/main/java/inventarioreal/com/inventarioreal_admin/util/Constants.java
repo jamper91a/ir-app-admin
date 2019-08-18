@@ -140,4 +140,7 @@ public class Constants {
     public static String ws_diferenceBetweenInventories="reportes/diferenceBetweenInventories";
     public static String secondInventory="secondInventory";
     public static String firstInventory="firstInventory";
+    public static String inventario_inicial="inventario_inicial";
+    public static String inventario_final="inventario_final";
+    public static String ws_saveReport="";
 }
