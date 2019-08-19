@@ -1,29 +1,28 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 
 public class GetProductosInventariosConsolidados {
-    private InventariosConsolidados inventariosConsolidados;
-    private ProductosZonas productosZona[];
+    private ConsolidatedInventory inventariosConsolidados;
+    private ProductHasZone productosZona[];
 
     public GetProductosInventariosConsolidados() {
     }
 
-    public InventariosConsolidados getInventariosConsolidados() {
+    public ConsolidatedInventory getInventariosConsolidados() {
         return inventariosConsolidados;
     }
 
-    public void setInventariosConsolidados(InventariosConsolidados inventariosConsolidados) {
+    public void setInventariosConsolidados(ConsolidatedInventory inventariosConsolidados) {
         this.inventariosConsolidados = inventariosConsolidados;
     }
 
-    public ProductosZonas[] getProductosZonas() {
+    public ProductHasZone[] getProductosZonas() {
         return productosZona;
     }
 
-    public void setProductosZonas(ProductosZonas[] productosZonas) {
+    public void setProductosZonas(ProductHasZone[] productosZonas) {
         this.productosZona = productosZonas;
     }
 }

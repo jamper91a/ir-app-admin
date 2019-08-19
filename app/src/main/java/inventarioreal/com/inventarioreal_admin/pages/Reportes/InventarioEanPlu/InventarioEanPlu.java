@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -25,8 +25,8 @@ public class InventarioEanPlu extends CicloActivity {
 
     private String TAG="IngresoMercancia";
     //private UhfManager uhfManager;
-    private ArrayList<ProductosZonas> productos = new ArrayList<>();
-    private Productos productos_id=null;
+    private ArrayList<ProductHasZone> productos = new ArrayList<>();
+    private Product productos_id=null;
     private ListAdapterInventarioEanPlu adapter = null;
 
     @Override
@@ -77,10 +77,10 @@ public class InventarioEanPlu extends CicloActivity {
     }
 
     public void findProductosByEanPlu(){
-        WebServices.findProductsByEanPlu(productos_id.id, this, admin, new ResultWebServiceInterface() {
+        WebServices.getProductInShopByEanPlu(productos_id.id, this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                productos = (ArrayList<ProductosZonas>) ok.getData();
+                productos = (ArrayList<ProductHasZone>) ok.getData();
                 if(productos!=null){
                     adapter.setItems(productos);
                     adapter.notifyDataSetChanged();
@@ -106,7 +106,7 @@ public class InventarioEanPlu extends CicloActivity {
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                Productos productoConsultado = (Productos) ok.getData();
+                                Product productoConsultado = (Product) ok.getData();
                                 mostrarInformacionProducto(productoConsultado);
                             }
 
@@ -135,10 +135,10 @@ public class InventarioEanPlu extends CicloActivity {
 
     }
 
-    private void mostrarInformacionProducto(Productos p){
+    private void mostrarInformacionProducto(Product p){
         this.productos_id = p;
-        getElemento(R.id.lblDes1).setText(p.getDescripcion());
-        getElemento(R.id.lblDes2).setText(p.getMarca());
+        getElemento(R.id.lblDes1).setText(p.getDescription());
+        getElemento(R.id.lblDes2).setText(p.getBranch());
         getElemento(R.id.lblDes3).setText(p.getColor());
         admin.loadImageFromInternet(
                 p.getImagen(),

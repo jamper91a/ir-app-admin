@@ -17,8 +17,8 @@ import java.util.LinkedList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Locales;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import jamper91.com.easyway.Util.Animacion;
@@ -28,7 +28,7 @@ public class CrearTransferenciaStep1 extends CicloActivity {
 
 
     final DataBase db = DataBase.getInstance(this);
-    private Transferencias request = new Transferencias();
+    private Transfer request = new Transfer();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +54,7 @@ public class CrearTransferenciaStep1 extends CicloActivity {
             getLocales();
             //Obtener poder de lecura
             getPoderLectura();
-            //Obtener fecha actual
+            //Obtener date actual
             getFecha();
         } catch (Exception e) {
             admin.toast(e.getMessage());
@@ -69,12 +69,12 @@ public class CrearTransferenciaStep1 extends CicloActivity {
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
         //Obtengo las zonas usando el local del empleado
         final LinkedList locales = db.getByColumn(
-                Constants.table_locales,
-                Constants.companias_id,
-                empleado.getEmpleado().getCompanias_id().getId()+ "",
-                Locales.class);
+                Constants.table_shops,
+                Constants.column_company,
+                empleado.getEmployee().getCompany().getId()+ "",
+                Shop.class);
 
-        ArrayAdapter<Locales> adapter =
+        ArrayAdapter<Shop> adapter =
                 new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, locales);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -83,19 +83,19 @@ public class CrearTransferenciaStep1 extends CicloActivity {
         ((Spinner) getElemento(R.id.spnLocalDestino).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                request.setLocal_destino_id((Locales)locales.get(position));
+                request.setShopDestination((Shop)locales.get(position));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                request.setLocal_destino_id(null);
+                request.setShopDestination(null);
             }
         });
 
         //Set Local origen
-        request.setLocal_origen_id(empleado.getEmpleado().getLocales_id());
-        Log.d("lOCAL", request.getLocal_origen_id().getName());
-        getElemento(R.id.txtLocOri).setText(request.getLocal_origen_id().getName());
+        request.setShopSource(empleado.getEmployee().getShop());
+        Log.d("lOCAL", request.getShopSource().getName());
+        getElemento(R.id.txtLocOri).setText(request.getShopSource().getName());
 
     }
 
@@ -131,7 +131,7 @@ public class CrearTransferenciaStep1 extends CicloActivity {
         add_on_click(R.id.btnIni, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(CrearTransferenciaStep2.class, request, Transferencias.class);
+                admin.callIntent(CrearTransferenciaStep2.class, request, Transfer.class);
             }
         });
     }

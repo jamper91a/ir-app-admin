@@ -14,7 +14,7 @@ import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step2.CrearInventarioColaborativoStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.InventariosColaborativosHome;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
@@ -26,7 +26,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 public class UnirseInventariosColaborativos extends CicloActivity {
 
     private RecyclerAdapterInventarios adapter;
-    private ArrayList<Inventarios> inventariosPorZonas = new ArrayList<>();
+    private ArrayList<Inventory> inventariosPorZonas = new ArrayList<>();
     RecyclerView recyclerView = null;
 
     @Override
@@ -43,7 +43,7 @@ public class UnirseInventariosColaborativos extends CicloActivity {
 
         //Cambiar los textos a mostrar
 
-        getElemento(R.id.txt1).setText("Selecciones el inventario a unirse");
+        getElemento(R.id.txt1).setText("Selecciones el inventory a unirse");
         getElemento(R.id.btnIni).setText("Iniciar");
     }
 
@@ -70,7 +70,7 @@ public class UnirseInventariosColaborativos extends CicloActivity {
         adapter = new RecyclerAdapterInventarios(UnirseInventariosColaborativos.this, inventariosPorZonas, admin, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
-                Inventarios inv = (Inventarios) item;
+                Inventory inv = (Inventory) item;
                 //Busco la zonaz
                 RequestInventariorCrear2 requestInventariorCrear2 = new RequestInventariorCrear2(inv);
                 requestInventariorCrear2.setUnion(true);
@@ -88,10 +88,10 @@ public class UnirseInventariosColaborativos extends CicloActivity {
             }
         });
         recyclerView.setAdapter(adapter);
-        WebServices.listarInventario(Constants.tipo_no_consolidado,true,this, admin, new ResultWebServiceInterface() {
+        WebServices.listInventories(Constants.tipo_no_consolidado,true,this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                inventariosPorZonas = (ArrayList<Inventarios>) ok.getData();
+                inventariosPorZonas = (ArrayList<Inventory>) ok.getData();
                 adapter.setInventarios(inventariosPorZonas);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();

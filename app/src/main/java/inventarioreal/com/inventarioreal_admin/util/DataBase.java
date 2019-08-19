@@ -94,69 +94,59 @@ public class DataBase extends SQLiteOpenHelper {
     protected void generarSql(SQLiteDatabase db)
     {
         LinkedList<String> columns=new LinkedList<>();
-        columns.add(Constants.state+ " INT NULL");
-        columns.add(Constants.epc+ " varchar(45) NULL");
-        columns.add(Constants.companias_id+ " INT NOT NULL");
-        columns.add(Constants.createdAt+ " varchar(45) NULL");
-        columns.add(Constants.updatedAt+ " varchar(45) NULL");
+        columns.add(Constants.column_state+ " INT NULL");
+        columns.add(Constants.column_company+ " INT NOT NULL");
+        columns.add(Constants.column_epc+ " varchar(45) NULL");
         db.execSQL(this.crear_tabla(Constants.table_epcs, columns));
 
 
         columns=new LinkedList<>();
-        columns.add(Constants.ean+ " VARCHAR(45) NULL");
-        columns.add(Constants.plu+ " VARCHAR(45) NULL");
-        columns.add(Constants.plu2+ " VARCHAR(45) NULL");
-        columns.add(Constants.plu3+ " VARCHAR(45) NULL");
-        columns.add(Constants.marca+ " VARCHAR(45) NULL");
-        columns.add(Constants.genero+ " VARCHAR(45) NULL");
-        columns.add(Constants.color+ " VARCHAR(45) NULL");
-        columns.add(Constants.talla+ " VARCHAR(45) NULL");
-        columns.add(Constants.categoria+ " VARCHAR(45)");
-        columns.add(Constants.descripcion+ " TEXT NULL");
-        columns.add(Constants.cantidad+ " MEDIUMTEXT NULL");
-        columns.add(Constants.imagen+ " TEXT NULL");
-        columns.add(Constants.createdAt+ " DATETIME NULL");
-        columns.add(Constants.precio_costo+ " DOUBLE NULL");
-        columns.add(Constants.precio_venta+ " DOUBLE NULL");
-        columns.add(Constants.companias_id+ " INT NOT NULL");
-        columns.add(Constants.updatedAt+ " DATETIME NULL");
-        db.execSQL(this.crear_tabla(Constants.table_productos, columns));
+        columns.add(Constants.column_ean+ " VARCHAR(45) NULL");
+        columns.add(Constants.column_plu+ " VARCHAR(45) NULL");
+        columns.add(Constants.column_plu2+ " VARCHAR(45) NULL");
+        columns.add(Constants.column_plu3+ " VARCHAR(45) NULL");
+        columns.add(Constants.column_branch+ " VARCHAR(45) NULL");
+        columns.add(Constants.column_gender+ " VARCHAR(45) NULL");
+        columns.add(Constants.column_color+ " VARCHAR(45) NULL");
+        columns.add(Constants.column_size+ " VARCHAR(45) NULL");
+        columns.add(Constants.column_category+ " VARCHAR(45)");
+        columns.add(Constants.column_description+ " TEXT NULL");
+        columns.add(Constants.column_amount+ " INT NULL");
+        columns.add(Constants.column_imagen+ " TEXT NULL");
+        columns.add(Constants.column_costPrice+ " DOUBLE NULL");
+        columns.add(Constants.column_sellPrice+ " DOUBLE NULL");
+        columns.add(Constants.column_company+ " INT NOT NULL");
+        db.execSQL(this.crear_tabla(Constants.table_products, columns));
 
         columns=new LinkedList<>();
-        columns.add(Constants.name+ " VARCHAR NULL");
-        columns.add(Constants.locales_id+ " INT NOT NULL");
-        columns.add(Constants.createdAt+ " DATETIME NULL");
-        columns.add(Constants.updatedAt+ " DATETIME NULL");
-        db.execSQL(this.crear_tabla(Constants.table_zonas, columns));
+        columns.add(Constants.column_name+ " VARCHAR NULL");
+        columns.add(Constants.column_shop+ " INT NOT NULL");
+        db.execSQL(this.crear_tabla(Constants.table_zones, columns));
 
         columns=new LinkedList<>();
-        columns.add(Constants.productos_id +" productos_id INT(11) NOT NULL");
-        columns.add(Constants.zonas_id +" zonas_id INT(11) NOT NULL");
-        columns.add(Constants.fecha_ingreso +" fecha_ingreso DATETIME NULL DEFAULT NULL");
-        columns.add(Constants.fecha_venta +" fecha_venta DATETIME NULL DEFAULT NULL");
-        columns.add(Constants.fecha_devolucion +" fecha_devolucion DATETIME NULL DEFAULT NULL");
-        columns.add(Constants.devolucion_observaciones +" devolucion_observaciones TEXT NULL");
-        columns.add(Constants.devoluciones_id +" devoluciones_id INT(11) NOT NULL");
-        columns.add(Constants.logs_usuarios +" logs_usuarios TEXT NULL");
-        columns.add(Constants.ventas_id +" ventas_id INT(11) NOT NULL");
-        columns.add(Constants.epcs_id +" epcs_id INT(11) NOT NULL");
-        columns.add(Constants.createdAt +" createdAt DATETIME NULL DEFAULT NULL");
-        columns.add(Constants.updatedAt +" updatedAt DATETIME NULL DEFAULT NULL");
-        db.execSQL(this.crear_tabla(Constants.table_productos_zonas, columns));
+        columns.add(Constants.column_admissionDate+" DATETIME NULL DEFAULT NULL");
+        columns.add(Constants.column_sellDate+" DATETIME NULL DEFAULT NULL");
+        columns.add(Constants.column_returnDate+" DATETIME NULL DEFAULT NULL");
+        columns.add(Constants.column_notesReturn+" TEXT NULL");
+        columns.add(Constants.column_logsUsers+" TEXT NULL");
+        columns.add(Constants.column_product+" INT(11) NOT NULL");
+        columns.add(Constants.column_zone+" INT(11) NOT NULL");
+        columns.add(Constants.column_devolution+" INT(11) NOT NULL");
+        columns.add(Constants.column_sell+" INT(11) NOT NULL");
+        columns.add(Constants.column_epc+" INT(11) NOT NULL");
+        db.execSQL(this.crear_tabla(Constants.table_productsHasZones, columns));
 
         columns=new LinkedList<>();
-        columns.add(Constants.companias_id+ " INT NOT NULL");
-        columns.add(Constants.name+ " VARCHAR NULL");
+        columns.add(Constants.column_company+ " INT NOT NULL");
+        columns.add(Constants.column_name+ " VARCHAR NULL");
         columns.add(Constants.createdAt+ " DATETIME NULL");
         columns.add(Constants.updatedAt+ " DATETIME NULL");
-        db.execSQL(this.crear_tabla(Constants.table_locales, columns));
+        db.execSQL(this.crear_tabla(Constants.table_shops, columns));
 
         columns=new LinkedList<>();
-        columns.add(Constants.name+ " VARCHAR NULL");
-        columns.add(Constants.tipo+ " TINYINT NULL");
-        columns.add(Constants.createdAt+ " DATETIME NULL");
-        columns.add(Constants.updatedAt+ " DATETIME NULL");
-        db.execSQL(this.crear_tabla(Constants.table_devoluciones, columns));
+        columns.add(Constants.column_name+ " VARCHAR NULL");
+        columns.add(Constants.column_type+ " TINYINT NULL");
+        db.execSQL(this.crear_tabla(Constants.table_devolutions, columns));
 
 
 
@@ -185,6 +175,9 @@ public class DataBase extends SQLiteOpenHelper {
     {
         //Agrego el campo id
         columnas.addFirst("id INTEGER PRIMARY KEY AUTOINCREMENT");
+        columnas.addLast(Constants.createdAt+ " varchar(45) NULL");
+        columnas.addLast(Constants.updatedAt+ " varchar(45) NULL");
+
         String sql="Create table %table_name (%columas);";
         sql=sql.replace("%table_name",table_name);
         String col=columnas.toString();
@@ -229,7 +222,7 @@ public class DataBase extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db=null;
             db = get_db();
-            long id = db.insertWithOnConflict(table_name, Constants.id, fields,SQLiteDatabase.CONFLICT_REPLACE);
+            long id = db.insertWithOnConflict(table_name, Constants.column_id, fields,SQLiteDatabase.CONFLICT_REPLACE);
             close_db(db);
             return id;
         } catch (Exception e) {

@@ -22,10 +22,10 @@ import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterEpcs;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
@@ -41,13 +41,13 @@ public class IngresoMercancia extends CicloActivity {
     private String TAG="IngresoMercancia";
     //private UhfManager uhfManager;
     public ListAdapterEpcs adapter1;
-    private LinkedList<Epcs> epcs = new LinkedList<>();
-    private LinkedList<Epcs> epcsBanned = new LinkedList<>();
-    private LinkedList<ProductosZonas> productos_zonas = new LinkedList<>();
+    private LinkedList<Epc> epcs = new LinkedList<>();
+    private LinkedList<Epc> epcsBanned = new LinkedList<>();
+    private LinkedList<ProductHasZone> productos_zonas = new LinkedList<>();
     final DataBase db = DataBase.getInstance(this);
 
-    private Zonas zonas_id;
-    private Productos productos_id=null;
+    private Zone zonas_id;
+    private Product productos_id=null;
     RFDIReader rfdiReader =  null;
 
     private Handler handler = new Handler(){
@@ -128,7 +128,7 @@ public class IngresoMercancia extends CicloActivity {
             @Override
             public void onLongItemClick(Object item) {
                 //Agrego el item a una lista de elementos baneados para esta lectura
-                Epcs epc = (Epcs) item;
+                Epc epc = (Epc) item;
                 epcsBanned.add(epc);
                 adapter1.remove(epc);
                 updatedAmountTags();
@@ -161,7 +161,7 @@ public class IngresoMercancia extends CicloActivity {
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                Productos productoConsultado = (Productos) ok.getData();
+                                Product productoConsultado = (Product) ok.getData();
                                 mostrarInformacionProducto(productoConsultado);
                             }
 
@@ -206,7 +206,7 @@ public class IngresoMercancia extends CicloActivity {
         add_on_click(R.id.btnGua, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebServices.addMercancia(
+                WebServices.addCommodity(
                         productos_id.id,
                         productos_zonas,
                         IngresoMercancia.this,
@@ -229,10 +229,10 @@ public class IngresoMercancia extends CicloActivity {
         });
     }
 
-    private void mostrarInformacionProducto(Productos p){
+    private void mostrarInformacionProducto(Product p){
         this.productos_id = p;
-        getElemento(R.id.lblDes1).setText(p.getDescripcion());
-        getElemento(R.id.lblDes2).setText(p.getMarca());
+        getElemento(R.id.lblDes1).setText(p.getDescription());
+        getElemento(R.id.lblDes2).setText(p.getBranch());
         getElemento(R.id.lblDes3).setText(p.getColor());
         admin.loadImageFromInternet(
                 p.getImagen(),
@@ -251,14 +251,14 @@ public class IngresoMercancia extends CicloActivity {
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
         //Obtengo las zonas usando el local del empleado
-//        LinkedList<HashMap<String, String>> zonas=db.getByColumn(Constants.table_zonas,Constants.locales_id, empleado.getEmpleado().getLocales_id().getId());
+//        LinkedList<HashMap<String, String>> zonas=db.getByColumn(Constants.table_zones,Constants.locales_id, empleado.getEmployee().getShop().getId());
         final LinkedList zonas=db.getByColumn(
-                Constants.table_zonas,
-                Constants.locales_id,
-                empleado.getEmpleado().getLocales_id().getId()+"",
-                Zonas.class);
+                Constants.table_zones,
+                Constants.column_shop,
+                empleado.getEmployee().getShop().getId()+"",
+                Zone.class);
 
-        ArrayAdapter<Zonas> adapter =
+        ArrayAdapter<Zone> adapter =
                 new ArrayAdapter<>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, zonas);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
 
@@ -267,7 +267,7 @@ public class IngresoMercancia extends CicloActivity {
         ((Spinner)getElemento(R.id.spnZona).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                zonas_id = (Zonas) zonas.get(position);
+                zonas_id = (Zone) zonas.get(position);
             }
 
             @Override
@@ -328,17 +328,17 @@ public class IngresoMercancia extends CicloActivity {
         super.onDestroy();
     }
 
-    private Epcs createEpc(String epc){
-        Epcs epcTag = new Epcs();
+    private Epc createEpc(String epc){
+        Epc epcTag = new Epc();
         epcTag.setEpc(epc);
         epcTag.setCount(1);
         epcs.add(epcTag);
         adapter1.add(epcTag);
         //Creo el producto zona a enviar
-        ProductosZonas productosZonas = new ProductosZonas();
-        productosZonas.setZonas_id(this.zonas_id);
-        productosZonas.setProductos_id(this.productos_id);
-        productosZonas.setEpcs_id(epcTag);
+        ProductHasZone productosZonas = new ProductHasZone();
+        productosZonas.setZone(this.zonas_id);
+        productosZonas.setProduct(this.productos_id);
+        productosZonas.setEpc(epcTag);
         productos_zonas.add(productosZonas);
         updatedAmountTags();
         return epcTag;
@@ -356,7 +356,7 @@ public class IngresoMercancia extends CicloActivity {
     }
 
     private boolean isBanned(String epc){
-        for (Epcs epcB:epcsBanned){
+        for (Epc epcB:epcsBanned){
             if(epcB.getEpc().equals(epc))
                 return true;
         }
@@ -372,7 +372,7 @@ public class IngresoMercancia extends CicloActivity {
                     createEpc(epc);
                 } else {
                     for (int i = 0; i < epcs.size(); i++) {
-                        Epcs mEPC = epcs.get(i);
+                        Epc mEPC = epcs.get(i);
                         // list contain this epc
                         if (epc.equals(mEPC.getEpc())) {
                             mEPC.setCount(mEPC.getCount() + 1);

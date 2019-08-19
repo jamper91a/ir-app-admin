@@ -15,7 +15,7 @@
         android:id="@+id/btnInv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/inventario" />
+        android:text="@string/inventory" />
 
     <Button
         android:id="@+id/btnInvCoo"
@@ -33,7 +33,7 @@
         android:id="@+id/btnDev"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/devoluciones" />
+        android:text="@string/devolutions" />
 
     <Button
         android:id="@+id/btnUsu"

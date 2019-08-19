@@ -15,8 +15,8 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import jamper91.com.easyway.Util.Administrador;
 
 
@@ -29,11 +29,11 @@ public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapte
     private static final String TAG = "dapterInventarioEanPlu";
     private Activity activity;
     private Administrador admin;
-    private ArrayList<ProductosZonas> items;
-    private ArrayList<ProductosZonas> todos;
+    private ArrayList<ProductHasZone> items;
+    private ArrayList<ProductHasZone> todos;
     private OnItemClickListener onItemClickListener;
 
-    public ListAdapterInventarioEanPlu(Activity activity, Administrador admin, ArrayList<ProductosZonas> items, OnItemClickListener onItemClickListener) {
+    public ListAdapterInventarioEanPlu(Activity activity, Administrador admin, ArrayList<ProductHasZone> items, OnItemClickListener onItemClickListener) {
         this.activity = activity;
         this.admin = admin;
         this.items = items;
@@ -41,7 +41,7 @@ public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapte
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setItems(ArrayList<ProductosZonas> items) {
+    public void setItems(ArrayList<ProductHasZone> items) {
         this.items = items;
     }
 
@@ -59,10 +59,10 @@ public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final ProductosZonas item = items.get(position);
+        final ProductHasZone item = items.get(position);
         holder.getTxtId().setText(item.getId()+"");
-        holder.getTxEpc().setText(item.getEpcs_id().getEpc());
-        holder.getTxtZona().setText(item.getZonas_id().getName());
+        holder.getTxEpc().setText(item.getEpc().getEpc());
+        holder.getTxtZona().setText(item.getZone().getName());
         holder.bind(item);
 
     }
@@ -72,7 +72,7 @@ public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapte
         return items.size();
     }
 
-    public void add(ProductosZonas item) {
+    public void add(ProductHasZone item) {
         try {
             int position = items.indexOf(item);
             notifyItemInserted(position);
@@ -93,7 +93,7 @@ public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapte
                 {
                     notifyDataSetChanged();
                 }else{
-                    items = (ArrayList<ProductosZonas>) results.values;
+                    items = (ArrayList<ProductHasZone>) results.values;
                     notifyDataSetChanged();
                 }
 
@@ -111,10 +111,10 @@ public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapte
                     results.values = todos;
                     results.count = todos.size();
                 }else{
-                    LinkedList<Epcs> FilteredArrayNames = new LinkedList<>();
+                    LinkedList<Epc> FilteredArrayNames = new LinkedList<>();
                     for (int i = 0; i < todos.size(); i++) {
-                        ProductosZonas dataNames = todos.get(i);
-//                        if (dataNames.getProductos_id().get.toLowerCase().contains(constraint))  {
+                        ProductHasZone dataNames = todos.get(i);
+//                        if (dataNames.getProduct().get.toLowerCase().contains(constraint))  {
 //                            FilteredArrayNames.add(dataNames);
 //                        }
                     }
@@ -179,7 +179,7 @@ public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapte
             this.txtZona = txtZona;
         }
 
-        public void bind(final ProductosZonas item) {
+        public void bind(final ProductHasZone item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     onItemClickListener.onItemClick(item);

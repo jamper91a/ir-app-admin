@@ -27,7 +27,6 @@ public class SyncRequest implements RequestWebServiceInterface {
     }
 
     public HashMap<String, String> getCampos(){
-        Gson gson = new Gson();
         HashMap<String, String> campos = new HashMap<>();
         campos.put(Constants.last_updated, getLast_update());
         return campos;

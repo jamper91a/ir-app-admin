@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/password"
+        android:hint="@string/collaborative"
         android:inputType="numberPassword"
         android:text="12345" />
 

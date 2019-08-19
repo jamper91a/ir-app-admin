@@ -19,13 +19,10 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonas;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasHasTransferencia;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasHasTransferenciasVisual;
-import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasVisual;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import jamper91.com.easyway.Util.Administrador;
 
 public class EanPluFragment extends Fragment {
@@ -103,9 +100,9 @@ public class EanPluFragment extends Fragment {
 
     private void getData(){
         mViewModel = ViewModelProviders.of(getActivity()).get(EanPluViewModel.class);
-        mViewModel.getProductosZonaHasTransferencia().observe(this, new Observer<LinkedList<ProductosZonasHasTransferencias>>() {
+        mViewModel.getProductosZonaHasTransferencia().observe(this, new Observer<LinkedList<TransfersHasZonesProduct>>() {
             @Override
-            public void onChanged(@Nullable LinkedList<ProductosZonasHasTransferencias> productosZonas) {
+            public void onChanged(@Nullable LinkedList<TransfersHasZonesProduct> productosZonas) {
                 if(productosZonas.size()>0){
                     adapter1.setItems(productosZonas);
                     adapter1.notifyDataSetChanged();

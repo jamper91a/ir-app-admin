@@ -6,21 +6,21 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.LinkedList;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 
 public class EanPluViewModel extends ViewModel {
-    MutableLiveData<LinkedList<ProductosZonas>> productosZonasLiveData = null;
-    private LinkedList<ProductosZonas> productosZona = null;
+    MutableLiveData<LinkedList<ProductHasZone>> productosZonasLiveData = null;
+    private LinkedList<ProductHasZone> productosZona = null;
 
 
 
-    public void addProductoZona(ProductosZonas productosZonas){
+    public void addProductoZona(ProductHasZone productosZonas){
         //Valido si ya se ha agregado el producto
         int count=0;
-        if(productosZonas.getProductos_id()!=null){
-            for (ProductosZonas pz: productosZona
+        if(productosZonas.getProduct()!=null){
+            for (ProductHasZone pz: productosZona
                  ) {
-                if(pz.getProductos_id().getId() == productosZonas.getProductos_id().getId()){
+                if(pz.getProduct().getId() == productosZonas.getProduct().getId()){
                     pz.setTotal(pz.getTotal()+1);
                     productosZona.set(count,pz);
                     productosZonasLiveData.setValue(productosZona);
@@ -33,7 +33,7 @@ public class EanPluViewModel extends ViewModel {
         }
 
     }
-    public LiveData<LinkedList<ProductosZonas>> getProductosZona(){
+    public LiveData<LinkedList<ProductHasZone>> getProductosZona(){
         if(productosZonasLiveData ==null){
             productosZonasLiveData = new MutableLiveData<>();
             productosZona = new LinkedList<>();

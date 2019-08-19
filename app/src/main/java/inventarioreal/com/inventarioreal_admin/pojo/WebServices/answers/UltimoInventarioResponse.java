@@ -6,14 +6,14 @@ import android.database.Cursor;
 import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Empleados;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Employee;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 
 public class UltimoInventarioResponse extends InventarioRealPojo {
     private String name;
-    private Empleados empleados_id;
+    private Employee empleados_id;
     private int productos;
-    private Inventarios[] inventarios;
+    private Inventory[] inventarios;
 
     public String getName() {
         return name;
@@ -23,11 +23,11 @@ public class UltimoInventarioResponse extends InventarioRealPojo {
         this.name = name;
     }
 
-    public Empleados getEmpleados_id() {
+    public Employee getEmpleados_id() {
         return empleados_id;
     }
 
-    public void setEmpleados_id(Empleados empleados_id) {
+    public void setEmpleados_id(Employee empleados_id) {
         this.empleados_id = empleados_id;
     }
 
@@ -39,11 +39,11 @@ public class UltimoInventarioResponse extends InventarioRealPojo {
         this.productos = productos;
     }
 
-    public Inventarios[] getInventarios() {
+    public Inventory[] getInventarios() {
         return inventarios;
     }
 
-    public void setInventarios(Inventarios[] inventarios) {
+    public void setInventarios(Inventory[] inventarios) {
         this.inventarios = inventarios;
     }
 

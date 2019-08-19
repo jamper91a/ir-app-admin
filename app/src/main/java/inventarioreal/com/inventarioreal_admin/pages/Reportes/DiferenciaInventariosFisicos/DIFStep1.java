@@ -12,7 +12,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.InventarioParcialHome;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -22,10 +22,10 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class DIFStep1 extends CicloActivity {
     private RecyclerAdapterInventariosConsolidados adapter;
-    private ArrayList<InventariosConsolidados> inventariosConsolidados = new ArrayList<>();
+    private ArrayList<ConsolidatedInventory> inventariosConsolidados = new ArrayList<>();
     RecyclerView recyclerView = null;
-    private InventariosConsolidados inventarioInicial=null;
-    private InventariosConsolidados inventarioFinal=null;
+    private ConsolidatedInventory inventarioInicial=null;
+    private ConsolidatedInventory inventarioFinal=null;
     //Var to know in which step the use is
     private int step=1;
 
@@ -43,7 +43,7 @@ public class DIFStep1 extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.btnIni), Techniques.SlideInLeft));
 
         //Cambiar los textos a mostrar
-        getElemento(R.id.txt1).setText("Selecciones el inventario Inicial");
+        getElemento(R.id.txt1).setText("Selecciones el inventory Inicial");
         getElemento(R.id.btnIni).setText("Siguiente");
     }
 
@@ -70,7 +70,7 @@ public class DIFStep1 extends CicloActivity {
         adapter = new RecyclerAdapterInventariosConsolidados(this, inventariosConsolidados, admin, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
-                InventariosConsolidados inv = (InventariosConsolidados) item;
+                ConsolidatedInventory inv = (ConsolidatedInventory) item;
                 if(step==2){
 //                    inv.setId(2);
                     inventarioFinal=inv;
@@ -84,7 +84,7 @@ public class DIFStep1 extends CicloActivity {
                 }
                 if(step==1){
                     inventarioInicial=inv;
-                    getElemento(R.id.txt1).setText("Selecciones el inventario final");
+                    getElemento(R.id.txt1).setText("Selecciones el inventory final");
                     step=2;
                 }
 
@@ -101,10 +101,10 @@ public class DIFStep1 extends CicloActivity {
             }
         });
         recyclerView.setAdapter(adapter);
-        WebServices.listarTodosInventarioConsolidados(this, admin, new ResultWebServiceInterface() {
+        WebServices.listAllConsolidatedInventories(this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                inventariosConsolidados = (ArrayList<InventariosConsolidados>) ok.getData();
+                inventariosConsolidados = (ArrayList<ConsolidatedInventory>) ok.getData();
                 adapter.setInventarios(inventariosConsolidados);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();

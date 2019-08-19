@@ -4,17 +4,17 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 
 public class TotalViewModel extends ViewModel {
 
-    private MutableLiveData<Inventarios> amount= new MutableLiveData<>();
+    private MutableLiveData<Inventory> amount= new MutableLiveData<>();
 
-    public void stInventario(Inventarios a) {
+    public void stInventario(Inventory a) {
         amount.setValue(a);
     }
 
-    public LiveData<Inventarios> getInventario(){
+    public LiveData<Inventory> getInventario(){
         return this.amount;
     }
 }

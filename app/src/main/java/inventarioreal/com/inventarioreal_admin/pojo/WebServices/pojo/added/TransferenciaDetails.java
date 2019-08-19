@@ -1,7 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Locales;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Users;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Employee;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.User;
 
 public class TransferenciaDetails {
 
@@ -9,9 +10,9 @@ public class TransferenciaDetails {
     private int recibidos;
     private int faltantes;
     private String fecha;
-    private Locales destino;
-    private Locales origen;
-    private Users generador;
+    private Shop destino;
+    private Shop origen;
+    private Employee generador;
     private String mensaje;
     private String manifiestoElectronico;
     private ProductosTransferenciaDetail[] productos;
@@ -51,27 +52,27 @@ public class TransferenciaDetails {
         this.fecha = fecha;
     }
 
-    public Locales getDestino() {
+    public Shop getDestino() {
         return destino;
     }
 
-    public void setDestino(Locales destino) {
+    public void setDestino(Shop destino) {
         this.destino = destino;
     }
 
-    public Locales getOrigen() {
+    public Shop getOrigen() {
         return origen;
     }
 
-    public void setOrigen(Locales origen) {
+    public void setOrigen(Shop origen) {
         this.origen = origen;
     }
 
-    public Users getGenerador() {
+    public Employee getGenerador() {
         return generador;
     }
 
-    public void setGenerador(Users generador) {
+    public void setGenerador(Employee generador) {
         this.generador = generador;
     }
 

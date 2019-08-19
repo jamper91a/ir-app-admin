@@ -31,12 +31,12 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventarios
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.tabs.inventariosConsolidados.TotalConsolidadoViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductosInventariosConsolidados;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHasProduct;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -50,11 +50,11 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
 
     final DataBase db = DataBase.getInstance(this);
     private String TAG="VisualizarInventarioColaborativoPorZonaStep2";
-    private LinkedList<InventariosProductos> inventariosProductos = new LinkedList<>();
+    private LinkedList<InventoryHasProduct> inventariosProductos = new LinkedList<>();
     private Gson gson = new Gson();
     private RequestInventarioPorZonaStep2 requestInventarioPorZonaStep2=null;
-    private Inventarios inventario=null;
-    private InventariosConsolidados inventarioConsolidado=null;
+    private Inventory inventario=null;
+    private ConsolidatedInventory inventarioConsolidado=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +65,8 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         Gson gson = new Gson();
         try {
             this.requestInventarioPorZonaStep2 = gson.fromJson(message, RequestInventarioPorZonaStep2.class);
-            this.inventario = requestInventarioPorZonaStep2.getInventarios();
-            this.inventarioConsolidado = requestInventarioPorZonaStep2.inventariosConsolidados;
+            this.inventario = requestInventarioPorZonaStep2.getInventory();
+            this.inventarioConsolidado = requestInventarioPorZonaStep2.consolidatedInventory;
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -92,27 +92,27 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
             totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
             eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
 
-            WebServices.getProductsByInventario(inventario.getId(), this, admin, new ResultWebServiceInterface() {
+            WebServices.getProductsByInventory(inventario.getId(), this, admin, new ResultWebServiceInterface() {
                 @Override
                 public void ok(ResultWebServiceOk ok) {
-                    inventario = (Inventarios) ok.getData();
-                    //Busco la zona del inventario
-                    Zonas zona = (Zonas) db.findById(Constants.table_zonas, inventario.getZonas_id().getId()+"", Zonas.class);
+                    inventario = (Inventory) ok.getData();
+                    //Busco la zona del inventory
+                    Zone zona = (Zone) db.findById(Constants.table_zones, inventario.getZone().getId()+"", Zone.class);
                     if(zona!=null){
-                        inventario.setZonas_id(zona);
+                        inventario.setZone(zona);
                     }
                     //Actualizo la cantidad
                     totalViewModel.stInventario(inventario);
-                    for (ProductosZonas pz: inventario.getProductos_zona()
+                    for (ProductHasZone pz: inventario.getProducts()
                     ) {
                         //Busco el epc del producto
-                        Epcs epc = (Epcs) db.findById(
+                        Epc epc = (Epc) db.findById(
                                 Constants.table_epcs,
-                                pz.getEpcs_id().getId()+"",
-                                Epcs.class
+                                pz.getEpc().getId()+"",
+                                Epc.class
                         );
                         if(epc!=null)
-                            pz.setEpcs_id(epc);
+                            pz.setEpc(epc);
                         eanPluVieModel.addProductoZona(pz);
                     }
 
@@ -128,21 +128,21 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         if(inventarioConsolidado!=null){
             totalConsolidadoViewModel = ViewModelProviders.of(this).get(TotalConsolidadoViewModel.class);
             eanPluConsolidadoVieModel = ViewModelProviders.of(this).get(EanPluConsolidadoViewModel.class);
-            WebServices.getProductsByInventariConsolidado(inventarioConsolidado.getId(), this, admin, new ResultWebServiceInterface() {
+            WebServices.getProductsByConsolidatedInventory(inventarioConsolidado.getId(), this, admin, new ResultWebServiceInterface() {
                 @Override
                 public void ok(ResultWebServiceOk ok) {
                     GetProductosInventariosConsolidados aux = (GetProductosInventariosConsolidados) ok.getData();
-                    //Busco la zona del inventario
-                    for (ProductosZonas pz: aux.getProductosZonas()){
-                        Zonas zona = (Zonas) db.findById(Constants.table_zonas, pz.getZonas_id().getId()+"", Zonas.class);
+                    //Busco la zona del inventory
+                    for (ProductHasZone pz: aux.getProductosZonas()){
+                        Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
                         if(zona!=null){
-                            pz.setZonas_id(zona);
+                            pz.setZone(zona);
                         }
                     }
 
                     //Actualizo la cantidad
                     totalConsolidadoViewModel.stInventario(aux.getInventariosConsolidados());
-                    for (ProductosZonas pz: aux.getProductosZonas()){
+                    for (ProductHasZone pz: aux.getProductosZonas()){
                         eanPluConsolidadoVieModel.addProductoZona(pz);
                     }
 

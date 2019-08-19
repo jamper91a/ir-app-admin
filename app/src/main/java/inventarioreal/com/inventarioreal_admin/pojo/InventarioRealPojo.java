@@ -66,4 +66,6 @@ public abstract class InventarioRealPojo {
             return null;
         }
     }
+
+
 }

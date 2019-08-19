@@ -4,40 +4,40 @@ import android.util.Log;
 
 import java.util.HashMap;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.IntentRequests;
 
 
 public class RequestInventariorCrear2 implements IntentRequests {
     private static final String TAG = "RequestInventarioCrear2";
-    public Zonas zona_id;
+    public Zone zone;
     public String power;
-    public String fecha;
-    public Inventarios inventario;
+    public String date;
+    public Inventory inventory;
     public boolean union=false;
 
     public RequestInventariorCrear2() {
     }
 
-    public RequestInventariorCrear2(Zonas zona_id, String power, String fecha) {
-        this.zona_id = zona_id;
+    public RequestInventariorCrear2(Zone zone, String power, String date) {
+        this.zone = zone;
         this.power = power;
-        this.fecha = fecha;
+        this.date = date;
     }
 
-    public RequestInventariorCrear2(Inventarios inventario) {
-        this.inventario = inventario;
-        this.zona_id = inventario.zonas_id;
-        this.fecha = inventario.fecha;
+    public RequestInventariorCrear2(Inventory inventory) {
+        this.inventory = inventory;
+        this.zone = inventory.getZone();
+        this.date = inventory.getDate();
     }
 
-    public Zonas getZona_id() {
-        return zona_id;
+    public Zone getZone() {
+        return zone;
     }
 
-    public void setZona_id(Zonas zona_id) {
-        this.zona_id = zona_id;
+    public void setZone(Zone zone) {
+        this.zone = zone;
     }
 
     public String getPower() {
@@ -48,18 +48,18 @@ public class RequestInventariorCrear2 implements IntentRequests {
         this.power = power;
     }
 
-    public String getFecha() {
-        return fecha;
+    public String getDate() {
+        return date;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     @Override
     public boolean validar() {
         try {
-            if(this.fecha.isEmpty() && this.power.isEmpty() && this.zona_id.id<=0)
+            if(this.date.isEmpty() && this.power.isEmpty() && this.zone.id<=0)
             {
                 return false;
             }else{
@@ -76,12 +76,12 @@ public class RequestInventariorCrear2 implements IntentRequests {
         return null;
     }
 
-    public Inventarios getInventario() {
-        return inventario;
+    public Inventory getInventory() {
+        return inventory;
     }
 
-    public void setInventario(Inventarios inventario) {
-        this.inventario = inventario;
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     public boolean isUnion() {
