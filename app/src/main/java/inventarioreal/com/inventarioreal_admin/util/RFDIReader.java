@@ -307,7 +307,8 @@ public class RFDIReader {
         }else{
             startReader = false ;
             runReader = false ;
-            managerBig.close();
+            if(managerBig!=null)
+                managerBig.close();
         }
 //        super.onDestroy();
     }

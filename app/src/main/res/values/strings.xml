@@ -44,9 +44,9 @@
     <string name="details">Details</string>
     <string name="visual">Visual</string>
     <string name="fecha_del_inventario">Fecha del Inventario</string>
-    <string name="crear_inventario_cooperativo">Crear Inventrio cooperativo</string>
-    <string name="unirse_inventario_colaborativo">Unirse inventory cooperativo</string>
-    <string name="consolidar_inventarios_cooperativos">Consolidar consolidatedInventory cooperativos</string>
+    <string name="create_cooperative_inventory">Crear Inventrio Cooperativo</string>
+    <string name="join_cooperative_inventory">Unirse Inventario Cooperativo</string>
+    <string name="consolidate_cooperative_inventories">Consolidar inventarios cooperativos</string>
     <string name="title_activity_home_transferencia">HomeTransferencia</string>
     <string name="ME">M.E</string>
     <string name="recibido">Recibido</string>
@@ -69,4 +69,6 @@
     <string name="devoluciones_clientes">Devoluciones clientes</string>
     <string name="devoluciones_proveedores">Devoluciones Proveedores</string>
     <string name="rotacion_proyectada">Rotacion Proyectada</string>
+    <string name="view_cooperative_inventories_by_zone">Visualizar inventarios cooperativos por zona</string>
+    <string name="view_cooperative_inventories_consolidated">Visualizar inventarios cooperativos consolidados</string>
 </resources>

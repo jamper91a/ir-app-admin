@@ -9,30 +9,30 @@
         android:id="@+id/btnCre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/crear_inventario_cooperativo" />
+        android:text="@string/create_cooperative_inventory" />
 
     <Button
         android:id="@+id/btnUni"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/unirse_inventario_colaborativo" />
+        android:text="@string/join_cooperative_inventory" />
 
     <Button
         android:id="@+id/btnCon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/consolidar_inventarios_cooperativos" />
+        android:text="@string/consolidate_cooperative_inventories" />
 
     <Button
         android:id="@+id/btnVisPorZon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/view_inventories_by_zone" />
+        android:text="@string/view_cooperative_inventories_by_zone" />
 
     <Button
         android:id="@+id/btnVisCon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/view_consolidated_inventories" />
+        android:text="@string/view_cooperative_inventories_consolidated" />
 
 </LinearLayout>

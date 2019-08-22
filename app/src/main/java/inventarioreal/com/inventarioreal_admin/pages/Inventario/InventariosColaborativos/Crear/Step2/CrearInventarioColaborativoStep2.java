@@ -34,6 +34,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crea
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step1.CrearInventarioColaborativoStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
@@ -398,7 +399,8 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                             new ResultWebServiceInterface() {
                                 @Override
                                 public void ok(ResultWebServiceOk ok) {
-                                    admin.toast("Ok");
+                                    admin.toast("Inventario creado con exito");
+                                    admin.callIntent(CrearInventarioColaborativoStep1.class, null);
                                 }
 
                                 @Override
@@ -417,7 +419,8 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                             new ResultWebServiceInterface() {
                                 @Override
                                 public void ok(ResultWebServiceOk ok) {
-                                    admin.toast("Ok");
+                                    admin.toast("Inventario actualizado con exito");
+                                    admin.callIntent(CrearInventarioColaborativoStep1.class, null);
                                 }
 
                                 @Override
