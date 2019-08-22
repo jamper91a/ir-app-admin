@@ -142,7 +142,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                     }
 
                     //Actualizo la cantidad
-                    totalConsolidadoViewModel.stInventario(aux.getInventariosConsolidados());
+                    totalConsolidadoViewModel.stInventario(aux.getConsolidatedInventories());
                     for (ProductHasZone pz: aux.getProductosZonas()){
                             eanPluConsolidadoVieModel.addProductoZona(pz);
                     }

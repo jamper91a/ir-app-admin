@@ -74,7 +74,7 @@ public class ProductHasZone extends InventarioRealPojo {
         );
         this.epc = new Epc(
                 c.getLong(
-                        c.getColumnIndexOrThrow(Constants.column_epc)
+                        c.getColumnIndexOrThrow(Constants.column_epc_id)
                 )
         );
         this.createdAt = c.getString(c.getColumnIndexOrThrow(Constants.createdAt));
@@ -96,7 +96,7 @@ public class ProductHasZone extends InventarioRealPojo {
         values.put(Constants.column_zone, zone.id);
         values.put(Constants.column_devolution, devolution.id);
         values.put(Constants.column_sell, sell.id);
-        values.put(Constants.column_epc, epc.id);
+        values.put(Constants.column_epc_id, epc.id);
         values.put(Constants.createdAt, createdAt);
         values.put(Constants.updatedAt, updatedAt);
         return values;

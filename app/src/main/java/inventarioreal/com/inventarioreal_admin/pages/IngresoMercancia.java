@@ -194,6 +194,16 @@ public class IngresoMercancia extends CicloActivity {
 
                     getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
+
+                }else{
+                    admin.toast("Se debe buscar un producto");
+                }
+            }
+        });
+        add_on_click(R.id.btnEmp, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(productos_id!=null){
                     rfdiReader.initSDK();
                     rfdiReader.startReader();
 
@@ -388,6 +398,11 @@ public class IngresoMercancia extends CicloActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(Home.class, null);
     }
 
     /**

@@ -96,7 +96,7 @@ public class DataBase extends SQLiteOpenHelper {
         LinkedList<String> columns=new LinkedList<>();
         columns.add(Constants.column_state+ " INT NULL");
         columns.add(Constants.column_company+ " INT NOT NULL");
-        columns.add(Constants.column_epc+ " varchar(45) NULL");
+        columns.add(Constants.column_epc + " varchar(45) NULL");
         db.execSQL(this.crear_tabla(Constants.table_epcs, columns));
 
 
@@ -116,6 +116,7 @@ public class DataBase extends SQLiteOpenHelper {
         columns.add(Constants.column_costPrice+ " DOUBLE NULL");
         columns.add(Constants.column_sellPrice+ " DOUBLE NULL");
         columns.add(Constants.column_company+ " INT NOT NULL");
+        columns.add(Constants.column_supplier+ " INT NOT NULL");
         db.execSQL(this.crear_tabla(Constants.table_products, columns));
 
         columns=new LinkedList<>();
@@ -133,14 +134,12 @@ public class DataBase extends SQLiteOpenHelper {
         columns.add(Constants.column_zone+" INT(11) NOT NULL");
         columns.add(Constants.column_devolution+" INT(11) NOT NULL");
         columns.add(Constants.column_sell+" INT(11) NOT NULL");
-        columns.add(Constants.column_epc+" INT(11) NOT NULL");
+        columns.add(Constants.column_epc_id +" INT(11) NOT NULL");
         db.execSQL(this.crear_tabla(Constants.table_productsHasZones, columns));
 
         columns=new LinkedList<>();
         columns.add(Constants.column_company+ " INT NOT NULL");
         columns.add(Constants.column_name+ " VARCHAR NULL");
-        columns.add(Constants.createdAt+ " DATETIME NULL");
-        columns.add(Constants.updatedAt+ " DATETIME NULL");
         db.execSQL(this.crear_tabla(Constants.table_shops, columns));
 
         columns=new LinkedList<>();
@@ -257,6 +256,21 @@ public class DataBase extends SQLiteOpenHelper {
         this.sql(null,sql);
         return sql;
     }
+
+    public boolean deleteAllData(){
+        try {
+            this.sql(null, "delete from "+Constants.table_epcs);
+            this.sql(null, "delete from "+Constants.table_products);
+            this.sql(null, "delete from "+Constants.table_zones);
+            this.sql(null, "delete from "+Constants.table_productsHasZones);
+            this.sql(null, "delete from "+Constants.table_shops);
+            this.sql(null, "delete from "+Constants.table_devolutions);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     //endregion
     //region Update
     /**
@@ -330,7 +344,7 @@ public class DataBase extends SQLiteOpenHelper {
             db = this.get_db();
             sql = unescapeHtml4(sql);
             db.execSQL(sql);
-            Log.e("sql", sql);
+            Log.i("sql", sql);
             return true;
         }catch (Exception e)
         {

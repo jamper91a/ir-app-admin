@@ -12,6 +12,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Inve
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.InventariosColaborativosHome;
 import inventarioreal.com.inventarioreal_admin.pages.Reportes.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pages.Transferencias.HomeTransferencia;
+import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -107,6 +108,8 @@ public class Home extends CicloActivity {
         add_on_click(R.id.btnSal, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DataBase db = DataBase.getInstance(Home.this);
+                db.deleteAllData();
                 admin.log_out(Login.class);
             }
         });

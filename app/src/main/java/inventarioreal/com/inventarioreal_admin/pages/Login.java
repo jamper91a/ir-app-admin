@@ -19,7 +19,6 @@ import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class Login extends CicloActivity {
-    private DataBase db = DataBase.getInstance(this);
     private String TAG="Login";
     @Override
     public void onCreate(Bundle savedInstanceState) {

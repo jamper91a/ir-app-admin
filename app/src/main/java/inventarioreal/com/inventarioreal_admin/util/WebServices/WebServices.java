@@ -170,7 +170,7 @@ public class WebServices {
      * @param result Callback
      */
     public static void getProductByEanPlu(String code, final Activity activity, final Administrador admin,final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_getProductByEanPLu;
+        final String url=Constants.url+Constants.ws_findProduct;
         try {
             GetProductByEanPluRequest request = new GetProductByEanPluRequest(code);
             post(
@@ -211,7 +211,7 @@ public class WebServices {
     }
 
     public static void addCommodity(long productos_id, LinkedList<ProductHasZone> productosZonas, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_addMercancia;
+        final String url=Constants.url+Constants.ws_addCommodity;
 
         AddCommodityRequest request = new AddCommodityRequest(productos_id, productosZonas);
 
@@ -332,7 +332,7 @@ public class WebServices {
 
     public static void createInventory(long zone, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         try {
-            final String url=Constants.url+Constants.ws_crearInventario;
+            final String url=Constants.url+Constants.ws_createInventory;
             CreateInventoryRequest request = new CreateInventoryRequest(zone, products);
             post(
                     url,
@@ -374,7 +374,7 @@ public class WebServices {
      * @param result
      */
     public static void returnProducts(List<ProductHasZone> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_devolverProductos;
+        final String url=Constants.url+Constants.ws_returnProduct;
         ReturnProductRequest request = new ReturnProductRequest(products);
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
@@ -410,7 +410,7 @@ public class WebServices {
 
     public static void attachInventory(Inventory inventory, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         try {
-            final String url=Constants.url+Constants.ws_adjuntarInvenario;
+            final String url=Constants.url+Constants.ws_attachInventory;
 
             AttachInventoryRequest request = new AttachInventoryRequest(inventory, products);
             post(
@@ -446,7 +446,7 @@ public class WebServices {
     }
 
     public static void createCollaborativeInventory(long zone, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_crearInventario;
+        final String url=Constants.url+Constants.ws_createInventory;
 
         CreateCollaborativeInventoryRequest request = new CreateCollaborativeInventoryRequest(zone, products);
 
@@ -487,7 +487,7 @@ public class WebServices {
      * @param collaborative true or false
      */
     public static void listInventories(String type, boolean collaborative, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_listarInventarios;
+        final String url=Constants.url+Constants.ws_listInventories;
         ListInventoriesRequest request = new ListInventoriesRequest(type, collaborative);
 
         post(
@@ -550,7 +550,7 @@ public class WebServices {
     }
 
     public static void listConsolidatedInventories(boolean collaborative, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_listarInventariosConsolidados;
+        final String url=Constants.url+Constants.ws_listConsolidatedInventories;
         ListConsolidatedInventoriesRequest request = new ListConsolidatedInventoriesRequest(collaborative);
         post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
@@ -597,7 +597,7 @@ public class WebServices {
     }
 
     public static void listAllConsolidatedInventories(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_listarTodosInventariosConsolidados;
+        final String url=Constants.url+Constants.ws_listAllConsolidatedInventories;
         post(url, new HashMap<String, String>(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
@@ -643,9 +643,9 @@ public class WebServices {
     }
 
     public static void consolidateInventories(final ArrayList<Long> inventories, final String name, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_consolidarInventarios;
+        final String url=Constants.url+Constants.ws_consolidateInventory;
         ConsolidateInventoriesRequest request = new ConsolidateInventoriesRequest(inventories, name);
-        post(url, new HashMap<String, String>(), R.string.enviando_informacion, activity, admin, new ResponseListener() {
+        post(url, request.getCampos(), R.string.enviando_informacion, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -672,7 +672,7 @@ public class WebServices {
 
     public static void getProductsByInventory(final long inventory, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
         try {
-            final String url=Constants.url+Constants.ws_getProductsByInventory;
+            final String url=Constants.url+Constants.ws_listProductsByInventory;
             GetProductsByInventoryRequest request = new GetProductsByInventoryRequest(inventory);
             post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
                 @Override
@@ -703,7 +703,7 @@ public class WebServices {
 
     public static void getProductsByConsolidatedInventory(final long consolidatedInventory, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
         try {
-            final String url=Constants.url+Constants.ws_getProductsByInventoryColaborativo;
+            final String url=Constants.url+Constants.ws_listProductByConsolidatedInventory;
             GetProductsByConsolidatedInventoryRequest request = new GetProductsByConsolidatedInventoryRequest(consolidatedInventory);
             post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
                 @Override
@@ -734,7 +734,7 @@ public class WebServices {
 
     public static void getTransfers(final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
 
-        final String url=Constants.url+Constants.ws_obtenerTransferencias;
+        final String url=Constants.url+Constants.ws_findTransfersByShop;
         LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
         GetTransfersRequest request = new GetTransfersRequest(loginResponse.getEmployee().getShop().getId());
         post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
@@ -771,7 +771,7 @@ public class WebServices {
 
     public static void getTranfersByType(final String type, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
 
-        final String url=Constants.url+Constants.ws_obtenerTransferencia;
+        final String url=Constants.url+Constants.ws_findTransfersByType;
         LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
         GetTransfersByTypeRequest request = new GetTransfersByTypeRequest(loginResponse.getEmployee().getShop().getId(), type);
         post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
@@ -804,7 +804,7 @@ public class WebServices {
     }
 
     public static void finishTransfer(final LinkedList<TransfersHasZonesProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
-        final String url=Constants.url+Constants.ws_finalizarTransferencia;
+        final String url=Constants.url+Constants.ws_finishTransfer;
         FinishTransferRequet request = new FinishTransferRequet(products);
         post(url, request.getCampos(), R.string.enviando_informacion, activity, admin, new ResponseListener() {
             @Override
@@ -830,7 +830,7 @@ public class WebServices {
     }
 
     public static void createTransfer(final Transfer tranfer, final LinkedList<TransfersHasZonesProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
-        final String url=Constants.url+Constants.ws_crearTransferencia;
+        final String url=Constants.url+Constants.ws_createTransfer;
         CreateRequestRequest request = new CreateRequestRequest(tranfer, products);
         post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
@@ -856,7 +856,7 @@ public class WebServices {
     }
 
     public static void getLastConsolidatedInventory(final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
-        final String url=Constants.url+Constants.ws_ultimoInventario;
+        final String url=Constants.url+Constants.ws_listLastConsolidatedInventory;
         post(url, new HashMap<String, String>(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
@@ -886,7 +886,7 @@ public class WebServices {
     }
 
     public static void getProductInShopByEanPlu(final long product, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
-        final String url=Constants.url+Constants.ws_getProductByEanPlu;
+        final String url=Constants.url+Constants.ws_findProductInShopByEanPlu;
         GetProductInShopByEanPluRequest request = new GetProductInShopByEanPluRequest(product);
         post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override

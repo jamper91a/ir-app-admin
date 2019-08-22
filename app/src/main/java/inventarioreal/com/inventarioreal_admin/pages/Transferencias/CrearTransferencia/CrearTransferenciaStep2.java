@@ -224,7 +224,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                 ProductHasZone proZon=
                         (ProductHasZone) db.getByColumn(
                                 Constants.table_productsHasZones,
-                                Constants.column_epc,
+                                Constants.column_epc_id,
                                 epcDb.getId()+"",
                                 ProductHasZone.class).get(0);
                 //Busco el producto de este producto zona

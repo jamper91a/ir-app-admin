@@ -60,7 +60,7 @@ public class InventoryHasProduct extends InventarioRealPojo {
         ContentValues values = new ContentValues();
         values.put(Constants.column_id, id);
         values.put(Constants.column_inventory, inventory.id);
-        values.put(Constants.column_epc, epc.id);
+        values.put(Constants.column_epc_id, epc.id);
         values.put(Constants.column_zone, zone.id);
         values.put(Constants.column_productHasZone, product.id);
         values.put(Constants.createdAt, createdAt);

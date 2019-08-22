@@ -39,7 +39,8 @@ public class Constants {
     public static final String column_devolution = "devolution_id";
     public static final String column_ean = "ean";
     public static final String column_employee = "employee_id";
-    public static final String column_epc = "epc_id";
+    public static final String column_epc = "epc";
+    public static final String column_epc_id = "epc_id";
     public static final String column_firstInventory = "inventory_first_id";
     public static final String column_gender = "gender";
     public static final String column_homologatorEmployee = "homologator_employee_id";
@@ -86,55 +87,43 @@ public class Constants {
 
     //public static final String url="http://c945485b.ngrok.io/";
     //public static final String url = "http://coexnort.servehttp.com:8023/";
-    public static final String url = "http://192.168.1.14:1337/";
+    public static final String url = "http://192.168.1.12:1337/";
 //    public static final String url = "http://coexnort.servehttp.com:8023/";
 //    public static final String url = "http://192.168.0.26:1337/";
     public static final String user = "user";
     public static final String token = "token";
     public static final String authorization = "Authorization";
     public static final String last_updated = "last_updated";
-    public static final String device_product_readed = "1";
-    public static final String device_product_unreaded = "0";
 
 
 
     public static final String empleado = "empleado";
     //Region Web services
+    public static final String ws_attachInventory ="inventarios/adjuntar";
+    public static final String ws_consolidateInventory ="inventarios/consolidar";
+    public static final String ws_createInventory = "inventarios/crear";
+    public static final String ws_listInventories = "inventarios/listarInventarios";
+    public static final String ws_listProductsByInventory ="inventarios/listarProductosInventario";
+    public static final String ws_listConsolidatedInventories ="inventariosConsolidados/listar";
+    public static final String ws_listAllConsolidatedInventories ="inventariosConsolidados/listarTodos";
+    public static final String ws_listProductByConsolidatedInventory ="inventariosConsolidados/listarProductos";
+    public static final String ws_listLastConsolidatedInventory ="inventariosConsolidados/ultimoInventario";
+    public static final String ws_addCommodity = "productos/addMercancia";
+    public static final String ws_findProduct = "productos/findOne";
+    public static final String ws_findProductInShopByEanPlu ="productos/findProductInLocalByEanPlu";
+    public static final String ws_diferenceBetweenInventories="reportes/diferenceBetweenInventories";
+    public static final String ws_createTransfer ="transferencias/crear";
+    public static final String ws_finishTransfer ="transferencias/finishTransfer";
+    public static final String ws_findTransfersByShop ="transferencias/listTransfersByShop";
+    public static final String ws_findTransfersByType ="transferencias/listTransfersByType";
+    public static final String ws_returnProduct ="devoluciones/devolverProductos";
+    public static final String ws_saveReport="";
     public static final String ws_login = "login";
-    public static final String ws_getProductByEanPLu = "productos";
-    public static String ws_addMercancia = "productos/addCommodity";
+    public static final String ws_sync = "sync";
+
     //endregion
 
-    public static String ws_sync = "sync";
 
-
-    public static String ws_crearInventario = "inventory/crear";
-    public static String content_type = "Content-Type";
-    public static String ws_listarInventarios = "inventory/listarInventarios";
-    public static String tipo_no_consolidado = "no_consolidado";
-    public static String tipo_all = "all";
-    public static String ws_consolidarInventarios="inventory/consolidar";
-    public static String ws_getProductsByInventory="inventory/listarProductosInventario";
-    public static String ws_listarInventariosConsolidados="consolidatedInventory/listar";
-    public static String ws_adjuntarInvenario="inventory/adjuntar";
-    public static String ws_getProductsByInventoryColaborativo="consolidatedInventory/listarProductos";
-    public static String ws_obtenerTransferencias="transferencias/obtenerTransferencias";
-    public static String ws_devolverProductos="devoluciones/devolverProductos";
-    public static String ws_finalizarTransferencia="transferencias/finishTransfer";
-
-    public static String ws_crearTransferencia="transferencias/crear";
-    public static String transferencias_ingreso="entrada";
-    public static String ws_obtenerTransferencia="transferencias/obtenerTransferencia";
-    public static String transferencias_salida="salida";
-    public static String ws_ultimoInventario="consolidatedInventory/ultimoInventario";
-    public static String ws_getProductByEanPlu="productos/findProductInLocalByEanPlu";
-    public static String ws_listarTodosInventariosConsolidados="consolidatedInventory/listarTodos";
-    public static String ws_diferenceBetweenInventories="reportes/getDiferenceBetweenInventories";
-
-
-    public static String inventario_inicial="inventario_inicial";
-    public static String inventario_final="inventario_final";
-    public static String ws_saveReport="";
 
 
 
@@ -165,4 +154,11 @@ public class Constants {
     public static final String firstInventory="firstInventory";
     public static final String secondInventory="secondInventory";
     public static final String id="id";
+    public static final String inventario_inicial="inventario_inicial";
+    public static final String inventario_final="inventario_final";
+    public static final String transferencias_ingreso="entrada";
+    public static final String transferencias_salida="salida";
+    public static final String tipo_no_consolidado = "no_consolidado";
+    public static final String tipo_all = "all";
+    public static final String content_type = "Content-Type";
 }
