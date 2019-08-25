@@ -1,5 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.pages;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
@@ -29,6 +31,7 @@ public class Login extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.txtVersion), Techniques.Bounce));
         addElemento(new Animacion(findViewById(R.id.edtEmail), Techniques.Bounce));
         addElemento(new Animacion(findViewById(R.id.edtPass), Techniques.Bounce));
         addElemento(new Animacion(findViewById(R.id.btnLogin), Techniques.Bounce));
@@ -36,7 +39,7 @@ public class Login extends CicloActivity {
 
     @Override
     public void getData() {
-
+        getElemento(R.id.txtVersion).setText(getCurrentVersion());
     }
 
     @Override
@@ -90,5 +93,16 @@ public class Login extends CicloActivity {
     @Override
     public void onBackPressed() {
         admin.exitApp();
+    }
+
+    public String getCurrentVersion(){
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            return version;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }
