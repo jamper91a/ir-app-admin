@@ -34,12 +34,13 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crea
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step1.CrearInventarioColaborativoStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHasProduct;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
@@ -56,7 +57,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     private String TAG="CrearInventarioStep2";
     private DataBase db = DataBase.getInstance(this);
     private RequestInventariorCrear2 requestInventariorCrear2;
-    private LinkedList<InventariosProductos> inventariosProductos = new LinkedList<>();
+    private LinkedList<InventoryHasProduct> inventariosProductos = new LinkedList<>();
     private Gson gson = new Gson();
 
     RFDIReader rfdiReader =  null;
@@ -204,33 +205,33 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
     private void createEpc(String epc){
         //Busco el epc en la base de datos interna
-        Epcs epcDb= (Epcs) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epcs.class);
+        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
         if(epcDb!=null){
             //Busco el producto zonas al que pertenece este tag
-            ProductosZonas proZon=
-                    (ProductosZonas) db.getByColumn(
-                            Constants.table_productos_zonas,
-                            Constants.epcs_id,
+            ProductHasZone proZon=
+                    (ProductHasZone) db.getByColumn(
+                            Constants.table_productsHasZones,
+                            Constants.column_epc_id,
                             epcDb.getId()+"",
-                            ProductosZonas.class).get(0);
+                            ProductHasZone.class).get(0);
             //Busco el producto de este producto zona
-            Productos producto= (Productos) db.findById(
-                    Constants.table_productos,
-                    proZon.getProductos_id().getId()+"",
-                    Productos.class
+            Product producto= (Product) db.findById(
+                    Constants.table_products,
+                    proZon.getProduct().getId()+"",
+                    Product.class
             );
 
             if (epc!=null) {
-                proZon.setEpcs_id(epcDb);
+                proZon.setEpc(epcDb);
             }
             if(producto!=null){
-                proZon.setProductos_id(producto);
+                proZon.setProduct(producto);
             }
-            //Informacion requeria por el servicio web de crear inventario
-            InventariosProductos ip = new InventariosProductos();
-            ip.setZonas_id(requestInventariorCrear2.getZona_id());
-            ip.setProductoz_zona_id(proZon);
-            ip.setProductos_epcs_id(epcDb);
+            //Informacion requeria por el servicio web de crear inventory
+            InventoryHasProduct ip = new InventoryHasProduct();
+            ip.setZone(requestInventariorCrear2.getZone());
+            ip.setProduct(proZon);
+            ip.setEpc(epcDb);
 
             inventariosProductos.add(ip);
             eanPluVieModel.addProductoZona(proZon);
@@ -245,7 +246,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 //        for (int i = 0; i < eanPluVieModel.getProductosZonaHasTransferencia().getValue().size(); i++) {
 //            //Determino si ese epc ya se leyo antes
 //            ProductosZonas mEPC = eanPluVieModel.getProductosZonaHasTransferencia().getValue().get(i);
-//            if (epc.equals(mEPC.getEpcs_id().getEpc())){
+//            if (epc.equals(mEPC.getEpc().getEpc())){
 //                return true;
 //            }
 //
@@ -282,39 +283,6 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         });
     }
 
-    /**
-     * Inventory Epcs Thread
-     */
-/*
-    class InventoryThread extends Thread {
-        private List<byte[]> epcList;
-
-        @Override
-        public void run() {
-            super.run();
-            while (runFlag) {
-                if (startFlag) {
-                    // managerBig.stopInventoryMulti()
-                    epcList = uhfManager.inventoryRealTime(); // inventory real time
-                    if (epcList != null && !epcList.isEmpty()) {
-                        for (byte[] epc : epcList) {
-                            String epcStr = Tools.Bytes2HexString(epc,
-                                    epc.length);
-                            addToList(epcStr);
-                        }
-                    }
-                    epcList = null;
-                    try {
-                        Thread.sleep( 40);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }*/
-    //endregion
 
     //region Menu
 
@@ -327,19 +295,11 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         Log.d(TAG,item.getTitle().toString());
         if(item.getTitle().equals(getString(R.string.log_out))){
             admin.log_out(Login.class);
         }
 
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_favorite) {
-//            Toast.makeText(MainActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
-//            return true;
-//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -418,9 +378,9 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
 
 
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
-        txtLocal.setText("Local : "+empleado.getEmpleado().getLocales_id().getName());
-        txtZona.setText("Zonas : "+requestInventariorCrear2.getZona_id().getName());
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
+        txtZona.setText("Zonas : "+requestInventariorCrear2.getZone().getName());
         builder.setView(dialogView);
 
 
@@ -430,16 +390,17 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
             public void onClick(DialogInterface dialog, int which) {
 
                 //Determino si es para crear o para adjuntar
-                if(requestInventariorCrear2.inventario==null){
-                    WebServices.crearInventarioColaborativo(
-                            requestInventariorCrear2.getZona_id().getId(),
+                if(requestInventariorCrear2.inventory ==null){
+                    WebServices.createCollaborativeInventory(
+                            requestInventariorCrear2.getZone().getId(),
                             inventariosProductos,
                             CrearInventarioColaborativoStep2.this,
                             admin,
                             new ResultWebServiceInterface() {
                                 @Override
                                 public void ok(ResultWebServiceOk ok) {
-                                    admin.toast("Ok");
+                                    admin.toast("Inventario creado con exito");
+                                    admin.callIntent(CrearInventarioColaborativoStep1.class, null);
                                 }
 
                                 @Override
@@ -450,15 +411,16 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
                     );
                 }else{
-                    WebServices.adjuntarInventario(
-                            requestInventariorCrear2.inventario,
+                    WebServices.attachInventory(
+                            requestInventariorCrear2.inventory,
                             inventariosProductos,
                             CrearInventarioColaborativoStep2.this,
                             admin,
                             new ResultWebServiceInterface() {
                                 @Override
                                 public void ok(ResultWebServiceOk ok) {
-                                    admin.toast("Ok");
+                                    admin.toast("Inventario actualizado con exito");
+                                    admin.callIntent(CrearInventarioColaborativoStep1.class, null);
                                 }
 
                                 @Override

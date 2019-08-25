@@ -53,6 +53,7 @@ public class RFDIReader {
     }
 
     public void initSDK(){
+        epcs = new LinkedList<String>();
         switch (type){
             case SMALL:
                 initSDKSmall();
@@ -219,6 +220,7 @@ public class RFDIReader {
         @Override
         public void run() {
 
+            if (managerBig!=null) {
                 managerBig.startInventory(true);
                 while (runReader) {
                     if (startReader) {
@@ -234,6 +236,7 @@ public class RFDIReader {
                         }
                     }
                 }
+            }
 //            }
         }
     } ;
@@ -288,7 +291,8 @@ public class RFDIReader {
             }
         }else{
             startReader = false;
-            managerBig.close();
+            if(managerBig!=null)
+                managerBig.close();
 //            if (isStart) runInventorySDKBig();
         }
 
@@ -303,7 +307,8 @@ public class RFDIReader {
         }else{
             startReader = false ;
             runReader = false ;
-            managerBig.close();
+            if(managerBig!=null)
+                managerBig.close();
         }
 //        super.onDestroy();
     }

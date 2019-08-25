@@ -34,12 +34,12 @@ import inventarioreal.com.inventarioreal_admin.pages.Transferencias.tabs.EanPluV
 import inventarioreal.com.inventarioreal_admin.pages.Transferencias.tabs.TotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Transferencias.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Locales;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
@@ -57,9 +57,9 @@ public class Ingresos extends CicloActivity {
     private DataBase db = DataBase.getInstance(this);
 //    private LinkedList<ProductosZonasHasTransferencias> auxProZonTrans = new LinkedList<>();
     private Gson gson = new Gson();
-    private Transferencias[] transferencias = null;
-    private LinkedList<ProductosZonasHasTransferencias> productosZonasHasTransferencias= new LinkedList<>();
-    private Locales local= null;
+    private Transfer[] transferencias = null;
+    private LinkedList<TransfersHasZonesProduct> productosZonasHasTransferencias= new LinkedList<>();
+    private Shop local= null;
 
     RFDIReader rfdiReader =  null;
     private Handler handler = new Handler(){
@@ -101,7 +101,7 @@ public class Ingresos extends CicloActivity {
         });
         rfdiReader.initSDK();
         init(this,this,R.layout.get_product_by_epc);
-        local = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class)).getEmpleado().getLocales_id();
+        local = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class)).getEmployee().getShop();
         //region UhF
 //        Thread thread = new InventoryThread();
 //        thread.start();
@@ -133,15 +133,15 @@ public class Ingresos extends CicloActivity {
     }
 
     public void getTransferencias(){
-        WebServices.getTransferencias(
+        WebServices.getTransfers(
                 this,
                 admin,
                 new ResultWebServiceInterface() {
                     @Override
                     public void ok(ResultWebServiceOk ok) {
-                        transferencias = (Transferencias[]) ok.getData();
+                        transferencias = (Transfer[]) ok.getData();
 //                        startFlag=true;
-                        rfdiReader.setStartReader(true);
+//                        rfdiReader.setStartReader(true);
 
                     }
 
@@ -159,9 +159,9 @@ public class Ingresos extends CicloActivity {
             @Override
             public void onClick(View v) {
                 //Check if there are not errors
-                for (ProductosZonasHasTransferencias pzt:  productosZonasHasTransferencias)
+                for (TransfersHasZonesProduct pzt:  productosZonasHasTransferencias)
                 {
-                    if(pzt.getEstado()==false)
+                    if(pzt.getState()==false)
                     {
                         admin.toast("Hay productos que no pertenecen a este local (E) y no seran transferidos");
                     }
@@ -255,54 +255,54 @@ public class Ingresos extends CicloActivity {
 
     private void createEpc(String epc){
         //Busco el epc en la base de datos interna
-        Epcs epcDb= (Epcs) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epcs.class);
+        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
         if(epcDb!=null){
             try {
                 //Busco el producto zonas al que pertenece este tag
-                ProductosZonas proZon=
-                        (ProductosZonas) db.getByColumn(
-                                Constants.table_productos_zonas,
-                                Constants.epcs_id,
+                ProductHasZone proZon=
+                        (ProductHasZone) db.findOneByColumn(
+                                Constants.table_productsHasZones,
+                                Constants.column_epc_id,
                                 epcDb.getId()+"",
-                                ProductosZonas.class).get(0);
+                                ProductHasZone.class);
                 //Busco el producto de este producto zona
-                Productos producto= (Productos) db.findById(
-                        Constants.table_productos,
-                        proZon.getProductos_id().getId()+"",
-                        Productos.class
+                Product producto= (Product) db.findById(
+                        Constants.table_products,
+                        proZon.getProduct().getId()+"",
+                        Product.class
                         );
 
                 if (epcDb!=null) {
-                    proZon.setEpcs_id(epcDb);
+                    proZon.setEpc(epcDb);
                 }
                 if(producto!=null){
-                    proZon.setProductos_id(producto);
+                    proZon.setProduct(producto);
                 }
                 //Determino si el productozona de este tag esta en la lista de transferencia
-                for (Transferencias transferencia :
+                for (Transfer transferencia :
                         transferencias) {
-                    if(transferencia.getLocal_destino_id().id==local.id){
-                        for(ProductosZonasHasTransferencias pzt: transferencia.getProductos()){
+                    if(transferencia.getShopDestination().id==local.id){
+                        for(TransfersHasZonesProduct pzt: transferencia.getProducts()){
 
-                            if(pzt.getProductos_zona_id().getId() == proZon.getId()){
+                            if(pzt.getProduct().getId() == proZon.getId()){
                                 //Product was transfered before
-                                if(pzt.getEstado()==true)
-                                    pzt.setEstado(false);
+                                if(pzt.getState()==true)
+                                    pzt.setState(false);
                                 else{
                                     //Check if the pzt belongs to the current local
                                     try {
 
-                                        if(transferencia.getLocal_destino_id().getId() == local.getId())
-                                            pzt.setEstado(true);
+                                        if(transferencia.getShopDestination().getId() == local.getId())
+                                            pzt.setState(true);
 
                                     } catch (Exception e) {
-                                        pzt.setEstado(false);
+                                        pzt.setState(false);
                                     }
 
 
                                 }
-                                pzt.setProductos_zona_id(proZon);
-                                pzt.setTransferencias_id(transferencia);
+                                pzt.setProduct(proZon);
+                                pzt.setTransfer(transferencia);
                                 productosZonasHasTransferencias.add(pzt);
                                 eanPluVieModel.addProductoZonaHasTransferencia(pzt);
 
@@ -313,7 +313,7 @@ public class Ingresos extends CicloActivity {
                     }
                 }
 
-                //Informacion requeria por el servicio web de crear inventario
+                //Informacion requeria por el servicio web de crear inventory
                 totalViewModel.setAmount(productosZonasHasTransferencias.size());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -329,7 +329,7 @@ public class Ingresos extends CicloActivity {
 //        for (int i = 0; i < eanPluVieModel.getProductosZonaHasTransferencia().getValue().size(); i++) {
 //            //Determino si ese epc ya se leyo antes
 //            ProductosZonas mEPC = eanPluVieModel.getProductosZonaHasTransferencia().getValue().get(i);
-//            if (epc.equals(mEPC.getEpcs_id().getEpc())){
+//            if (epc.equals(mEPC.getEpc().getEpc())){
 //                return true;
 //            }
 //
@@ -494,8 +494,8 @@ public class Ingresos extends CicloActivity {
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
 
 
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
-        txtLocal.setText("Local : "+empleado.getEmpleado().getLocales_id().getName());
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
         builder.setView(dialogView);
 
 
@@ -503,7 +503,7 @@ public class Ingresos extends CicloActivity {
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                WebServices.finalizarTransferencia(
+                WebServices.finishTransfer(
                         productosZonasHasTransferencias,
                         Ingresos.this,
                         admin,

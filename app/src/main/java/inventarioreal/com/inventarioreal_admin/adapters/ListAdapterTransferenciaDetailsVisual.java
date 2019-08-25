@@ -60,7 +60,7 @@ public class ListAdapterTransferenciaDetailsVisual extends RecyclerView.Adapter<
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final ProductosTransferenciaDetail item = data[position];
-        holder.getTxtSize().setText(item.getProducto().getTalla());
+        holder.getTxtSize().setText(item.getProducto().getSize());
         holder.getTxtTotal().setText(item.getEnviados()+"");
         if(item.getProducto().getImagen()==null)
             item.getProducto().setImagen("");

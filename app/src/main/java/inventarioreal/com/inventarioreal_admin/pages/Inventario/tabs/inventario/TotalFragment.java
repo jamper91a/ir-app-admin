@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.LinkedHashMap;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 
 public class TotalFragment extends Fragment {
 
@@ -43,15 +43,15 @@ public class TotalFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(getActivity()).get(TotalViewModel.class);
-        mViewModel.getInventario().observe(this, new Observer<Inventarios>() {
+        mViewModel.getInventario().observe(this, new Observer<Inventory>() {
             @Override
-            public void onChanged(@Nullable Inventarios inventarios) {
+            public void onChanged(@Nullable Inventory inventarios) {
                 TextView txtCant = (TextView) getElemento(R.id.txtCant);
                 TextView txtFecha = (TextView) getElemento(R.id.txtLocDes);
                 TextView txtZona = (TextView) getElemento(R.id.txtNum);
-                txtCant.setText(inventarios.getProductos_zona().length+"");
-                txtFecha.setText(inventarios.getFecha().replace("T", " - "));
-                txtZona.setText(inventarios.getZonas_id().getName());
+                txtCant.setText(inventarios.getProducts().length+"");
+                txtFecha.setText(inventarios.getDate().replace("T", " - "));
+                txtZona.setText(inventarios.getZone().getName());
 
             }
         });

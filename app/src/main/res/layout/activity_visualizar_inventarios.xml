@@ -10,7 +10,7 @@
         android:id="@+id/txt1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Selecciones inventarios a consolidar" />
+        android:text="Selecciones consolidatedInventory a consolidar" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lst1"

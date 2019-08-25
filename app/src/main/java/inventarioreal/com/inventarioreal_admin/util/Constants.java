@@ -18,129 +18,147 @@ public class Constants {
 
     //region Tables
     public static final String table_epcs = "epcs";
-    public static final String table_productos = "productos";
+    public static final String table_products = "products";
+    public static final String table_productsHasZones = "products_has_zones";
+    public static final String table_zones = "zones";
+    public static final String table_devolutions = "devolutions";
+    public static final String table_shops = "shops";
     //endregion
-    //region Columnas
-    public static final String id = "id";
-    public static final String name = "name";
-    public static final String state = "state";
-    public static final String epc = "epc";
-    public static final String companias_id = "companias_id";
-    public static final String productos_id = "productos_id";
-    public static final String zonas_id = "zonas_id";
-    public static final String fecha_ingreso = "fecha_ingreso";
-    public static final String fecha_venta = "fecha_venta";
-    public static final String fecha_devolucion = "fecha_devolucion";
-    public static final String devolucion_observaciones = "devolucion_observaciones";
-    public static final String devoluciones_id = "devoluciones_id";
-    public static final String logs_usuarios = "logs_usuarios";
-    public static final String ventas_id = "ventas_id";
-    public static final String epcs_id = "epcs_id";
+    //region Columnas bd interna
+    public static final String column_admissionDate = "admission_date";
+    public static final String column_amount = "amount";
+    public static final String column_branch = "branch";
+    public static final String column_category = "category";
+    public static final String column_color = "color";
+    public static final String column_collaborative = "collaborative";
+    public static final String column_company = "company_id";
+    public static final String column_consolidatedInventory = "consolidated_inventory_id";
+    public static final String column_costPrice = "cost_price";
+    public static final String column_date = "date";
+    public static final String column_description = "description";
+    public static final String column_devolution = "devolution_id";
+    public static final String column_ean = "ean";
+    public static final String column_employee = "employee_id";
+    public static final String column_epc = "epc";
+    public static final String column_epc_id = "epc_id";
+    public static final String column_firstInventory = "inventory_first_id";
+    public static final String column_gender = "gender";
+    public static final String column_homologatorEmployee = "homologator_employee_id";
+    public static final String column_id = "id";
+    public static final String column_inventory = "inventory_id";
+    public static final String column_imagen = "imagen";
+    public static final String column_logsUsers = "logs_users";
+    public static final String column_manifest = "manifest";
+    public static final String column_message = "message";
+    public static final String column_name = "name";
+    public static final String column_notesReturn = "notes_return";
+    public static final String column_parcial = "parcial";
+    public static final String column_plu = "plu";
+    public static final String column_plu2 = "plu2";
+    public static final String column_plu3 = "plu3";
+    public static final String column_product = "product_id";
+    public static final String column_productHasZone = "products_has_zone_id";
+    public static final String column_returnDate = "return_date";
+    public static final String column_report = "report_id";
+    public static final String column_sell = "sell_id";
+    public static final String column_secondInventory = "inventory_second_id";
+    public static final String column_sellDate = "sell_date";
+    public static final String column_sellPrice = "sell_price";
+    public static final String column_shop = "shop_id";
+    public static final String column_shopshopDestination = "shop_destination_id";
+    public static final String column_shopSource = "shop_source_id";
+    public static final String column_size = "size";
+    public static final String column_supplier = "supplier_id";
+    public static final String column_state = "state";
+    public static final String column_totalProducts = "total_products";
+    public static final String column_type = "type";
+    public static final String column_unitsReturned = "units_returned";
+    public static final String column_unitsSell = "units_sell";
+    public static final String column_user = "user_id";
+    public static final String column_zone = "zone_id";
+
+
 
     public static final String createdAt = "createdAt";
     public static final String updatedAt = "updatedAt";
 
-    public static String password = "password";
-    public static String username = "username";
     //endregion
 
 
     //public static final String url="http://c945485b.ngrok.io/";
-    //public static final String url = "http://coexnort.servehttp.com:8023/";
-    public static final String url = "http://192.168.1.14:1337/";
+    public static final String url = "http://coexnort.servehttp.com:8023/";
+//    public static final String url = "http://192.168.1.12:1337/";
 //    public static final String url = "http://coexnort.servehttp.com:8023/";
 //    public static final String url = "http://192.168.0.26:1337/";
     public static final String user = "user";
     public static final String token = "token";
     public static final String authorization = "Authorization";
     public static final String last_updated = "last_updated";
-    public static final String device_product_readed = "1";
-    public static final String device_product_unreaded = "0";
-    public static final String products = "products";
-    public static final String start = "start";
-    public static final String end = "end";
-    public static final String price = "price";
-    public static final String vendidas = "vendidas";
-    public static final String no_aparece = "no_aparece";
 
-    public static final String ingresados = "ingresados";
-    public static final String vendidos = "vendidos";
-    public static final String empleado = "empleado";
-    public static final String codigo = "codigo";
+
+
+    public static final String employee = "employee";
     //Region Web services
+    public static final String ws_attachInventory ="inventarios/adjuntar";
+    public static final String ws_consolidateInventory ="inventarios/consolidar";
+    public static final String ws_createInventory = "inventarios/crear";
+    public static final String ws_listInventories = "inventarios/listarInventarios";
+    public static final String ws_listProductsByInventory ="inventarios/listarProductosInventario";
+    public static final String ws_listConsolidatedInventories ="inventariosConsolidados/listar";
+    public static final String ws_listAllConsolidatedInventories ="inventariosConsolidados/listarTodos";
+    public static final String ws_listProductByConsolidatedInventory ="inventariosConsolidados/listarProductos";
+    public static final String ws_listLastConsolidatedInventory ="inventariosConsolidados/ultimoInventario";
+    public static final String ws_addCommodity = "productos/addMercancia";
+    public static final String ws_findProduct = "productos/findOne";
+    public static final String ws_findProductInShopByEanPlu ="productos/findProductInLocalByEanPlu";
+    public static final String ws_diferenceBetweenInventories="reportes/diferenceBetweenInventories";
+    public static final String ws_createTransfer ="transferencias/crear";
+    public static final String ws_finishTransfer ="transferencias/finishTransfer";
+    public static final String ws_findTransfersByShop ="transferencias/listTransfersByShop";
+    public static final String ws_findTransfersByType ="transferencias/listTransfersByType";
+    public static final String ws_returnProduct ="devoluciones/devolverProductos";
+    public static final String ws_saveReport="";
     public static final String ws_login = "login";
-    public static final String ws_getProductByEanPLu = "productos";
-    public static final String where = "where";
-    public static String ws_addMercancia = "productos/addMercancia";
-    public static String productos_zona = "productos_zona";
-    public static String products_id = "productos_id";
-    public static String was_listarzonas = "zonas/listar";
+    public static final String ws_sync = "sync";
+
     //endregion
-    public static String ean = "ean";
-    public static String plu = "plu";
-    public static String plu2 = "plu2";
-    public static String plu3 = "plu3";
-    public static String marca = "marca";
-    public static String genero = "genero";
-    public static String color = "color";
-    public static String talla = "talla";
-    public static String categoria = "categoria";
-    public static String descripcion = "descripcion";
-    public static String cantidad = "cantidad";
-    public static String imagen = "imagen";
-    public static String precio_costo = "precio_costo";
-    public static String precio_venta = "precio_venta";
-    public static String ws_sync = "sync";
-    public static String table_productos_zonas = "productos_zonas";
-    public static String ecps_id = "ecps_id";
-    public static String table_zonas = "zonas";
-    public static String table_devoluciones = "devoluciones";
-    public static String locales_id = "locales_id";
-    public static String fecha = "fecha";
-    public static String parcial = "parcial";
-    public static String colaborativo = "colaborativo";
-    public static String productos_zona_id = "productos_zona_id";
-    public static String inventarios_id = "inventarios_id";
-    public static String productos_epcs_id = "productos_epcs_id";
-    public static String inventarios_consolidados_id = "inventarios_consolidados_id";
-    public static String inventario = "inventario";
-    public static String inventario_productos = "inventario_productos";
-    public static String log_usuarios = "log_usuarios";
-    public static String ws_crearInventario = "inventarios/crear";
-    public static String content_type = "Content-Type";
-    public static String ws_listarInventarios = "inventarios/listarInventarios";
-    public static String tipo = "tipo";
-    public static String tipo_no_consolidado = "no_consolidado";
-    public static String tipo_consolidado = "consolidado";
-    public static String tipo_all = "all";
-    public static String ws_consolidarInventarios="inventarios/consolidar";
-    public static String ws_getProductsByInventory="inventarios/listarProductosInventario";
-    public static String ws_listarInventariosConsolidados="inventariosConsolidados/listar";
-    public static String ws_adjuntarInvenario="inventarios/adjuntar";
-    public static String ws_getProductsByInventoryColaborativo="inventariosConsolidados/listarProductos";
-    public static String ws_obtenerTransferencias="transferencias/obtenerTransferencias";
-    public static String ws_devolverProductos="devoluciones/devolverProductos";
-    public static String local_id="local_id";
-    public static String ws_finalizarTransferencia="transferencias/finalizarTransferencia";
-    public static String productos_zona_has_transferencias="productos_zona_has_transferencias";
-    public static String transferencias_id="transferencias_id";
-    public static String table_locales="locales";
-    public static String ws_crearTransferencia="transferencias/crear";
-    public static String transferencia="transferencia";
-    public static String local_origen_id="local_origen_id";
-    public static String local_destino_id="local_destino_id";
-    public static String mensaje="mensaje";
-    public static String estado="estado";
-    public static String transferencias_ingreso="entrada";
-    public static String ws_obtenerTransferencia="transferencias/obtenerTransferencia";
-    public static String transferencias_salida="salida";
-    public static String ws_ultimoInventario="inventariosConsolidados/ultimoInventario";
-    public static String ws_getProductByEanPlu="productos/findProductInLocalByEanPlu";
-    public static String ws_listarTodosInventariosConsolidados="inventariosConsolidados/listarTodos";
-    public static String ws_diferenceBetweenInventories="reportes/diferenceBetweenInventories";
-    public static String secondInventory="secondInventory";
-    public static String firstInventory="firstInventory";
-    public static String inventario_inicial="inventario_inicial";
-    public static String inventario_final="inventario_final";
-    public static String ws_saveReport="";
+
+
+
+
+
+    public static final String zone="zone";
+    public static final String product="product";
+    public static final String epc="epc";
+    public static final String devolution="devolution";
+    public static final String sell="sell";
+    public static final String products = "products";
+    //region Parameter web services
+    public static final String username ="username";
+    public static final String password="password";
+    public static final String code="code";
+    public static final String inventory="inventory";
+    public static final String parcial="parcial";
+    public static final String collaborative="collaborative";
+    public static final String consolidatedInventory="consolidatedInventory";
+    public static final String notes_return="notes_return";
+    public static final String inventories="inventories";
+    public static final String name="name";
+    public static final String type="type";
+    public static final String shop="shop";
+    public static final String transfer="transfer";
+    public static final String shopSource="shopSource";
+    public static final String shopDestination="shopDestination";
+    public static final String message="message";
+    public static final String state="state";
+    public static final String firstInventory="firstInventory";
+    public static final String secondInventory="secondInventory";
+    public static final String id="id";
+    public static final String inventario_inicial="inventario_inicial";
+    public static final String inventario_final="inventario_final";
+    public static final String transferencias_ingreso="entrada";
+    public static final String transferencias_salida="salida";
+    public static final String tipo_no_consolidado = "no_consolidado";
+    public static final String tipo_all = "all";
+    public static final String content_type = "Content-Type";
 }

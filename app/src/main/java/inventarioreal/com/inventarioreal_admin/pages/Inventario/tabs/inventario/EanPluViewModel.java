@@ -6,24 +6,22 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.LinkedList;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 
 public class EanPluViewModel extends ViewModel {
 
-    MutableLiveData<LinkedList<ProductosZonas>> productosZonasLiveData = null;
-    private LinkedList<ProductosZonas> productosZonaHasTransferencia = null;
+    MutableLiveData<LinkedList<ProductHasZone>> productosZonasLiveData = null;
+    private LinkedList<ProductHasZone> productosZonaHasTransferencia = null;
 
 
 
-    public void addProductoZona(ProductosZonas productosZonas){
+    public void addProductoZona(ProductHasZone productosZonas){
         //Valido si ya se ha agregado el producto
         int count=0;
-        if(productosZonas.getProductos_id()!=null){
-            for (ProductosZonas pz: productosZonaHasTransferencia
+        if(productosZonas.getProduct()!=null){
+            for (ProductHasZone pz: productosZonaHasTransferencia
             ) {
-                if(pz.getProductos_id().getId() == productosZonas.getProductos_id().getId()){
+                if(pz.getProduct().getId() == productosZonas.getProduct().getId()){
                     pz.setTotal(pz.getTotal()+1);
                     productosZonaHasTransferencia.set(count,pz);
                     productosZonasLiveData.setValue(productosZonaHasTransferencia);
@@ -36,7 +34,7 @@ public class EanPluViewModel extends ViewModel {
         }
 
     }
-    public LiveData<LinkedList<ProductosZonas>> getProductosZona(){
+    public LiveData<LinkedList<ProductHasZone>> getProductosZona(){
         if(productosZonasLiveData ==null){
             productosZonasLiveData = new MutableLiveData<>();
             productosZonaHasTransferencia = new LinkedList<>();

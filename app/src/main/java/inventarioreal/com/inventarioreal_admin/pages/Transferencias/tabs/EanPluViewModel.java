@@ -6,22 +6,22 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.LinkedList;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 
 public class EanPluViewModel extends ViewModel {
-    MutableLiveData<LinkedList<ProductosZonasHasTransferencias>> productosZonasHasTransferenciasLiveData = null;
-    private LinkedList<ProductosZonasHasTransferencias> productosZonaHasTransferencias = null;
+    MutableLiveData<LinkedList<TransfersHasZonesProduct>> productosZonasHasTransferenciasLiveData = null;
+    private LinkedList<TransfersHasZonesProduct> productosZonaHasTransferencias = null;
 
 
 
-    public void addProductoZonaHasTransferencia(ProductosZonasHasTransferencias productosZonasHasTransferencia){
+    public void addProductoZonaHasTransferencia(TransfersHasZonesProduct productosZonasHasTransferencia){
         //Valido si ya se ha agregado el producto
         int count=0;
-        if(productosZonasHasTransferencia.getProductos_zona_id().getProductos_id()!=null){
+        if(productosZonasHasTransferencia.getProduct().getProduct()!=null){
 //            for (ProductosZonasHasTransferencias pzt: productosZonaHasTransferencias
 //                 ) {
-//                if(pzt.getProductos_zona_id().getProductos_id().getId() == productosZonasHasTransferencia.getProductos_zona_id().getProductos_id().getId()){
-//                    pzt.getProductos_zona_id().setTotal(pzt.getProductos_zona_id().getTotal()+1);
+//                if(pzt.getProduct().getProduct().getId() == productosZonasHasTransferencia.getProduct().getProduct().getId()){
+//                    pzt.getProduct().setTotal(pzt.getProduct().getTotal()+1);
 //                    productosZonaHasTransferencias.set(count,pzt);
 //                    transferenciaLiveData.setValue(productosZonaHasTransferencias);
 //                    return;
@@ -33,7 +33,7 @@ public class EanPluViewModel extends ViewModel {
         }
 
     }
-    public LiveData<LinkedList<ProductosZonasHasTransferencias>> getProductosZonaHasTransferencia(){
+    public LiveData<LinkedList<TransfersHasZonesProduct>> getProductosZonaHasTransferencia(){
         if(productosZonasHasTransferenciasLiveData ==null){
             productosZonasHasTransferenciasLiveData = new MutableLiveData<>();
             productosZonaHasTransferencias = new LinkedList<>();

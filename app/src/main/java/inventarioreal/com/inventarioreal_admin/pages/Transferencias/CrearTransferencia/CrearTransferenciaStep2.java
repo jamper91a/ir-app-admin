@@ -36,11 +36,11 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crea
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
@@ -53,12 +53,12 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class CrearTransferenciaStep2 extends CicloActivity {
 
-    private Transferencias request = null;
+    private Transfer request = null;
 
     private String TAG="CrearInventarioStep2";
     private DataBase db = DataBase.getInstance(this);
     private Gson gson = new Gson();
-    private LinkedList<ProductosZonasHasTransferencias> productos = new LinkedList<>();
+    private LinkedList<TransfersHasZonesProduct> productos = new LinkedList<>();
     RFDIReader rfdiReader =  null;
     private Handler handler = new Handler(){
         @Override
@@ -106,7 +106,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         Intent intent = getIntent();
         String message = intent.getStringExtra(Constants.parameters);
         Gson gson = new Gson();
-        this.request = gson.fromJson(message, Transferencias.class);
+        this.request = gson.fromJson(message, Transfer.class);
         //endregion
         this.tabsInit();
     }
@@ -217,32 +217,32 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
     private void createEpc(String epc){
         //Busco el epc en la base de datos interna
-        Epcs epcDb= (Epcs) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epcs.class);
+        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
         if(epcDb!=null){
             //Busco el producto zonas al que pertenece este tag
             try {
-                ProductosZonas proZon=
-                        (ProductosZonas) db.getByColumn(
-                                Constants.table_productos_zonas,
-                                Constants.epcs_id,
+                ProductHasZone proZon=
+                        (ProductHasZone) db.getByColumn(
+                                Constants.table_productsHasZones,
+                                Constants.column_epc_id,
                                 epcDb.getId()+"",
-                                ProductosZonas.class).get(0);
+                                ProductHasZone.class).get(0);
                 //Busco el producto de este producto zona
-                Productos producto= (Productos) db.findById(
-                        Constants.table_productos,
-                        proZon.getProductos_id().getId()+"",
-                        Productos.class
+                Product producto= (Product) db.findById(
+                        Constants.table_products,
+                        proZon.getProduct().getId()+"",
+                        Product.class
                 );
 
                 if (epcDb!=null) {
-                    proZon.setEpcs_id(epcDb);
+                    proZon.setEpc(epcDb);
                 }
                 if(producto!=null){
-                    proZon.setProductos_id(producto);
+                    proZon.setProduct(producto);
                 }
-                //Informacion requeria por el servicio web de crear inventario
-                ProductosZonasHasTransferencias pzt = new ProductosZonasHasTransferencias();
-                pzt.setProductos_zona_id(proZon);
+                //Informacion requeria por el servicio web de crear inventory
+                TransfersHasZonesProduct pzt = new TransfersHasZonesProduct();
+                pzt.setProduct(proZon);
                 productos.add(pzt);
                 eanPluVieModel.addProductoZona(proZon);
                 totalViewModel.setAmount(productos.size());
@@ -262,7 +262,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 //        for (int i = 0; i < eanPluVieModel.getProductosZonaHasTransferencia().getValue().size(); i++) {
 //            //Determino si ese epc ya se leyo antes
 //            ProductosZonas mEPC = eanPluVieModel.getProductosZonaHasTransferencia().getValue().get(i);
-//            if (epc.equals(mEPC.getEpcs_id().getEpc())){
+//            if (epc.equals(mEPC.getEpc().getEpc())){
 //                return true;
 //            }
 //
@@ -432,9 +432,9 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
 
 
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
-        txtLocal.setText("Local Origen : "+empleado.getEmpleado().getLocales_id().getName());
-        txtNum.setText("Local Destino: "+request.getLocal_destino_id().getName());
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        txtLocal.setText("Local Origen : "+empleado.getEmployee().getShop().getName());
+        txtNum.setText("Local Destino: "+request.getShopDestination().getName());
         builder.setView(dialogView);
 
 
@@ -443,8 +443,8 @@ public class CrearTransferenciaStep2 extends CicloActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 admin.toast(edtMensaje.getText().toString());
-                request.setMensaje(edtMensaje.getText().toString());
-                WebServices.crearTransferencia(
+                request.setMessage(edtMensaje.getText().toString());
+                WebServices.createTransfer(
                         request,
                         productos,
                         CrearTransferenciaStep2.this,

@@ -25,9 +25,9 @@ import inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventar
 import inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventariosFisicos.tabs.RepDifInvTotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventariosFisicos.tabs.RepDifInvTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Reportes.HomeReportes;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -41,7 +41,7 @@ public class DIFStep2 extends CicloActivity {
 
         final DataBase db = DataBase.getInstance(this);
         private String TAG="ReporteInventarioTotal";
-        private ArrayList<ProductosZonas> productosZona = new ArrayList<>();
+        private ArrayList<ProductHasZone> productosZona = new ArrayList<>();
         private RequestDIFStep2 request=null;
 
         @Override
@@ -68,22 +68,22 @@ public class DIFStep2 extends CicloActivity {
         @Override
         public void getData() {
 
-            WebServices.diferenceBetweenInventories(request.inventarioInicial.id, request.inventarioFinal.id, this, admin, new ResultWebServiceInterface() {
+            WebServices.getDiferenceBetweenInventories(request.inventarioInicial.id, request.inventarioFinal.id, this, admin, new ResultWebServiceInterface() {
                 @Override
                 public void ok(ResultWebServiceOk ok) {
-                    productosZona = (ArrayList<ProductosZonas>) ok.getData();
+                    productosZona = (ArrayList<ProductHasZone>) ok.getData();
                     if(productosZona!=null){
                         totalConsolidadoViewModel = ViewModelProviders.of(DIFStep2.this).get(RepDifInvTotalViewModel.class);
                         eanPluConsolidadoVieModel = ViewModelProviders.of(DIFStep2.this).get(RepDifInvEanPluViewModel.class);
-                        //Busco la zona del inventario
-                        for(ProductosZonas pz: productosZona){
-                            Zonas zona = (Zonas) db.findById(Constants.table_zonas, pz.getZonas_id().getId()+"", Zonas.class);
+                        //Busco la zona del inventory
+                        for(ProductHasZone pz: productosZona){
+                            Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
                             if(zona!=null){
-                                pz.setZonas_id(zona);
+                                pz.setZone(zona);
                             }
-                            Productos producto = (Productos) db.findById(Constants.table_productos, pz.getProductos_id().getId()+"", Productos.class);
+                            Product producto = (Product) db.findById(Constants.table_products, pz.getProduct().getId()+"", Product.class);
                             if(producto!=null){
-                                pz.setProductos_id(producto);
+                                pz.setProduct(producto);
                             }
                             eanPluConsolidadoVieModel.addProductoZona(pz);
 

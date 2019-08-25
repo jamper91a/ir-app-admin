@@ -2,36 +2,36 @@ package inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventa
 
 import java.util.HashMap;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import inventarioreal.com.inventarioreal_admin.util.IntentRequests;
 
 
 public class RequestDIFStep2 implements IntentRequests {
     private static final String TAG = "RequestDIFStep2";
-    public InventariosConsolidados inventarioInicial=null;
-    public InventariosConsolidados inventarioFinal=null;
+    public ConsolidatedInventory inventarioInicial=null;
+    public ConsolidatedInventory inventarioFinal=null;
 
     public RequestDIFStep2() {
     }
 
-    public RequestDIFStep2(InventariosConsolidados inventarioInicial, InventariosConsolidados inventarioFinal) {
+    public RequestDIFStep2(ConsolidatedInventory inventarioInicial, ConsolidatedInventory inventarioFinal) {
         this.inventarioInicial = inventarioInicial;
         this.inventarioFinal = inventarioFinal;
     }
 
-    public InventariosConsolidados getInventarioInicial() {
+    public ConsolidatedInventory getInventarioInicial() {
         return inventarioInicial;
     }
 
-    public void setInventarioInicial(InventariosConsolidados inventarioInicial) {
+    public void setInventarioInicial(ConsolidatedInventory inventarioInicial) {
         this.inventarioInicial = inventarioInicial;
     }
 
-    public InventariosConsolidados getInventarioFinal() {
+    public ConsolidatedInventory getInventarioFinal() {
         return inventarioFinal;
     }
 
-    public void setInventarioFinal(InventariosConsolidados inventarioFinal) {
+    public void setInventarioFinal(ConsolidatedInventory inventarioFinal) {
         this.inventarioFinal = inventarioFinal;
     }
 
@@ -40,15 +40,15 @@ public class RequestDIFStep2 implements IntentRequests {
         try {
             if(inventarioInicial==null || inventarioInicial==null)
             {
-                throw new Error("Se deben seleccionar los dos inventarios");
+                throw new Error("Se deben seleccionar los dos inventory");
             }
             if(inventarioInicial.id== inventarioFinal.id){
-                throw new Error("Se deben seleccionar inventarios diferentes");
+                throw new Error("Se deben seleccionar inventory diferentes");
             }
             try {
                 if(inventarioFinal.getDateCreatedAt().before(inventarioInicial.getDateCreatedAt()) ||
                          inventarioFinal.getDateCreatedAt().equals(inventarioInicial.getDateCreatedAt()))
-                    throw new Error("El inventario final debe ser posterior al inicial");
+                    throw new Error("El inventory final debe ser posterior al inicial");
             } catch (Exception e) {
 
                 throw e;

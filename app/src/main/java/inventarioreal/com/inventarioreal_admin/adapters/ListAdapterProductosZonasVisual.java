@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -17,8 +15,7 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import jamper91.com.easyway.Util.Administrador;
 
 
@@ -32,11 +29,11 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
     private static final String TAG = "ListAdapterEpcs";
     private Activity activity;
     private Administrador admin;
-    private LinkedList<ProductosZonas> items;
-    private LinkedList<ProductosZonas> todos;
+    private LinkedList<ProductHasZone> items;
+    private LinkedList<ProductHasZone> todos;
     private OnItemClickListener onItemClickListener;
 
-    public ListAdapterProductosZonasVisual(Activity activity, Administrador admin, LinkedList<ProductosZonas> items, OnItemClickListener onItemClickListener) {
+    public ListAdapterProductosZonasVisual(Activity activity, Administrador admin, LinkedList<ProductHasZone> items, OnItemClickListener onItemClickListener) {
         this.activity = activity;
         this.admin = admin;
         this.items = items;
@@ -44,13 +41,13 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setItems(LinkedList<ProductosZonas> items) {
+    public void setItems(LinkedList<ProductHasZone> items) {
         this.items = items;
     }
 
     @Override
     public long getItemId(int position) {
-        return Long.parseLong(items.get(position).getEpcs_id().getEpc());
+        return Long.parseLong(items.get(position).getEpc().getEpc());
     }
 
     @Override
@@ -63,12 +60,12 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final ProductosZonas item = items.get(position);
-        holder.getTxtSize().setText(item.getProductos_id().getTalla());
+        final ProductHasZone item = items.get(position);
+        holder.getTxtSize().setText(item.getProduct().getSize());
         holder.getTxtTotal().setText(item.getTotal()+"");
-        if(item.getProductos_id().getImagen()==null)
-            item.getProductos_id().setImagen("");
-        admin.loadImageFromInternet(item.getProductos_id().getImagen(), holder.getImgProduct(), R.drawable.lost, R.drawable.inventory);
+        if(item.getProduct().getImagen()==null)
+            item.getProduct().setImagen("");
+        admin.loadImageFromInternet(item.getProduct().getImagen(), holder.getImgProduct(), R.drawable.lost, R.drawable.inventory);
         holder.bind(item);
     }
 
@@ -77,7 +74,7 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
         return items.size();
     }
 
-    public void add(ProductosZonas item) {
+    public void add(ProductHasZone item) {
         try {
             int position = items.indexOf(item);
             notifyItemInserted(position);
@@ -86,13 +83,13 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
         }
     }
 
-    public void remove(ProductosZonas item) {
+    public void remove(ProductHasZone item) {
         int position = items.indexOf(item);
         items.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void update(ProductosZonas item, int position){
+    public void update(ProductHasZone item, int position){
         items.set(position, item);
         notifyItemChanged(position);
     }
@@ -108,7 +105,7 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
                 {
                     notifyDataSetChanged();
                 }else{
-                    items = (LinkedList<ProductosZonas>) results.values;
+                    items = (LinkedList<ProductHasZone>) results.values;
                     notifyDataSetChanged();
                 }
 
@@ -126,10 +123,10 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
                     results.values = todos;
                     results.count = todos.size();
                 }else{
-                    LinkedList<ProductosZonas> FilteredArrayNames = new LinkedList<>();
+                    LinkedList<ProductHasZone> FilteredArrayNames = new LinkedList<>();
                     for (int i = 0; i < todos.size(); i++) {
-                        ProductosZonas dataNames = todos.get(i);
-                        if (dataNames.getEpcs_id().getEpc().toLowerCase().contains(constraint))  {
+                        ProductHasZone dataNames = todos.get(i);
+                        if (dataNames.getEpc().getEpc().toLowerCase().contains(constraint))  {
                             FilteredArrayNames.add(dataNames);
                         }
                     }
@@ -189,7 +186,7 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
         public void setImgProduct(NetworkImageView imgProduct) {
             this.imgProduct = imgProduct;
         }
-        public void bind(final ProductosZonas item) {
+        public void bind(final ProductHasZone item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     onItemClickListener.onItemClick(item);

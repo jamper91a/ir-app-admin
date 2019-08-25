@@ -68,7 +68,7 @@ public class TransferenciaDetailsTotalFragment extends Fragment {
                         TextView txtLocDes =(TextView) getElemento(R.id.txtLocDes);
                         txtLocDes.setText(transferenciaDetails.getDestino().getName());
                         TextView txtGen =(TextView) getElemento(R.id.txtGen);
-                        txtGen.setText(transferenciaDetails.getGenerador().getUsername());
+                        txtGen.setText(transferenciaDetails.getGenerador().getUser().getUsername());
                         TextView txtMen =(TextView) getElemento(R.id.txtMen);
                         txtMen.setText(transferenciaDetails.getMensaje());
                     } catch (Exception e) {

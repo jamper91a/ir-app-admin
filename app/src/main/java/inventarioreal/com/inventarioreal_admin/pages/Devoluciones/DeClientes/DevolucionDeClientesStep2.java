@@ -33,22 +33,18 @@ import java.util.List;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Devoluciones.HomeDevoluciones;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventariorCrear2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.CrearInventarioStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devoluciones;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devolution;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
@@ -62,10 +58,10 @@ import jamper91.com.easyway.Util.CicloActivity;
 public class DevolucionDeClientesStep2 extends CicloActivity {
 
     private String TAG="DevolucionDeClientesStep2";
-    private ProductosZonas request = new ProductosZonas();
+    private ProductHasZone request = new ProductHasZone();
     private DataBase db = DataBase.getInstance(this);
-    private ProductosZonas requestProductosZonas;
-    private LinkedList<ProductosZonas> productosZonas = new LinkedList<>();
+    private ProductHasZone products;
+    private LinkedList<ProductHasZone> productosZonas = new LinkedList<>();
     private Gson gson = new Gson();
 
     RFDIReader rfdiReader =  null;
@@ -77,7 +73,7 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
             switch (msg.what){
                 case 1:
                     epc = msg.getData().getString("epc");
-                    //requestProductosZonas.getZonas_id().getName()
+                    //products.getZone().getName()
                     addToList(epc);
                     //admin.toast("Epc found: "+epc); //readed
                     break ;
@@ -124,7 +120,7 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
         Intent intent = getIntent();
         String message = intent.getStringExtra(Constants.parameters);
         Gson gson = new Gson();
-        this.requestProductosZonas = gson.fromJson(message, ProductosZonas.class);
+        this.products = gson.fromJson(message, ProductHasZone.class);
         //endregion
         this.tabsInit();
     }
@@ -207,33 +203,33 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
 
     private void createEpc(String epc){
         //Busco el epc en la base de datos interna
-        Epcs epcDb= (Epcs) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epcs.class);
+        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
         if(epcDb!=null){
             //Busco el producto zonas al que pertenece este tag
-            ProductosZonas proZon=
-                    (ProductosZonas) db.getByColumn(
-                            Constants.table_productos_zonas,
-                            Constants.epcs_id,
+            ProductHasZone proZon=
+                    (ProductHasZone) db.getByColumn(
+                            Constants.table_productsHasZones,
+                            Constants.column_epc_id,
                             epcDb.getId()+"",
-                            ProductosZonas.class).get(0);
+                            ProductHasZone.class).get(0);
             //Busco el producto de este producto zona
-            Productos producto= (Productos) db.findById(
-                    Constants.table_productos,
-                    proZon.getProductos_id().getId()+"",
-                    Productos.class
+            Product producto= (Product) db.findById(
+                    Constants.table_products,
+                    proZon.getProduct().getId()+"",
+                    Product.class
             );
             // verifico si el epc pertenece a la zona seleccionada
-            /*if (proZon.getZonas_id().getId() == requestProductosZonas.getZonas_id().getId())
+            /*if (proZon.getZone().getId() == products.getZone().getId())
             {*/
                 if (epcDb!=null) {
-                    proZon.setEpcs_id(epcDb);
+                    proZon.setEpc(epcDb);
                 }
                 if(producto!=null){
-                    proZon.setProductos_id(producto);
+                    proZon.setProduct(producto);
                 }
                 /*
                 if (epcDb!=null) {
-                    //proZon.setDevoluciones_id(epcDb);
+                    //proZon.setDevolution(epcDb);
 
                 }*/
                 productosZonas.add(proZon);
@@ -257,7 +253,7 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
 //        for (int i = 0; i < eanPluVieModel.getProductosZonaHasTransferencia().getValue().size(); i++) {
 //            //Determino si ese epc ya se leyo antes
 //            ProductosZonas mEPC = eanPluVieModel.getProductosZonaHasTransferencia().getValue().get(i);
-//            if (epc.equals(mEPC.getEpcs_id().getEpc())){
+//            if (epc.equals(mEPC.getEpc().getEpc())){
 //                return true;
 //            }
 //
@@ -372,7 +368,7 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
 
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Crear Inventario");
+        builder.setTitle("Crear Devolucion");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_devolver_producto_zona, null);
@@ -382,16 +378,16 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
 
 
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
-        txtLocal.setText("Local : "+empleado.getEmpleado().getLocales_id().getName());
-        txtZona.setText("Zonas : "+requestProductosZonas.getZonas_id().getName());
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
+        txtZona.setText("Zonas : "+ products.getZone().getName());
         request.setCreatedAt(admin.getCurrentDateAndTime());
         txtTime.setText(request.getCreatedAt());
         // inicio spnMotDev
         final LinkedList devoluciones = db.getByColumn(
-                Constants.table_devoluciones,"tipo",this.requestProductosZonas.getDevoluciones_id().tipo.toString(),Devoluciones.class);
+                Constants.table_devolutions,"type",this.products.getDevolution().getType().toString(), Devolution.class);
 
-        ArrayAdapter<Zonas> adapter =
+        ArrayAdapter<Zone> adapter =
                 new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, devoluciones);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -400,14 +396,14 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
         ((Spinner) dialogView.findViewById(R.id.spnMotDev)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                for (ProductosZonas pr: productosZonas) {
-                    pr.setDevoluciones_id((Devoluciones)devoluciones.get(position));
+                for (ProductHasZone pr: productosZonas) {
+                    pr.setDevolution((Devolution)devoluciones.get(position));
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                request.setZonas_id(null);
+                request.setZone(null);
             }
         });
         // end region
@@ -420,10 +416,10 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for (ProductosZonas pr: productosZonas) {
-                    pr.setDevolucion_observaciones(edtMensaje.getText().toString());
+                for (ProductHasZone pr: productosZonas) {
+                    pr.setNotes_return(edtMensaje.getText().toString());
                 }
-                WebServices.devolucionProductos(
+                WebServices.returnProducts(
                         productosZonas,
                         DevolucionDeClientesStep2.this,
                         admin,
@@ -453,4 +449,9 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
         builder.show();
     }
     //endregion
+
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(DevolucionDeClientesStep1.class, null);
+    }
 }

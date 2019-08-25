@@ -22,10 +22,10 @@ import inventarioreal.com.inventarioreal_admin.pages.Reportes.InventarioTotal.ta
 import inventarioreal.com.inventarioreal_admin.pages.Reportes.InventarioTotal.tabs.InvTotalEanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Reportes.InventarioTotal.tabs.InvTotalEanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.UltimoInventarioResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -61,23 +61,23 @@ public class ReporteInventarioTotal extends CicloActivity {
     @Override
     public void getData() {
 
-        WebServices.getLastInventarioConsolidado(this, admin, new ResultWebServiceInterface() {
+        WebServices.getLastConsolidatedInventory(this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 inventarioConsolidado = (UltimoInventarioResponse) ok.getData();
                 if(inventarioConsolidado!=null){
                     totalConsolidadoViewModel = ViewModelProviders.of(ReporteInventarioTotal.this).get(InvTotTotalViewModel.class);
                     eanPluConsolidadoVieModel = ViewModelProviders.of(ReporteInventarioTotal.this).get(InvTotalEanPluViewModel.class);
-                    //Busco la zona del inventario
-                    for(Inventarios inv: inventarioConsolidado.getInventarios()){
-                        for (ProductosZonas pz: inv.getProductos_zona()){
-                            Zonas zona = (Zonas) db.findById(Constants.table_zonas, pz.getZonas_id().getId()+"", Zonas.class);
+                    //Busco la zona del inventory
+                    for(Inventory inv: inventarioConsolidado.getInventories()){
+                        for (ProductHasZone pz: inv.getProducts()){
+                            Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
                             if(zona!=null){
-                                pz.setZonas_id(zona);
+                                pz.setZone(zona);
                             }
-                            Productos producto = (Productos) db.findById(Constants.table_productos, pz.getProductos_id().getId()+"", Productos.class);
+                            Product producto = (Product) db.findById(Constants.table_products, pz.getProduct().getId()+"", Product.class);
                             if(producto!=null){
-                                pz.setProductos_id(producto);
+                                pz.setProduct(producto);
                             }
                             eanPluConsolidadoVieModel.addProductoZona(pz);
                         }
@@ -86,11 +86,11 @@ public class ReporteInventarioTotal extends CicloActivity {
 
                     //Actualizo la cantidad
                     totalConsolidadoViewModel.setInventario(inventarioConsolidado);
-                    for(Inventarios inv: inventarioConsolidado.getInventarios()){
-                        for (ProductosZonas pz: inv.getProductos_zona()){
-                            eanPluConsolidadoVieModel.addProductoZona(pz);
-                        }
-                    }
+//                    for(Inventory inv: inventarioConsolidado.getInventories()){
+//                        for (ProductHasZone pz: inv.getProducts()){
+//                            eanPluConsolidadoVieModel.addProductoZona(pz);
+//                        }
+//                    }
                 }
             }
 

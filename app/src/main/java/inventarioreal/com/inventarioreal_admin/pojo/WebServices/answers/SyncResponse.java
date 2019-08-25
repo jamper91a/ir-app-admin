@@ -1,69 +1,69 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devoluciones;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Locales;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devolution;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 
 public class SyncResponse {
-    private Epcs[] epcs;
-    private Productos[] productos;
-    private ProductosZonas[] productos_zona;
-    private Zonas[] zonas;
-    private Locales[] locales;
-    private Devoluciones[] devoluciones;
+    private Epc[] epcs;
+    private Product[] products;
+    private ProductHasZone[] productsHasZones;
+    private Zone[] zones;
+    private Shop[] shops;
+    private Devolution[] devolutions;
 
     public SyncResponse() {
     }
 
-    public Epcs[] getEpcs() {
+    public Epc[] getEpcs() {
         return epcs;
     }
 
-    public void setEpcs(Epcs[] epcs) {
+    public void setEpcs(Epc[] epcs) {
         this.epcs = epcs;
     }
 
-    public Productos[] getProductos() {
-        return productos;
+    public Product[] getProducts() {
+        return products;
     }
 
-    public void setProductos(Productos[] productos) {
-        this.productos = productos;
+    public void setProducts(Product[] products) {
+        this.products = products;
     }
 
-    public ProductosZonas[] getProductos_zona() {
-        return productos_zona;
+    public ProductHasZone[] getProductsHasZones() {
+        return productsHasZones;
     }
 
-    public void setProductos_zona(ProductosZonas[] productos_zona) {
-        this.productos_zona = productos_zona;
+    public void setProductsHasZones(ProductHasZone[] productsHasZones) {
+        this.productsHasZones = productsHasZones;
     }
 
-    public Zonas[] getZonas() {
-        return zonas;
+    public Zone[] getZones() {
+        return zones;
     }
 
-    public void setZonas(Zonas[] zonas) {
-        this.zonas = zonas;
+    public void setZones(Zone[] zones) {
+        this.zones = zones;
     }
 
-    public Locales[] getLocales() {
-        return locales;
+    public Shop[] getShops() {
+        return shops;
     }
 
-    public void setLocales(Locales[] locales) {
-        this.locales = locales;
+    public void setShops(Shop[] shops) {
+        this.shops = shops;
     }
 
 
-    public Devoluciones[] getDevoluciones() {
-        return devoluciones;
+    public Devolution[] getDevolutions() {
+        return devolutions;
     }
 
-    public void setDevoluciones(Devoluciones[] devoluciones) {
-        this.devoluciones = devoluciones;
+    public void setDevolutions(Devolution[] devolutions) {
+        this.devolutions = devolutions;
     }
 }

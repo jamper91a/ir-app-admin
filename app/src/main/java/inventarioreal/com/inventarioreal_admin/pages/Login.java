@@ -10,7 +10,6 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
-import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -19,7 +18,6 @@ import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class Login extends CicloActivity {
-    private DataBase db = DataBase.getInstance(this);
     private String TAG="Login";
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,7 @@ public class Login extends CicloActivity {
                             public void ok(ResultWebServiceOk ok) {
                                 Gson gson=new Gson();
                                 LoginResponse data = (LoginResponse)ok.getData();
-                                admin.escribir_preferencia(Constants.empleado, gson.toJson(data, LoginResponse.class));
+                                admin.escribir_preferencia(Constants.employee, gson.toJson(data, LoginResponse.class));
                                 //Llamo a servicio web de sincronizacion
                                 WebServices.sync(Login.this, admin, new ResultWebServiceInterface() {
                                     @Override

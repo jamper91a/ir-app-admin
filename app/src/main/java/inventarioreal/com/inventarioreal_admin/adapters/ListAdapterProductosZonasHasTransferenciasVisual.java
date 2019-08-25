@@ -15,8 +15,8 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import jamper91.com.easyway.Util.Administrador;
 
 
@@ -30,14 +30,14 @@ public class ListAdapterProductosZonasHasTransferenciasVisual extends RecyclerVi
     private static final String TAG = "ListAdapterEpcs";
     private Activity activity;
     private Administrador admin;
-    private LinkedList<ProductosZonasHasTransferencias> items;
-    private LinkedList<ProductosZonasHasTransferencias> todos;
+    private LinkedList<TransfersHasZonesProduct> items;
+    private LinkedList<TransfersHasZonesProduct> todos;
     private OnItemClickListener onItemClickListener;
 
     public ListAdapterProductosZonasHasTransferenciasVisual(
             Activity activity,
             Administrador admin,
-            LinkedList<ProductosZonasHasTransferencias> items,
+            LinkedList<TransfersHasZonesProduct> items,
             OnItemClickListener onItemClickListener) {
         this.activity = activity;
         this.admin = admin;
@@ -46,13 +46,13 @@ public class ListAdapterProductosZonasHasTransferenciasVisual extends RecyclerVi
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setItems(LinkedList<ProductosZonasHasTransferencias> items) {
+    public void setItems(LinkedList<TransfersHasZonesProduct> items) {
         this.items = items;
     }
 
     @Override
     public long getItemId(int position) {
-        return Long.parseLong(items.get(position).getProductos_zona_id().getEpcs_id().getEpc());
+        return Long.parseLong(items.get(position).getProduct().getEpc().getEpc());
     }
 
     @Override
@@ -65,12 +65,12 @@ public class ListAdapterProductosZonasHasTransferenciasVisual extends RecyclerVi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final ProductosZonasHasTransferencias item = items.get(position);
-        holder.getTxtSize().setText(item.getProductos_zona_id().getProductos_id().getTalla());
-        holder.getTxtTotal().setText(item.getProductos_zona_id().getTotal()+"");
-        if(item.getProductos_zona_id().getProductos_id().getImagen()==null)
-            item.getProductos_zona_id().getProductos_id().setImagen("");
-        admin.loadImageFromInternet(item.getProductos_zona_id().getProductos_id().getImagen(), holder.getImgProduct(), R.drawable.lost, R.drawable.inventory);
+        final TransfersHasZonesProduct item = items.get(position);
+        holder.getTxtSize().setText(item.getProduct().getProduct().getSize());
+        holder.getTxtTotal().setText(item.getProduct().getTotal()+"");
+        if(item.getProduct().getProduct().getImagen()==null)
+            item.getProduct().getProduct().setImagen("");
+        admin.loadImageFromInternet(item.getProduct().getProduct().getImagen(), holder.getImgProduct(), R.drawable.lost, R.drawable.inventory);
         holder.bind(item);
     }
 
@@ -79,7 +79,7 @@ public class ListAdapterProductosZonasHasTransferenciasVisual extends RecyclerVi
         return items.size();
     }
 
-    public void add(ProductosZonas item) {
+    public void add(ProductHasZone item) {
         try {
             int position = items.indexOf(item);
             notifyItemInserted(position);
@@ -88,13 +88,13 @@ public class ListAdapterProductosZonasHasTransferenciasVisual extends RecyclerVi
         }
     }
 
-    public void remove(ProductosZonas item) {
+    public void remove(ProductHasZone item) {
         int position = items.indexOf(item);
         items.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void update(ProductosZonasHasTransferencias item, int position){
+    public void update(TransfersHasZonesProduct item, int position){
         items.set(position, item);
         notifyItemChanged(position);
     }
@@ -110,7 +110,7 @@ public class ListAdapterProductosZonasHasTransferenciasVisual extends RecyclerVi
                 {
                     notifyDataSetChanged();
                 }else{
-                    items = (LinkedList<ProductosZonasHasTransferencias>) results.values;
+                    items = (LinkedList<TransfersHasZonesProduct>) results.values;
                     notifyDataSetChanged();
                 }
 
@@ -128,10 +128,10 @@ public class ListAdapterProductosZonasHasTransferenciasVisual extends RecyclerVi
                     results.values = todos;
                     results.count = todos.size();
                 }else{
-                    LinkedList<ProductosZonasHasTransferencias> FilteredArrayNames = new LinkedList<>();
+                    LinkedList<TransfersHasZonesProduct> FilteredArrayNames = new LinkedList<>();
                     for (int i = 0; i < todos.size(); i++) {
-                        ProductosZonasHasTransferencias dataNames = todos.get(i);
-                        if (dataNames.getProductos_zona_id().getEpcs_id().getEpc().toLowerCase().contains(constraint))  {
+                        TransfersHasZonesProduct dataNames = todos.get(i);
+                        if (dataNames.getProduct().getEpc().getEpc().toLowerCase().contains(constraint))  {
                             FilteredArrayNames.add(dataNames);
                         }
                     }
@@ -191,7 +191,7 @@ public class ListAdapterProductosZonasHasTransferenciasVisual extends RecyclerVi
         public void setImgProduct(NetworkImageView imgProduct) {
             this.imgProduct = imgProduct;
         }
-        public void bind(final ProductosZonasHasTransferencias item) {
+        public void bind(final TransfersHasZonesProduct item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     onItemClickListener.onItemClick(item);

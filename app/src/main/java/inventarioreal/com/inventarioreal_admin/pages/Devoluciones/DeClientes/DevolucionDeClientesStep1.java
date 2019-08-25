@@ -2,7 +2,6 @@ package inventarioreal.com.inventarioreal_admin.pages.Devoluciones.DeClientes;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,14 +15,13 @@ import com.google.gson.Gson;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Devoluciones.HomeDevoluciones;
+import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pages.Transferencias.CrearTransferencia.CrearTransferenciaStep2;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devoluciones;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Locales;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devolution;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import jamper91.com.easyway.Util.Animacion;
@@ -33,7 +31,7 @@ public class DevolucionDeClientesStep1 extends CicloActivity {
 
 
     final DataBase db = DataBase.getInstance(this);
-    private ProductosZonas request = new ProductosZonas();
+    private ProductHasZone request = new ProductHasZone();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,15 +55,15 @@ public class DevolucionDeClientesStep1 extends CicloActivity {
         try {
             Intent intent = getIntent();
             String message = intent.getStringExtra(Constants.parameters);
-            Devoluciones devolucion = new Devoluciones();
-            devolucion.tipo = Integer.parseInt(message);
-            request.setDevoluciones_id(devolucion);
+            Devolution devolucion = new Devolution();
+            devolucion.setType(Integer.parseInt(message));
+            request.setDevolution(devolucion);
             //admin.toast(message);
             //Obtener Zonas
             getZonas();
             //Obtener poder de lecura
             getPoderLectura();
-            //Obtener fecha actual
+            //Obtener date actual
             getFecha();
         } catch (Exception e) {
             admin.toast(e.getMessage());
@@ -77,15 +75,15 @@ public class DevolucionDeClientesStep1 extends CicloActivity {
     private void getZonas() {
         Gson gson = new Gson();
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
-        //Obtengo las zonas usando el local del empleado
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        //Obtengo las zonas usando el local del employee
         final LinkedList zonas = db.getByColumn(
-                Constants.table_zonas,
-                Constants.locales_id,
-                empleado.getEmpleado().getLocales_id().getId()+ "",
-                Zonas.class);
+                Constants.table_zones,
+                Constants.column_shop,
+                empleado.getEmployee().getShop().getId()+ "",
+                Zone.class);
 
-        ArrayAdapter<Zonas> adapter =
+        ArrayAdapter<Zone> adapter =
                 new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, zonas);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -94,19 +92,19 @@ public class DevolucionDeClientesStep1 extends CicloActivity {
         ((Spinner) getElemento(R.id.spnZonaDestino).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                request.setZonas_id((Zonas)zonas.get(position));
+                request.setZone((Zone)zonas.get(position));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                request.setZonas_id(null);
+                request.setZone(null);
             }
         });
 
         //Set Local origen
-        //request.(empleado.getEmpleado().getLocales_id());
+        //request.(employee.getEmployee().getShop());
         //Log.d("lOCAL", request.getLocal_id().getName());
-        getElemento(R.id.txtLoc).setText(empleado.getEmpleado().getLocales_id().getName());
+        getElemento(R.id.txtLoc).setText(empleado.getEmployee().getShop().getName());
     }
 
     private void getPoderLectura() {
@@ -141,7 +139,7 @@ public class DevolucionDeClientesStep1 extends CicloActivity {
         add_on_click(R.id.btnIni, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(DevolucionDeClientesStep2.class, request, ProductosZonas.class);
+                admin.callIntent(DevolucionDeClientesStep2.class, request, ProductHasZone.class);
             }
         });
     }
@@ -172,6 +170,10 @@ public class DevolucionDeClientesStep1 extends CicloActivity {
 //            return true;
 //        }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(HomeDevoluciones.class, null);
     }
 
     //endregion

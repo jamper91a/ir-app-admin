@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventariosAConsolidar;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.InventarioParcialHome;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
@@ -25,7 +25,7 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
 
     private static final String TAG = "ConsolidarInventario";
     private RecyclerAdapterInventariosAConsolidar adapter;
-    private ArrayList<Inventarios> inventariosPorConsolidar= new ArrayList<>();
+    private ArrayList<Inventory> inventariosPorConsolidar= new ArrayList<>();
     RecyclerView recyclerView = null;
 
     @Override
@@ -57,10 +57,10 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
                     String inventarioName = "";
                     for (Integer i: invenntariosSeleccionados
                          ) {
-                        inventarioName+=" / "+ inventariosPorConsolidar.get(i.intValue()).getZonas_id().getName();
+                        inventarioName+=" / "+ inventariosPorConsolidar.get(i.intValue()).getZone().getName();
                         invenntariosSeleccionadosId.add(inventariosPorConsolidar.get(i).getId());
                     }
-                    WebServices.consolidarInventarios(
+                    WebServices.consolidateInventories(
                             invenntariosSeleccionadosId,
                             inventarioName,
                             ConsolidarInventarioStep1.this,
@@ -97,10 +97,10 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
         adapter = new RecyclerAdapterInventariosAConsolidar(ConsolidarInventarioStep1.this, inventariosPorConsolidar, admin);
         recyclerView.setAdapter(adapter);
 //        adapter.notifyDataSetChanged();
-        WebServices.listarInventario(Constants.tipo_no_consolidado,false,this, admin, new ResultWebServiceInterface() {
+        WebServices.listInventories(Constants.tipo_no_consolidado,false,this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                inventariosPorConsolidar = (ArrayList<Inventarios>) ok.getData();
+                inventariosPorConsolidar = (ArrayList<Inventory>) ok.getData();
                 adapter.setInventarios(inventariosPorConsolidar);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();

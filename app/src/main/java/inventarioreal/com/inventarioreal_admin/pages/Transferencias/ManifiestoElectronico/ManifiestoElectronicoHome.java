@@ -32,8 +32,8 @@ public class ManifiestoElectronicoHome extends CicloActivity {
 
     @Override
     public void getData() {
-        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
-        getElemento(R.id.txtLoc).setText(loginResponse.getEmpleado().getLocales_id().getName());
+        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        getElemento(R.id.txtLoc).setText(loginResponse.getEmployee().getShop().getName());
     }
 
     @Override

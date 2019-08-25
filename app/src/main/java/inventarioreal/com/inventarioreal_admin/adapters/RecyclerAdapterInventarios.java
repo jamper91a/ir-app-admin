@@ -11,8 +11,7 @@ import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import jamper91.com.easyway.Util.Administrador;
 
 /**
@@ -23,14 +22,14 @@ public class RecyclerAdapterInventarios extends RecyclerView.Adapter<RecyclerAda
 
 
 
-    private ArrayList<Inventarios> inventarios;
+    private ArrayList<Inventory> inventarios;
     private Context context;
     private Administrador admin;
     private OnItemClickListener onItemClickListener;
 
 
 
-    public RecyclerAdapterInventarios(Context context, ArrayList<Inventarios> inventarios, Administrador admin, OnItemClickListener onItemClickListener) {
+    public RecyclerAdapterInventarios(Context context, ArrayList<Inventory> inventarios, Administrador admin, OnItemClickListener onItemClickListener) {
         this.inventarios = inventarios;
         this.context = context;
         this.admin = admin;
@@ -45,11 +44,11 @@ public class RecyclerAdapterInventarios extends RecyclerView.Adapter<RecyclerAda
 
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, final int i) {
-        final Inventarios item = inventarios.get(i);
-        holder.txtZona.setText(inventarios.get(i).getZonas_id().getName());
+        final Inventory item = inventarios.get(i);
+        holder.txtZona.setText(inventarios.get(i).getZone().getName());
         try {
-            holder.txtFecha.setText(inventarios.get(i).getFecha().split("T")[0]);
-            holder.txtHora.setText(inventarios.get(i).getFecha().split("T")[1]);
+            holder.txtFecha.setText(inventarios.get(i).getDate().split("T")[0]);
+            holder.txtHora.setText(inventarios.get(i).getDate().split("T")[1]);
         } catch (Exception e) {
 
         }
@@ -67,7 +66,7 @@ public class RecyclerAdapterInventarios extends RecyclerView.Adapter<RecyclerAda
         return (null != inventarios ? inventarios.size() : 0);
     }
 
-    public void setInventarios(ArrayList<Inventarios> inventarios) {
+    public void setInventarios(ArrayList<Inventory> inventarios) {
         this.inventarios = inventarios;
     }
 
@@ -85,7 +84,7 @@ public class RecyclerAdapterInventarios extends RecyclerView.Adapter<RecyclerAda
             txtHora = (TextView) view.findViewById(R.id.txtHora);
         }
 
-        public void bind(final Inventarios item) {
+        public void bind(final Inventory item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     onItemClickListener.onItemClick(item);

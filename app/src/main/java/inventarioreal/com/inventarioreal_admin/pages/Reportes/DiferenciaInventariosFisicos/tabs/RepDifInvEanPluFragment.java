@@ -22,7 +22,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonas;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasVisual;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import jamper91.com.easyway.Util.Administrador;
 
 public class RepDifInvEanPluFragment extends Fragment {
@@ -100,9 +100,9 @@ public class RepDifInvEanPluFragment extends Fragment {
 
     private void getData(){
         mViewModel = ViewModelProviders.of(getActivity()).get(RepDifInvEanPluViewModel.class);
-        mViewModel.getProductosZona().observe(this, new Observer<LinkedList<ProductosZonas>>() {
+        mViewModel.getProductosZona().observe(this, new Observer<LinkedList<ProductHasZone>>() {
             @Override
-            public void onChanged(@Nullable LinkedList<ProductosZonas> productosZonas) {
+            public void onChanged(@Nullable LinkedList<ProductHasZone> productosZonas) {
                 if(productosZonas.size()>0){
                     adapter1.setItems(productosZonas);
                     adapter1.notifyDataSetChanged();

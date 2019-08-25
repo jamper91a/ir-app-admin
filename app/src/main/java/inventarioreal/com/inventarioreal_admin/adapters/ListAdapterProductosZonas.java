@@ -14,7 +14,7 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import jamper91.com.easyway.Util.Administrador;
 
 
@@ -30,11 +30,11 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
     private static final String TAG = "ListAdapterEpcs";
     private Activity activity;
     private Administrador admin;
-    private LinkedList<ProductosZonas> items;
-    private LinkedList<ProductosZonas> todos;
+    private LinkedList<ProductHasZone> items;
+    private LinkedList<ProductHasZone> todos;
     private OnItemClickListener onItemClickListener;
 
-    public ListAdapterProductosZonas(Activity activity, Administrador admin, LinkedList<ProductosZonas> items, OnItemClickListener onItemClickListener) {
+    public ListAdapterProductosZonas(Activity activity, Administrador admin, LinkedList<ProductHasZone> items, OnItemClickListener onItemClickListener) {
         this.activity = activity;
         this.admin = admin;
         this.items = items;
@@ -42,13 +42,13 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setItems(LinkedList<ProductosZonas> items) {
+    public void setItems(LinkedList<ProductHasZone> items) {
         this.items = items;
     }
 
     @Override
     public long getItemId(int position) {
-        return Long.parseLong(items.get(position).getEpcs_id().getEpc());
+        return Long.parseLong(items.get(position).getEpc().getEpc());
     }
 
     @Override
@@ -73,10 +73,10 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
 //                holder.bind(item);
                 break;
             case TYPE_ITEM:
-                final ProductosZonas item = items.get(position-1);
+                final ProductHasZone item = items.get(position-1);
                 holder.getTxt1().setText(item.getTotal()+"");
-                holder.getTxt2().setText(item.getProductos_id().getEan());
-                holder.getTxt3().setText(item.getProductos_id().getDescripcion());
+                holder.getTxt2().setText(item.getProduct().getEan());
+                holder.getTxt3().setText(item.getProduct().getDescription());
                 holder.bind(item);
                 break;
         }
@@ -90,7 +90,7 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
         return items.size()+1;
     }
 
-    public void add(ProductosZonas item) {
+    public void add(ProductHasZone item) {
         try {
             int position = items.indexOf(item);
             notifyItemInserted(position);
@@ -99,13 +99,13 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
         }
     }
 
-    public void remove(ProductosZonas item) {
+    public void remove(ProductHasZone item) {
         int position = items.indexOf(item);
         items.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void update(ProductosZonas item, int position){
+    public void update(ProductHasZone item, int position){
         items.set(position, item);
         notifyItemChanged(position);
     }
@@ -121,7 +121,7 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
                 {
                     notifyDataSetChanged();
                 }else{
-                    items = (LinkedList<ProductosZonas>) results.values;
+                    items = (LinkedList<ProductHasZone>) results.values;
                     notifyDataSetChanged();
                 }
 
@@ -139,10 +139,10 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
                     results.values = todos;
                     results.count = todos.size();
                 }else{
-                    LinkedList<ProductosZonas> FilteredArrayNames = new LinkedList<>();
+                    LinkedList<ProductHasZone> FilteredArrayNames = new LinkedList<>();
                     for (int i = 0; i < todos.size(); i++) {
-                        ProductosZonas dataNames = todos.get(i);
-                        if (dataNames.getEpcs_id().getEpc().toLowerCase().contains(constraint))  {
+                        ProductHasZone dataNames = todos.get(i);
+                        if (dataNames.getEpc().getEpc().toLowerCase().contains(constraint))  {
                             FilteredArrayNames.add(dataNames);
                         }
                     }
@@ -255,7 +255,7 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
             this.txtDetails = txtDetails;
         }
 
-        public void bind(final ProductosZonas item) {
+        public void bind(final ProductHasZone item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     onItemClickListener.onItemClick(item);

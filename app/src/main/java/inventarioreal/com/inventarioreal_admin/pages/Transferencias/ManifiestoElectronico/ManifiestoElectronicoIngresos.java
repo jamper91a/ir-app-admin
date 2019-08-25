@@ -15,11 +15,11 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterTransferencias;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.ProductosTransferenciaDetail;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.TransferenciaDetails;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
@@ -35,7 +35,7 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
 
     private static final String TAG = "ManifiestoElectronicoIngresos";
     private RecyclerAdapterTransferencias adapter;
-    private ArrayList<Transferencias> transferencias= new ArrayList<>();
+    private ArrayList<Transfer> transferencias= new ArrayList<>();
     private RecyclerView recyclerView = null;
     private final DataBase db = DataBase.getInstance(this);
 
@@ -65,7 +65,7 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
             @Override
             public void onItemClick(Object item) {
                 //Obtengo la transferencia a consultar
-                Transferencias transferencia = (Transferencias) item;
+                Transfer transferencia = (Transfer) item;
                 //Convierto la transferencia a transferenciadetails
                 TransferenciaDetails transferenciaDetails = new TransferenciaDetails();
 
@@ -74,8 +74,8 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
                 //Determino cuantos productos unicos hay
                 int productosUnicos=0;
                 LinkedList<ProductosTransferenciaDetail> productos = new LinkedList<>();
-                for(ProductosZonasHasTransferencias pzt:transferencia.getProductos()){
-                    if(pzt.estado)
+                for(TransfersHasZonesProduct pzt:transferencia.getProducts()){
+                    if(pzt.state)
                         recibidos++;
                     //Determina si el producto ya existe en la lista o no
                     //Si no existe actualiza la cantidad
@@ -83,23 +83,23 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
                         productosUnicos++;
                         //Como el producto no existe lo creo y lo agrego a la lista
                         try {
-                            ProductosZonas productosZonas =
-                                    (ProductosZonas) db.findById(
-                                            Constants.table_productos_zonas,
-                                            pzt.getProductos_zona_id().getId()+"",
-                                            ProductosZonas.class);
+                            ProductHasZone productosZonas =
+                                    (ProductHasZone) db.findById(
+                                            Constants.table_productsHasZones,
+                                            pzt.getProduct().getId()+"",
+                                            ProductHasZone.class);
                             if(productosZonas!=null){
 
-                                Productos producto =
-                                        (Productos) db.findById(
-                                                Constants.table_productos,
-                                                productosZonas.getProductos_id().getId()+"",
-                                                Productos.class
+                                Product producto =
+                                        (Product) db.findById(
+                                                Constants.table_products,
+                                                productosZonas.getProduct().getId()+"",
+                                                Product.class
                                         );
                                 if(producto!=null){
                                     ProductosTransferenciaDetail aux = new ProductosTransferenciaDetail();
                                     aux.setEnviados(1);
-                                    if(pzt.estado)
+                                    if(pzt.state)
                                         aux.setRecibidos(1);
                                     aux.setProducto(producto);
                                     productos.add(aux);
@@ -114,10 +114,10 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
                 transferenciaDetails.setRecibidos(recibidos);
                 transferenciaDetails.setFaltantes(transferenciaDetails.getEnviados()-transferenciaDetails.getRecibidos());
                 transferenciaDetails.setFecha(transferencia.getCreatedAt());
-                transferenciaDetails.setDestino(transferencia.getLocal_destino_id());
-                transferenciaDetails.setGenerador(transferencia.getCreador_id());
-                transferenciaDetails.setMensaje(transferencia.getMensaje());
-                transferenciaDetails.setManifiestoElectronico(transferencia.getManifiesto());
+                transferenciaDetails.setDestino(transferencia.getShopDestination());
+                transferenciaDetails.setGenerador(transferencia.getEmployee());
+                transferenciaDetails.setMensaje(transferencia.getMessage());
+                transferenciaDetails.setManifiestoElectronico(transferencia.getManifest());
                 ProductosTransferenciaDetail [] auxProd = productos.toArray(new ProductosTransferenciaDetail[productos.size()]);
                 transferenciaDetails.setProductos(auxProd);
 
@@ -137,26 +137,26 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
             }
         });
         recyclerView.setAdapter(adapter);
-        WebServices.getTransferenciasByTipo(Constants.transferencias_ingreso,this, admin, new ResultWebServiceInterface() {
+        WebServices.getTranfersByType(Constants.transferencias_ingreso,this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                transferencias = (ArrayList<Transferencias>) ok.getData();
+                transferencias = (ArrayList<Transfer>) ok.getData();
                 //Debo obtener el id del productoZona de cada producto
-                for(Transferencias tran :transferencias){
-                    for(ProductosZonasHasTransferencias pzht:tran.getProductos()){
+                for(Transfer tran :transferencias){
+                    for(TransfersHasZonesProduct pzht:tran.getProducts()){
                         //Buso el producto
-                        Productos productos =
-                                (Productos) db.findById(
-                                        Constants.table_productos,
-                                        pzht.getProductos_zona_id().getProductos_id().getId()+"",
-                                        Productos.class);
-                        Zonas zonas =
-                                (Zonas) db.findById(
-                                        Constants.table_zonas,
-                                        pzht.getProductos_zona_id().getZonas_id().getId()+"",
-                                        Zonas.class);
-                        pzht.getProductos_zona_id().setProductos_id(productos);
-                        pzht.getProductos_zona_id().setZonas_id(zonas);
+                        Product productos =
+                                (Product) db.findById(
+                                        Constants.table_products,
+                                        pzht.getProduct().getProduct().getId()+"",
+                                        Product.class);
+                        Zone zonas =
+                                (Zone) db.findById(
+                                        Constants.table_zones,
+                                        pzht.getProduct().getZone().getId()+"",
+                                        Zone.class);
+                        pzht.getProduct().setProduct(productos);
+                        pzht.getProduct().setZone(zonas);
                     }
                 }
                 adapter.setTransferencias(transferencias);
@@ -172,13 +172,13 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
 
     }
 
-    private boolean productExists(ProductosZonasHasTransferencias pzt, LinkedList<ProductosTransferenciaDetail> productos) {
+    private boolean productExists(TransfersHasZonesProduct pzt, LinkedList<ProductosTransferenciaDetail> productos) {
 
         for(ProductosTransferenciaDetail aux: productos){
-            if(pzt.getProductos_zona_id().getProductos_id().getId() == aux.getProducto().getId()){
+            if(pzt.getProduct().getProduct().getId() == aux.getProducto().getId()){
                 //Aumento las cantidades
                 aux.setEnviados(aux.getEnviados()+1);
-                if(pzt.getEstado())
+                if(pzt.getState())
                     aux.setRecibidos(aux.getRecibidos()+1);
             }
         }

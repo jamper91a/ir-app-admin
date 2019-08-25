@@ -14,7 +14,7 @@ import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestInventarioPorZonaStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.InventariosColaborativosHome;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step2.VisualizarInventarioColaborativoPorZonaStep2;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -24,7 +24,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class VisualizarInventariosColaborativosConsolidadosStep1 extends CicloActivity {
     private RecyclerAdapterInventariosConsolidados adapter;
-    private ArrayList<InventariosConsolidados> inventariosConsolidados = new ArrayList<>();
+    private ArrayList<ConsolidatedInventory> inventariosConsolidados = new ArrayList<>();
     RecyclerView recyclerView = null;
 
 
@@ -42,7 +42,7 @@ public class VisualizarInventariosColaborativosConsolidadosStep1 extends CicloAc
 
         //Cambiar los textos a mostrar
 
-        getElemento(R.id.txt1).setText("Selecciones el inventario a visualizar");
+        getElemento(R.id.txt1).setText("Selecciones el inventory a visualizar");
         getElemento(R.id.btnIni).setText("Visualizar");
     }
 
@@ -69,7 +69,7 @@ public class VisualizarInventariosColaborativosConsolidadosStep1 extends CicloAc
         adapter = new RecyclerAdapterInventariosConsolidados(this, inventariosConsolidados, admin, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
-                InventariosConsolidados inv = (InventariosConsolidados) item;
+                ConsolidatedInventory inv = (ConsolidatedInventory) item;
                 admin.toast(inv.createdAt);
                 RequestInventarioPorZonaStep2 requestInventarioPorZonaStep2 = new RequestInventarioPorZonaStep2(inv);
                 admin.callIntent(VisualizarInventarioColaborativoPorZonaStep2.class, requestInventarioPorZonaStep2, RequestInventarioPorZonaStep2.class);
@@ -86,10 +86,10 @@ public class VisualizarInventariosColaborativosConsolidadosStep1 extends CicloAc
             }
         });
         recyclerView.setAdapter(adapter);
-        WebServices.listarInventarioConsolidados(true, this, admin, new ResultWebServiceInterface() {
+        WebServices.listConsolidatedInventories(true, this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                inventariosConsolidados = (ArrayList<InventariosConsolidados>) ok.getData();
+                inventariosConsolidados = (ArrayList<ConsolidatedInventory>) ok.getData();
                 adapter.setInventarios(inventariosConsolidados);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();

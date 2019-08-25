@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import jamper91.com.easyway.Util.Administrador;
 
 /**
@@ -22,14 +22,14 @@ public class RecyclerAdapterInventariosConsolidados extends RecyclerView.Adapter
 
 
 
-    private ArrayList<InventariosConsolidados> inventarios;
+    private ArrayList<ConsolidatedInventory> inventarios;
     private Context context;
     private Administrador admin;
     private OnItemClickListener onItemClickListener;
 
 
 
-    public RecyclerAdapterInventariosConsolidados(Context context, ArrayList<InventariosConsolidados> inventarios, Administrador admin, OnItemClickListener onItemClickListener) {
+    public RecyclerAdapterInventariosConsolidados(Context context, ArrayList<ConsolidatedInventory> inventarios, Administrador admin, OnItemClickListener onItemClickListener) {
         this.inventarios = inventarios;
         this.context = context;
         this.admin = admin;
@@ -44,7 +44,7 @@ public class RecyclerAdapterInventariosConsolidados extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, final int i) {
-        final InventariosConsolidados item = inventarios.get(i);
+        final ConsolidatedInventory item = inventarios.get(i);
         holder.txtZona.setText(inventarios.get(i).getName());
         try {
             holder.txtFecha.setText(inventarios.get(i).getCreatedAt().split("T")[0]);
@@ -66,7 +66,7 @@ public class RecyclerAdapterInventariosConsolidados extends RecyclerView.Adapter
         return (null != inventarios ? inventarios.size() : 0);
     }
 
-    public void setInventarios(ArrayList<InventariosConsolidados> inventarios) {
+    public void setInventarios(ArrayList<ConsolidatedInventory> inventarios) {
         this.inventarios = inventarios;
     }
 
@@ -84,7 +84,7 @@ public class RecyclerAdapterInventariosConsolidados extends RecyclerView.Adapter
             txtHora = (TextView) view.findViewById(R.id.txtHora);
         }
 
-        public void bind(final InventariosConsolidados item) {
+        public void bind(final ConsolidatedInventory item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     onItemClickListener.onItemClick(item);

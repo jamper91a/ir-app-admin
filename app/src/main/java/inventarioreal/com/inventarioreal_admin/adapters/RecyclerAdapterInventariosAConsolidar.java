@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import jamper91.com.easyway.Util.Administrador;
 
 /**
@@ -38,14 +38,14 @@ public class RecyclerAdapterInventariosAConsolidar extends RecyclerView.Adapter<
 
     }
 
-    private ArrayList<Inventarios> inventarios;
+    private ArrayList<Inventory> inventarios;
     private Context context;
     private ArrayList<Integer> inventariosSeleccionados = new ArrayList<>();
     private Administrador admin;
 
 
 
-    public RecyclerAdapterInventariosAConsolidar(Context context, ArrayList<Inventarios> inventarios, Administrador admin) {
+    public RecyclerAdapterInventariosAConsolidar(Context context, ArrayList<Inventory> inventarios, Administrador admin) {
         this.inventarios = inventarios;
         this.context = context;
         this.admin = admin;
@@ -60,10 +60,10 @@ public class RecyclerAdapterInventariosAConsolidar extends RecyclerView.Adapter<
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, final int i) {
 
-        holder.txtZona.setText(inventarios.get(i).getZonas_id().getName());
+        holder.txtZona.setText(inventarios.get(i).getZone().getName());
         try {
-            holder.txtFecha.setText(inventarios.get(i).getFecha().split("T")[0]);
-            holder.txtHora.setText(inventarios.get(i).getFecha().split("T")[1]);
+            holder.txtFecha.setText(inventarios.get(i).getDate().split("T")[0]);
+            holder.txtHora.setText(inventarios.get(i).getDate().split("T")[1]);
         } catch (Exception e) {
 
         }
@@ -91,7 +91,7 @@ public class RecyclerAdapterInventariosAConsolidar extends RecyclerView.Adapter<
                     boolean r=itemCheckBoxChanged(v);
                     ((CompoundButton) v).setChecked(r);
                     if(!r){
-                        admin.toast("No se pueden escoger inventarios de la misma zona");
+                        admin.toast("No se pueden escoger inventory de la misma zona");
                     }
                 } else {
                     inventariosSeleccionados.remove(v.getTag());
@@ -108,11 +108,11 @@ public class RecyclerAdapterInventariosAConsolidar extends RecyclerView.Adapter<
     private boolean itemCheckBoxChanged(View v) {
         try {
             //Inventario seleccionado
-            Inventarios invSel = inventarios.get((int)v.getTag());
+            Inventory invSel = inventarios.get((int)v.getTag());
             //Reviso que no se haya agregado antes la misma zona
             for (Integer i:inventariosSeleccionados) {
-                Inventarios inv = inventarios.get(i.intValue());
-                if(inv.getZonas_id().getId()==invSel.getZonas_id().getId())
+                Inventory inv = inventarios.get(i.intValue());
+                if(inv.getZone().getId()==invSel.getZone().getId())
                     return false;
             }
             inventariosSeleccionados.add((int) v.getTag());
@@ -135,11 +135,11 @@ public class RecyclerAdapterInventariosAConsolidar extends RecyclerView.Adapter<
         if(!inventariosSeleccionados.isEmpty()){
             return inventariosSeleccionados;
         }else{
-            throw new Exception("No se seleccionaron inventarios");
+            throw new Exception("No se seleccionaron inventory");
         }
     }
 
-    public void setInventarios(ArrayList<Inventarios> inventarios) {
+    public void setInventarios(ArrayList<Inventory> inventarios) {
         this.inventarios = inventarios;
     }
 }

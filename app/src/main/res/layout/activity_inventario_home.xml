@@ -9,24 +9,24 @@
         android:id="@+id/btnCre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/crear_inventario_parcial" />
+        android:text="@string/create_inventory" />
 
     <Button
         android:id="@+id/btnCon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/consolidar_inventarios_parciales" />
+        android:text="@string/consolidate_inventories" />
 
     <Button
         android:id="@+id/btnVisPorZon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/visualizar_inventarios_por_zona" />
+        android:text="@string/view_inventories_by_zone" />
 
     <Button
         android:id="@+id/btnVisCon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/visualizar_inventarios_consolidados" />
+        android:text="@string/view_consolidated_inventories" />
 
 </LinearLayout>

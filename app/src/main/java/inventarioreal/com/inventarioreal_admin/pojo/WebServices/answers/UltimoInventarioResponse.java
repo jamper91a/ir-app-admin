@@ -6,14 +6,14 @@ import android.database.Cursor;
 import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Empleados;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Employee;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 
 public class UltimoInventarioResponse extends InventarioRealPojo {
     private String name;
-    private Empleados empleados_id;
-    private int productos;
-    private Inventarios[] inventarios;
+    private Employee employee;
+    private int total_products;
+    private Inventory[] inventories;
 
     public String getName() {
         return name;
@@ -23,28 +23,28 @@ public class UltimoInventarioResponse extends InventarioRealPojo {
         this.name = name;
     }
 
-    public Empleados getEmpleados_id() {
-        return empleados_id;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmpleados_id(Empleados empleados_id) {
-        this.empleados_id = empleados_id;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public int getProductos() {
-        return productos;
+    public int getTotal_products() {
+        return total_products;
     }
 
-    public void setProductos(int productos) {
-        this.productos = productos;
+    public void setTotal_products(int total_products) {
+        this.total_products = total_products;
     }
 
-    public Inventarios[] getInventarios() {
-        return inventarios;
+    public Inventory[] getInventories() {
+        return inventories;
     }
 
-    public void setInventarios(Inventarios[] inventarios) {
-        this.inventarios = inventarios;
+    public void setInventories(Inventory[] inventories) {
+        this.inventories = inventories;
     }
 
     @Override

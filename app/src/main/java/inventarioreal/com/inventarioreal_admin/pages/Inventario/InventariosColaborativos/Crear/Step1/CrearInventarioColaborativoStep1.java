@@ -18,7 +18,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents.RequestI
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.Crear.Step2.CrearInventarioColaborativoStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.InventariosColaborativosHome;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -53,9 +53,9 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
     @Override
     public void getData() {
         try {
-            LoginResponse empleado = new Gson().fromJson(admin.obtener_preferencia(Constants.empleado),LoginResponse.class);
+            LoginResponse empleado = new Gson().fromJson(admin.obtener_preferencia(Constants.employee),LoginResponse.class);
             if(empleado != null){
-                getElemento(R.id.txtLocal).setText(empleado.getEmpleado().getLocales_id().getName());
+                getElemento(R.id.txtLocal).setText(empleado.getEmployee().getShop().getName());
             }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
@@ -72,7 +72,7 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
                 getZonas();
                 //Obtener poder de lecura
                 getPoderLectura();
-                //Obtener fecha actual
+                //Obtener date actual
                 getFecha();
             }
 
@@ -87,16 +87,16 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
     private void getZonas() {
         Gson gson = new Gson();
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
-        //Obtengo las zonas usando el local del empleado
-//        LinkedList<HashMap<String, String>> zonas=db.getByColumn(Constants.table_zonas,Constants.locales_id, empleado.getEmpleado().getLocales_id().getId());
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        //Obtengo las zonas usando el local del employee
+//        LinkedList<HashMap<String, String>> zonas=db.getByColumn(Constants.table_zones,Constants.locales_id, employee.getEmployee().getShop().getId());
         final LinkedList zonas = db.getByColumn(
-                Constants.table_zonas,
-                Constants.locales_id,
-                empleado.getEmpleado().getLocales_id().getId() + "",
-                Zonas.class);
+                Constants.table_zones,
+                Constants.column_shop,
+                empleado.getEmployee().getShop().getId() + "",
+                Zone.class);
 
-        ArrayAdapter<Zonas> adapter =
+        ArrayAdapter<Zone> adapter =
                 new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, zonas);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -105,7 +105,7 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
         ((Spinner) getElemento(R.id.spnZona).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                request.setZona_id((Zonas) zonas.get(position));
+                request.setZone((Zone) zonas.get(position));
             }
 
             @Override
@@ -139,8 +139,8 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
     }
 
     private void getFecha() {
-        request.setFecha(admin.getCurrentDateAndTime());
-        getElemento(R.id.txtLocDes).setText(request.getFecha());
+        request.setDate(admin.getCurrentDateAndTime());
+        getElemento(R.id.txtLocDes).setText(request.getDate());
     }
 
     @Override

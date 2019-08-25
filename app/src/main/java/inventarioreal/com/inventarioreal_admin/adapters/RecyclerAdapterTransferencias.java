@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 import jamper91.com.easyway.Util.Administrador;
 
 /**
@@ -23,14 +23,14 @@ public class RecyclerAdapterTransferencias extends RecyclerView.Adapter<Recycler
 
 
 
-    private ArrayList<Transferencias> transferencias;
+    private ArrayList<Transfer> transferencias;
     private Context context;
     private Administrador admin;
     private OnItemClickListener onItemClickListener;
     private String Tag= "RecyclerAdapterTransferencias";
 
 
-    public RecyclerAdapterTransferencias(Context context, ArrayList<Transferencias> transferencias, Administrador admin, OnItemClickListener onItemClickListener) {
+    public RecyclerAdapterTransferencias(Context context, ArrayList<Transfer> transferencias, Administrador admin, OnItemClickListener onItemClickListener) {
         this.transferencias= transferencias;
         this.context = context;
         this.admin = admin;
@@ -47,8 +47,8 @@ public class RecyclerAdapterTransferencias extends RecyclerView.Adapter<Recycler
     public void onBindViewHolder(final RecyclerViewHolder holder, final int i) {
 
         holder.txtNum.setText(transferencias.get(i).getId()+"");
-        holder.txtLocDes.setText(transferencias.get(i).getLocal_destino_id().getName());
-        holder.txtManEle.setText(transferencias.get(i).getManifiesto());
+        holder.txtLocDes.setText(transferencias.get(i).getShopDestination().getName());
+        holder.txtManEle.setText(transferencias.get(i).getManifest());
         try {
             holder.txtFec.setText(transferencias.get(i).getCreatedAt().split("T")[0]);
             holder.txtHor.setText(transferencias.get(i).getCreatedAt().split("T")[1]);
@@ -65,7 +65,7 @@ public class RecyclerAdapterTransferencias extends RecyclerView.Adapter<Recycler
         return (null != transferencias ? transferencias.size() : 0);
     }
 
-    public void setTransferencias(ArrayList<Transferencias> transferencias) {
+    public void setTransferencias(ArrayList<Transfer> transferencias) {
         this.transferencias = transferencias;
     }
 
@@ -86,7 +86,7 @@ public class RecyclerAdapterTransferencias extends RecyclerView.Adapter<Recycler
             txtHor = (TextView) view.findViewById(R.id.txtHor);
         }
 
-        public void bind(final Transferencias item) {
+        public void bind(final Transfer item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     onItemClickListener.onItemClick(item);

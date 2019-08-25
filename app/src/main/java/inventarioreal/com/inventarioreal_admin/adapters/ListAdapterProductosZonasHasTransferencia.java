@@ -14,8 +14,7 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import jamper91.com.easyway.Util.Administrador;
 
 
@@ -31,11 +30,11 @@ public class ListAdapterProductosZonasHasTransferencia extends RecyclerView.Adap
     private static final String TAG = "ListAdapterEpcs";
     private Activity activity;
     private Administrador admin;
-    private LinkedList<ProductosZonasHasTransferencias> items;
-    private LinkedList<ProductosZonasHasTransferencias> todos;
+    private LinkedList<TransfersHasZonesProduct> items;
+    private LinkedList<TransfersHasZonesProduct> todos;
     private OnItemClickListener onItemClickListener;
 
-    public ListAdapterProductosZonasHasTransferencia(Activity activity, Administrador admin, LinkedList<ProductosZonasHasTransferencias> items, OnItemClickListener onItemClickListener) {
+    public ListAdapterProductosZonasHasTransferencia(Activity activity, Administrador admin, LinkedList<TransfersHasZonesProduct> items, OnItemClickListener onItemClickListener) {
         this.activity = activity;
         this.admin = admin;
         this.items = items;
@@ -43,13 +42,13 @@ public class ListAdapterProductosZonasHasTransferencia extends RecyclerView.Adap
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setItems(LinkedList<ProductosZonasHasTransferencias> items) {
+    public void setItems(LinkedList<TransfersHasZonesProduct> items) {
         this.items = items;
     }
 
     @Override
     public long getItemId(int position) {
-        return Long.parseLong(items.get(position).getProductos_zona_id().getEpcs_id().getEpc());
+        return Long.parseLong(items.get(position).getProduct().getEpc().getEpc());
     }
 
     @Override
@@ -75,14 +74,14 @@ public class ListAdapterProductosZonasHasTransferencia extends RecyclerView.Adap
 //                holder.bind(item);
                 break;
             case TYPE_ITEM:
-                final ProductosZonasHasTransferencias item = items.get(position-1);
-                Log.d(TAG, item.getEstado()+"");
-                holder.getTxt1().setText(item.getProductos_zona_id().getTotal()+"");
-                holder.getTxt2().setText(item.getProductos_zona_id().getEpcs_id().getEpc());
-                holder.getTxt3().setText(item.getProductos_zona_id().getProductos_id().getDescripcion());
-                holder.getTxt4().setText(item.getTransferencias_id().getManifiesto());
-                holder.getTxt5().setText(item.getTransferencias_id().getLocal_destino_id().getName());
-                holder.getTxt6().setText(item.getEstado()? "C" : "E");
+                final TransfersHasZonesProduct item = items.get(position-1);
+                Log.d(TAG, item.getState()+"");
+                holder.getTxt1().setText(item.getProduct().getTotal()+"");
+                holder.getTxt2().setText(item.getProduct().getEpc().getEpc());
+                holder.getTxt3().setText(item.getProduct().getProduct().getDescription());
+                holder.getTxt4().setText(item.getTransfer().getManifest());
+                holder.getTxt5().setText(item.getTransfer().getShopDestination().getName());
+                holder.getTxt6().setText(item.getState()? "C" : "E");
                 holder.bind(item);
                 break;
         }
@@ -96,7 +95,7 @@ public class ListAdapterProductosZonasHasTransferencia extends RecyclerView.Adap
         return items.size()+1;
     }
 
-    public void add(ProductosZonasHasTransferencias item) {
+    public void add(TransfersHasZonesProduct item) {
         try {
             int position = items.indexOf(item);
             notifyItemInserted(position);
@@ -105,13 +104,13 @@ public class ListAdapterProductosZonasHasTransferencia extends RecyclerView.Adap
         }
     }
 
-    public void remove(ProductosZonasHasTransferencias item) {
+    public void remove(TransfersHasZonesProduct item) {
         int position = items.indexOf(item);
         items.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void update(ProductosZonasHasTransferencias item, int position){
+    public void update(TransfersHasZonesProduct item, int position){
         items.set(position, item);
         notifyItemChanged(position);
     }
@@ -127,7 +126,7 @@ public class ListAdapterProductosZonasHasTransferencia extends RecyclerView.Adap
                 {
                     notifyDataSetChanged();
                 }else{
-                    items = (LinkedList<ProductosZonasHasTransferencias>) results.values;
+                    items = (LinkedList<TransfersHasZonesProduct>) results.values;
                     notifyDataSetChanged();
                 }
 
@@ -145,10 +144,10 @@ public class ListAdapterProductosZonasHasTransferencia extends RecyclerView.Adap
                     results.values = todos;
                     results.count = todos.size();
                 }else{
-                    LinkedList<ProductosZonasHasTransferencias> FilteredArrayNames = new LinkedList<>();
+                    LinkedList<TransfersHasZonesProduct> FilteredArrayNames = new LinkedList<>();
                     for (int i = 0; i < todos.size(); i++) {
-                        ProductosZonasHasTransferencias dataNames = todos.get(i);
-                        if (dataNames.getProductos_zona_id().getEpcs_id().getEpc().toLowerCase().contains(constraint))  {
+                        TransfersHasZonesProduct dataNames = todos.get(i);
+                        if (dataNames.getProduct().getEpc().getEpc().toLowerCase().contains(constraint))  {
                             FilteredArrayNames.add(dataNames);
                         }
                     }
@@ -294,7 +293,7 @@ public class ListAdapterProductosZonasHasTransferencia extends RecyclerView.Adap
             this.txtDetails = txtDetails;
         }
 
-        public void bind(final ProductosZonasHasTransferencias item) {
+        public void bind(final TransfersHasZonesProduct item) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     onItemClickListener.onItemClick(item);

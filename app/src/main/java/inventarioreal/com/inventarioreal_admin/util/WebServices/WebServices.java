@@ -1,10 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.util.WebServices;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONException;
@@ -17,29 +15,40 @@ import java.util.LinkedList;
 import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddMercanciaResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddCommodityResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductosInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.UltimoInventarioResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devoluciones;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epcs;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosProductos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Locales;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Productos;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductosZonasHasTransferencias;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transferencias;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddMercanciaRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AdjuntarInventarioRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioColaborativoRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearInventarioRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CrearTransferenciaRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.DevolverInventarioRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FinalizarTransferenciaRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devolution;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHasProduct;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddCommodityRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AttachInventoryRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ConsolidateInventoriesRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateCollaborativeInventoryRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateInventoryRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateRequestRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetDiferenceBetweenInventoriesRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductInShopByEanPluRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductsByConsolidatedInventoryRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductsByInventoryRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetTransfersByTypeRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetTransfersRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ListConsolidatedInventoriesRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ListInventoriesRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ReturnProductRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FinishTransferRequet;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductByEanPluRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.LoginRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -108,63 +117,49 @@ public class WebServices {
     public static void login(String username, String password, final Activity activity, final Administrador admin,final ResultWebServiceInterface result){
 
         final String url=Constants.url+Constants.ws_login;
+        LoginRequest request = new LoginRequest(username, password);
+        post(url, request.getCampos(), R.string.ingresando, activity, admin, new ResponseListener() {
 
+            @Override
+            public void onResponse(String s) {
 
-        HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.username, username);
-        campos.put(Constants.password, password);
-        CallWebServiceJson callWebService = new CallWebServiceJson(
-                activity,
-                url,
-                campos,
-                new HashMap<String, String>(),
-                jamper91.com.easyway.Util.Constants.REQUEST_POST,
-                new ResponseListener() {
+            }
 
-                    @Override
-                    public void onResponse(String s) {
-
-                    }
-
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    if(jsonObject.getString("code").equals("OK")){
+                        //Almaceno la información del usuario
                         try {
-                            if(jsonObject.getString("code").equals("OK")){
-                                //Almaceno la información del usuario
-                                try {
-                                    LoginResponse data=gson.fromJson(jsonObject.getJSONObject("data").toString(), LoginResponse.class);
-                                    admin.escribir_preferencia(Constants.user, gson.toJson(data));
-                                    admin.escribir_preferencia(Constants.token, data.getToken());
-                                    result.ok(new ResultWebServiceOk(data));
-                                } catch (JsonSyntaxException e) {
-                                    result.fail(new ResultWebServiceFail(e.getMessage()));
-                                } catch (JSONException e) {
-                                    result.fail(new ResultWebServiceFail(e));
-                                } catch (Exception e){
-                                    result.fail(new ResultWebServiceFail(e.getMessage()));
-                                }
-
-
-                            }
+                            LoginResponse data=gson.fromJson(jsonObject.getJSONObject("data").toString(), LoginResponse.class);
+                            admin.escribir_preferencia(Constants.user, gson.toJson(data));
+                            admin.escribir_preferencia(Constants.token, data.getToken());
+                            result.ok(new ResultWebServiceOk(data));
+                        } catch (JsonSyntaxException e) {
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
                         } catch (JSONException e) {
                             result.fail(new ResultWebServiceFail(e));
+                        } catch (Exception e){
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
                         }
+
+
                     }
-                    /**
-                     * Puede ser un error dado en formato string, o puede ser un json en
-                     * formato string.
-                     * Trato de converti el string a JSON, si funciona, instancio en JSON, si no
-                     * instancio con el string
-                     */
-                    @Override
-                    public void onErrorResponse(String s) {
-                        errorWebService(s, result);
-                    }
-                },
-                admin
-        );
-        callWebService.setMessage(activity.getString(R.string.ingresando));
-        callWebService.execute();
+                } catch (JSONException e) {
+                    result.fail(new ResultWebServiceFail(e));
+                }
+            }
+            /**
+             * Puede ser un error dado en formato string, o puede ser un json en
+             * formato string.
+             * Trato de converti el string a JSON, si funciona, instancio en JSON, si no
+             * instancio con el string
+             */
+            @Override
+            public void onErrorResponse(String s) {
+                errorWebService(s, result);
+            }
+        });
     }
 
     /**
@@ -175,20 +170,15 @@ public class WebServices {
      * @param result Callback
      */
     public static void getProductByEanPlu(String code, final Activity activity, final Administrador admin,final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_getProductByEanPLu;
-
-
+        final String url=Constants.url+Constants.ws_findProduct;
         try {
-
-            HashMap<String, String> campos = new HashMap<>();
-            campos.put(Constants.codigo, code);
-
-            CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
-                    activity,
+            GetProductByEanPluRequest request = new GetProductByEanPluRequest(code);
+            post(
                     url,
-                    campos,
-                    getHeaders(admin),
-                    jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                    request.getCampos(),
+                    R.string.consultando,
+                    activity,
+                    admin,
                     new ResponseListener() {
                         @Override
                         public void onResponse(String s) {
@@ -198,23 +188,21 @@ public class WebServices {
                         @Override
                         public void onResponse(JSONObject jsonObject) {
                             try {
-                                Productos productos = gson.fromJson(jsonObject.getJSONObject("data").toString(), Productos.class);
+                                Product productos = gson.fromJson(jsonObject.getJSONObject("data").toString(), Product.class);
                                 result.ok(new ResultWebServiceOk(productos));
                             } catch (JSONException e) {
                                 result.fail(new ResultWebServiceFail(e));
                             } catch (Exception e) {
                                 result.fail(new ResultWebServiceFail(e.getMessage()));
-                        }
+                            }
                         }
 
                         @Override
                         public void onErrorResponse(String s) {
                             errorWebService(s, result);
                         }
-                    },
-                    admin
+                    }
             );
-            executeObtener(activity, callWebServiceJson);
         } catch (Exception e){
             result.fail(new ResultWebServiceFail(e.getMessage()));
         }
@@ -222,17 +210,17 @@ public class WebServices {
 
     }
 
-    public static void addMercancia(long productos_id, LinkedList<ProductosZonas> productosZonas, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_addMercancia;
+    public static void addCommodity(long productos_id, LinkedList<ProductHasZone> productosZonas, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_addCommodity;
 
-        AddMercanciaRequest request = new AddMercanciaRequest(productos_id, productosZonas);
+        AddCommodityRequest request = new AddCommodityRequest(productos_id, productosZonas);
 
-        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
-                activity,
+        post(
                 url,
                 request.getCampos(),
-                getHeaders(admin),
-                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                R.string.enviado,
+                activity,
+                admin,
                 new ResponseListener() {
                     @Override
                     public void onResponse(String s) {
@@ -242,7 +230,7 @@ public class WebServices {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         try {
-                            AddMercanciaResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),AddMercanciaResponse.class);
+                            AddCommodityResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(), AddCommodityResponse.class);
                             result.ok(new ResultWebServiceOk(response));
                         } catch (JSONException e) {
                             result.fail(new ResultWebServiceFail(e));
@@ -255,141 +243,139 @@ public class WebServices {
                     public void onErrorResponse(String s) {
                         result.fail(new ResultWebServiceFail(s));
                     }
-                },
-                admin
+                }
         );
-        executeEnviar(activity, callWebServiceJson);
     }
 
     public static void sync(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final DataBase db = DataBase.getInstance(activity);
-        final String url=Constants.url+Constants.ws_sync;
-        String last_update= admin.obtener_preferencia(Constants.last_updated);
-        if(last_update.isEmpty()) {
-            admin.escribir_preferencia(Constants.last_updated,admin.getCurrentDateAndTime());
-        }
-        SyncRequest request= new SyncRequest(last_update);
+        try {
+            final String url=Constants.url+Constants.ws_sync;
+            String last_update= admin.obtener_preferencia(Constants.last_updated);
+            if(last_update.isEmpty()) {
+                admin.escribir_preferencia(Constants.last_updated,admin.getCurrentDateAndTime());
+            }
+            SyncRequest request= new SyncRequest(last_update);
+            post(
+                    url,
+                    request.getCampos(),
+                    R.string.consultando,
+                    activity,
+                    admin,
+                    new ResponseListener() {
+                        @Override
+                        public void onResponse(String s) {
 
-        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
-                activity,
-                url,
-                request.getCampos(),
-                getHeaders(admin),
-                jamper91.com.easyway.Util.Constants.REQUEST_POST,
-                new ResponseListener() {
-                    @Override
-                    public void onResponse(String s) {
+                        }
 
-                    }
-
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            SyncResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),SyncResponse.class);
-
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
                             try {
-                                if (response.getEpcs()!=null && response.getEpcs().length>0) {
-                                    for (Epcs epc: response.getEpcs()) {
-                                        db.insert(Constants.table_epcs, epc.getContentValues());
+                                SyncResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),SyncResponse.class);
+
+                                try {
+                                    if (response.getEpcs()!=null && response.getEpcs().length>0) {
+                                        for (Epc epc: response.getEpcs()) {
+                                            db.insert(Constants.table_epcs, epc.getContentValues());
+                                        }
                                     }
-                                }
-                                if (response.getProductos()!=null && response.getProductos().length>0) {
-                                    for (Productos pro: response.getProductos()) {
-                                        db.insert(Constants.table_productos, pro.getContentValues());
+                                    if (response.getProducts()!=null && response.getProducts().length>0) {
+                                        for (Product pro: response.getProducts()) {
+                                            db.insert(Constants.table_products, pro.getContentValues());
+                                        }
                                     }
-                                }
-                                if (response.getProductos_zona()!=null && response.getProductos_zona().length>0) {
-                                    for (ProductosZonas productosZona: response.getProductos_zona()) {
-                                        db.insert(Constants.table_productos_zonas, productosZona.getContentValues());
+                                    if (response.getProductsHasZones()!=null && response.getProductsHasZones().length>0) {
+                                        for (ProductHasZone productosZona: response.getProductsHasZones()) {
+                                            db.insert(Constants.table_productsHasZones, productosZona.getContentValues());
+                                        }
                                     }
-                                }
-                                if (response.getZonas()!=null && response.getZonas().length>0) {
-                                    for (Zonas zona: response.getZonas()) {
-                                        db.insert(Constants.table_zonas, zona.getContentValues());
+                                    if (response.getZones()!=null && response.getZones().length>0) {
+                                        for (Zone zona: response.getZones()) {
+                                            db.insert(Constants.table_zones, zona.getContentValues());
+                                        }
                                     }
-                                }
-                                if (response.getLocales()!=null && response.getLocales().length>0) {
-                                    Log.d("Locales", response.getLocales().toString());
-                                    for (Locales local: response.getLocales()) {
-                                        db.insert(Constants.table_locales, local.getContentValues());
+                                    if (response.getShops()!=null && response.getShops().length>0) {
+                                        for (Shop local: response.getShops()) {
+                                            db.insert(Constants.table_shops, local.getContentValues());
+                                        }
                                     }
+
+                                    if (response.getDevolutions()!=null && response.getDevolutions().length>0) {
+                                        for (Devolution devoluciones: response.getDevolutions()) {
+                                            db.insert(Constants.table_devolutions, devoluciones.getContentValues());
+                                        }
+                                    }
+                                    result.ok(new ResultWebServiceOk(response));
+
+                                } catch (Exception e) {
+                                    admin.toast(e.getMessage());
+                                    result.fail(new ResultWebServiceFail(e.getMessage()));
                                 }
 
-                                if (response.getDevoluciones()!=null && response.getDevoluciones().length>0) {
-                                    Log.d("Devoluciones", response.getDevoluciones().toString());
-                                    for (Devoluciones devoluciones: response.getDevoluciones()) {
-                                        db.insert(Constants.table_devoluciones, devoluciones.getContentValues());
-                                    }
-                                }
-                                result.ok(new ResultWebServiceOk(response));
-
+                            } catch (JSONException e) {
+                                result.fail(new ResultWebServiceFail(e));
                             } catch (Exception e) {
-                                admin.toast(e.getMessage());
                                 result.fail(new ResultWebServiceFail(e.getMessage()));
                             }
+                        }
 
-                        } catch (JSONException e) {
-                            result.fail(new ResultWebServiceFail(e));
-                        } catch (Exception e) {
-                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        @Override
+                        public void onErrorResponse(String s) {
+                            result.fail(new ResultWebServiceFail(s));
                         }
                     }
-
-                    @Override
-                    public void onErrorResponse(String s) {
-                        result.fail(new ResultWebServiceFail(s));
-                    }
-                },
-                admin
-        );
-        executeObtener(activity, callWebServiceJson);
+            );
+        } catch (Exception e){
+            result.fail(new ResultWebServiceFail(e.getMessage()));
+        }
     }
 
-    public static void crearInventario(long zonas_id, List<InventariosProductos> inventario_productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_crearInventario;
-        CrearInventarioRequest request = new CrearInventarioRequest(zonas_id, inventario_productos);
+    public static void createInventory(long zone, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        try {
+            final String url=Constants.url+Constants.ws_createInventory;
+            CreateInventoryRequest request = new CreateInventoryRequest(zone, products);
+            post(
+                    url,
+                    request.getCampos(),
+                    R.string.enviado,
+                    activity,
+                    admin,
+                    new ResponseListener() {
+                        @Override
+                        public void onResponse(String s) {
 
-        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
-                activity,
-                url,
-                request.getCampos(),
-                getHeaders(admin),
-                jamper91.com.easyway.Util.Constants.REQUEST_POST,
-                new ResponseListener() {
-                    @Override
-                    public void onResponse(String s) {
+                        }
 
-                    }
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
+                            try {
+                                result.ok(new ResultWebServiceOk(null));
+                            } catch (Exception e) {
+                                result.fail(new ResultWebServiceFail(e.getMessage()));
+                            }
+                        }
 
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            result.ok(new ResultWebServiceOk(null));
-                        } catch (Exception e) {
-                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        @Override
+                        public void onErrorResponse(String s) {
+                            result.fail(new ResultWebServiceFail(s));
                         }
                     }
-
-                    @Override
-                    public void onErrorResponse(String s) {
-                        result.fail(new ResultWebServiceFail(s));
-                    }
-                },
-                admin
-        );
-        executeEnviar(activity, callWebServiceJson);
+            );
+        } catch (Exception e) {
+            result.fail(new ResultWebServiceFail(e.getMessage()));
+        }
     }
 
     /**
      * Encargado de la devolucion de productos
-     * @param productosZonas incluye el id de devolucion
+     * @param products incluye el id de devolucion
      * @param activity
      * @param admin
      * @param result
      */
-    public static void devolucionProductos(List<ProductosZonas> productosZonas, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_devolverProductos;
-        DevolverInventarioRequest request = new DevolverInventarioRequest(productosZonas);
+    public static void returnProducts(List<ProductHasZone> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_returnProduct;
+        ReturnProductRequest request = new ReturnProductRequest(products);
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
                 activity,
@@ -422,46 +408,47 @@ public class WebServices {
         executeEnviar(activity, callWebServiceJson);
     }
 
-    public static void adjuntarInventario(Inventarios inventarios, List<InventariosProductos> inventario_productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_adjuntarInvenario;
+    public static void attachInventory(Inventory inventory, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        try {
+            final String url=Constants.url+Constants.ws_attachInventory;
 
-        AdjuntarInventarioRequest request = new AdjuntarInventarioRequest(inventarios, inventario_productos);
+            AttachInventoryRequest request = new AttachInventoryRequest(inventory, products);
+            post(
+                    url,
+                    request.getCampos(),
+                    R.string.enviado,
+                    activity,
+                    admin,
+                    new ResponseListener() {
+                        @Override
+                        public void onResponse(String s) {
 
-        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
-                activity,
-                url,
-                request.getCampos(),
-                getHeaders(admin),
-                jamper91.com.easyway.Util.Constants.REQUEST_POST,
-                new ResponseListener() {
-                    @Override
-                    public void onResponse(String s) {
+                        }
 
-                    }
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
+                            try {
+                                result.ok(new ResultWebServiceOk(null));
+                            } catch (Exception e) {
+                                result.fail(new ResultWebServiceFail(e.getMessage()));
+                            }
+                        }
 
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            result.ok(new ResultWebServiceOk(null));
-                        } catch (Exception e) {
-                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        @Override
+                        public void onErrorResponse(String s) {
+                            result.fail(new ResultWebServiceFail(s));
                         }
                     }
-
-                    @Override
-                    public void onErrorResponse(String s) {
-                        result.fail(new ResultWebServiceFail(s));
-                    }
-                },
-                admin
-        );
-        executeEnviar(activity, callWebServiceJson);
+            );
+        } catch (Exception e) {
+            result.fail(new ResultWebServiceFail(e.getMessage()));
+        }
     }
 
-    public static void crearInventarioColaborativo(long zonas_id, List<InventariosProductos> inventario_productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_crearInventario;
+    public static void createCollaborativeInventory(long zone, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_createInventory;
 
-        CrearInventarioColaborativoRequest request = new CrearInventarioColaborativoRequest(zonas_id, inventario_productos);
+        CreateCollaborativeInventoryRequest request = new CreateCollaborativeInventoryRequest(zone, products);
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
                 activity,
@@ -496,21 +483,19 @@ public class WebServices {
 
     /**
      *
-     * @param tipo Tipo de inventario: Constants.tipo_consolidado o Constants.tipo_no_consolidado
-     * @param colaborativo true or false
+     * @param type Tipo de inventory: Constants.tipo_consolidado o Constants.tipo_no_consolidado
+     * @param collaborative true or false
      */
-    public static void listarInventario(String tipo, boolean colaborativo,final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_listarInventarios;
-        HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.tipo, tipo);
-        campos.put(Constants.colaborativo, colaborativo ? "1" : "0");
+    public static void listInventories(String type, boolean collaborative, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_listInventories;
+        ListInventoriesRequest request = new ListInventoriesRequest(type, collaborative);
 
-        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
-                activity,
+        post(
                 url,
-                campos,
-                getHeaders(admin),
-                jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                request.getCampos(),
+                R.string.consultando,
+                activity,
+                admin,
                 new ResponseListener() {
                     @Override
                     public void onResponse(String s) {
@@ -523,21 +508,21 @@ public class WebServices {
                             //Obtengo la respuesta y la completo, debido a que el servicio web no me
                             // trae informacion de las zonas
                             try {
-                                Inventarios[] inventarios = gson.fromJson(jsonObject.getJSONArray("data").toString(),Inventarios[].class);
+                                Inventory[] inventories = gson.fromJson(jsonObject.getJSONArray("data").toString(), Inventory[].class);
 
                                 try {
-                                    if (inventarios!=null && inventarios.length>0) {
+                                    if (inventories!=null && inventories.length>0) {
                                         final DataBase db = DataBase.getInstance(activity);
-                                        for (Inventarios inventario: inventarios) {
-                                            Zonas zona=(Zonas)db.findById(Constants.table_zonas, inventario.getZonas_id().getId()+"", Zonas.class);
+                                        for (Inventory inventario: inventories) {
+                                            Zone zona=(Zone)db.findById(Constants.table_zones, inventario.getZone().getId()+"", Zone.class);
                                             if(zona!=null){
-                                                inventario.setZonas_id(zona);
+                                                inventario.setZone(zona);
                                             }
                                         }
-                                        ArrayList<Inventarios> arrayInventarios = new ArrayList<Inventarios>(Arrays.asList(inventarios));
+                                        ArrayList<Inventory> arrayInventarios = new ArrayList<Inventory>(Arrays.asList(inventories));
                                         result.ok(new ResultWebServiceOk(arrayInventarios));
                                     }else{
-                                        result.fail(new ResultWebServiceFail("No hay inventarios"));
+                                        result.fail(new ResultWebServiceFail("No hay inventory"));
                                     }
 
                                 } catch (Exception e) {
@@ -559,62 +544,15 @@ public class WebServices {
                     public void onErrorResponse(String s) {
                         result.fail(new ResultWebServiceFail(s));
                     }
-                },
-                admin
-        );
-        executeEnviar(activity, callWebServiceJson);
-    }
-    public static void listarInventarioConsolidados(boolean colaborativo, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_listarInventariosConsolidados;
-        HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.colaborativo, colaborativo ? "1" : "0");
-        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
-            @Override
-            public void onResponse(String s) {
-
-            }
-
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                try {
-                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
-                    // trae informacion de las zonas
-                    try {
-                        InventariosConsolidados[] inventariosConsolidados = gson.fromJson(jsonObject.getJSONArray("data").toString(),InventariosConsolidados[].class);
-
-                        try {
-                            if (inventariosConsolidados!=null && inventariosConsolidados.length>0) {
-                                ArrayList<InventariosConsolidados> arrayInventarios = new ArrayList<InventariosConsolidados>(Arrays.asList(inventariosConsolidados));
-                                result.ok(new ResultWebServiceOk(arrayInventarios));
-                            }else{
-                                result.fail(new ResultWebServiceFail("No hay inventarios"));
-                            }
-
-                        } catch (Exception e) {
-                            admin.toast(e.getMessage());
-                            result.fail(new ResultWebServiceFail(e.getMessage()));
-                        }
-
-                    } catch (JSONException e) {
-                        result.fail(new ResultWebServiceFail(e));
-                    } catch (Exception e) {
-                        result.fail(new ResultWebServiceFail(e.getMessage()));
-                    }
-                } catch (Exception e) {
-                    result.fail(new ResultWebServiceFail(e.getMessage()));
                 }
-            }
+        );
 
-            @Override
-            public void onErrorResponse(String s) {
-
-            }
-        });
     }
-    public static void listarTodosInventarioConsolidados(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_listarTodosInventariosConsolidados;
-        HashMap<String, String> campos = new HashMap<>();
-        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+
+    public static void listConsolidatedInventories(boolean collaborative, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_listConsolidatedInventories;
+        ListConsolidatedInventoriesRequest request = new ListConsolidatedInventoriesRequest(collaborative);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -626,14 +564,14 @@ public class WebServices {
                     //Obtengo la respuesta y la completo, debido a que el servicio web no me
                     // trae informacion de las zonas
                     try {
-                        InventariosConsolidados[] inventariosConsolidados = gson.fromJson(jsonObject.getJSONArray("data").toString(),InventariosConsolidados[].class);
+                        ConsolidatedInventory[] inventariosConsolidados = gson.fromJson(jsonObject.getJSONArray("data").toString(), ConsolidatedInventory[].class);
 
                         try {
                             if (inventariosConsolidados!=null && inventariosConsolidados.length>0) {
-                                ArrayList<InventariosConsolidados> arrayInventarios = new ArrayList<InventariosConsolidados>(Arrays.asList(inventariosConsolidados));
+                                ArrayList<ConsolidatedInventory> arrayInventarios = new ArrayList<ConsolidatedInventory>(Arrays.asList(inventariosConsolidados));
                                 result.ok(new ResultWebServiceOk(arrayInventarios));
                             }else{
-                                result.fail(new ResultWebServiceFail("No hay inventarios"));
+                                result.fail(new ResultWebServiceFail("No hay inventory"));
                             }
 
                         } catch (Exception e) {
@@ -658,52 +596,56 @@ public class WebServices {
         });
     }
 
-    public static void consolidarInventarios(final ArrayList<Long> inventariosAConsolidar, final String name, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_consolidarInventarios;
-        JsonArray array = new JsonArray();
-        for (Long iac: inventariosAConsolidar)  array.add(iac);
-        HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.inventarios_id, gson.toJson(array));
-        campos.put(Constants.name, name);
+    public static void listAllConsolidatedInventories(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_listAllConsolidatedInventories;
+        post(url, new HashMap<String, String>(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
 
-        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
-                activity,
-                url,
-                campos,
-                getHeaders(admin),
-                jamper91.com.easyway.Util.Constants.REQUEST_POST,
-                new ResponseListener() {
-                    @Override
-                    public void onResponse(String s) {
+            }
 
-                    }
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
+                    // trae informacion de las zonas
+                    try {
+                        ConsolidatedInventory[] inventariosConsolidados = gson.fromJson(jsonObject.getJSONArray("data").toString(), ConsolidatedInventory[].class);
 
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
                         try {
-                            if(jsonObject.getString("code").equals("OK")){
-                                result.ok(new ResultWebServiceOk(null));
+                            if (inventariosConsolidados!=null && inventariosConsolidados.length>0) {
+                                ArrayList<ConsolidatedInventory> arrayInventarios = new ArrayList<ConsolidatedInventory>(Arrays.asList(inventariosConsolidados));
+                                result.ok(new ResultWebServiceOk(arrayInventarios));
+                            }else{
+                                result.fail(new ResultWebServiceFail("No hay inventory"));
                             }
-                        } catch (JSONException e) {
-                            result.fail(new ResultWebServiceFail(e));
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
                         }
-                    }
 
-                    @Override
-                    public void onErrorResponse(String s) {
-                        result.fail(new ResultWebServiceFail(s));
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
                     }
-                },
-                admin
-        );
-        executeEnviar(activity, callWebServiceJson);
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
     }
 
-    public static void getProductsByInventario(final long inventario_id, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
-        final String url=Constants.url+Constants.ws_getProductsByInventory;
-        HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.inventarios_id, inventario_id+"");
-        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+    public static void consolidateInventories(final ArrayList<Long> inventories, final String name, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_consolidateInventory;
+        ConsolidateInventoriesRequest request = new ConsolidateInventoriesRequest(inventories, name);
+        post(url, request.getCampos(), R.string.enviando_informacion, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -712,11 +654,11 @@ public class WebServices {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 try {
-                    Inventarios inventario = gson.fromJson(jsonObject.getJSONObject("data").toString(),Inventarios.class);
-                    result.ok(new ResultWebServiceOk(inventario));
-                } catch (Exception e) {
-                    admin.toast(e.getMessage());
-                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                    if(jsonObject.getString("code").equals("OK")){
+                        result.ok(new ResultWebServiceOk(null));
+                    }
+                } catch (JSONException e) {
+                    result.fail(new ResultWebServiceFail(e));
                 }
             }
 
@@ -725,43 +667,77 @@ public class WebServices {
                 result.fail(new ResultWebServiceFail(s));
             }
         });
+
     }
 
-    public static void getProductsByInventariConsolidado(final long inventario_id, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
-        final String url=Constants.url+Constants.ws_getProductsByInventoryColaborativo;
-        HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.inventarios_consolidados_id, inventario_id+"");
-        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
-            @Override
-            public void onResponse(String s) {
+    public static void getProductsByInventory(final long inventory, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        try {
+            final String url=Constants.url+Constants.ws_listProductsByInventory;
+            GetProductsByInventoryRequest request = new GetProductsByInventoryRequest(inventory);
+            post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+                @Override
+                public void onResponse(String s) {
 
-            }
-
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                try {
-                    GetProductosInventariosConsolidados aux = gson.fromJson(jsonObject.getJSONObject("data").toString(),GetProductosInventariosConsolidados.class);
-                    result.ok(new ResultWebServiceOk(aux));
-                } catch (Exception e) {
-                    admin.toast(e.getMessage());
-                    result.fail(new ResultWebServiceFail(e.getMessage()));
                 }
-            }
 
-            @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
-            }
-        });
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        Inventory inventario = gson.fromJson(jsonObject.getJSONObject("data").toString(), Inventory.class);
+                        result.ok(new ResultWebServiceOk(inventario));
+                    } catch (Exception e) {
+                        admin.toast(e.getMessage());
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                }
+
+                @Override
+                public void onErrorResponse(String s) {
+                    result.fail(new ResultWebServiceFail(s));
+                }
+            });
+        } catch (Exception e) {
+            result.fail(new ResultWebServiceFail(e.getMessage()));
+        }
     }
 
-    public static void getTransferencias(final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+    public static void getProductsByConsolidatedInventory(final long consolidatedInventory, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        try {
+            final String url=Constants.url+Constants.ws_listProductByConsolidatedInventory;
+            GetProductsByConsolidatedInventoryRequest request = new GetProductsByConsolidatedInventoryRequest(consolidatedInventory);
+            post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+                @Override
+                public void onResponse(String s) {
 
-        final String url=Constants.url+Constants.ws_obtenerTransferencias;
-        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
-        HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.local_id, loginResponse.getEmpleado().getLocales_id().getId()+"");
-        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+                }
+
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        GetProductosInventariosConsolidados aux = gson.fromJson(jsonObject.getJSONObject("data").toString(),GetProductosInventariosConsolidados.class);
+                        result.ok(new ResultWebServiceOk(aux));
+                    } catch (Exception e) {
+                        admin.toast(e.getMessage());
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                }
+
+                @Override
+                public void onErrorResponse(String s) {
+                    result.fail(new ResultWebServiceFail(s));
+                }
+            });
+        } catch (Exception e) {
+            result.fail(new ResultWebServiceFail(e.getMessage()));
+        }
+    }
+
+    public static void getTransfers(final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+
+        final String url=Constants.url+Constants.ws_findTransfersByShop;
+        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        GetTransfersRequest request = new GetTransfersRequest(loginResponse.getEmployee().getShop().getId());
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -771,9 +747,8 @@ public class WebServices {
             public void onResponse(JSONObject jsonObject) {
                 try {
                     String data = jsonObject.getJSONArray("data").toString();
-                    Transferencias[] aux = gson.fromJson(data,Transferencias[].class);
+                    Transfer[] aux = gson.fromJson(data, Transfer[].class);
                     if (aux!=null && aux.length>0) {
-//                        ArrayList<Transferencias> arrayInventarios = new ArrayList<>(Arrays.asList(aux));
                         result.ok(new ResultWebServiceOk(aux));
                     }else{
                         result.fail(new ResultWebServiceFail("No hay transferencias"));
@@ -794,14 +769,12 @@ public class WebServices {
         });
     }
 
-    public static void getTransferenciasByTipo(final String tipo, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+    public static void getTranfersByType(final String type, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
 
-        final String url=Constants.url+Constants.ws_obtenerTransferencia;
-        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
-        HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.local_id, loginResponse.getEmpleado().getLocales_id().getId()+"");
-        campos.put(Constants.tipo, tipo);
-        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+        final String url=Constants.url+Constants.ws_findTransfersByType;
+        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        GetTransfersByTypeRequest request = new GetTransfersByTypeRequest(loginResponse.getEmployee().getShop().getId(), type);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -810,9 +783,9 @@ public class WebServices {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 try {
-                    Transferencias[] aux = gson.fromJson(jsonObject.getJSONArray("data").toString(),Transferencias[].class);
+                    Transfer[] aux = gson.fromJson(jsonObject.getJSONArray("data").toString(), Transfer[].class);
                     if (aux!=null && aux.length>0) {
-                        ArrayList<Transferencias> arrayInventarios = new ArrayList<>(Arrays.asList(aux));
+                        ArrayList<Transfer> arrayInventarios = new ArrayList<>(Arrays.asList(aux));
                         result.ok(new ResultWebServiceOk(arrayInventarios));
                     }else{
                         result.fail(new ResultWebServiceFail("No hay transferencias"));
@@ -830,9 +803,35 @@ public class WebServices {
         });
     }
 
-    public static void finalizarTransferencia(final LinkedList<ProductosZonasHasTransferencias> pzt,final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
-        final String url=Constants.url+Constants.ws_finalizarTransferencia;
-        FinalizarTransferenciaRequest request = new FinalizarTransferenciaRequest(pzt);
+    public static void finishTransfer(final LinkedList<TransfersHasZonesProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_finishTransfer;
+        FinishTransferRequet request = new FinishTransferRequet(products);
+        post(url, request.getCampos(), R.string.enviando_informacion, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    result.ok(new ResultWebServiceOk());
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+    public static void createTransfer(final Transfer tranfer, final LinkedList<TransfersHasZonesProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_createTransfer;
+        CreateRequestRequest request = new CreateRequestRequest(tranfer, products);
         post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
@@ -856,36 +855,9 @@ public class WebServices {
         });
     }
 
-    public static void crearTransferencia(final Transferencias transferencia,final LinkedList<ProductosZonasHasTransferencias> productos, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
-        final String url=Constants.url+Constants.ws_crearTransferencia;
-        CrearTransferenciaRequest request = new CrearTransferenciaRequest(transferencia, productos);
-        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
-            @Override
-            public void onResponse(String s) {
-
-            }
-
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                try {
-                    result.ok(new ResultWebServiceOk());
-                } catch (Exception e) {
-                    admin.toast(e.getMessage());
-                    result.fail(new ResultWebServiceFail(e.getMessage()));
-                }
-            }
-
-            @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
-            }
-        });
-    }
-
-    public static void getLastInventarioConsolidado(final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
-        final String url=Constants.url+Constants.ws_ultimoInventario;
-        HashMap<String, String> campos = new HashMap<>();
-        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+    public static void getLastConsolidatedInventory(final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_listLastConsolidatedInventory;
+        post(url, new HashMap<String, String>(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -913,11 +885,10 @@ public class WebServices {
         });
     }
 
-    public static void findProductsByEanPlu(final long productos_id,final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
-        final String url=Constants.url+Constants.ws_getProductByEanPlu;
-        HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.productos_id, productos_id+"");
-        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+    public static void getProductInShopByEanPlu(final long product, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_findProductInShopByEanPlu;
+        GetProductInShopByEanPluRequest request = new GetProductInShopByEanPluRequest(product);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -926,9 +897,9 @@ public class WebServices {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 try {
-                    ProductosZonas[] aux = gson.fromJson(jsonObject.getJSONArray("data").toString(),ProductosZonas[].class);
+                    ProductHasZone[] aux = gson.fromJson(jsonObject.getJSONArray("data").toString(), ProductHasZone[].class);
                     if (aux!=null && aux.length>0) {
-                        ArrayList<ProductosZonas> arrayProductosZonas = new ArrayList<ProductosZonas>(Arrays.asList(aux));
+                        ArrayList<ProductHasZone> arrayProductosZonas = new ArrayList<ProductHasZone>(Arrays.asList(aux));
                         result.ok(new ResultWebServiceOk(arrayProductosZonas));
                     }else{
                         result.fail(new ResultWebServiceFail("No hay productos"));
@@ -946,12 +917,10 @@ public class WebServices {
         });
     }
 
-    public static void diferenceBetweenInventories(final long firstInventory, final long secondInventory, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void getDiferenceBetweenInventories(final long firstInventory, final long secondInventory, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_diferenceBetweenInventories;
-        HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.inventario_inicial, firstInventory+"");
-        campos.put(Constants.inventario_final, secondInventory+"");
-        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+        GetDiferenceBetweenInventoriesRequest request = new GetDiferenceBetweenInventoriesRequest(firstInventory, secondInventory);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -963,11 +932,11 @@ public class WebServices {
                     //Obtengo la respuesta y la completo, debido a que el servicio web no me
                     // trae informacion de las zonas
                     try {
-                        ProductosZonas[] productosZonas = gson.fromJson(jsonObject.getJSONArray("data").toString(),ProductosZonas[].class);
+                        ProductHasZone[] productosZonas = gson.fromJson(jsonObject.getJSONArray("data").toString(), ProductHasZone[].class);
 
                         try {
                             if (productosZonas!=null && productosZonas.length>0) {
-                                ArrayList<ProductosZonas> arrayInventarios = new ArrayList<>(Arrays.asList(productosZonas));
+                                ArrayList<ProductHasZone> arrayInventarios = new ArrayList<>(Arrays.asList(productosZonas));
                                 result.ok(new ResultWebServiceOk(arrayInventarios));
                             }else{
                                 result.fail(new ResultWebServiceFail("No hay productos"));
@@ -1012,11 +981,11 @@ public class WebServices {
                     //Obtengo la respuesta y la completo, debido a que el servicio web no me
                     // trae informacion de las zonas
                     try {
-                        ProductosZonas[] productosZonas = gson.fromJson(jsonObject.getJSONArray("data").toString(),ProductosZonas[].class);
+                        ProductHasZone[] productosZonas = gson.fromJson(jsonObject.getJSONArray("data").toString(), ProductHasZone[].class);
 
                         try {
                             if (productosZonas!=null && productosZonas.length>0) {
-                                ArrayList<ProductosZonas> arrayInventarios = new ArrayList<>(Arrays.asList(productosZonas));
+                                ArrayList<ProductHasZone> arrayInventarios = new ArrayList<>(Arrays.asList(productosZonas));
                                 result.ok(new ResultWebServiceOk(arrayInventarios));
                             }else{
                                 result.fail(new ResultWebServiceFail("No hay productos"));

@@ -22,7 +22,7 @@
             android:id="@+id/txtCant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="12121"
+            android:text="0"
             android:textAlignment="center" />
 
         <TextView

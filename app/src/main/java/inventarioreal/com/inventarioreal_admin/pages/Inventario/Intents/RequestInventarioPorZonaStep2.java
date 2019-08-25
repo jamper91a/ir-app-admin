@@ -1,45 +1,42 @@
 package inventarioreal.com.inventarioreal_admin.pages.Inventario.Intents;
 
-import android.util.Log;
-
 import java.util.HashMap;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventarios;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventariosConsolidados;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zonas;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import inventarioreal.com.inventarioreal_admin.util.IntentRequests;
 
 
 public class RequestInventarioPorZonaStep2 implements IntentRequests {
     private static final String TAG = "RequestInventarioPorZonaStep2";
-    public Inventarios inventarios=null;
-    public InventariosConsolidados inventariosConsolidados=null;
+    public Inventory inventory =null;
+    public ConsolidatedInventory consolidatedInventory =null;
 
     public RequestInventarioPorZonaStep2() {
     }
 
-    public RequestInventarioPorZonaStep2(Inventarios inventarios) {
-        this.inventarios = inventarios;
+    public RequestInventarioPorZonaStep2(Inventory inventory) {
+        this.inventory = inventory;
     }
 
-    public RequestInventarioPorZonaStep2(InventariosConsolidados inventariosConsolidados) {
-        this.inventariosConsolidados = inventariosConsolidados;
+    public RequestInventarioPorZonaStep2(ConsolidatedInventory consolidatedInventory) {
+        this.consolidatedInventory = consolidatedInventory;
     }
 
-    public Inventarios getInventarios() {
-        return inventarios;
+    public Inventory getInventory() {
+        return inventory;
     }
 
-    public void setInventarios(Inventarios inventarios) {
-        this.inventarios = inventarios;
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
-    public InventariosConsolidados getInventariosConsolidados() {
-        return inventariosConsolidados;
+    public ConsolidatedInventory getConsolidatedInventory() {
+        return consolidatedInventory;
     }
 
-    public void setInventariosConsolidados(InventariosConsolidados inventariosConsolidados) {
-        this.inventariosConsolidados = inventariosConsolidados;
+    public void setConsolidatedInventory(ConsolidatedInventory consolidatedInventory) {
+        this.consolidatedInventory = consolidatedInventory;
     }
 
     @Override
