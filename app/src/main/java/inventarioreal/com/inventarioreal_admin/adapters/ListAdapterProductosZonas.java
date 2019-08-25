@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.adapters;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,6 +78,8 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
                 holder.getTxt1().setText(item.getTotal()+"");
                 holder.getTxt2().setText(item.getProduct().getEan());
                 holder.getTxt3().setText(item.getProduct().getDescription());
+                if(item.isError())
+                    holder.getLnl1().setBackgroundColor(Color.parseColor("error"));
                 holder.bind(item);
                 break;
         }

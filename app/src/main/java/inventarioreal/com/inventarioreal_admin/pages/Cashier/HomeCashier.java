@@ -7,6 +7,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Cashier.Sell.SellCommodity;
 import inventarioreal.com.inventarioreal_admin.pages.Devoluciones.HomeDevoluciones;
 import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.IngresoMercancia;
@@ -50,7 +51,7 @@ public class HomeCashier extends CicloActivity {
         add_on_click(R.id.btnIni, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sync(IngresoMercancia.class);
+                sync(SellCommodity.class);
 
             }
         });
