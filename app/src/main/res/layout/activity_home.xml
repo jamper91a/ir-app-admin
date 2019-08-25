@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnIng"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ingresar_mercancia" />
+
+    <Button
+        android:id="@+id/btnInv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/inventory" />
+
+    <Button
+        android:id="@+id/btnInvCoo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/inventario_cooperativo" />
+
+    <Button
+        android:id="@+id/btnTrans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/transferencias" />
+
+    <Button
+        android:id="@+id/btnDev"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/devolutions" />
+
+    <Button
+        android:id="@+id/btnUsu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/usuarios" />
+
+    <Button
+        android:enabled="false"
+        android:id="@+id/btnBusYGeo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/busqueda_y_georeferenciacion" />
+
+    <Button
+        android:id="@+id/btnRep"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reportes" />
+
+    <Button
+        android:id="@+id/btnSal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/salir" />
+
+</LinearLayout>
