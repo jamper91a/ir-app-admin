@@ -368,7 +368,7 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
 
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Crear Inventario");
+        builder.setTitle("Crear Devolucion");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_devolver_producto_zona, null);

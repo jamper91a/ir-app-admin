@@ -80,7 +80,7 @@ public class Home extends CicloActivity {
         add_on_click(R.id.btnDev, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(HomeDevoluciones.class, null);
+                sync(HomeDevoluciones.class);
             }
         });
         add_on_click(R.id.btnRep, new View.OnClickListener() {
