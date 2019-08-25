@@ -120,7 +120,7 @@ public class Constants {
     public static final String ws_saveReport="";
     public static final String ws_login = "login";
     public static final String ws_sync = "sync";
-
+    public static final String ws_sellCommodity= "sells/create";
     //endregion
 
 
@@ -161,4 +161,5 @@ public class Constants {
     public static final String tipo_no_consolidado = "no_consolidado";
     public static final String tipo_all = "all";
     public static final String content_type = "Content-Type";
+
 }

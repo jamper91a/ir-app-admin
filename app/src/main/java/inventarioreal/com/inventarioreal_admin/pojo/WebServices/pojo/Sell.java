@@ -11,6 +11,9 @@ public class Sell extends InventarioRealPojo {
     private User user;
     private ProductHasZone products;
 
+    public Sell() {
+    }
+
     public Sell(long id) {
         super(id);
     }

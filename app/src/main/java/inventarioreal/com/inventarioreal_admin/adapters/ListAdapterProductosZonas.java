@@ -79,7 +79,7 @@ public class ListAdapterProductosZonas extends RecyclerView.Adapter<ListAdapterP
                 holder.getTxt2().setText(item.getProduct().getEan());
                 holder.getTxt3().setText(item.getProduct().getDescription());
                 if(item.isError())
-                    holder.getLnl1().setBackgroundColor(Color.parseColor("error"));
+                    holder.getLnl1().setBackgroundColor(Color.parseColor("#A9E64336"));
                 holder.bind(item);
                 break;
         }

@@ -11,12 +11,12 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHa
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class CreateRequestRequest {
+public class CreateTransferRequest {
     private Transfer transfer;
     private List<TransfersHasZonesProduct> products;
     private Gson gson = new Gson();
 
-    public CreateRequestRequest(Transfer transfer, List<TransfersHasZonesProduct> products) {
+    public CreateTransferRequest(Transfer transfer, List<TransfersHasZonesProduct> products) {
         this.transfer = transfer;
         this.products = products;
     }

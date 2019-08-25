@@ -28,6 +28,7 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
+import inventarioreal.com.inventarioreal_admin.pages.Cashier.HomeCashier;
 import inventarioreal.com.inventarioreal_admin.pages.Cashier.tabs.SellEanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Cashier.tabs.SellEanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Cashier.tabs.SellTotalFragment;
@@ -38,11 +39,16 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginRes
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Sell;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -51,7 +57,7 @@ public class SellCommodity extends CicloActivity {
     private String TAG="SellCommodity";
     private DataBase db = DataBase.getInstance(this);
     private Gson gson = new Gson();
-    private LinkedList<ProductHasZone> productosZonasHasTransferencias= new LinkedList<>();
+    private LinkedList<ProductHasZone> products = new LinkedList<>();
     private Shop shop = null;
 
     RFDIReader rfdiReader =  null;
@@ -112,7 +118,16 @@ public class SellCommodity extends CicloActivity {
         add_on_click(R.id.btnFin, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                //Check there is not error
+                boolean pass=true;
+                for(ProductHasZone product: products){
+                    if(product.isError()){
+                        pass=false;
+                        admin.toast("Hay productos que no se pueden sacar");
+                    }
+                }
+                if(pass)
+                    showDialog();
             }
         });
 
@@ -198,11 +213,15 @@ public class SellCommodity extends CicloActivity {
                 if(proZon.getZone().getShop().getId()!= shop.getId()){
                     proZon.setError(true);
                 }
-                productosZonasHasTransferencias.add(proZon);
+                //Check if product was sell before
+                if(proZon.getSell().getId()>1){
+                    proZon.setError(true);
+                }
+                products.add(proZon);
                 eanPluVieModel.addProductoZonaHasTransferencia(proZon);
 
                 //Informacion requeria por el servicio web de crear inventory
-                totalViewModel.setAmount(productosZonasHasTransferencias.size());
+                totalViewModel.setAmount(products.size());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -325,29 +344,45 @@ public class SellCommodity extends CicloActivity {
         txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
         builder.setView(dialogView);
 
+        final Sell newSell = new Sell();
+        newSell.setUser(empleado.getEmployee().getUser());
 
 // Set up the buttons
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                WebServices.finishTransfer(
-//                        productosZonasHasTransferencias,
-//                        SellCommodity.this,
-//                        admin,
-//                        new ResultWebServiceInterface() {
-//                            @Override
-//                            public void ok(ResultWebServiceOk ok) {
-//                                admin.toast("Transferencia realizada con 'exito");
-//                                admin.callIntent(HomeTransferencia.class, null);
-//                            }
-//
-//                            @Override
-//                            public void fail(ResultWebServiceFail fail) {
-//                                admin.toast("fail");
-//                            }
-//                        }
-//
-//                );
+                WebServices.createSell(
+                        newSell,
+                        products,
+                        SellCommodity.this,
+                        admin,
+                        new ResultWebServiceInterface() {
+                            @Override
+                            public void ok(ResultWebServiceOk ok) {
+                                admin.toast("Salida de mercancia realizada con 'exito");
+                                ProductHasZone[] newProducts = (ProductHasZone[]) ok.getData();
+                                //Update local information
+                                for(ProductHasZone product: newProducts){
+                                    try {
+                                        db.update(
+                                                Constants.table_productsHasZones,
+                                                product.getId()+"",
+                                                product.getContentValues()
+                                                );
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                admin.callIntent(HomeCashier.class, null);
+                            }
+
+                            @Override
+                            public void fail(ResultWebServiceFail fail) {
+                                admin.toast("fail");
+                            }
+                        }
+
+                );
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
