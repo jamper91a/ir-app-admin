@@ -12,7 +12,7 @@ public class SyncResponse {
     private Product[] products;
     private ProductHasZone[] productsHasZones;
     private Zone[] zones;
-    private Shop[] shopes;
+    private Shop[] shops;
     private Devolution[] devolutions;
 
     public SyncResponse() {
@@ -50,12 +50,12 @@ public class SyncResponse {
         this.zones = zones;
     }
 
-    public Shop[] getShopes() {
-        return shopes;
+    public Shop[] getShops() {
+        return shops;
     }
 
-    public void setShopes(Shop[] shopes) {
-        this.shopes = shopes;
+    public void setShops(Shop[] shops) {
+        this.shops = shops;
     }
 
 

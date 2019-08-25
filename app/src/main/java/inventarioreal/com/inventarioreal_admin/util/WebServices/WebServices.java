@@ -294,8 +294,8 @@ public class WebServices {
                                             db.insert(Constants.table_zones, zona.getContentValues());
                                         }
                                     }
-                                    if (response.getShopes()!=null && response.getShopes().length>0) {
-                                        for (Shop local: response.getShopes()) {
+                                    if (response.getShops()!=null && response.getShops().length>0) {
+                                        for (Shop local: response.getShops()) {
                                             db.insert(Constants.table_shops, local.getContentValues());
                                         }
                                     }
@@ -735,7 +735,7 @@ public class WebServices {
     public static void getTransfers(final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
 
         final String url=Constants.url+Constants.ws_findTransfersByShop;
-        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
+        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         GetTransfersRequest request = new GetTransfersRequest(loginResponse.getEmployee().getShop().getId());
         post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
@@ -772,7 +772,7 @@ public class WebServices {
     public static void getTranfersByType(final String type, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
 
         final String url=Constants.url+Constants.ws_findTransfersByType;
-        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
+        LoginResponse loginResponse = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         GetTransfersByTypeRequest request = new GetTransfersByTypeRequest(loginResponse.getEmployee().getShop().getId(), type);
         post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override

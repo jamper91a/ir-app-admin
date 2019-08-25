@@ -448,7 +448,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
 
 
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
         txtZona.setText("Zonas : "+requestInventariorCrear2.getZone().getName());
         builder.setView(dialogView);

@@ -10,13 +10,13 @@ import inventarioreal.com.inventarioreal_admin.util.Constants;
 
 public class Transfer extends InventarioRealPojo {
 
-    private int state;
+    private boolean state;
     private String manifest;
     private String message;
     private Employee employee;
     private Shop shopSource;
     private Shop shopDestination;
-    private TransfersHasZonesProduct[] productos;
+    private TransfersHasZonesProduct[] products;
 
     public Transfer() {
     }
@@ -53,7 +53,7 @@ public class Transfer extends InventarioRealPojo {
     @Override
     public void fromCursor(Cursor c) {
         this.id = c.getLong(c.getColumnIndexOrThrow(Constants.column_id));
-        this.state = c.getInt(c.getColumnIndexOrThrow(Constants.column_state));
+        setState(c.getInt(c.getColumnIndexOrThrow(Constants.column_state)));
         this.manifest = c.getString(c.getColumnIndexOrThrow(Constants.column_manifest));
         this.message = c.getString(c.getColumnIndexOrThrow(Constants.column_message));
         this.employee = new Employee(c.getLong(c.getColumnIndexOrThrow(Constants.column_employee)));
@@ -95,12 +95,15 @@ public class Transfer extends InventarioRealPojo {
         this.shopDestination = shopDestination;
     }
 
-    public int isState() {
+    public boolean getState() {
         return state;
     }
 
     public void setState(int state) {
-        this.state = state;
+        if(state==1)
+            this.state = true;
+        else
+            this.state=false;
     }
 
     public String getMessage() {
@@ -111,11 +114,11 @@ public class Transfer extends InventarioRealPojo {
         this.message = message;
     }
 
-    public TransfersHasZonesProduct[] getProductos() {
-        return productos;
+    public TransfersHasZonesProduct[] getProducts() {
+        return products;
     }
 
-    public void setProductos(TransfersHasZonesProduct productos[]) {
-        this.productos = productos;
+    public void setProducts(TransfersHasZonesProduct products[]) {
+        this.products = products;
     }
 }

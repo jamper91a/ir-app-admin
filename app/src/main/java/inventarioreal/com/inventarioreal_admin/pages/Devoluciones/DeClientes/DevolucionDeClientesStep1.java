@@ -73,8 +73,8 @@ public class DevolucionDeClientesStep1 extends CicloActivity {
     private void getZonas() {
         Gson gson = new Gson();
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
-        //Obtengo las zonas usando el local del empleado
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        //Obtengo las zonas usando el local del employee
         final LinkedList zonas = db.getByColumn(
                 Constants.table_zones,
                 Constants.column_shop,
@@ -100,7 +100,7 @@ public class DevolucionDeClientesStep1 extends CicloActivity {
         });
 
         //Set Local origen
-        //request.(empleado.getEmployee().getShop());
+        //request.(employee.getEmployee().getShop());
         //Log.d("lOCAL", request.getLocal_id().getName());
         getElemento(R.id.txtLoc).setText(empleado.getEmployee().getShop().getName());
     }

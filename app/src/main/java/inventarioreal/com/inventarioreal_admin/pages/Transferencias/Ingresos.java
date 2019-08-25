@@ -101,7 +101,7 @@ public class Ingresos extends CicloActivity {
         });
         rfdiReader.initSDK();
         init(this,this,R.layout.get_product_by_epc);
-        local = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class)).getEmployee().getShop();
+        local = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class)).getEmployee().getShop();
         //region UhF
 //        Thread thread = new InventoryThread();
 //        thread.start();
@@ -141,7 +141,7 @@ public class Ingresos extends CicloActivity {
                     public void ok(ResultWebServiceOk ok) {
                         transferencias = (Transfer[]) ok.getData();
 //                        startFlag=true;
-                        rfdiReader.setStartReader(true);
+//                        rfdiReader.setStartReader(true);
 
                     }
 
@@ -255,16 +255,16 @@ public class Ingresos extends CicloActivity {
 
     private void createEpc(String epc){
         //Busco el epc en la base de datos interna
-        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
+        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
         if(epcDb!=null){
             try {
                 //Busco el producto zonas al que pertenece este tag
                 ProductHasZone proZon=
-                        (ProductHasZone) db.getByColumn(
+                        (ProductHasZone) db.findOneByColumn(
                                 Constants.table_productsHasZones,
                                 Constants.column_epc_id,
                                 epcDb.getId()+"",
-                                ProductHasZone.class).get(0);
+                                ProductHasZone.class);
                 //Busco el producto de este producto zona
                 Product producto= (Product) db.findById(
                         Constants.table_products,
@@ -282,7 +282,7 @@ public class Ingresos extends CicloActivity {
                 for (Transfer transferencia :
                         transferencias) {
                     if(transferencia.getShopDestination().id==local.id){
-                        for(TransfersHasZonesProduct pzt: transferencia.getProductos()){
+                        for(TransfersHasZonesProduct pzt: transferencia.getProducts()){
 
                             if(pzt.getProduct().getId() == proZon.getId()){
                                 //Product was transfered before
@@ -494,7 +494,7 @@ public class Ingresos extends CicloActivity {
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
 
 
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
         builder.setView(dialogView);
 

@@ -53,7 +53,7 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
     @Override
     public void getData() {
         try {
-            LoginResponse empleado = new Gson().fromJson(admin.obtener_preferencia(Constants.empleado),LoginResponse.class);
+            LoginResponse empleado = new Gson().fromJson(admin.obtener_preferencia(Constants.employee),LoginResponse.class);
             if(empleado != null){
                 getElemento(R.id.txtLocal).setText(empleado.getEmployee().getShop().getName());
             }
@@ -87,9 +87,9 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
     private void getZonas() {
         Gson gson = new Gson();
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
-        //Obtengo las zonas usando el local del empleado
-//        LinkedList<HashMap<String, String>> zonas=db.getByColumn(Constants.table_zones,Constants.locales_id, empleado.getEmployee().getShop().getId());
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        //Obtengo las zonas usando el local del employee
+//        LinkedList<HashMap<String, String>> zonas=db.getByColumn(Constants.table_zones,Constants.locales_id, employee.getEmployee().getShop().getId());
         final LinkedList zonas = db.getByColumn(
                 Constants.table_zones,
                 Constants.column_shop,

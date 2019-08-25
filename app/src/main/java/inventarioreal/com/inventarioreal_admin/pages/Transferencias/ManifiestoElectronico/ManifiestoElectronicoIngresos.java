@@ -74,7 +74,7 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
                 //Determino cuantos productos unicos hay
                 int productosUnicos=0;
                 LinkedList<ProductosTransferenciaDetail> productos = new LinkedList<>();
-                for(TransfersHasZonesProduct pzt:transferencia.getProductos()){
+                for(TransfersHasZonesProduct pzt:transferencia.getProducts()){
                     if(pzt.state)
                         recibidos++;
                     //Determina si el producto ya existe en la lista o no
@@ -143,7 +143,7 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
                 transferencias = (ArrayList<Transfer>) ok.getData();
                 //Debo obtener el id del productoZona de cada producto
                 for(Transfer tran :transferencias){
-                    for(TransfersHasZonesProduct pzht:tran.getProductos()){
+                    for(TransfersHasZonesProduct pzht:tran.getProducts()){
                         //Buso el producto
                         Product productos =
                                 (Product) db.findById(

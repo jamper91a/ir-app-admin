@@ -97,7 +97,7 @@ public class Constants {
 
 
 
-    public static final String empleado = "empleado";
+    public static final String employee = "employee";
     //Region Web services
     public static final String ws_attachInventory ="inventarios/adjuntar";
     public static final String ws_consolidateInventory ="inventarios/consolidar";

@@ -66,8 +66,8 @@ public class CrearTransferenciaStep1 extends CicloActivity {
     private void getLocales() {
         Gson gson = new Gson();
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.empleado), LoginResponse.class);
-        //Obtengo las zonas usando el local del empleado
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        //Obtengo las zonas usando el local del employee
         final LinkedList locales = db.getByColumn(
                 Constants.table_shops,
                 Constants.column_company,
