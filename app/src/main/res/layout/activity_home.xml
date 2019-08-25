@@ -42,6 +42,7 @@
         android:text="@string/usuarios" />
 
     <Button
+        android:enabled="false"
         android:id="@+id/btnBusYGeo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

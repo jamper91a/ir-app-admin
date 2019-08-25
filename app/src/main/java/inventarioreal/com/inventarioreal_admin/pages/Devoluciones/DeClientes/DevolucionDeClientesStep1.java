@@ -15,6 +15,8 @@ import com.google.gson.Gson;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Devoluciones.HomeDevoluciones;
+import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devolution;
@@ -168,6 +170,10 @@ public class DevolucionDeClientesStep1 extends CicloActivity {
 //            return true;
 //        }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(HomeDevoluciones.class, null);
     }
 
     //endregion

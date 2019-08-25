@@ -69,7 +69,7 @@ public class ReporteInventarioTotal extends CicloActivity {
                     totalConsolidadoViewModel = ViewModelProviders.of(ReporteInventarioTotal.this).get(InvTotTotalViewModel.class);
                     eanPluConsolidadoVieModel = ViewModelProviders.of(ReporteInventarioTotal.this).get(InvTotalEanPluViewModel.class);
                     //Busco la zona del inventory
-                    for(Inventory inv: inventarioConsolidado.getInventarios()){
+                    for(Inventory inv: inventarioConsolidado.getInventories()){
                         for (ProductHasZone pz: inv.getProducts()){
                             Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
                             if(zona!=null){
@@ -86,11 +86,11 @@ public class ReporteInventarioTotal extends CicloActivity {
 
                     //Actualizo la cantidad
                     totalConsolidadoViewModel.setInventario(inventarioConsolidado);
-                    for(Inventory inv: inventarioConsolidado.getInventarios()){
-                        for (ProductHasZone pz: inv.getProducts()){
-                            eanPluConsolidadoVieModel.addProductoZona(pz);
-                        }
-                    }
+//                    for(Inventory inv: inventarioConsolidado.getInventories()){
+//                        for (ProductHasZone pz: inv.getProducts()){
+//                            eanPluConsolidadoVieModel.addProductoZona(pz);
+//                        }
+//                    }
                 }
             }
 

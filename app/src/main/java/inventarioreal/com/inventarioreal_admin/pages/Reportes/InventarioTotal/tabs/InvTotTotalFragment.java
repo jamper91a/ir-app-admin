@@ -52,7 +52,7 @@ public class InvTotTotalFragment extends Fragment {
                 TextView txtZona = (TextView) getElemento(R.id.txtNum);
                 txtFecha.setText(inventarios.getCreatedAt().replace("T", " - "));
                 txtZona.setText(inventarios.getName());
-                txtCant.setText(inventarios.getProductos()+"");
+                txtCant.setText(inventarios.getTotal_products()+"");
 
             }
         });

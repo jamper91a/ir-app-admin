@@ -26,9 +26,9 @@
     <string name="ingresar_mercancia">Ingresar Mercancia</string>
     <string name="tag_leidos">Tag Leidos</string>
     <string name="create_inventory">Crear Inventario parcial</string>
-    <string name="consolidate_inventories">Consolidar inventarios parciales</string>
-    <string name="view_inventories_by_zone">Visualizar inventarios parciales por zona</string>
-    <string name="view_consolidated_inventories">Visualizar inventarios parciales consolidados</string>
+    <string name="consolidate_inventories">Consolidar inventories parciales</string>
+    <string name="view_inventories_by_zone">Visualizar inventories parciales por zona</string>
+    <string name="view_consolidated_inventories">Visualizar inventories parciales consolidados</string>
     <string name="local">Local</string>
     <string name="zona">Zona</string>
     <string name="poder_lectura">Poder de lectura</string>
@@ -46,7 +46,7 @@
     <string name="fecha_del_inventario">Fecha del Inventario</string>
     <string name="create_cooperative_inventory">Crear Inventrio Cooperativo</string>
     <string name="join_cooperative_inventory">Unirse Inventario Cooperativo</string>
-    <string name="consolidate_cooperative_inventories">Consolidar inventarios cooperativos</string>
+    <string name="consolidate_cooperative_inventories">Consolidar inventories cooperativos</string>
     <string name="title_activity_home_transferencia">HomeTransferencia</string>
     <string name="ME">M.E</string>
     <string name="recibido">Recibido</string>
@@ -69,6 +69,6 @@
     <string name="devoluciones_clientes">Devoluciones clientes</string>
     <string name="devoluciones_proveedores">Devoluciones Proveedores</string>
     <string name="rotacion_proyectada">Rotacion Proyectada</string>
-    <string name="view_cooperative_inventories_by_zone">Visualizar inventarios cooperativos por zona</string>
-    <string name="view_cooperative_inventories_consolidated">Visualizar inventarios cooperativos consolidados</string>
+    <string name="view_cooperative_inventories_by_zone">Visualizar inventories cooperativos por zona</string>
+    <string name="view_cooperative_inventories_consolidated">Visualizar inventories cooperativos consolidados</string>
 </resources>

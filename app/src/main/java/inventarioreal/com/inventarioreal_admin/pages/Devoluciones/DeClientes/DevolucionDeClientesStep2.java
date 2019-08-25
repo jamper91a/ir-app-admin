@@ -449,4 +449,9 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
         builder.show();
     }
     //endregion
+
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(DevolucionDeClientesStep1.class, null);
+    }
 }
