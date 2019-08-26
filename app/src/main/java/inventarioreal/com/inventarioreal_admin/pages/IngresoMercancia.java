@@ -20,6 +20,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterEpcs;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddCommodityResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
@@ -239,6 +240,11 @@ public class IngresoMercancia extends CicloActivity {
                             @Override
                             public void ok(ResultWebServiceOk ok)
                             {
+                                AddCommodityResponse response = (AddCommodityResponse) ok.getData();
+                                //Update the local information
+                                for(Epc epc: response.getEpcs()){
+                                    db.update(Constants.table_epcs, epc.getId()+"", epc.getContentValues());
+                                }
                                 admin.toast("Productos agregados con 'exito");
                                 admin.callIntent(IngresoMercancia.class, null);
                             }
