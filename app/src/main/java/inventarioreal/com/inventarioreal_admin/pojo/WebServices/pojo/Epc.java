@@ -12,6 +12,9 @@ public class Epc extends InventarioRealPojo {
 	private int state;
     private Company company;
     private String epc;
+    //Extra field to determinated if there is any error with this product such as does not belong to
+    //the same comapny that the current use
+    private boolean error=false;
 
 	//Atributo especial que se usa en las listas
 	private int count;
@@ -91,6 +94,14 @@ public class Epc extends InventarioRealPojo {
         );
         this.createdAt = c.getString(c.getColumnIndexOrThrow(Constants.createdAt));
         this.updatedAt = c.getString(c.getColumnIndexOrThrow(Constants.updatedAt));
+    }
+
+    public boolean isError() {
+        return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
     }
 
     @Override
