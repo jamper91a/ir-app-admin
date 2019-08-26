@@ -9,6 +9,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Transferencias.CrearTransferencia.CrearTransferenciaStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoHome;
@@ -115,6 +116,11 @@ public class HomeTransferencia extends CicloActivity {
 //            return true;
 //        }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(Home.class, null);
     }
 
     //endregion

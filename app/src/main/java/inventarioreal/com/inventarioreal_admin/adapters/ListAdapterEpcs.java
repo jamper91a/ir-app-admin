@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.adapters;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,6 +60,9 @@ public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Epc item = items.get(position);
         holder.getTxt1().setText(item.getEpc());
+        if(item.isError()){
+            holder.getLnl1().setBackgroundColor(Color.parseColor("#A9E64336"));
+        }
         holder.bind(item);
 
     }

@@ -7,6 +7,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Cashier.HomeCashier;
 import inventarioreal.com.inventarioreal_admin.pages.Devoluciones.HomeDevoluciones;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.InventarioParcialHome;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.InventariosColaborativosHome;
@@ -32,6 +33,7 @@ public class Home extends CicloActivity {
     @Override
     public void initGui() {
         addElemento(new Animacion(findViewById(R.id.btnIng),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnSalMer),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnInv),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnInvCoo),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnTrans),Techniques.FadeInLeft));
@@ -54,6 +56,13 @@ public class Home extends CicloActivity {
             @Override
             public void onClick(View v) {
                 sync(IngresoMercancia.class);
+
+            }
+        });
+        add_on_click(R.id.btnSalMer, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sync(HomeCashier.class);
 
             }
         });

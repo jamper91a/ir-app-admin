@@ -25,6 +25,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHasProduct;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Sell;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
@@ -36,7 +37,8 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AttachI
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ConsolidateInventoriesRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateCollaborativeInventoryRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateInventoryRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateRequestRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateSellRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateTransferRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetDiferenceBetweenInventoriesRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductInShopByEanPluRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductsByConsolidatedInventoryRequest;
@@ -831,7 +833,7 @@ public class WebServices {
 
     public static void createTransfer(final Transfer tranfer, final LinkedList<TransfersHasZonesProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
         final String url=Constants.url+Constants.ws_createTransfer;
-        CreateRequestRequest request = new CreateRequestRequest(tranfer, products);
+        CreateTransferRequest request = new CreateTransferRequest(tranfer, products);
         post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
@@ -989,6 +991,50 @@ public class WebServices {
                                 result.ok(new ResultWebServiceOk(arrayInventarios));
                             }else{
                                 result.fail(new ResultWebServiceFail("No hay productos"));
+                            }
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
+
+    public static void createSell(final Sell sell, final LinkedList<ProductHasZone> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_sellCommodity;
+        CreateSellRequest request = new CreateSellRequest(sell, products);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    try {
+                        ProductHasZone[] products = gson.fromJson(jsonObject.getJSONArray("data").toString(), ProductHasZone[].class);
+
+                        try {
+                            if (products!=null && products.length>0) {
+                                result.ok(new ResultWebServiceOk(products));
+                            }else{
+                                result.fail(new ResultWebServiceFail("Error vendiendo los productos"));
                             }
 
                         } catch (Exception e) {

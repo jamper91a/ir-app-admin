@@ -23,6 +23,9 @@ public class ProductHasZone extends InventarioRealPojo {
     private Inventory[] inventories;
     //Extra field to get the Total of items
     private int total=1;
+    //Extra field to determinated if there is any error with this product such as does not belong to
+    //the same comapny that the current use
+    private boolean error=false;
 
     public ProductHasZone() {
     }
@@ -196,5 +199,13 @@ public class ProductHasZone extends InventarioRealPojo {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    public boolean isError() {
+        return error;
     }
 }

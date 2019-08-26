@@ -15,12 +15,12 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterEpcs;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddCommodityResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
@@ -43,7 +43,7 @@ public class IngresoMercancia extends CicloActivity {
     public ListAdapterEpcs adapter1;
     private LinkedList<Epc> epcs = new LinkedList<>();
     private LinkedList<Epc> epcsBanned = new LinkedList<>();
-    private LinkedList<ProductHasZone> productos_zonas = new LinkedList<>();
+    private LinkedList<ProductHasZone> products = new LinkedList<>();
     final DataBase db = DataBase.getInstance(this);
 
     private Zone zonas_id;
@@ -94,6 +94,7 @@ public class IngresoMercancia extends CicloActivity {
                 handler.sendMessage(msg);
             }
         });
+        rfdiReader.initSDK();
 //        rfdiReader.initSDK();
         //endregion
     }
@@ -204,8 +205,14 @@ public class IngresoMercancia extends CicloActivity {
             @Override
             public void onClick(View v) {
                 if(productos_id!=null){
-                    rfdiReader.initSDK();
-                    rfdiReader.startReader();
+                    if(rfdiReader.isStartReader()==false)
+                    {
+                        rfdiReader.startReader();
+                        getElemento(R.id.btnEmp).setText("Detener");
+                    }else{
+                        rfdiReader.stopReader();
+                        getElemento(R.id.btnEmp).setText("Leer");
+                    }
 
                 }else{
                     admin.toast("Se debe buscar un producto");
@@ -216,15 +223,28 @@ public class IngresoMercancia extends CicloActivity {
         add_on_click(R.id.btnGua, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Validate there is not error
+                for (ProductHasZone product :
+                        products) {
+                    if (product.getEpc().isError()){
+                        admin.toast("Algunos tags no se pueden usar, por favor valida la informacion");
+                        return;
+                    }
+                }
                 WebServices.addCommodity(
                         productos_id.id,
-                        productos_zonas,
+                        products,
                         IngresoMercancia.this,
                         admin,
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok)
                             {
+                                AddCommodityResponse response = (AddCommodityResponse) ok.getData();
+                                //Update the local information
+                                for(Epc epc: response.getEpcs()){
+                                    db.update(Constants.table_epcs, epc.getId()+"", epc.getContentValues());
+                                }
                                 admin.toast("Productos agregados con 'exito");
                                 admin.callIntent(IngresoMercancia.class, null);
                             }
@@ -339,19 +359,30 @@ public class IngresoMercancia extends CicloActivity {
     }
 
     private Epc createEpc(String epc){
-        Epc epcTag = new Epc();
-        epcTag.setEpc(epc);
-        epcTag.setCount(1);
-        epcs.add(epcTag);
-        adapter1.add(epcTag);
-        //Creo el producto zona a enviar
-        ProductHasZone productosZonas = new ProductHasZone();
-        productosZonas.setZone(this.zonas_id);
-        productosZonas.setProduct(this.productos_id);
-        productosZonas.setEpc(epcTag);
-        productos_zonas.add(productosZonas);
-        updatedAmountTags();
-        return epcTag;
+        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
+        if(epcDb!=null){
+            if(epcDb.getState()==1)
+                epcDb.setError(true);
+
+            epcDb.setCount(1);
+            epcDb.setEpc(epc);
+            epcDb.setCount(1);
+            epcs.add(epcDb);
+            adapter1.add(epcDb);
+            //Creo el producto zona a enviar
+            ProductHasZone productosZonas = new ProductHasZone();
+            productosZonas.setZone(this.zonas_id);
+            productosZonas.setProduct(this.productos_id);
+            productosZonas.setEpc(epcDb);
+            //Check the epc was not used before
+
+            products.add(productosZonas);
+            updatedAmountTags();
+            return epcDb;
+        }else{
+            return null;
+        }
+
 
     }
 
@@ -361,7 +392,7 @@ public class IngresoMercancia extends CicloActivity {
 
     private void borrar(){
         epcs.clear();
-        productos_zonas.clear();
+        products.clear();
         adapter1.notifyDataSetChanged();
     }
 
@@ -405,37 +436,5 @@ public class IngresoMercancia extends CicloActivity {
         admin.callIntent(Home.class, null);
     }
 
-    /**
-     * Inventory Epcs Thread
-     */
 
-    class InventoryThread extends Thread {
-        private List<byte[]> epcList;
-
-        @Override
-        public void run() {
-            super.run();
-            /*while (runFlag) {
-                if (startFlag) {
-                    // managerBig.stopInventoryMulti()
-                    epcList = uhfManager.inventoryRealTime(); // inventory real time
-                    if (epcList != null && !epcList.isEmpty()) {
-                        for (byte[] epc : epcList) {
-                            String epcStr = Tools.Bytes2HexString(epc,
-                                    epc.length);
-                            addToList(epcStr);
-                        }
-                    }
-                    epcList = null;
-                    try {
-                        Thread.sleep( 40);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }*/
-        }
-    }
-    //endregion
 }

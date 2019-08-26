@@ -275,9 +275,9 @@ public class CrearInventarioStep2 extends CicloActivity {
     private List<String> epcs;
 
     private boolean wasRead(String epc){
-//        for (int i = 0; i < eanPluVieModel.getProductosZonaHasTransferencia().getValue().size(); i++) {
+//        for (int i = 0; i < eanPluVieModel.getProducts().getValue().size(); i++) {
 //            //Determino si ese epc ya se leyo antes
-//            ProductosZonas mEPC = eanPluVieModel.getProductosZonaHasTransferencia().getValue().get(i);
+//            ProductosZonas mEPC = eanPluVieModel.getProducts().getValue().get(i);
 //            if (epc.equals(mEPC.getEpc().getEpc())){
 //                return true;
 //            }
@@ -297,7 +297,7 @@ public class CrearInventarioStep2 extends CicloActivity {
             @Override
             public void run() {
                 // The epc for the first time
-//                if (eanPluVieModel.getProductosZonaHasTransferencia().getValue().isEmpty()) {
+//                if (eanPluVieModel.getProducts().getValue().isEmpty()) {
 //                    createEpc(epc);
 //                } else {
 //                    //Determino si ese epc ya se leyo antes

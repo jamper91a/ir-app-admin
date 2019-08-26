@@ -1,8 +1,7 @@
-package inventarioreal.com.inventarioreal_admin.pages.Transferencias.CrearTransferencia;
+package inventarioreal.com.inventarioreal_admin.pages.Cashier.Sell;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,18 +28,20 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluViewModel;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.Crear.Step2.tabs.TotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Cashier.HomeCashier;
+import inventarioreal.com.inventarioreal_admin.pages.Cashier.tabs.SellEanPluFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Cashier.tabs.SellEanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Cashier.tabs.SellTotalFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Cashier.tabs.SellTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
+import inventarioreal.com.inventarioreal_admin.pages.Transferencias.HomeTransferencia;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Sell;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
@@ -51,14 +52,14 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class CrearTransferenciaStep2 extends CicloActivity {
+public class SellCommodity extends CicloActivity {
 
-    private Transfer request = null;
-
-    private String TAG="CrearInventarioStep2";
+    private String TAG="SellCommodity";
     private DataBase db = DataBase.getInstance(this);
     private Gson gson = new Gson();
-    private LinkedList<TransfersHasZonesProduct> productos = new LinkedList<>();
+    private LinkedList<ProductHasZone> products = new LinkedList<>();
+    private Shop shop = null;
+
     RFDIReader rfdiReader =  null;
     private Handler handler = new Handler(){
         @Override
@@ -66,12 +67,12 @@ public class CrearTransferenciaStep2 extends CicloActivity {
             switch (msg.what){
                 case 1:
                     String epc = msg.getData().getString("epc");
-//                    admin.toast(epc);
                     addToList(epc);
                     break ;
             }
         }
     } ;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,32 +89,16 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
             @Override
             public void onEpcRepeated(String epc) {
-                Message msg = new Message();
-                msg.what = 1;
-                Bundle b = new Bundle();
-                b.putString("epc", "onEpcRepeated:"+epc);
-                msg.setData(b);
-                handler.sendMessage(msg);
             }
         });
         rfdiReader.initSDK();
-        init(this, this, R.layout.get_product_by_epc);
-        //region UhF
-//        Thread thread = new InventoryThread();
-//        thread.start();
-        //endregion
-        //region Obtener parametros
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(Constants.parameters);
-        Gson gson = new Gson();
-        this.request = gson.fromJson(message, Transfer.class);
-        //endregion
+        init(this,this,R.layout.get_product_by_epc);
+        shop = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class)).getEmployee().getShop();
         this.tabsInit();
     }
-
     @Override
     public void initGui() {
-        addElemento(new Animacion(findViewById(R.id.lnl2), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCan),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnLee),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnFin),Techniques.FadeInLeft));
@@ -123,31 +108,38 @@ public class CrearTransferenciaStep2 extends CicloActivity {
     @Override
     public void getData() {
         epcs = new ArrayList<>();
-        totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
-        eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
+        totalViewModel = ViewModelProviders.of(this).get(SellTotalViewModel.class);
+        eanPluVieModel = ViewModelProviders.of(this).get(SellEanPluViewModel.class);
     }
+
 
     @Override
     public void initOnClick() {
         add_on_click(R.id.btnFin, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                //Check there is not error
+                boolean pass=true;
+                for(ProductHasZone product: products){
+                    if(product.isError()){
+                        pass=false;
+                        admin.toast("Hay productos que no se pueden sacar");
+                    }
+                }
+                if(pass)
+                    showDialog();
             }
         });
 
         add_on_click(R.id.btnLee, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(startFlag==false)
                 if(rfdiReader.isStartReader()==false)
                 {
                     rfdiReader.startReader();
-//                    startFlag=true;
                     getElemento(R.id.btnLee).setText("Detener");
                 }else{
-                    rfdiReader.setStartReader(false);
-//                    startFlag=false;
+                    rfdiReader.stopReader();
                     getElemento(R.id.btnLee).setText("Leer");
                 }
             }
@@ -156,7 +148,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         add_on_click(R.id.btnCan, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(CrearInventarioStep1.class, null);
+                admin.callIntent(HomeTransferencia.class, null);
             }
         });
     }
@@ -166,73 +158,45 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
     }
 
-    //region UHD Sdk
-//    public void initSdk(){
-//        try {
-//            uhfManager = UhfManager.getInstance();
-//            uhfManager.setOutputPower(26);
-//            uhfManager.setWorkArea(2);
-//            startFlag=true;
-//        } catch (Exception e) {
-//            Log.e(TAG, e.getMessage());
-//        }
-//
-//    }
-
-//    private boolean runFlag=true;
-//    private boolean startFlag = false;
 
     @Override
     protected void onResume() {
         super.onResume();
         rfdiReader.onResume();
-//        uhfManager = UhfManager.getInstance();
-//        if (uhfManager == null) {
-//            return;
-//        }
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        initSdk();
     }
 
     @Override
     protected void onPause() {
-//        startFlag = false;
-//        uhfManager.close();
         super.onPause();
         rfdiReader.onPause();
     }
     @Override
     protected void onDestroy() {
-//        startFlag = false;
-//        if (uhfManager != null) {
-//            uhfManager.close();
-//        }
         super.onDestroy();
         rfdiReader.onDestroy();
     }
 
     private void createEpc(String epc){
         //Busco el epc en la base de datos interna
-        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
+        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
         if(epcDb!=null){
-            //Busco el producto zonas al que pertenece este tag
             try {
+                //Busco el producto zonas al que pertenece este tag
                 ProductHasZone proZon=
-                        (ProductHasZone) db.getByColumn(
+                        (ProductHasZone) db.findOneByColumn(
                                 Constants.table_productsHasZones,
                                 Constants.column_epc_id,
                                 epcDb.getId()+"",
-                                ProductHasZone.class).get(0);
+                                ProductHasZone.class);
                 //Busco el producto de este producto zona
                 Product producto= (Product) db.findById(
                         Constants.table_products,
                         proZon.getProduct().getId()+"",
                         Product.class
-                );
+                        );
+
+                //Busco la zona de este producto
+                Zone zone = (Zone) db.findById(Constants.table_zones, proZon.getZone().getId()+"", Zone.class);
 
                 if (epcDb!=null) {
                     proZon.setEpc(epcDb);
@@ -240,98 +204,52 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                 if(producto!=null){
                     proZon.setProduct(producto);
                 }
+                if(zone!=null)
+                {
+                    proZon.setZone(zone);
+                }
+
+                //Determino si la zona del producto pertenece al shop del usuario
+                if(proZon.getZone().getShop().getId()!= shop.getId()){
+                    proZon.setError(true);
+                }
+                //Check if product was sell before
+                if(proZon.getSell().getId()>1){
+                    proZon.setError(true);
+                }
+                products.add(proZon);
+                eanPluVieModel.addProductoZonaHasTransferencia(proZon);
+
                 //Informacion requeria por el servicio web de crear inventory
-                TransfersHasZonesProduct pzt = new TransfersHasZonesProduct();
-                pzt.setProduct(proZon);
-                productos.add(pzt);
-                eanPluVieModel.addProductoZona(proZon);
-                totalViewModel.setAmount(productos.size());
-                epcs.add(epc);
+                totalViewModel.setAmount(products.size());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else{
-//            admin.toast("Epc no found: "+ epc);
+            epcs.add(epc);
         }
     }
 
 
     private List<String> epcs;
 
-    private boolean wasRead(String epc){
-//        for (int i = 0; i < eanPluVieModel.getProducts().getValue().size(); i++) {
-//            //Determino si ese epc ya se leyo antes
-//            ProductosZonas mEPC = eanPluVieModel.getProducts().getValue().get(i);
-//            if (epc.equals(mEPC.getEpc().getEpc())){
-//                return true;
-//            }
-//
-//        }
-//        return false;
-        for (String epcR:epcs){
-            if(epcR.equals(epc))
-                return true;
-        }
 
-        return false;
-    }
 
     private void addToList(final String epc) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 // The epc for the first time
-//                if (eanPluVieModel.getProducts().getValue().isEmpty()) {
+                createEpc(epc);
+//                if(epcs.isEmpty())
 //                    createEpc(epc);
-//                } else {
-//                    //Determino si ese epc ya se leyo antes
+//                else{
 //                    if(!wasRead(epc))
 //                        createEpc(epc);
 //                }
-
-                if(epcs.isEmpty())
-                    createEpc(epc);
-                else{
-                    if(!wasRead(epc))
-                        createEpc(epc);
-                }
             }
         });
     }
 
-    /**
-     * Inventory Epcs Thread
-     */
-
-//    class InventoryThread extends Thread {
-//        private List<byte[]> epcList;
-//
-//        @Override
-//        public void run() {
-//            super.run();
-//            while (runFlag) {
-//                if (startFlag) {
-//                    // managerBig.stopInventoryMulti()
-//                    epcList = uhfManager.inventoryRealTime(); // inventory real time
-//                    if (epcList != null && !epcList.isEmpty()) {
-//                        for (byte[] epc : epcList) {
-//                            String epcStr = Tools.Bytes2HexString(epc,
-//                                    epc.length);
-//                            addToList(epcStr);
-//                        }
-//                    }
-//                    epcList = null;
-//                    try {
-//                        Thread.sleep( 40);
-//                    } catch (InterruptedException e) {
-//                        // TODO Auto-generated catch block
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }
-//    }
-    //endregion
 
     //region Menu
 
@@ -344,9 +262,6 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         Log.d(TAG,item.getTitle().toString());
         if(item.getTitle().equals(getString(R.string.log_out))){
             admin.log_out(Login.class);
@@ -364,17 +279,14 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
     //region Tab Total
     private ViewPager mViewPager;
-    TotalViewModel totalViewModel;
-    EanPluViewModel eanPluVieModel;
+    SellTotalViewModel totalViewModel;
+    SellEanPluViewModel eanPluVieModel;
     //endregion
 
     //region Tabs configuration
     private SectionsPagerAdapter mSectionsPagerAdapter;
     public void tabsInit() {
-//        /region Tabs section
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SellCommodity.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -397,15 +309,12 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    TotalFragment total = new TotalFragment();
+                    SellTotalFragment total = new SellTotalFragment();
                     return total;
                 case 1:
-                    EanPluFragment eanPlu = EanPluFragment.newInstance();
+                    SellEanPluFragment eanPlu = SellEanPluFragment.newInstance();
                     eanPlu.setAdmin(admin);
                     return eanPlu;
-//                case 2:
-//                    Epc epc = new Epc();
-//                    return epc;
                 default:
                     return null;
 
@@ -414,51 +323,62 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 2;
         }
     }
     //endregion
 
     private void showDialog(){
+        rfdiReader.stopReader();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Crear Inventario");
+        builder.setTitle("Sacar Productos");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
         final TextView txtLocal = dialogView.findViewById(R.id.txtLocal);
-        final TextView txtNum = dialogView.findViewById(R.id.txtNum);
         final TextView txtTime = dialogView.findViewById(R.id.txtTime);
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
 
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
-        txtLocal.setText("Local Origen : "+empleado.getEmployee().getShop().getName());
-        txtNum.setText("Local Destino: "+request.getShopDestination().getName());
+        txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
         builder.setView(dialogView);
 
+        final Sell newSell = new Sell();
+        newSell.setUser(empleado.getEmployee().getUser());
 
 // Set up the buttons
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                admin.toast(edtMensaje.getText().toString());
-                request.setMessage(edtMensaje.getText().toString());
-                WebServices.createTransfer(
-                        request,
-                        productos,
-                        CrearTransferenciaStep2.this,
+                WebServices.createSell(
+                        newSell,
+                        products,
+                        SellCommodity.this,
                         admin,
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                admin.toast("Transferencia creada con 'exito");
-                                admin.callIntent(CrearTransferenciaStep1.class, null);
+                                admin.toast("Salida de mercancia realizada con 'exito");
+                                ProductHasZone[] newProducts = (ProductHasZone[]) ok.getData();
+                                //Update local information
+                                for(ProductHasZone product: newProducts){
+                                    try {
+                                        db.update(
+                                                Constants.table_productsHasZones,
+                                                product.getId()+"",
+                                                product.getContentValues()
+                                                );
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                admin.callIntent(HomeCashier.class, null);
                             }
 
                             @Override
                             public void fail(ResultWebServiceFail fail) {
-                                admin.toast(fail.getError());
+                                admin.toast("fail");
                             }
                         }
 

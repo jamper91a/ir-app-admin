@@ -12,6 +12,12 @@
         android:text="@string/ingresar_mercancia" />
 
     <Button
+        android:id="@+id/btnSalMer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/salida_mercancia" />
+
+    <Button
         android:id="@+id/btnInv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

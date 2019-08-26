@@ -86,8 +86,8 @@ public class Constants {
 
 
     //public static final String url="http://c945485b.ngrok.io/";
-    public static final String url = "http://coexnort.servehttp.com:8023/";
-//    public static final String url = "http://192.168.1.12:1337/";
+//    public static final String url = "http://coexnort.servehttp.com:8023/";
+    public static final String url = "http://192.168.1.11:1337/";
 //    public static final String url = "http://coexnort.servehttp.com:8023/";
 //    public static final String url = "http://192.168.0.26:1337/";
     public static final String user = "user";
@@ -120,7 +120,7 @@ public class Constants {
     public static final String ws_saveReport="";
     public static final String ws_login = "login";
     public static final String ws_sync = "sync";
-
+    public static final String ws_sellCommodity= "sells/create";
     //endregion
 
 
@@ -161,4 +161,5 @@ public class Constants {
     public static final String tipo_no_consolidado = "no_consolidado";
     public static final String tipo_all = "all";
     public static final String content_type = "Content-Type";
+
 }
