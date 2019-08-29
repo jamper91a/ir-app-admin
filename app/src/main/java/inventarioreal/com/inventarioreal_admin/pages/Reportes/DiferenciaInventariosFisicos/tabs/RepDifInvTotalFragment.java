@@ -35,6 +35,8 @@ public class RepDifInvTotalFragment extends Fragment {
         addElemento(v.findViewById(R.id.txtLocDes));
         addElemento(v.findViewById(R.id.txt2));
         addElemento(v.findViewById(R.id.txtNum));
+        ((TextView)getElemento(R.id.txt0)).setText("Unidades no encontradas");
+        ((TextView)getElemento(R.id.txt1)).setText("Fecha");
         return v;
     }
 

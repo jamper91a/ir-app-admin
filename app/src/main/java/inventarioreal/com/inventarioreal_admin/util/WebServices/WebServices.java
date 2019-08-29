@@ -25,6 +25,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHasProduct;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Report;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Sell;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
@@ -51,6 +52,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ReturnP
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FinishTransferRequet;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductByEanPluRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.LoginRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SaveReportRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -966,12 +968,10 @@ public class WebServices {
         });
     }
 
-    public static void saveReport(final long firstInventory, final long secondInventory, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void saveReport(final Report report, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_saveReport;
-        HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.inventario_inicial, firstInventory+"");
-        campos.put(Constants.inventario_final, secondInventory+"");
-        post(url, campos, R.string.consultando, activity, admin, new ResponseListener() {
+        SaveReportRequest request = new SaveReportRequest(report);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -979,38 +979,12 @@ public class WebServices {
 
             @Override
             public void onResponse(JSONObject jsonObject) {
-                try {
-                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
-                    // trae informacion de las zonas
-                    try {
-                        ProductHasZone[] productosZonas = gson.fromJson(jsonObject.getJSONArray("data").toString(), ProductHasZone[].class);
-
-                        try {
-                            if (productosZonas!=null && productosZonas.length>0) {
-                                ArrayList<ProductHasZone> arrayInventarios = new ArrayList<>(Arrays.asList(productosZonas));
-                                result.ok(new ResultWebServiceOk(arrayInventarios));
-                            }else{
-                                result.fail(new ResultWebServiceFail("No hay productos"));
-                            }
-
-                        } catch (Exception e) {
-                            admin.toast(e.getMessage());
-                            result.fail(new ResultWebServiceFail(e.getMessage()));
-                        }
-
-                    } catch (JSONException e) {
-                        result.fail(new ResultWebServiceFail(e));
-                    } catch (Exception e) {
-                        result.fail(new ResultWebServiceFail(e.getMessage()));
-                    }
-                } catch (Exception e) {
-                    result.fail(new ResultWebServiceFail(e.getMessage()));
-                }
+                    result.ok(new ResultWebServiceOk());
             }
 
             @Override
             public void onErrorResponse(String s) {
-
+                result.fail(new ResultWebServiceFail(s));
             }
         });
     }

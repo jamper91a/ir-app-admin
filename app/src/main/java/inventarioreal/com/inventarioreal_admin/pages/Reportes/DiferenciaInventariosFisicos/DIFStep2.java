@@ -27,6 +27,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Reportes.DiferenciaInventar
 import inventarioreal.com.inventarioreal_admin.pages.Reportes.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Report;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -61,6 +62,7 @@ public class DIFStep2 extends CicloActivity {
 
             addElemento(new Animacion(findViewById(R.id.lnl2), Techniques.FadeInLeft));
             addElemento(new Animacion(findViewById(R.id.btnSal),Techniques.FadeInLeft));
+            addElemento(new Animacion(findViewById(R.id.btnGua),Techniques.FadeInLeft));
             addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
 
         }
@@ -68,7 +70,12 @@ public class DIFStep2 extends CicloActivity {
         @Override
         public void getData() {
 
-            WebServices.getDiferenceBetweenInventories(request.inventarioInicial.id, request.inventarioFinal.id, this, admin, new ResultWebServiceInterface() {
+            WebServices.getDiferenceBetweenInventories(
+                    request.inventarioInicial.id,
+                    request.inventarioFinal.id,
+                    this,
+                    admin,
+                    new ResultWebServiceInterface() {
                 @Override
                 public void ok(ResultWebServiceOk ok) {
                     productosZona = (ArrayList<ProductHasZone>) ok.getData();
@@ -102,7 +109,8 @@ public class DIFStep2 extends CicloActivity {
                 public void fail(ResultWebServiceFail fail) {
 
                 }
-            });
+            }
+            );
 
 
 
@@ -114,6 +122,35 @@ public class DIFStep2 extends CicloActivity {
                 @Override
                 public void onClick(View v) {
                     admin.callIntent(HomeReportes.class, null);
+                }
+            });
+
+            add_on_click(R.id.btnGua, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Creo el reporte
+                    Report report = new Report();
+                    report.setFirstInventory(request.getInventarioInicial());
+                    report.setSecondInventory(request.getInventarioFinal());
+                    report.setType(Constants.inventory_diference_between_inventories);
+                    report.setType(Constants.inventory_diference_between_inventories);
+                    report.setAmount(productosZona.size());
+                    report.setUnitsReturned(0);
+                    report.setUnitsSell(0);
+                    report.setProducts(productosZona.toArray(new ProductHasZone[productosZona.size()]));
+
+                    WebServices.saveReport(report, DIFStep2.this, admin, new ResultWebServiceInterface() {
+                        @Override
+                        public void ok(ResultWebServiceOk ok) {
+                            admin.toast("Reporte creado con exito");
+                            admin.callIntent(HomeReportes.class, null);
+                        }
+
+                        @Override
+                        public void fail(ResultWebServiceFail fail) {
+                            admin.toast("Error creando reporte");
+                        }
+                    });
                 }
             });
 
@@ -212,4 +249,10 @@ public class DIFStep2 extends CicloActivity {
             }
         }
         //endregion
+
+
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(DIFStep1.class, null);
     }
+}

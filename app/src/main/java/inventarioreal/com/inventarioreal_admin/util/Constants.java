@@ -87,7 +87,7 @@ public class Constants {
 
     //public static final String url="http://c945485b.ngrok.io/";
 //    public static final String url = "http://coexnort.servehttp.com:8023/";
-    public static final String url = "http://192.168.1.11:1337/";
+    public static final String url = "http://192.168.1.7:1337/";
 //    public static final String url = "http://coexnort.servehttp.com:8023/";
 //    public static final String url = "http://192.168.0.26:1337/";
     public static final String user = "user";
@@ -117,7 +117,7 @@ public class Constants {
     public static final String ws_findTransfersByShop ="transferencias/listTransfersByShop";
     public static final String ws_findTransfersByType ="transferencias/listTransfersByType";
     public static final String ws_returnProduct ="devoluciones/devolverProductos";
-    public static final String ws_saveReport="";
+    public static final String ws_saveReport="reportes/guardarReporte";
     public static final String ws_login = "login";
     public static final String ws_sync = "sync";
     public static final String ws_sellCommodity= "sells/create";
@@ -161,5 +161,8 @@ public class Constants {
     public static final String tipo_no_consolidado = "no_consolidado";
     public static final String tipo_all = "all";
     public static final String content_type = "Content-Type";
+    public static final String report="report";
+    public static final int inventory_diference_between_inventories = 1;
+    public static final int inventory_diference_between_inventories2 = 2;
 
 }

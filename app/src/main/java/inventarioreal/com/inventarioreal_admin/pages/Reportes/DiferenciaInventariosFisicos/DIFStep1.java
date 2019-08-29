@@ -12,6 +12,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.InventarioParcialHome;
+import inventarioreal.com.inventarioreal_admin.pages.Reportes.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
@@ -119,7 +120,7 @@ public class DIFStep1 extends CicloActivity {
     }
     @Override
     public void onBackPressed() {
-        admin.callIntent(InventarioParcialHome.class, null);
+        admin.callIntent(HomeReportes.class, null);
     }
 
 
