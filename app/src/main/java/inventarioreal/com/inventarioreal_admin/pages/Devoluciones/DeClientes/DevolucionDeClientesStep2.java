@@ -112,7 +112,17 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
                 msg.setData(b);
                 handler.sendMessage(msg);
             }
-        });
+
+            @Override
+            public void onStateChanged(boolean state) {
+
+            }
+
+            @Override
+            public void onKeyPresses(String key) {
+
+            }
+        }, this);
         rfdiReader.initSDK();
         //rfdiReader.startReader();
         //endregion
@@ -183,22 +193,6 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
 
     @Override
     public void hasAllPermissions() {
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        rfdiReader.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        rfdiReader.onDestroy();
     }
 
     private void createEpc(String epc){
@@ -453,5 +447,24 @@ public class DevolucionDeClientesStep2 extends CicloActivity {
     @Override
     public void onBackPressed() {
         admin.callIntent(DevolucionDeClientesStep1.class, null);
+    }
+
+    @Override
+    protected void onResume() {
+        rfdiReader.onResume();
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        rfdiReader.onPause();
+        super.onPause();
+
+    }
+    @Override
+    protected void onDestroy() {
+        rfdiReader.onDestroy();
+        super.onDestroy();
     }
 }

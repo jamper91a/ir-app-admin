@@ -7,4 +7,6 @@ package inventarioreal.com.inventarioreal_admin.listener;
 public interface RFDIListener {
     void onEpcAdded(String epc);
     void onEpcRepeated(String epc);
+    void onStateChanged(boolean state);
+    void onKeyPresses(String key);
 }

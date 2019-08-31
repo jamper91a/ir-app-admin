@@ -104,7 +104,17 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                 msg.setData(b);
                 handler.sendMessage(msg);
             }
-        });
+
+            @Override
+            public void onStateChanged(boolean state) {
+
+            }
+
+            @Override
+            public void onKeyPresses(String key) {
+
+            }
+        }, this);
         rfdiReader.initSDK();
 //        rfdiReader.startReader();
         //endregion
@@ -164,43 +174,6 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     public void hasAllPermissions() {
        // startFlag=true;
 
-    }
-
-    //region UHD Sdk
-   /* public void initSdk(){
-        try {
-            uhfManager = UhfManager.getInstance();
-            uhfManager.setOutputPower(26);
-            uhfManager.setWorkArea(2);
-            startFlag=true;
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        }
-
-    }*/
-
-    //private boolean runFlag=true;
-   // private boolean startFlag = false;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        rfdiReader.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        rfdiReader.onPause();
-    }
-    @Override
-    protected void onDestroy() {
-        /*startFlag = false;
-        if (uhfManager != null) {
-            uhfManager.close();
-        }*/
-        rfdiReader.onDestroy();
-        super.onDestroy();
     }
 
     private void createEpc(String epc){
@@ -442,5 +415,24 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         });
 
         builder.show();
+    }
+
+    @Override
+    protected void onResume() {
+        rfdiReader.onResume();
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        rfdiReader.onPause();
+        super.onPause();
+
+    }
+    @Override
+    protected void onDestroy() {
+        rfdiReader.onDestroy();
+        super.onDestroy();
     }
 }

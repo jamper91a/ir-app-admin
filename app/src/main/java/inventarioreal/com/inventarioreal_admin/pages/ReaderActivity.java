@@ -52,7 +52,17 @@ public class ReaderActivity extends CicloActivity {
                 msg.setData(b);
                 handler.sendMessage(msg);
             }
-        });
+
+            @Override
+            public void onStateChanged(boolean state) {
+
+            }
+
+            @Override
+            public void onKeyPresses(String key) {
+
+            }
+        }, this);
         rfdiReader.initSDK();
         init(this,this,R.layout.activity_reader);
 
@@ -87,17 +97,18 @@ public class ReaderActivity extends CicloActivity {
     protected void onResume() {
         rfdiReader.onResume();
         super.onResume();
+
     }
 
     @Override
     protected void onPause() {
         rfdiReader.onPause();
         super.onPause();
-    }
 
+    }
     @Override
     protected void onDestroy() {
         rfdiReader.onDestroy();
         super.onDestroy();
-}
+    }
 }

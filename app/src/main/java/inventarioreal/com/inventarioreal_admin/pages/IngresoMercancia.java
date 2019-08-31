@@ -58,11 +58,17 @@ public class IngresoMercancia extends CicloActivity {
                 case 1:
                     epc = msg.getData().getString("epc");
                     addToList(epc);
-                    //admin.toast("Epc found: "+epc); //readed
                     break ;
                 case 2:
                     epc = msg.getData().getString("epc");
-                    //admin.toast("Epc repeted: "+epc); // repeted
+                    break ;
+                case 3:
+                    boolean state = msg.getData().getBoolean("state");
+                    changedStateLecture(state);
+                    break ;
+                case 4:
+                    String key = msg.getData().getString("key");
+                    admin.toast(key);
                     break ;
             }
         }
@@ -93,9 +99,28 @@ public class IngresoMercancia extends CicloActivity {
                 msg.setData(b);
                 handler.sendMessage(msg);
             }
-        });
+
+            @Override
+            public void onStateChanged(boolean state) {
+                Message msg = new Message();
+                msg.what = 3;
+                Bundle b = new Bundle();
+                b.putBoolean("state", state);
+                msg.setData(b);
+                handler.sendMessage(msg);
+            }
+
+            @Override
+            public void onKeyPresses(String key) {
+                Message msg = new Message();
+                msg.what = 4;
+                Bundle b = new Bundle();
+                b.putString("key", key);
+                msg.setData(b);
+                handler.sendMessage(msg);
+            }
+        }, this);
         rfdiReader.initSDK();
-//        rfdiReader.initSDK();
         //endregion
     }
     @Override
@@ -205,14 +230,15 @@ public class IngresoMercancia extends CicloActivity {
             @Override
             public void onClick(View v) {
                 if(productos_id!=null){
-                    if(rfdiReader.isStartReader()==false)
-                    {
-                        rfdiReader.startReader();
-                        getElemento(R.id.btnEmp).setText("Detener");
-                    }else{
-                        rfdiReader.stopReader();
-                        getElemento(R.id.btnEmp).setText("Leer");
-                    }
+                    changedStateLecture(!rfdiReader.isStartReader());
+//                    if(rfdiReader.isStartReader()==false)
+//                    {
+//                        rfdiReader.startReader();
+//                        getElemento(R.id.btnEmp).setText("Detener");
+//                    }else{
+//                        rfdiReader.stopReader();
+//                        getElemento(R.id.btnEmp).setText("Leer");
+//                    }
 
                 }else{
                     admin.toast("Se debe buscar un producto");
@@ -321,40 +347,32 @@ public class IngresoMercancia extends CicloActivity {
 //        });
     }
 
-
-    //private boolean runFlag=true;
-    //private boolean startFlag = false;
+    private void changedStateLecture(boolean state){
+        if(state){
+            rfdiReader.startReader();
+            getElemento(R.id.btnEmp).setText("Detener");
+        }else{
+            rfdiReader.stopReader();
+            getElemento(R.id.btnEmp).setText("Leer");
+        }
+    }
 
     @Override
     protected void onResume() {
-        super.onResume();
         rfdiReader.onResume();
-        /*uhfManager = UhfManager.getInstance();
-        if (uhfManager == null) {
-            return;
-        }
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
+        super.onResume();
 
     }
 
     @Override
     protected void onPause() {
-        /*startFlag = false;
-        uhfManager.close();*/
-        super.onPause();
         rfdiReader.onPause();
+        super.onPause();
 
     }
     @Override
     protected void onDestroy() {
-        /*startFlag = false;
-        if (uhfManager != null) {
-            uhfManager.close();
-        }*/
+        rfdiReader.onDestroy();
         super.onDestroy();
     }
 
@@ -405,30 +423,31 @@ public class IngresoMercancia extends CicloActivity {
     }
 
     private void addToList(final String epc) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // The epc for the first time
-                if (epcs.isEmpty()) {
-                    createEpc(epc);
-                } else {
-                    for (int i = 0; i < epcs.size(); i++) {
-                        Epc mEPC = epcs.get(i);
-                        // list contain this epc
-                        if (epc.equals(mEPC.getEpc())) {
-                            mEPC.setCount(mEPC.getCount() + 1);
-                            break;
-                        } else if (i == (epcs.size() - 1)) {
-                            //Valido que el epc no este baneado
-                            if(!isBanned(epc)){
-                                createEpc(epc);
-                            }
-                        }
+        if (epcs.isEmpty()) {
+            createEpc(epc);
+        } else {
+            for (int i = 0; i < epcs.size(); i++) {
+                Epc mEPC = epcs.get(i);
+                // list contain this epc
+                if (epc.equals(mEPC.getEpc())) {
+                    mEPC.setCount(mEPC.getCount() + 1);
+                    break;
+                } else if (i == (epcs.size() - 1)) {
+                    //Valido que el epc no este baneado
+                    if(!isBanned(epc)){
+                        createEpc(epc);
                     }
-
                 }
             }
-        });
+
+        }
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                // The epc for the first time
+//
+//            }
+//        });
     }
 
     @Override

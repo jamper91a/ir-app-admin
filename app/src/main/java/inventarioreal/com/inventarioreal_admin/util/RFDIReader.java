@@ -1,6 +1,13 @@
 package inventarioreal.com.inventarioreal_admin.util;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.handheld.UHF.UhfManager;
 
@@ -16,39 +23,29 @@ import inventarioreal.com.inventarioreal_admin.util.uhfm.UHFManager;
 public class RFDIReader {
 
     private List<String> epcs;
-    private int type=0;
     private RFDIListener listener;
-//    private boolean isRunning = false ;
-//    private boolean isStart = false ;
-
-
-    public boolean isStartReader() {
-        return startReader;
-    }
-
-    public void setStartReader(boolean startReader) {
-        this.startReader = startReader;
-    }
 
     private boolean runReader=false;
     private boolean startReader=false;
+
+    private Activity myActivity;
 
     /**
      * Var to determinate what kind of device is going to be use
      * Small phone or the big one
      */
+
+    private int type=0;
     public static final int  SMALL= 1;
     public static final int  BIG= 2;
     public static final String  TAG= "RFDIReader";
 
-//    public RFDIReader(int type, RFDIListener listener){
-//        this.type=type;
-//        this.listener= listener;
-//        epcs = new LinkedList<String>();
-//    }
-    public RFDIReader(RFDIListener listener){
+
+    //region Public functions
+    public RFDIReader(RFDIListener listener, Activity myActivity){
         this.type=BIG;
         this.listener= listener;
+        this.myActivity = myActivity;
         epcs = new LinkedList<String>();
     }
 
@@ -63,6 +60,8 @@ public class RFDIReader {
                 break;
         }
     }
+
+
     public void cleanEpcs(){
         this.epcs=new LinkedList<String>();
     }
@@ -83,15 +82,49 @@ public class RFDIReader {
 
         }
     }
+
+    public void startReader(){
+        runReader=true;
+        startReader=true;
+        if(this.type==SMALL){
+            startSmallReader();
+        }else{
+            startBigReader();
+        }
+    }
+
+    public void stopReader(){
+        runReader=false;
+        startReader=false;
+        switch (type){
+            case SMALL:
+                stopSmallReader();
+                break;
+            case BIG:
+                stopBigReader();
+                break;
+        }
+    }
+
+    public boolean isStartReader() {
+        return startReader;
+    }
+
+    public void setStartReader(boolean startReader) {
+        this.startReader = startReader;
+    }
+
+    //endregion
+
     //region Small SDK
     private UhfManager managerSmall;
+    private Thread threadSmall;
     private void initSDKSmall(){
         try {
             managerSmall = UhfManager.getInstance();
             managerSmall.setOutputPower(30);
             managerSmall.setWorkArea(2);
-            Thread thread = new InventoryThread();
-            thread.start();
+//
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -99,10 +132,17 @@ public class RFDIReader {
 
 
     }
-    /**
-     * Inventory Epcs Thread
-     */
-
+    private void startSmallReader(){
+        threadSmall = new InventoryThread();
+        threadSmall.start();
+    }
+    private void stopSmallReader(){
+        threadSmall.interrupt();
+        if (managerSmall != null) {
+            managerSmall.stopInventoryMulti();
+            managerSmall.close();
+        }
+    }
     class InventoryThread extends Thread {
         private List<byte[]> epcList;
 
@@ -111,7 +151,6 @@ public class RFDIReader {
             super.run();
             while (runReader) {
                 if (startReader) {
-                    // managerBig.stopInventoryMulti()
                     epcList = managerSmall.inventoryRealTime(); // inventory real time
                     if (epcList != null && !epcList.isEmpty()) {
                         for (byte[] epc : epcList) {
@@ -131,38 +170,12 @@ public class RFDIReader {
             }
         }
     }
-
-//    private void addSmall(final String epc){
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                // The epc for the first time
-//                if (epcs.isEmpty()) {
-//                    epcs.add(epc);
-//                } else {
-//                    for (int i = 0; i < epcs.size(); i++) {
-//                        Epcs mEPC = epcs.get(i);
-//                        // list contain this epc
-//                        if (epc.equals(mEPC.getEpc())) {
-//                            mEPC.setCount(mEPC.getCount() + 1);
-//                            break;
-//                        } else if (i == (epcs.size() - 1)) {
-//                            //Valido que el epc no este baneado
-//                            if(!isBanned(epc)){
-//                                createEpc(epc);
-//                            }
-//                        }
-//                    }
-//
-//                }
-//            }
-//        });
-//    }
     //endregion
 
     //region Big sdk
     public UHFManager managerBig = null;
-    private boolean initSDKBig() {
+    private Thread threadBig;
+    private void initSDKBig() {
         String freBand = FreRegion.TMR_REGION_FCC;
 
         managerBig = UHFManager.getInstance();
@@ -171,49 +184,32 @@ public class RFDIReader {
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return false;
         }
         if (managerBig.initRfid()) {
             managerBig.setProtocol(managerBig.PROTOCOL_ISO_18000_6C);
             managerBig.setFreBand(freBand);
             freBand="FCC";
-//            freBand = getResources().getStringArray(R.array.freregions)[Integer.parseInt(freBand,16)];
-            //set power
-//            if (managerBig.setReadPower(mSharePreferences.getInt("readPower",30))){
             if (managerBig.setReadPower(30)){
-//                managerBig.setWritePower(mSharePreferences.getInt("writePower",30));
                 managerBig.setWritePower(30);
             }
             else  {
-//                managerBig.setReadPower(mSharePreferences.getInt("readPower",27));
                 managerBig.setReadPower(27);
-//                managerBig.setWritePower(mSharePreferences.getInt("writePower",27));
                 managerBig.setWritePower(27);
             }
-            return true;
         }else{
             managerBig.close();
             managerBig = null ;
-            return false;
         }
     }
-
-
-    private void runInventorySDKBig() {
-        startReader = true ;
-        runReader = true ;
-        new Thread(inventoryTaskBig).start();
+    private void startBigReader(){
+        threadBig = new Thread(inventoryTaskBig);
+            threadBig.start();
     }
-
-    private void stopInventorySDKBig(){
-//        managerBig.stopInventory() ;
-        try {
-            Thread.sleep(100);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        startReader = false ;
-        runReader = false ;
+    private void stopBigReader(){
+        threadBig.interrupt();
+        if(managerBig!=null)
+            managerBig.stopInventory();
+            managerBig.close();
     }
 
     private Runnable inventoryTaskBig = new Runnable() {
@@ -236,47 +232,44 @@ public class RFDIReader {
                         }
                     }
                 }
+                Log.i("thread", "Finished");
             }
 //            }
+        }
+    } ;
+
+    private BroadcastReceiver keyReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int keyCode = intent.getIntExtra("keyCode", 0) ;
+
+            listener.onKeyPresses(keyCode+"");
+            if(keyCode == 0){//H941
+                keyCode = intent.getIntExtra("keycode", 0) ;
+            }
+            Log.e("key ","keyCode = " + keyCode) ;
+            boolean keyDown = intent.getBooleanExtra("keydown", false) ;
+
+            Log.e("key ","down = " + keyDown) ;
+            if(keyDown && (keyCode == KeyEvent.KEYCODE_F1 || keyCode == KeyEvent.KEYCODE_F2
+                    ||keyCode == KeyEvent.KEYCODE_F3 || keyCode == KeyEvent.KEYCODE_F4 ||
+                    keyCode == KeyEvent.KEYCODE_F5 )){
+                listener.onStateChanged(!isStartReader());
+            }
         }
     } ;
     //endregion
 
     //region LyfeCicle
-    public void startReader(){
-        if(this.type==SMALL){
-//            managerSmall = UhfManager.getInstance();
-//            if (managerSmall == null) {
-//                return;
-//            }
-            try {
-                runReader=true;
-                startReader=true;
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-//            initSDKSmall();
-        }else{
-//            registerReceiver(keyReceiver, filter) ;
-//            initSDKBig();
-            runInventorySDKBig();
-        }
-    }
 
-    public void stopReader(){
-        switch (type){
-            case SMALL:
-                initSDKSmall();
-                break;
-            case BIG:
-                stopInventorySDKBig();
-                break;
-        }
-    }
+
+
 
 //    @Override
     public void onResume() {
+        IntentFilter filter = new IntentFilter() ;
+        filter.addAction("android.rfid.FUN_KEY");
+        this.myActivity.registerReceiver(keyReceiver, filter) ;
 //        super.onResume();
 //        startReader();
 
@@ -284,33 +277,25 @@ public class RFDIReader {
 //    @Override
     public void onPause() {
 //        super.onPause();
+        startReader = false;
+        runReader = false;
+        this.myActivity.unregisterReceiver(keyReceiver);
         if(this.type==SMALL){
-            startReader = false;
+
             if (managerSmall != null) {
                 managerSmall.close();
             }
         }else{
-            startReader = false;
             if(managerBig!=null)
                 managerBig.close();
-//            if (isStart) runInventorySDKBig();
         }
 
     }
 //    @Override
     public void onDestroy() {
-        if(this.type==SMALL){
-            startReader = false;
-            if (managerSmall != null) {
-                managerSmall.close();
-            }
-        }else{
-            startReader = false ;
-            runReader = false ;
-            if(managerBig!=null)
-                managerBig.close();
-        }
-//        super.onDestroy();
+        runReader=false;
+        startReader = false;
+        stopReader();
     }
     //endregion
 }

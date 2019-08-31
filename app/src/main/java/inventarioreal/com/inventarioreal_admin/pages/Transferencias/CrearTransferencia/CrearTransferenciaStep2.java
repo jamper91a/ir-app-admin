@@ -66,7 +66,6 @@ public class CrearTransferenciaStep2 extends CicloActivity {
             switch (msg.what){
                 case 1:
                     String epc = msg.getData().getString("epc");
-//                    admin.toast(epc);
                     addToList(epc);
                     break ;
             }
@@ -95,19 +94,23 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                 msg.setData(b);
                 handler.sendMessage(msg);
             }
-        });
+
+            @Override
+            public void onStateChanged(boolean state) {
+
+            }
+
+            @Override
+            public void onKeyPresses(String key) {
+
+            }
+        }, this);
         rfdiReader.initSDK();
         init(this, this, R.layout.get_product_by_epc);
-        //region UhF
-//        Thread thread = new InventoryThread();
-//        thread.start();
-        //endregion
-        //region Obtener parametros
         Intent intent = getIntent();
         String message = intent.getStringExtra(Constants.parameters);
         Gson gson = new Gson();
         this.request = gson.fromJson(message, Transfer.class);
-        //endregion
         this.tabsInit();
     }
 
@@ -139,15 +142,12 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         add_on_click(R.id.btnLee, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(startFlag==false)
                 if(rfdiReader.isStartReader()==false)
                 {
                     rfdiReader.startReader();
-//                    startFlag=true;
                     getElemento(R.id.btnLee).setText("Detener");
                 }else{
                     rfdiReader.setStartReader(false);
-//                    startFlag=false;
                     getElemento(R.id.btnLee).setText("Leer");
                 }
             }
@@ -164,55 +164,6 @@ public class CrearTransferenciaStep2 extends CicloActivity {
     @Override
     public void hasAllPermissions() {
 
-    }
-
-    //region UHD Sdk
-//    public void initSdk(){
-//        try {
-//            uhfManager = UhfManager.getInstance();
-//            uhfManager.setOutputPower(26);
-//            uhfManager.setWorkArea(2);
-//            startFlag=true;
-//        } catch (Exception e) {
-//            Log.e(TAG, e.getMessage());
-//        }
-//
-//    }
-
-//    private boolean runFlag=true;
-//    private boolean startFlag = false;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        rfdiReader.onResume();
-//        uhfManager = UhfManager.getInstance();
-//        if (uhfManager == null) {
-//            return;
-//        }
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        initSdk();
-    }
-
-    @Override
-    protected void onPause() {
-//        startFlag = false;
-//        uhfManager.close();
-        super.onPause();
-        rfdiReader.onPause();
-    }
-    @Override
-    protected void onDestroy() {
-//        startFlag = false;
-//        if (uhfManager != null) {
-//            uhfManager.close();
-//        }
-        super.onDestroy();
-        rfdiReader.onDestroy();
     }
 
     private void createEpc(String epc){
@@ -299,39 +250,6 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         });
     }
 
-    /**
-     * Inventory Epcs Thread
-     */
-
-//    class InventoryThread extends Thread {
-//        private List<byte[]> epcList;
-//
-//        @Override
-//        public void run() {
-//            super.run();
-//            while (runFlag) {
-//                if (startFlag) {
-//                    // managerBig.stopInventoryMulti()
-//                    epcList = uhfManager.inventoryRealTime(); // inventory real time
-//                    if (epcList != null && !epcList.isEmpty()) {
-//                        for (byte[] epc : epcList) {
-//                            String epcStr = Tools.Bytes2HexString(epc,
-//                                    epc.length);
-//                            addToList(epcStr);
-//                        }
-//                    }
-//                    epcList = null;
-//                    try {
-//                        Thread.sleep( 40);
-//                    } catch (InterruptedException e) {
-//                        // TODO Auto-generated catch block
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }
-//    }
-    //endregion
 
     //region Menu
 
@@ -473,5 +391,24 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         });
 
         builder.show();
+    }
+
+    @Override
+    protected void onResume() {
+        rfdiReader.onResume();
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        rfdiReader.onPause();
+        super.onPause();
+
+    }
+    @Override
+    protected void onDestroy() {
+        rfdiReader.onDestroy();
+        super.onDestroy();
     }
 }

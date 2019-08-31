@@ -55,7 +55,6 @@ public class Ingresos extends CicloActivity {
 //    private UhfManager uhfManager;
     private String TAG="Ingresos";
     private DataBase db = DataBase.getInstance(this);
-//    private LinkedList<ProductosZonasHasTransferencias> auxProZonTrans = new LinkedList<>();
     private Gson gson = new Gson();
     private Transfer[] transferencias = null;
     private LinkedList<TransfersHasZonesProduct> productosZonasHasTransferencias= new LinkedList<>();
@@ -91,25 +90,23 @@ public class Ingresos extends CicloActivity {
 
             @Override
             public void onEpcRepeated(String epc) {
-//                Message msg = new Message();
-//                msg.what = 1;
-//                Bundle b = new Bundle();
-//                b.putString("epc", "onEpcRepeated:"+epc);
-//                msg.setData(b);
-//                handler.sendMessage(msg);
             }
-        });
+
+            @Override
+            public void onStateChanged(boolean state) {
+
+            }
+
+            @Override
+            public void onKeyPresses(String key) {
+
+            }
+        }, this);
         rfdiReader.initSDK();
         init(this,this,R.layout.get_product_by_epc);
         local = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class)).getEmployee().getShop();
-        //region UhF
-//        Thread thread = new InventoryThread();
-//        thread.start();
-        //endregion
+
         this.tabsInit();
-//        rfdiReader.startReader();
-//        mTopToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-//        setSupportActionBar(mTopToolbar);
     }
     @Override
     public void initGui() {
@@ -140,8 +137,6 @@ public class Ingresos extends CicloActivity {
                     @Override
                     public void ok(ResultWebServiceOk ok) {
                         transferencias = (Transfer[]) ok.getData();
-//                        startFlag=true;
-//                        rfdiReader.setStartReader(true);
 
                     }
 
@@ -181,14 +176,6 @@ public class Ingresos extends CicloActivity {
                     rfdiReader.stopReader();
                     getElemento(R.id.btnLee).setText("Leer");
                 }
-//                if(startFlag==false)
-//                {
-//                    startFlag=true;
-//                    getElemento(R.id.btnLee).setText("Detener");
-//                }else{
-//                    startFlag=false;
-//                    getElemento(R.id.btnLee).setText("Leer");
-//                }
             }
         });
 
@@ -206,53 +193,6 @@ public class Ingresos extends CicloActivity {
     }
 
     //region UHD Sdk
-//    public void initSdk(){
-//        try {
-//            uhfManager = UhfManager.getInstance();
-//            uhfManager.setOutputPower(26);
-//            uhfManager.setWorkArea(2);
-//        } catch (Exception e) {
-//            Log.e(TAG, e.getMessage());
-//        }
-//
-//    }
-
-//    private boolean runFlag=true;
-//    private boolean startFlag = false;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        rfdiReader.onResume();
-//        uhfManager = UhfManager.getInstance();
-//        if (uhfManager == null) {
-//            return;
-//        }
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        initSdk();
-    }
-
-    @Override
-    protected void onPause() {
-//        startFlag = false;
-//        uhfManager.close();
-        super.onPause();
-        rfdiReader.onPause();
-    }
-    @Override
-    protected void onDestroy() {
-//        startFlag = false;
-//        if (uhfManager != null) {
-//            uhfManager.close();
-//        }
-        super.onDestroy();
-        rfdiReader.onDestroy();
-    }
-
     private void createEpc(String epc){
         //Busco el epc en la base de datos interna
         Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
@@ -358,40 +298,6 @@ public class Ingresos extends CicloActivity {
             }
         });
     }
-
-    /**
-     * Inventory Epcs Thread
-     */
-
-//    class InventoryThread extends Thread {
-//        private List<byte[]> epcList;
-//
-//        @Override
-//        public void run() {
-//            super.run();
-//            while (runFlag) {
-//                if (startFlag) {
-//                    // managerBig.stopInventoryMulti()
-//                    epcList = uhfManager.inventoryRealTime(); // inventory real time
-//                    if (epcList != null && !epcList.isEmpty()) {
-//                        for (byte[] epc : epcList) {
-//                            String epcStr = Tools.Bytes2HexString(epc,
-//                                    epc.length);
-//                            addToList(epcStr);
-//                        }
-//                    }
-//                    epcList = null;
-//                    try {
-//                        Thread.sleep( 40);
-//                    } catch (InterruptedException e) {
-//                        // TODO Auto-generated catch block
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }
-//    }
-    //endregion
 
     //region Menu
 
@@ -531,5 +437,24 @@ public class Ingresos extends CicloActivity {
         });
 
         builder.show();
+    }
+
+    @Override
+    protected void onResume() {
+        rfdiReader.onResume();
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        rfdiReader.onPause();
+        super.onPause();
+
+    }
+    @Override
+    protected void onDestroy() {
+        rfdiReader.onDestroy();
+        super.onDestroy();
     }
 }

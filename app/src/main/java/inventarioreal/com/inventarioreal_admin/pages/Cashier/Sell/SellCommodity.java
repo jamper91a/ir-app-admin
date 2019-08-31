@@ -90,7 +90,17 @@ public class SellCommodity extends CicloActivity {
             @Override
             public void onEpcRepeated(String epc) {
             }
-        });
+
+            @Override
+            public void onStateChanged(boolean state) {
+
+            }
+
+            @Override
+            public void onKeyPresses(String key) {
+
+            }
+        }, this);
         rfdiReader.initSDK();
         init(this,this,R.layout.get_product_by_epc);
         shop = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class)).getEmployee().getShop();
@@ -156,24 +166,6 @@ public class SellCommodity extends CicloActivity {
     @Override
     public void hasAllPermissions() {
 
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        rfdiReader.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        rfdiReader.onPause();
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        rfdiReader.onDestroy();
     }
 
     private void createEpc(String epc){
@@ -393,5 +385,24 @@ public class SellCommodity extends CicloActivity {
         });
 
         builder.show();
+    }
+
+    @Override
+    protected void onResume() {
+        rfdiReader.onResume();
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        rfdiReader.onPause();
+        super.onPause();
+
+    }
+    @Override
+    protected void onDestroy() {
+        rfdiReader.onDestroy();
+        super.onDestroy();
     }
 }
