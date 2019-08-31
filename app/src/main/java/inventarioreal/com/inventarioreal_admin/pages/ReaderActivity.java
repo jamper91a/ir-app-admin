@@ -25,6 +25,10 @@ public class ReaderActivity extends CicloActivity {
                     String epc = msg.getData().getString("epc");
                     admin.toast(epc);
                     break ;
+                case 3:
+                    boolean state = msg.getData().getBoolean("state");
+                    changedStateLecture(state);
+                    break ;
             }
         }
     } ;
@@ -83,7 +87,7 @@ public class ReaderActivity extends CicloActivity {
         add_on_click(R.id.btn1, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rfdiReader.startReader();
+                changedStateLecture(!rfdiReader.isStartReader());
             }
         });
     }
@@ -91,6 +95,16 @@ public class ReaderActivity extends CicloActivity {
     @Override
     public void hasAllPermissions() {
 
+    }
+
+    private void changedStateLecture(boolean state){
+        if(state){
+            rfdiReader.startReader();
+            getElemento(R.id.btnEmp).setText("Detener");
+        }else{
+            rfdiReader.stopReader();
+            getElemento(R.id.btnEmp).setText("Leer");
+        }
     }
 
     @Override

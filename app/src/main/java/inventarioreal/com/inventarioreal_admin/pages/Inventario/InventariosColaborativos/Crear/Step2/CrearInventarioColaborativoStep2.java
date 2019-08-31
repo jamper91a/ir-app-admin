@@ -70,11 +70,10 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                 case 1:
                     epc = msg.getData().getString("epc");
                     addToList(epc);
-                    //admin.toast("Epc found: "+epc); //readed
                     break ;
-                case 2:
-                    epc = msg.getData().getString("epc");
-                    //admin.toast("Epc repeted: "+epc); // repeted
+                case 3:
+                    boolean state = msg.getData().getBoolean("state");
+                    changedStateLecture(state);
                     break ;
             }
         }
@@ -156,16 +155,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         add_on_click(R.id.btnLee, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rfdiReader.isStartReader() ==false)
-                {
-                    rfdiReader.startReader();
-//                    startFlag=true;
-                    getElemento(R.id.btnLee).setText("Detener");
-                }else{
-                    rfdiReader.setStartReader(false);
-//                    startFlag=false;
-                    getElemento(R.id.btnLee).setText("Leer");
-                }
+                changedStateLecture(!rfdiReader.isStartReader());
             }
         });
     }
@@ -234,28 +224,23 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     }
 
     private void addToList(final String epc) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // The epc for the first time
-//                if (eanPluVieModel.getProducts().getValue().isEmpty()) {
-//                    createEpc(epc);
-//                } else {
-//                    //Determino si ese epc ya se leyo antes
-//                    if(!wasRead(epc))
-//                        createEpc(epc);
-//                }
-
-                if(epcs.isEmpty())
-                    createEpc(epc);
-                else{
-                    if(!wasRead(epc))
-                        createEpc(epc);
-                }
-            }
-        });
+        if(epcs.isEmpty())
+            createEpc(epc);
+        else{
+            if(!wasRead(epc))
+                createEpc(epc);
+        }
     }
 
+    private void changedStateLecture(boolean state){
+        if(state){
+            rfdiReader.startReader();
+            getElemento(R.id.btnLee).setText("Detener");
+        }else{
+            rfdiReader.stopReader();
+            getElemento(R.id.btnLee).setText("Leer");
+        }
+    }
 
     //region Menu
 

@@ -70,6 +70,10 @@ public class Ingresos extends CicloActivity {
 //                    admin.toast(epc);
                     addToList(epc);
                     break ;
+                case 3:
+                    boolean state = msg.getData().getBoolean("state");
+                    changedStateLecture(state);
+                    break ;
             }
         }
     } ;
@@ -168,14 +172,7 @@ public class Ingresos extends CicloActivity {
         add_on_click(R.id.btnLee, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rfdiReader.isStartReader()==false)
-                {
-                    rfdiReader.startReader();
-                    getElemento(R.id.btnLee).setText("Detener");
-                }else{
-                    rfdiReader.stopReader();
-                    getElemento(R.id.btnLee).setText("Leer");
-                }
+                changedStateLecture(!rfdiReader.isStartReader());
             }
         });
 
@@ -192,6 +189,15 @@ public class Ingresos extends CicloActivity {
 
     }
 
+    private void changedStateLecture(boolean state){
+        if(state){
+            rfdiReader.startReader();
+            getElemento(R.id.btnLee).setText("Detener");
+        }else{
+            rfdiReader.stopReader();
+            getElemento(R.id.btnLee).setText("Leer");
+        }
+    }
     //region UHD Sdk
     private void createEpc(String epc){
         //Busco el epc en la base de datos interna
@@ -284,19 +290,12 @@ public class Ingresos extends CicloActivity {
     }
 
     private void addToList(final String epc) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // The epc for the first time
-
-                if(epcs.isEmpty())
-                    createEpc(epc);
-                else{
-                    if(!wasRead(epc))
-                        createEpc(epc);
-                }
-            }
-        });
+        if(epcs.isEmpty())
+            createEpc(epc);
+        else{
+            if(!wasRead(epc))
+                createEpc(epc);
+        }
     }
 
     //region Menu

@@ -117,22 +117,23 @@ public class RFDIReader {
     //endregion
 
     //region Small SDK
-    private UhfManager managerSmall;
+    private UhfManager managerSmall=null;
     private Thread threadSmall;
     private void initSDKSmall(){
-        try {
-            managerSmall = UhfManager.getInstance();
-            managerSmall.setOutputPower(30);
-            managerSmall.setWorkArea(2);
-//
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+        if (managerSmall==null) {
+            try {
+                managerSmall = UhfManager.getInstance();
+                managerSmall.setOutputPower(30);
+                managerSmall.setWorkArea(2);
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
         }
-
 
 
     }
     private void startSmallReader(){
+        initSDKSmall();
         threadSmall = new InventoryThread();
         threadSmall.start();
     }
@@ -141,6 +142,7 @@ public class RFDIReader {
         if (managerSmall != null) {
             managerSmall.stopInventoryMulti();
             managerSmall.close();
+            managerSmall = null;
         }
     }
     class InventoryThread extends Thread {
@@ -176,40 +178,44 @@ public class RFDIReader {
     public UHFManager managerBig = null;
     private Thread threadBig;
     private void initSDKBig() {
-        String freBand = FreRegion.TMR_REGION_FCC;
-
-        managerBig = UHFManager.getInstance();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        if (managerBig.initRfid()) {
-            managerBig.setProtocol(managerBig.PROTOCOL_ISO_18000_6C);
-            managerBig.setFreBand(freBand);
-            freBand="FCC";
-            if (managerBig.setReadPower(30)){
-                managerBig.setWritePower(30);
+        if (managerBig==null) {
+            String freBand = FreRegion.TMR_REGION_FCC;
+            managerBig = UHFManager.getInstance();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-            else  {
-                managerBig.setReadPower(27);
-                managerBig.setWritePower(27);
+            if (managerBig.initRfid()) {
+                managerBig.setProtocol(managerBig.PROTOCOL_ISO_18000_6C);
+                managerBig.setFreBand(freBand);
+                freBand="FCC";
+                if (managerBig.setReadPower(30)){
+                    managerBig.setWritePower(30);
+                }
+                else  {
+                    managerBig.setReadPower(27);
+                    managerBig.setWritePower(27);
+                }
+            }else{
+                managerBig.close();
+                managerBig = null ;
             }
-        }else{
-            managerBig.close();
-            managerBig = null ;
         }
     }
     private void startBigReader(){
+        initSDKBig();
         threadBig = new Thread(inventoryTaskBig);
             threadBig.start();
     }
     private void stopBigReader(){
         threadBig.interrupt();
-        if(managerBig!=null)
+        if(managerBig!=null){
             managerBig.stopInventory();
             managerBig.close();
+            managerBig = null;
+        }
     }
 
     private Runnable inventoryTaskBig = new Runnable() {

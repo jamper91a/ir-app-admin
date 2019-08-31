@@ -72,9 +72,9 @@ public class CrearInventarioStep2 extends CicloActivity {
                     addToList(epc);
                     //admin.toast("Epc found: "+epc); //readed
                     break ;
-                case 2:
-                    epc = msg.getData().getString("epc");
-                    //admin.toast("Epc repeted: "+epc); // repeted
+                case 3:
+                    boolean state = msg.getData().getBoolean("state");
+                    changedStateLecture(state);
                     break ;
             }
         }
@@ -161,17 +161,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         add_on_click(R.id.btnLee, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rfdiReader.isStartReader()==false)
-                {
-                    rfdiReader.initSDK();
-                    rfdiReader.startReader();
-//                    startFlag=true;
-                    getElemento(R.id.btnLee).setText("Detener");
-                }else{
-                    rfdiReader.setStartReader(false);
-//                    startFlag=false;
-                    getElemento(R.id.btnLee).setText("Leer");
-                }
+                changedStateLecture(!rfdiReader.isStartReader());
             }
         });
 
@@ -183,6 +173,15 @@ public class CrearInventarioStep2 extends CicloActivity {
         });
     }
 
+    private void changedStateLecture(boolean state){
+        if(state){
+            rfdiReader.startReader();
+            getElemento(R.id.btnLee).setText("Detener");
+        }else{
+            rfdiReader.stopReader();
+            getElemento(R.id.btnLee).setText("Leer");
+        }
+    }
 
 
     @Override
@@ -247,18 +246,12 @@ public class CrearInventarioStep2 extends CicloActivity {
     }
 
     private void addToList(final String epc) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                if(epcs.isEmpty())
-                    createEpc(epc);
-                else{
-                    if(!wasRead(epc))
-                        createEpc(epc);
-                }
-            }
-        });
+        if(epcs.isEmpty())
+            createEpc(epc);
+        else{
+            if(!wasRead(epc))
+                createEpc(epc);
+        }
     }
 
     //endregion

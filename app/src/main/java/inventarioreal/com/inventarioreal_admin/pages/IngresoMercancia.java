@@ -133,8 +133,9 @@ public class IngresoMercancia extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.lblDes2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes3),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.img1),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.spnZona),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lnl1a),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.lbl2),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.spnZona),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSi),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnNo),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft,null, false));
@@ -193,6 +194,7 @@ public class IngresoMercancia extends CicloActivity {
 
                             @Override
                             public void fail(ResultWebServiceFail fail) {
+                                getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
                                 admin.toast(fail.getError());
                             }
                         });
@@ -231,14 +233,6 @@ public class IngresoMercancia extends CicloActivity {
             public void onClick(View v) {
                 if(productos_id!=null){
                     changedStateLecture(!rfdiReader.isStartReader());
-//                    if(rfdiReader.isStartReader()==false)
-//                    {
-//                        rfdiReader.startReader();
-//                        getElemento(R.id.btnEmp).setText("Detener");
-//                    }else{
-//                        rfdiReader.stopReader();
-//                        getElemento(R.id.btnEmp).setText("Leer");
-//                    }
 
                 }else{
                     admin.toast("Se debe buscar un producto");
@@ -295,6 +289,7 @@ public class IngresoMercancia extends CicloActivity {
                 (NetworkImageView)getElemento(R.id.img1).getElemento(),
                 R.drawable.ic_launcher_background,
                 R.drawable.ic_launcher_background);
+        getElemento(R.id.lnl1a).getElemento().setVisibility(View.VISIBLE);
     }
 
     @Override

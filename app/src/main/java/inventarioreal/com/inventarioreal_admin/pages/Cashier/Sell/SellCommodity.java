@@ -69,6 +69,10 @@ public class SellCommodity extends CicloActivity {
                     String epc = msg.getData().getString("epc");
                     addToList(epc);
                     break ;
+                case 3:
+                    boolean state = msg.getData().getBoolean("state");
+                    changedStateLecture(state);
+                    break ;
             }
         }
     } ;
@@ -144,14 +148,7 @@ public class SellCommodity extends CicloActivity {
         add_on_click(R.id.btnLee, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rfdiReader.isStartReader()==false)
-                {
-                    rfdiReader.startReader();
-                    getElemento(R.id.btnLee).setText("Detener");
-                }else{
-                    rfdiReader.stopReader();
-                    getElemento(R.id.btnLee).setText("Leer");
-                }
+                changedStateLecture(!rfdiReader.isStartReader());
             }
         });
 
@@ -224,22 +221,18 @@ public class SellCommodity extends CicloActivity {
 
     private List<String> epcs;
 
-
-
     private void addToList(final String epc) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // The epc for the first time
-                createEpc(epc);
-//                if(epcs.isEmpty())
-//                    createEpc(epc);
-//                else{
-//                    if(!wasRead(epc))
-//                        createEpc(epc);
-//                }
-            }
-        });
+        createEpc(epc);
+    }
+
+    private void changedStateLecture(boolean state){
+        if(state){
+            rfdiReader.startReader();
+            getElemento(R.id.btnLee).setText("Detener");
+        }else{
+            rfdiReader.stopReader();
+            getElemento(R.id.btnLee).setText("Leer");
+        }
     }
 
 
