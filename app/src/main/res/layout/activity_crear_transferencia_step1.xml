@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".pages.Transferencias.CrearTransferencia.CrearTransferenciaStep1">
+    tools:context=".pages.Transfers.CrearTransferencia.CrearTransferenciaStep1">
 
     <LinearLayout
         android:layout_width="match_parent"

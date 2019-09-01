@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".pages.Inventario.Inventarios.Consolidar.ConsolidarInventarioStep1">
+    tools:context=".pages.Inventories.ParcialInventories.Consolidate.ConsolidarInventarioStep1">
 
     <TextView
         android:id="@+id/txt1"

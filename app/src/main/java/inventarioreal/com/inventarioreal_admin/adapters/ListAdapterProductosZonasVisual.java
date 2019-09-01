@@ -61,8 +61,9 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final ProductHasZone item = items.get(position);
-        holder.getTxtSize().setText(item.getProduct().getSize());
-        holder.getTxtTotal().setText(item.getTotal()+"");
+        holder.getTxt3().setText(item.getProduct().getEan());
+        holder.getTxt2().setText(item.getProduct().getSize());
+        holder.getTxt1().setText(item.getTotal()+"");
         if(item.getProduct().getImagen()==null)
             item.getProduct().setImagen("");
         admin.loadImageFromInternet(item.getProduct().getImagen(), holder.getImgProduct(), R.drawable.lost, R.drawable.inventory);
@@ -149,34 +150,44 @@ public class ListAdapterProductosZonasVisual extends RecyclerView.Adapter<ListAd
 
 
     class ViewHolder extends  RecyclerView.ViewHolder{
-        TextView txtTotal;
-        TextView txtSize;
+        TextView txt1;
+        TextView txt2;
+        TextView txt3;
         NetworkImageView imgProduct;
 
 
         public ViewHolder(View view) {
             super(view);
-                this.txtTotal = (TextView)view.findViewById(R.id.txtTotal);
-                this.txtSize = (TextView)view.findViewById(R.id.txtSize);
+                this.txt1 = (TextView)view.findViewById(R.id.txt1);
+                this.txt2 = (TextView)view.findViewById(R.id.txt2);
+                this.txt3 = (TextView)view.findViewById(R.id.txt3);
                 this.imgProduct = (NetworkImageView) view.findViewById(R.id.imgProduct);
 
 
         }
 
-        public TextView getTxtTotal() {
-            return txtTotal;
+        public TextView getTxt1() {
+            return txt1;
         }
 
-        public void setTxtTotal(TextView txtTotal) {
-            this.txtTotal = txtTotal;
+        public void setTxt1(TextView txtTotal) {
+            this.txt1 = txtTotal;
         }
 
-        public TextView getTxtSize() {
-            return txtSize;
+        public TextView getTxt2() {
+            return txt2;
         }
 
-        public void setTxtSize(TextView txtSize) {
-            this.txtSize = txtSize;
+        public void setTxt2(TextView txtSize) {
+            this.txt2 = txtSize;
+        }
+
+        public TextView getTxt3() {
+            return txt3;
+        }
+
+        public void setTxt3(TextView txt3) {
+            this.txt3 = txt3;
         }
 
         public NetworkImageView getImgProduct() {

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".pages.Devoluciones.HomeDevoluciones">
+    tools:context=".pages.Devolutions.HomeDevoluciones">
 
     <Button
         android:id="@+id/btnCust"

@@ -7,12 +7,13 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Cashier.HomeCashier;
-import inventarioreal.com.inventarioreal_admin.pages.Devoluciones.HomeDevoluciones;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.Inventarios.InventarioParcialHome;
-import inventarioreal.com.inventarioreal_admin.pages.Inventario.InventariosColaborativos.InventariosColaborativosHome;
-import inventarioreal.com.inventarioreal_admin.pages.Reportes.HomeReportes;
-import inventarioreal.com.inventarioreal_admin.pages.Transferencias.HomeTransferencia;
+import inventarioreal.com.inventarioreal_admin.pages.Cashiers.HomeCashier;
+import inventarioreal.com.inventarioreal_admin.pages.Commodity.AddCommodity;
+import inventarioreal.com.inventarioreal_admin.pages.Devolutions.HomeDevoluciones;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.InventarioParcialHome;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.InventariosColaborativosHome;
+import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
+import inventarioreal.com.inventarioreal_admin.pages.Transfers.HomeTransferencia;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
@@ -55,7 +56,7 @@ public class Home extends CicloActivity {
         add_on_click(R.id.btnIng, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sync(IngresoMercancia.class);
+                sync(AddCommodity.class);
 
             }
         });

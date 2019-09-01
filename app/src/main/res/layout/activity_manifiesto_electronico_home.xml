@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoHome">
+    tools:context=".pages.Transfers.ManifiestoElectronico.ManifiestoElectronicoHome">
 
     <TextView
         android:id="@+id/txtLoc"

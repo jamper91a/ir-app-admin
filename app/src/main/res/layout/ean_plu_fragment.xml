@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.Inventario.Inventarios.Crear.Step2.tabs.EanPluFragment">
+    tools:context=".pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluFragment">
 
 
     <LinearLayout
@@ -26,13 +26,13 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txtNum"
+                    android:id="@+id/txtZone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Zonas: " />
 
                 <TextView
-                    android:id="@+id/txtLocDes"
+                    android:id="@+id/txtDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Fecha: " />

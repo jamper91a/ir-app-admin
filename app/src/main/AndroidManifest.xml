@@ -18,29 +18,29 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
         <activity android:name=".pages.ReaderActivity"></activity>
-        <activity android:name=".pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoDetalles" />
-        <activity android:name=".pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoIngresos" />
-        <activity android:name=".pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoSalidas" />
-        <activity android:name=".pages.Transferencias.ManifiestoElectronico.ManifiestoElectronicoHome" />
-        <activity android:name=".pages.Transferencias.CrearTransferencia.CrearTransferenciaStep2" />
-        <activity android:name=".pages.Transferencias.CrearTransferencia.CrearTransferenciaStep1" />
+        <activity android:name=".pages.Transfers.ManifiestoElectronico.ManifiestoElectronicoDetalles" />
+        <activity android:name=".pages.Transfers.ManifiestoElectronico.ManifiestoElectronicoIngresos" />
+        <activity android:name=".pages.Transfers.ManifiestoElectronico.ManifiestoElectronicoSalidas" />
+        <activity android:name=".pages.Transfers.ManifiestoElectronico.ManifiestoElectronicoHome" />
+        <activity android:name=".pages.Transfers.CrearTransferencia.CrearTransferenciaStep2" />
+        <activity android:name=".pages.Transfers.CrearTransferencia.CrearTransferenciaStep1" />
         <activity
-            android:name=".pages.Transferencias.HomeTransferencia"
+            android:name=".pages.Transfers.HomeTransferencia"
             android:label="@string/title_activity_home_transferencia" />
-        <activity android:name=".pages.Devoluciones.HomeDevoluciones"/>
-        <activity android:name=".pages.Devoluciones.DeClientes.DevolucionDeClientesStep1" />
-        <activity android:name=".pages.Devoluciones.DeClientes.DevolucionDeClientesStep2" />
-        <activity android:name=".pages.Inventario.InventariosColaborativos.VisualizarConsolidados.Step1.VisualizarInventariosColaborativosConsolidadosStep1" />
-        <activity android:name=".pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step2.VisualizarInventarioColaborativoPorZonaStep2" />
-        <activity android:name=".pages.Inventario.InventariosColaborativos.VisualizarPorZona.Step1.VisualizarInventarioColaborativoPorZonaStep1" />
-        <activity android:name=".pages.Inventario.InventariosColaborativos.Consolidar.ConsolidarInventariosColaborativosStep1" />
-        <activity android:name=".pages.Inventario.InventariosColaborativos.Unir.UnirseInventariosColaborativos" />
-        <activity android:name=".pages.Inventario.InventariosColaborativos.Crear.Step2.CrearInventarioColaborativoStep2" />
-        <activity android:name=".pages.Inventario.InventariosColaborativos.InventariosColaborativosHome" />
-        <activity android:name=".pages.Inventario.InventariosColaborativos.Crear.Step1.CrearInventarioColaborativoStep1" />
-        <activity android:name=".pages.Inventario.Inventarios.VisualizarConsolidados.Step1.VisualizarInventariosConsolidadosStep1" />
-        <activity android:name=".pages.Inventario.Inventarios.VisualizarPorZona.Step2.VisualizarInventarioPorZonaStep2" />
-        <activity android:name=".pages.Inventario.Inventarios.VisualizarPorZona.Step1.VisualizarInventarioPorZonaStep1" />
+        <activity android:name=".pages.Devolutions.HomeDevoluciones"/>
+        <activity android:name=".pages.Devolutions.DeClientes.DevolutionStep1" />
+        <activity android:name=".pages.Devolutions.DeClientes.DevolutionStep2" />
+        <activity android:name=".pages.Inventories.CooperativeInventories.ViewInventoriesConsolidated.Step1.VisualizarInventariosColaborativosConsolidadosStep1" />
+        <activity android:name=".pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step2.VisualizarInventarioColaborativoPorZonaStep2" />
+        <activity android:name=".pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step1.VisualizarInventarioColaborativoPorZonaStep1" />
+        <activity android:name=".pages.Inventories.CooperativeInventories.Consolidate.ConsolidarInventariosColaborativosStep1" />
+        <activity android:name=".pages.Inventories.CooperativeInventories.Join.UnirseInventariosColaborativos" />
+        <activity android:name=".pages.Inventories.CooperativeInventories.Create.Step2.CrearInventarioColaborativoStep2" />
+        <activity android:name=".pages.Inventories.CooperativeInventories.InventariosColaborativosHome" />
+        <activity android:name=".pages.Inventories.CooperativeInventories.Create.Step1.CrearInventarioColaborativoStep1" />
+        <activity android:name=".pages.Inventories.ParcialInventories.ViewIntentoriesConsolidated.Step1.VisualizarInventariosConsolidadosStep1" />
+        <activity android:name=".pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step2.VisualizarInventarioPorZonaStep2" />
+        <activity android:name=".pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step1.VisualizarInventarioPorZonaStep1" />
         <activity android:name=".pages.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,19 +50,19 @@
         </activity>
         <activity android:name=".pages.Login" />
         <activity android:name=".pages.Home" />
-        <activity android:name=".pages.IngresoMercancia" />
-        <activity android:name=".pages.Inventario.Inventarios.InventarioParcialHome" />
-        <activity android:name=".pages.Inventario.Inventarios.Crear.Step1.CrearInventarioStep1" />
-        <activity android:name=".pages.Inventario.Inventarios.Crear.Step2.CrearInventarioStep2" />
-        <activity android:name=".pages.Inventario.Inventarios.Consolidar.ConsolidarInventarioStep1" />
-        <activity android:name=".pages.Transferencias.Ingresos" />
-        <activity android:name=".pages.Reportes.HomeReportes" />
-        <activity android:name=".pages.Reportes.InventarioTotal.ReporteInventarioTotal" />
-        <activity android:name=".pages.Reportes.InventarioEanPlu.InventarioEanPlu" />
-        <activity android:name=".pages.Reportes.DiferenciaInventariosFisicos.DIFStep1" />
-        <activity android:name=".pages.Reportes.DiferenciaInventariosFisicos.DIFStep2" />
-        <activity android:name=".pages.Cashier.HomeCashier" />
-        <activity android:name=".pages.Cashier.Sell.SellCommodity" />
+        <activity android:name=".pages.Commodity.AddCommodity" />
+        <activity android:name=".pages.Inventories.ParcialInventories.InventarioParcialHome" />
+        <activity android:name=".pages.Inventories.ParcialInventories.Create.Step1.CrearInventarioStep1" />
+        <activity android:name=".pages.Inventories.ParcialInventories.Create.Step2.CrearInventarioStep2" />
+        <activity android:name=".pages.Inventories.ParcialInventories.Consolidate.ConsolidarInventarioStep1" />
+        <activity android:name=".pages.Transfers.Ingresos" />
+        <activity android:name=".pages.Reports.HomeReportes" />
+        <activity android:name=".pages.Reports.InventarioTotal.ReporteInventarioTotal" />
+        <activity android:name=".pages.Reports.InventarioEanPlu.InventarioEanPlu" />
+        <activity android:name=".pages.Reports.DiferenciaInventariosFisicos.DIFStep1" />
+        <activity android:name=".pages.Reports.DiferenciaInventariosFisicos.DIFStep2" />
+        <activity android:name=".pages.Cashiers.HomeCashier" />
+        <activity android:name=".pages.Cashiers.Sell.SellCommodity" />
 
     </application>
 

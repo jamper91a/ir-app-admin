@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".pages.Transferencias.HomeTransferencia">
+    tools:context=".pages.Transfers.HomeTransferencia">
 
     <Button
         android:id="@+id/btnIng"
