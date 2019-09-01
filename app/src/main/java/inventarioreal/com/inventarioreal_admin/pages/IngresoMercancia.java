@@ -14,6 +14,8 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
@@ -58,9 +60,6 @@ public class IngresoMercancia extends CicloActivity {
                 case 1:
                     epc = msg.getData().getString("epc");
                     addToList(epc);
-                    break ;
-                case 2:
-                    epc = msg.getData().getString("epc");
                     break ;
                 case 3:
                     boolean state = msg.getData().getBoolean("state");
@@ -194,8 +193,10 @@ public class IngresoMercancia extends CicloActivity {
 
                             @Override
                             public void fail(ResultWebServiceFail fail) {
+                                if(fail.getError().equals("error_G06")){
+                                    admin.toast("Codigo EAN/PLU no existe");
+                                }
                                 getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
-                                admin.toast(fail.getError());
                             }
                         });
             }
@@ -228,6 +229,12 @@ public class IngresoMercancia extends CicloActivity {
                 }
             }
         });
+        add_on_click(R.id.btnNo, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(Home.class, null);
+            }
+        });
         add_on_click(R.id.btnEmp, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,37 +251,41 @@ public class IngresoMercancia extends CicloActivity {
             @Override
             public void onClick(View v) {
                 //Validate there is not error
-                for (ProductHasZone product :
-                        products) {
-                    if (product.getEpc().isError()){
-                        admin.toast("Algunos tags no se pueden usar, por favor valida la informacion");
-                        return;
-                    }
-                }
-                WebServices.addCommodity(
-                        productos_id.id,
-                        products,
-                        IngresoMercancia.this,
-                        admin,
-                        new ResultWebServiceInterface() {
-                            @Override
-                            public void ok(ResultWebServiceOk ok)
-                            {
-                                AddCommodityResponse response = (AddCommodityResponse) ok.getData();
-                                //Update the local information
-                                for(Epc epc: response.getEpcs()){
-                                    db.update(Constants.table_epcs, epc.getId()+"", epc.getContentValues());
-                                }
-                                admin.toast("Productos agregados con 'exito");
-                                admin.callIntent(IngresoMercancia.class, null);
-                            }
-
-                            @Override
-                            public void fail(ResultWebServiceFail fail) {
-                                admin.toast(fail.getError());
-                            }
+                if (products.size()>0) {
+                    for (ProductHasZone product :
+                            products) {
+                        if (product.getEpc().isError()){
+                            admin.toast("Algunos tags no se pueden usar, por favor valida la informacion");
+                            return;
                         }
-                );
+                    }
+                    WebServices.addCommodity(
+                            productos_id.id,
+                            products,
+                            IngresoMercancia.this,
+                            admin,
+                            new ResultWebServiceInterface() {
+                                @Override
+                                public void ok(ResultWebServiceOk ok)
+                                {
+                                    AddCommodityResponse response = (AddCommodityResponse) ok.getData();
+                                    //Update the local information
+                                    for(Epc epc: response.getEpcs()){
+                                        db.update(Constants.table_epcs, epc.getId()+"", epc.getContentValues());
+                                    }
+                                    admin.toast("Productos agregados con 'exito");
+                                    admin.callIntent(IngresoMercancia.class, null);
+                                }
+
+                                @Override
+                                public void fail(ResultWebServiceFail fail) {
+                                    admin.toast(fail.getError());
+                                }
+                            }
+                    );
+                } else {
+                    admin.toast("Debes agregar al menos un tag");
+                }
             }
         });
     }
@@ -287,8 +298,8 @@ public class IngresoMercancia extends CicloActivity {
         admin.loadImageFromInternet(
                 p.getImagen(),
                 (NetworkImageView)getElemento(R.id.img1).getElemento(),
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background);
+                R.drawable.imagennoencontrada,
+                R.drawable.imagennoencontrada);
         getElemento(R.id.lnl1a).getElemento().setVisibility(View.VISIBLE);
     }
 
@@ -404,6 +415,7 @@ public class IngresoMercancia extends CicloActivity {
     }
 
     private void borrar(){
+        rfdiReader.cleanEpcs();
         epcs.clear();
         products.clear();
         adapter1.notifyDataSetChanged();
@@ -436,13 +448,6 @@ public class IngresoMercancia extends CicloActivity {
             }
 
         }
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                // The epc for the first time
-//
-//            }
-//        });
     }
 
     @Override
