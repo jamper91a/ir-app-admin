@@ -173,6 +173,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         add_on_click(R.id.btnCan, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clean();
                 admin.callIntent(CrearInventarioStep1.class, null);
             }
         });

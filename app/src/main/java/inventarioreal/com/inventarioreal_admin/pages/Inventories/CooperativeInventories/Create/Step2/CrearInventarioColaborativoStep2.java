@@ -57,7 +57,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     private String TAG="CrearInventarioStep2";
     private DataBase db = DataBase.getInstance(this);
     private RequestCreateInventory2 requestInventariorCrear2;
-    private LinkedList<InventoryHasProduct> inventariosProductos = new LinkedList<>();
+    private LinkedList<InventoryHasProduct> products = new LinkedList<>();
     private Gson gson = new Gson();
 
     RFDIReader rfdiReader =  null;
@@ -158,6 +158,20 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                 changedStateLecture(!rfdiReader.isStartReader());
             }
         });
+        add_on_click(R.id.btnCan, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changedStateLecture(false);
+                clean();
+                admin.callIntent(CrearInventarioColaborativoStep1.class, null);
+            }
+        });
+        add_on_click(R.id.btnBor, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clean();
+            }
+        });
     }
 
     @Override
@@ -196,9 +210,9 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
             ip.setProduct(proZon);
             ip.setEpc(epcDb);
 
-            inventariosProductos.add(ip);
+            products.add(ip);
             eanPluVieModel.addProductoZona(proZon);
-            totalViewModel.setAmount(inventariosProductos.size());
+            totalViewModel.setAmount(products.size());
             epcs.add(epc);
         }
     }
@@ -349,9 +363,10 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
                 //Determino si es para crear o para adjuntar
                 if(requestInventariorCrear2.getInventory() ==null){
+                    requestInventariorCrear2.getInventory().setMessage(edtMensaje.getText().toString());
                     WebServices.createCollaborativeInventory(
                             requestInventariorCrear2.getZone().getId(),
-                            inventariosProductos,
+                            products,
                             CrearInventarioColaborativoStep2.this,
                             admin,
                             new ResultWebServiceInterface() {
@@ -371,7 +386,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                 }else{
                     WebServices.attachInventory(
                             requestInventariorCrear2.getInventory(),
-                            inventariosProductos,
+                            products,
                             CrearInventarioColaborativoStep2.this,
                             admin,
                             new ResultWebServiceInterface() {
@@ -419,5 +434,13 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     protected void onDestroy() {
         rfdiReader.onDestroy();
         super.onDestroy();
+    }
+
+    private void clean(){
+        rfdiReader.cleanEpcs();
+        epcs.clear();
+        products.clear();
+        eanPluVieModel.clean();
+        totalViewModel.setAmount(0);
     }
 }
