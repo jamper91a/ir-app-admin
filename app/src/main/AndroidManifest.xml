@@ -30,7 +30,7 @@
         <activity android:name=".pages.Devolutions.HomeDevoluciones"/>
         <activity android:name=".pages.Devolutions.DeClientes.DevolutionStep1" />
         <activity android:name=".pages.Devolutions.DeClientes.DevolutionStep2" />
-        <activity android:name=".pages.Inventories.CooperativeInventories.ViewInventoriesConsolidated.Step1.VisualizarInventariosColaborativosConsolidadosStep1" />
+        <activity android:name=".pages.Inventories.CooperativeInventories.ViewInventoriesConsolidated.Step1.ViewCoopInvConsolidatedStep1" />
         <activity android:name=".pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step2.VisualizarInventarioColaborativoPorZonaStep2" />
         <activity android:name=".pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step1.VisualizarInventarioColaborativoPorZonaStep1" />
         <activity android:name=".pages.Inventories.CooperativeInventories.Consolidate.ConsolidarInventariosColaborativosStep1" />
