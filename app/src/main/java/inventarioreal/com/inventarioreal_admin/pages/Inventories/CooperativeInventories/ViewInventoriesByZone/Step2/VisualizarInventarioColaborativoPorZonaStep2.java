@@ -102,7 +102,7 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
                         inventario.setZone(zona);
                     }
                     //Actualizo la cantidad
-                    totalViewModel.stInventario(inventario);
+                    totalViewModel.setInventario(inventario);
                     for (ProductHasZone pz: inventario.getProducts()
                     ) {
                         //Busco el epc del producto

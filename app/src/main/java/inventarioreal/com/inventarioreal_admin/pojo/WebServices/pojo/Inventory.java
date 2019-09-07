@@ -13,6 +13,7 @@ public class Inventory extends InventarioRealPojo {
     private String date;
     private int parcial;
     private int collaborative;
+    private String message;
     private Zone zone;
     private ConsolidatedInventory consolidatedInventory;
     private ProductHasZone[] products;
@@ -49,6 +50,14 @@ public class Inventory extends InventarioRealPojo {
         this.collaborative = collaborative;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public Zone getZone() {
         return zone;
     }
@@ -81,6 +90,7 @@ public class Inventory extends InventarioRealPojo {
         this.employees = employees;
     }
 
+
     //
 //
     @Override
@@ -90,6 +100,7 @@ public class Inventory extends InventarioRealPojo {
         values.put(Constants.column_date, date);
         values.put(Constants.column_parcial, parcial);
         values.put(Constants.column_collaborative, collaborative);
+        values.put(Constants.column_message, message);
         values.put(Constants.column_zone, zone.id);
         values.put(Constants.column_consolidatedInventory, consolidatedInventory.id);
         values.put(Constants.createdAt, createdAt);

@@ -29,14 +29,14 @@ public class RepDifInvTotalFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.total_fragment, container, false);
         this.elementos = new LinkedHashMap<>();
-        addElemento(v.findViewById(R.id.txt0));
-        addElemento(v.findViewById(R.id.txtCant));
         addElemento(v.findViewById(R.id.txt1));
-        addElemento(v.findViewById(R.id.txtLocDes));
         addElemento(v.findViewById(R.id.txt2));
-        addElemento(v.findViewById(R.id.txtNum));
-        ((TextView)getElemento(R.id.txt0)).setText("Unidades no encontradas");
-        ((TextView)getElemento(R.id.txt1)).setText("Fecha");
+        addElemento(v.findViewById(R.id.txt3));
+        addElemento(v.findViewById(R.id.txt4));
+        addElemento(v.findViewById(R.id.txt5));
+        addElemento(v.findViewById(R.id.txt6));
+        ((TextView)getElemento(R.id.txt1)).setText("Unidades no encontradas");
+        ((TextView)getElemento(R.id.txt3)).setText("Fecha");
         return v;
     }
 
@@ -47,14 +47,14 @@ public class RepDifInvTotalFragment extends Fragment {
         mViewModel.getAmount().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer amount) {
-                TextView txtCant = (TextView) getElemento(R.id.txtCant);
+                TextView txtCant = (TextView) getElemento(R.id.txt2);
                 txtCant.setText(amount+"");
             }
         });
         mViewModel.getDate().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String fecha) {
-                TextView txtFecha = (TextView) getElemento(R.id.txtLocDes);
+                TextView txtFecha = (TextView) getElemento(R.id.txt4);
                 txtFecha.setText(fecha);
             }
         });

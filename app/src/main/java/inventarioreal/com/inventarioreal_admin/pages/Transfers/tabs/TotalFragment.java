@@ -29,7 +29,7 @@ public class TotalFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.total_fragment, container, false);
         this.elementos = new LinkedHashMap<>();
-        addElemento(v.findViewById(R.id.txtCant));
+        addElemento(v.findViewById(R.id.txt2));
         return v;
     }
 
@@ -40,7 +40,7 @@ public class TotalFragment extends Fragment {
         mViewModel.getAmount().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {
-                TextView txtCant = (TextView)getElemento(R.id.txtCant);
+                TextView txtCant = (TextView)getElemento(R.id.txt2);
                 txtCant.setText(integer+"");
             }
         });

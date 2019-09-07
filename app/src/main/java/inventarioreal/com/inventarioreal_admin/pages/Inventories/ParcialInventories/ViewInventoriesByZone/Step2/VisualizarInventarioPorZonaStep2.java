@@ -103,7 +103,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                         inventario.setZone(zona);
                     }
                     //Actualizo la cantidad
-                    totalViewModel.stInventario(inventario);
+                    totalViewModel.setInventario(inventario);
                     for (ProductHasZone pz: inventario.getProducts()
                     ) {
                         //Busco el epc del producto
@@ -116,6 +116,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                             pz.setEpc(epc);
                         eanPluVieModel.addProductoZona(pz);
                     }
+                    eanPluVieModel.setInventario(inventario);
 
                 }
 

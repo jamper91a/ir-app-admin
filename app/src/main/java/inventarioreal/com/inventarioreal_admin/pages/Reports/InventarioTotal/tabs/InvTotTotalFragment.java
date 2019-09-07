@@ -31,12 +31,12 @@ public class InvTotTotalFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.total_fragment, container, false);
         this.elementos = new LinkedHashMap<>();
-        addElemento(v.findViewById(R.id.txt0));
-        addElemento(v.findViewById(R.id.txtCant));
         addElemento(v.findViewById(R.id.txt1));
-        addElemento(v.findViewById(R.id.txtLocDes));
         addElemento(v.findViewById(R.id.txt2));
-        addElemento(v.findViewById(R.id.txtNum));
+        addElemento(v.findViewById(R.id.txt3));
+        addElemento(v.findViewById(R.id.txt4));
+        addElemento(v.findViewById(R.id.txt5));
+        addElemento(v.findViewById(R.id.txt6));
         return v;
     }
 
@@ -47,9 +47,9 @@ public class InvTotTotalFragment extends Fragment {
         mViewModel.getInventario().observe(this, new Observer<UltimoInventarioResponse>() {
             @Override
             public void onChanged(@Nullable UltimoInventarioResponse inventarios) {
-                TextView txtFecha = (TextView) getElemento(R.id.txtLocDes);
-                TextView txtCant = (TextView) getElemento(R.id.txtCant);
-                TextView txtZona = (TextView) getElemento(R.id.txtNum);
+                TextView txtCant = (TextView) getElemento(R.id.txt2);
+                TextView txtFecha = (TextView) getElemento(R.id.txt4);
+                TextView txtZona = (TextView) getElemento(R.id.txt6);
                 txtFecha.setText(inventarios.getCreatedAt().replace("T", " - "));
                 txtZona.setText(inventarios.getName());
                 txtCant.setText(inventarios.getTotal_products()+"");

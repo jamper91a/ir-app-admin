@@ -384,6 +384,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                requestInventariorCrear2.getInventory().setMessage(edtMensaje.getText().toString());
                 WebServices.createInventory(
                         requestInventariorCrear2.getZone().getId(),
                         products,

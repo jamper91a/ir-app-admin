@@ -12,21 +12,21 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txt0"
+            android:id="@+id/txt1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tag_leidos"
             android:textAlignment="center" />
 
         <TextView
-            android:id="@+id/txtCant"
+            android:id="@+id/txt2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="0"
             android:textAlignment="center" />
 
         <TextView
-            android:id="@+id/txt1"
+            android:id="@+id/txt3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/fecha_del_inventario"
@@ -34,7 +34,7 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/txtLocDes"
+            android:id="@+id/txt4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
@@ -42,7 +42,7 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/txt2"
+            android:id="@+id/txt5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/zona"
@@ -50,7 +50,23 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/txtNum"
+            android:id="@+id/txt6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="center"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txt7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/message"
+            android:textAlignment="center"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txt8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
