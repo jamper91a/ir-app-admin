@@ -148,7 +148,10 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         add_on_click(R.id.btnFin, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                if(products.size()>0)
+                    showDialog();
+                else
+                    admin.toast("Debes leer al menos 1 producto");
             }
         });
 
