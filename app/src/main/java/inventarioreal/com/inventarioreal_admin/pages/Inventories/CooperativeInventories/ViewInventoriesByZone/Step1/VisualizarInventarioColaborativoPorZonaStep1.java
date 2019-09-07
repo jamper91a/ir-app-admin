@@ -41,7 +41,6 @@ public class VisualizarInventarioColaborativoPorZonaStep1 extends CicloActivity 
     public void initGui() {
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.lst1), Techniques.SlideInLeft));
-        addElemento(new Animacion(findViewById(R.id.btnIni), Techniques.SlideInLeft));
 
         //Cambiar los textos a mostrar
 
