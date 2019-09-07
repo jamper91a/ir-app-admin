@@ -155,7 +155,14 @@ public class SellCommodity extends CicloActivity {
         add_on_click(R.id.btnCan, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(HomeTransferencia.class, null);
+                admin.callIntent(HomeCashier.class, null);
+            }
+        });
+
+        add_on_click(R.id.btnBor, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clean();
             }
         });
     }
@@ -397,5 +404,13 @@ public class SellCommodity extends CicloActivity {
     protected void onDestroy() {
         rfdiReader.onDestroy();
         super.onDestroy();
+    }
+
+    private void clean(){
+        rfdiReader.cleanEpcs();
+        epcs.clear();
+        products.clear();
+        eanPluVieModel.clean();
+        totalViewModel.setAmount(0);
     }
 }

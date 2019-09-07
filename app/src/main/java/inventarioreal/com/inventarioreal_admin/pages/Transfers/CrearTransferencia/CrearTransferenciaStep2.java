@@ -29,7 +29,6 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step1.CrearInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalFragment;
@@ -58,7 +57,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
     private String TAG="CrearInventarioStep2";
     private DataBase db = DataBase.getInstance(this);
     private Gson gson = new Gson();
-    private LinkedList<TransfersHasZonesProduct> productos = new LinkedList<>();
+    private LinkedList<TransfersHasZonesProduct> products = new LinkedList<>();
     RFDIReader rfdiReader =  null;
     private Handler handler = new Handler(){
         @Override
@@ -139,7 +138,11 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         add_on_click(R.id.btnFin, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                if(products.size()>0)
+                    showDialog();
+                else{
+                    admin.toast("Debes leer al menos un producto");
+                }
             }
         });
 
@@ -153,7 +156,13 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         add_on_click(R.id.btnCan, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(CrearInventarioStep1.class, null);
+                admin.callIntent(CrearTransferenciaStep1.class, null);
+            }
+        });
+        add_on_click(R.id.btnBor, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clean();
             }
         });
     }
@@ -191,9 +200,9 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                 //Informacion requeria por el servicio web de crear inventory
                 TransfersHasZonesProduct pzt = new TransfersHasZonesProduct();
                 pzt.setProduct(proZon);
-                productos.add(pzt);
+                products.add(pzt);
                 eanPluVieModel.addProductoZona(proZon);
-                totalViewModel.setAmount(productos.size());
+                totalViewModel.setAmount(products.size());
                 epcs.add(epc);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -332,7 +341,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Crear Inventario");
+        builder.setTitle("Crear Transferencia");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
@@ -356,7 +365,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                 request.setMessage(edtMensaje.getText().toString());
                 WebServices.createTransfer(
                         request,
-                        productos,
+                        products,
                         CrearTransferenciaStep2.this,
                         admin,
                         new ResultWebServiceInterface() {
@@ -402,5 +411,12 @@ public class CrearTransferenciaStep2 extends CicloActivity {
     protected void onDestroy() {
         rfdiReader.onDestroy();
         super.onDestroy();
+    }
+    private void clean(){
+        rfdiReader.cleanEpcs();
+        epcs.clear();
+        products.clear();
+        eanPluVieModel.clean();
+        totalViewModel.setAmount(0);
     }
 }

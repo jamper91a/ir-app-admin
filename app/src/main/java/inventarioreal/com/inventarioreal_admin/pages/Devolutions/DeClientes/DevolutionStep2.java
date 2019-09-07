@@ -209,28 +209,25 @@ public class DevolutionStep2 extends CicloActivity {
                     proZon.getProduct().getId()+"",
                     Product.class
             );
-            // verifico si el epc pertenece a la zona seleccionada
-            /*if (proZon.getZone().getId() == products.getZone().getId())
-            {*/
                 if (epcDb!=null) {
                     proZon.setEpc(epcDb);
                 }
                 if(producto!=null){
                     proZon.setProduct(producto);
                 }
-                /*
-                if (epcDb!=null) {
-                    //proZon.setDevolution(epcDb);
 
-                }*/
+                //Check if product was sold, if was not sold, it can not be returned
+                if(proZon.getSell().getId()<=1){
+                    proZon.setError(true);
+                }
+                //Check if product was returned before
+                if(proZon.getDevolution().getId()>1){
+                    proZon.setError(true);
+                }
                 productosZonas.add(proZon);
                 eanPluVieModel.addProductoZona(proZon);
                 totalViewModel.setAmount(productosZonas.size());
                 epcs.add(epc);
-            /*}
-            else{
-                admin.toast("Epc no found: "+ epc);
-            }*/
 
         }else{
             admin.toast("Epc no found: "+ epc);

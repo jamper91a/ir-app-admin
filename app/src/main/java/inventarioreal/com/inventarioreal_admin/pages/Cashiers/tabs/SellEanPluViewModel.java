@@ -18,16 +18,6 @@ public class SellEanPluViewModel extends ViewModel {
         //Valido si ya se ha agregado el producto
         int count=0;
         if(product.getProduct()!=null){
-//            for (ProductosZonasHasTransferencias pzt: products
-//                 ) {
-//                if(pzt.getProduct().getProduct().getId() == productosZonasHasTransferencia.getProduct().getProduct().getId()){
-//                    pzt.getProduct().setTotal(pzt.getProduct().getTotal()+1);
-//                    products.set(count,pzt);
-//                    transferenciaLiveData.setValue(products);
-//                    return;
-//                }
-//                count+=1;
-//            }
             products.add(product);
             productsLiveData.setValue(products);
         }
@@ -40,5 +30,10 @@ public class SellEanPluViewModel extends ViewModel {
             productsLiveData.setValue(products);
         }
         return productsLiveData;
+    }
+
+    public void clean(){
+        products = new LinkedList<>();
+        productsLiveData.setValue(products);
     }
 }

@@ -77,7 +77,7 @@ public class ListAdapterProductosZonasHasTransferencia extends RecyclerView.Adap
                 final TransfersHasZonesProduct item = items.get(position-1);
                 Log.d(TAG, item.getState()+"");
                 holder.getTxt1().setText(item.getProduct().getTotal()+"");
-                holder.getTxt2().setText(item.getProduct().getEpc().getEpc());
+                holder.getTxt2().setText(item.getProduct().getProduct().getEan());
                 holder.getTxt3().setText(item.getProduct().getProduct().getDescription());
                 holder.getTxt4().setText(item.getTransfer().getManifest());
                 holder.getTxt5().setText(item.getTransfer().getShopDestination().getName());
