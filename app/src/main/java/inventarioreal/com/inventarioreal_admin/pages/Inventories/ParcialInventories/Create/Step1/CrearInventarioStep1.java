@@ -1,6 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step1;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +19,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestCreateInventory2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.CrearInventarioStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.InventarioParcialHome;
+import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
@@ -39,6 +42,10 @@ public class CrearInventarioStep1 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this, this, R.layout.activity_inventario_parcial_crear_inventario_step_1);
         this.menu = init_menu(this, R.layout.layout_menu);
+        // toolbar
+        getSupportActionBar().setTitle("Crear Inventarios Parciales");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -168,6 +175,32 @@ public class CrearInventarioStep1 extends CicloActivity {
     public void onBackPressed() {
         admin.callIntent(InventarioParcialHome.class, null);
     }
+
+    //region Menu
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(getString(R.string.log_out));
+//        getMenuInflater().inflate(menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //endregion
 }
 
 

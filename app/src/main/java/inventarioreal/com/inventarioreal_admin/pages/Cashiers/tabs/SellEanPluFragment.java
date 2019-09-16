@@ -105,7 +105,7 @@ public class SellEanPluFragment extends Fragment {
         mViewModel.getProducts().observe(this, new Observer<LinkedList<ProductHasZone>>() {
             @Override
             public void onChanged(@Nullable LinkedList<ProductHasZone> products) {
-                if(products.size()>0){
+                if(products.size()>=0){
                     adapter1.setItems(products);
                     adapter1.notifyDataSetChanged();
                     adapterVisual.setItems(products);

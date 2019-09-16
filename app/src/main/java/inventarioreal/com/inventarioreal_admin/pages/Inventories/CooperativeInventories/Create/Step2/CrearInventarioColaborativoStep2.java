@@ -124,6 +124,10 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         this.requestInventariorCrear2 = gson.fromJson(message, RequestCreateInventory2.class);
         //endregion
         this.tabsInit();
+        // toolbar
+        getSupportActionBar().setTitle("Crear Inv Cooperativos");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         
     }
 
@@ -166,7 +170,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
             public void onClick(View v) {
                 changedStateLecture(false);
                 clean();
-                admin.callIntent(CrearInventarioColaborativoStep1.class, null);
+                onBackPressed();
             }
         });
         add_on_click(R.id.btnBor, new View.OnClickListener() {
@@ -259,26 +263,6 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         }
     }
 
-    //region Menu
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menu.add(getString(R.string.log_out));
-//        getMenuInflater().inflate(menu);
-        return true;
-    }
-
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG,item.getTitle().toString());
-        if(item.getTitle().equals(getString(R.string.log_out))){
-            admin.log_out(Login.class);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    //endregion
 
     //region Tab Total
     private ViewPager mViewPager;
@@ -366,9 +350,9 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
                 //Determino si es para crear o para adjuntar
                 if(requestInventariorCrear2.getInventory() ==null){
-                    requestInventariorCrear2.getInventory().setMessage(edtMensaje.getText().toString());
                     WebServices.createCollaborativeInventory(
                             requestInventariorCrear2.getZone().getId(),
+                            edtMensaje.getText().toString(),
                             products,
                             CrearInventarioColaborativoStep2.this,
                             admin,
@@ -446,4 +430,30 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         eanPluVieModel.clean();
         totalViewModel.setAmount(0);
     }
+
+    //region Menu
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(getString(R.string.log_out));
+//        getMenuInflater().inflate(menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //endregion
 }

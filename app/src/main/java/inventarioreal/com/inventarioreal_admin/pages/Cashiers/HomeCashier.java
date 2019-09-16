@@ -1,6 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.pages.Cashiers;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -9,6 +11,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Cashiers.Sell.SellCommodity;
 import inventarioreal.com.inventarioreal_admin.pages.Home;
+import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -24,6 +27,10 @@ public class HomeCashier extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_home_cashier);
         this.menu =init_menu(this,R.layout.layout_menu);
+        // toolbar
+        getSupportActionBar().setTitle("Salida Mercancia");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
     @Override
     public void initGui() {
@@ -82,4 +89,30 @@ public class HomeCashier extends CicloActivity {
             }
         });
     }
+
+    //region Menu
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(getString(R.string.log_out));
+//        getMenuInflater().inflate(menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //endregion
 }

@@ -60,8 +60,8 @@ public class DevolutionStep2 extends CicloActivity {
     private String TAG="DevolucionDeClientesStep2";
     private ProductHasZone request = new ProductHasZone();
     private DataBase db = DataBase.getInstance(this);
-    private ProductHasZone products;
-    private LinkedList<ProductHasZone> productosZonas = new LinkedList<>();
+    private ProductHasZone product;
+    private LinkedList<ProductHasZone> products = new LinkedList<>();
     private Gson gson = new Gson();
 
     RFDIReader rfdiReader =  null;
@@ -128,9 +128,13 @@ public class DevolutionStep2 extends CicloActivity {
         Intent intent = getIntent();
         String message = intent.getStringExtra(Constants.parameters);
         Gson gson = new Gson();
-        this.products = gson.fromJson(message, ProductHasZone.class);
+        this.product = gson.fromJson(message, ProductHasZone.class);
         //endregion
         this.tabsInit();
+        // toolbar
+        getSupportActionBar().setTitle("Devoluciones");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
     @Override
     public void initGui() {
@@ -157,9 +161,16 @@ public class DevolutionStep2 extends CicloActivity {
         add_on_click(R.id.btnFin, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rfdiReader.setStartReader(false);
-                getElemento(R.id.btnLee).setText("Leer");
-                showDialog();
+                changedStateLecture(false);
+                boolean pass=true;
+                for(ProductHasZone product: products){
+                    if(product.isError()){
+                        pass=false;
+                        admin.toast("Hay productos que no se pueden sacar");
+                    }
+                }
+                if(pass)
+                    showDialog();
             }
         });
         add_on_click(R.id.btnLee, new View.OnClickListener() {
@@ -173,6 +184,12 @@ public class DevolutionStep2 extends CicloActivity {
             @Override
             public void onClick(View v) {
                 admin.callIntent(CrearInventarioStep1.class, null);
+            }
+        });
+        add_on_click(R.id.btnBor, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clean();
             }
         });
     }
@@ -224,9 +241,9 @@ public class DevolutionStep2 extends CicloActivity {
                 if(proZon.getDevolution().getId()>1){
                     proZon.setError(true);
                 }
-                productosZonas.add(proZon);
+                products.add(proZon);
                 eanPluVieModel.addProductoZona(proZon);
-                totalViewModel.setAmount(productosZonas.size());
+                totalViewModel.setAmount(products.size());
                 epcs.add(epc);
 
         }else{
@@ -264,35 +281,6 @@ public class DevolutionStep2 extends CicloActivity {
         }
     }
 
-
-    //region Menu
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menu.add(getString(R.string.log_out));
-//        getMenuInflater().inflate(menu);
-        return true;
-    }
-
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        Log.d(TAG,item.getTitle().toString());
-        if(item.getTitle().equals(getString(R.string.log_out))){
-            admin.log_out(Login.class);
-        }
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_favorite) {
-//            Toast.makeText(MainActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
-//            return true;
-//        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    //endregion
 
     //region Tab Total
     private ViewPager mViewPager;
@@ -363,12 +351,12 @@ public class DevolutionStep2 extends CicloActivity {
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
-        txtZona.setText("Zonas : "+ products.getZone().getName());
+        txtZona.setText("Zonas : "+ product.getZone().getName());
         request.setCreatedAt(admin.getCurrentDateAndTime());
         txtTime.setText(request.getCreatedAt());
         // inicio spnMotDev
         final LinkedList devoluciones = db.getByColumn(
-                Constants.table_devolutions,"type",this.products.getDevolution().getType().toString(), Devolution.class);
+                Constants.table_devolutions,"type",this.product.getDevolution().getType().toString(), Devolution.class);
 
         ArrayAdapter<Zone> adapter =
                 new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, devoluciones);
@@ -379,7 +367,7 @@ public class DevolutionStep2 extends CicloActivity {
         ((Spinner) dialogView.findViewById(R.id.spnMotDev)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                for (ProductHasZone pr: productosZonas) {
+                for (ProductHasZone pr: products) {
                     pr.setDevolution((Devolution)devoluciones.get(position));
                 }
             }
@@ -399,11 +387,11 @@ public class DevolutionStep2 extends CicloActivity {
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for (ProductHasZone pr: productosZonas) {
+                for (ProductHasZone pr: products) {
                     pr.setNotes_return(edtMensaje.getText().toString());
                 }
                 WebServices.returnProducts(
-                        productosZonas,
+                        products,
                         DevolutionStep2.this,
                         admin,
                         new ResultWebServiceInterface() {
@@ -456,4 +444,37 @@ public class DevolutionStep2 extends CicloActivity {
         rfdiReader.onDestroy();
         super.onDestroy();
     }
+
+    private void clean(){
+        rfdiReader.cleanEpcs();
+        epcs.clear();
+        products.clear();
+        eanPluVieModel.clean();
+        totalViewModel.setAmount(0);
+    }
+    //region Menu
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(getString(R.string.log_out));
+//        getMenuInflater().inflate(menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //endregion
 }

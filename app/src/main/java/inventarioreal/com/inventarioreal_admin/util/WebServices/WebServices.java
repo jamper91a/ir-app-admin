@@ -334,10 +334,10 @@ public class WebServices {
         }
     }
 
-    public static void createInventory(long zone, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void createInventory(long zone, String message, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         try {
             final String url=Constants.url+Constants.ws_createInventory;
-            CreateInventoryRequest request = new CreateInventoryRequest(zone, products);
+            CreateInventoryRequest request = new CreateInventoryRequest(zone, message, products);
             post(
                     url,
                     request.getCampos(),
@@ -449,10 +449,10 @@ public class WebServices {
         }
     }
 
-    public static void createCollaborativeInventory(long zone, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void createCollaborativeInventory(long zone, String message, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_createInventory;
 
-        CreateCollaborativeInventoryRequest request = new CreateCollaborativeInventoryRequest(zone, products);
+        CreateCollaborativeInventoryRequest request = new CreateCollaborativeInventoryRequest(zone, message, products);
 
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
                 activity,

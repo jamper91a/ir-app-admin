@@ -11,40 +11,61 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZ
 
 public class InvTotalEanPluViewModel extends ViewModel {
 
-    MutableLiveData<LinkedList<ProductHasZone>> productosZonasLiveData = null;
+    MutableLiveData<LinkedList<ProductHasZone>> productsZonasLiveData = null;
+    MutableLiveData<LinkedList<ProductHasZone>> allProductsZonasLiveData = null;
     MutableLiveData<Inventory[]> inventario = null;
-    private LinkedList<ProductHasZone> productosZona = null;
+    private LinkedList<ProductHasZone> products = null;
+    private LinkedList<ProductHasZone> allProducts= null;
 
 
 
-    public void addProductoZona(ProductHasZone productosZonas){
-        if(productosZona==null)
-            productosZona = new LinkedList<>();
+    public void addProductoZona(ProductHasZone product){
+        if(products ==null)
+            products = new LinkedList<>();
+
+
         //Valido si ya se ha agregado el producto
         int count=0;
-        if(productosZonas.getProduct()!=null){
-            for (ProductHasZone pz: productosZona
+        if(product.getProduct()!=null){
+            for (ProductHasZone pz: products
             ) {
-                if(pz.getProduct().getId() == productosZonas.getProduct().getId()){
+                if(pz.getProduct().getId() == product.getProduct().getId()){
                     pz.setTotal(pz.getTotal()+1);
-                    productosZona.set(count,pz);
-                    productosZonasLiveData.setValue(productosZona);
+                    products.set(count,pz);
+                    productsZonasLiveData.setValue(products);
                     return;
                 }
                 count+=1;
             }
-            productosZona.add(productosZonas);
-            productosZonasLiveData.setValue(productosZona);
+            products.add(product);
+            productsZonasLiveData.setValue(products);
+
         }
 
     }
-    public LiveData<LinkedList<ProductHasZone>> getProductosZona(){
-        if(productosZonasLiveData ==null){
-            productosZonasLiveData = new MutableLiveData<>();
-            productosZona = new LinkedList<>();
-            productosZonasLiveData.setValue(productosZona);
+    public void addAppProductoZona(ProductHasZone product){
+        if(allProducts == null)
+            allProducts = new LinkedList<>();
+
+        allProducts.add(product);
+        allProductsZonasLiveData.setValue(allProducts);
+
+    }
+    public LiveData<LinkedList<ProductHasZone>> getProducts(){
+        if(productsZonasLiveData ==null){
+            productsZonasLiveData = new MutableLiveData<>();
+            products = new LinkedList<>();
+            productsZonasLiveData.setValue(products);
         }
-        return productosZonasLiveData;
+        return productsZonasLiveData;
+    }
+    public LiveData<LinkedList<ProductHasZone>> getAllProducts(){
+        if(allProductsZonasLiveData ==null){
+            allProductsZonasLiveData = new MutableLiveData<>();
+            allProducts = new LinkedList<>();
+            allProductsZonasLiveData.setValue(allProducts);
+        }
+        return allProductsZonasLiveData;
     }
 
     public LiveData<Inventory[]> getInventario() {

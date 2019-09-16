@@ -27,6 +27,10 @@ public class HomeTransferencia extends CicloActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_home_transferencia);
+        //toolbar
+        getSupportActionBar().setTitle("Transferencias");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -103,24 +107,17 @@ public class HomeTransferencia extends CicloActivity {
 
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        if(item.getTitle().equals(getString(R.string.log_out))){
-            admin.log_out(Login.class);
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
         }
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_favorite) {
-//            Toast.makeText(MainActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
-//            return true;
-//        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        admin.callIntent(Home.class, null);
     }
 
     //endregion

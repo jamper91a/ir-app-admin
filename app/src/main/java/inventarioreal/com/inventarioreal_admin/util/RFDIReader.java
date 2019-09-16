@@ -138,7 +138,8 @@ public class RFDIReader {
         threadSmall.start();
     }
     private void stopSmallReader(){
-        threadSmall.interrupt();
+        if(threadSmall!=null)
+            threadSmall.interrupt();
         if (managerSmall != null) {
             managerSmall.stopInventoryMulti();
             managerSmall.close();
@@ -210,7 +211,8 @@ public class RFDIReader {
             threadBig.start();
     }
     private void stopBigReader(){
-        threadBig.interrupt();
+        if(threadBig!=null)
+            threadBig.interrupt();
         if(managerBig!=null){
             managerBig.stopInventory();
             managerBig.close();

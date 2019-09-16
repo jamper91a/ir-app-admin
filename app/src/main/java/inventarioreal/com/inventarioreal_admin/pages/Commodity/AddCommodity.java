@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,6 +23,7 @@ import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterEpcs;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Home;
+import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddCommodityResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
@@ -120,6 +123,10 @@ public class AddCommodity extends CicloActivity {
         }, this);
         rfdiReader.initSDK();
         //endregion
+        // toolbar
+        getSupportActionBar().setTitle("Agregar Mercancia");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
     @Override
     public void initGui() {
@@ -453,6 +460,32 @@ public class AddCommodity extends CicloActivity {
     public void onBackPressed() {
         admin.callIntent(Home.class, null);
     }
+
+    //region Menu
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(getString(R.string.log_out));
+//        getMenuInflater().inflate(menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //endregion
 
 
 }

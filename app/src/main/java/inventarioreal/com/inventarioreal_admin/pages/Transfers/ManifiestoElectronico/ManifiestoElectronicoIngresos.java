@@ -43,6 +43,10 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_manifiesto_electronico_ingresos);
+        //toolbar
+        getSupportActionBar().setTitle("Manifiesto electronico Ingresos");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -72,7 +76,7 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
                 //Cuento cuantos productos ya se recibieron
                 int recibidos = 0;
                 //Determino cuantos productos unicos hay
-                int productosUnicos=0;
+                int productosUnicos=transferencia.getProducts().length;
                 LinkedList<ProductosTransferenciaDetail> productos = new LinkedList<>();
                 for(TransfersHasZonesProduct pzt:transferencia.getProducts()){
                     if(pzt.state)
@@ -80,7 +84,7 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
                     //Determina si el producto ya existe en la lista o no
                     //Si no existe actualiza la cantidad
                     if(!productExists(pzt, productos)){
-                        productosUnicos++;
+//                        productosUnicos++;
                         //Como el producto no existe lo creo y lo agrego a la lista
                         try {
                             ProductHasZone productosZonas =
@@ -180,6 +184,7 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
                 aux.setEnviados(aux.getEnviados()+1);
                 if(pzt.getState())
                     aux.setRecibidos(aux.getRecibidos()+1);
+                return true;
             }
         }
 
@@ -207,18 +212,16 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
 
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        if(item.getTitle().equals(getString(R.string.log_out))){
-            admin.log_out(Login.class);
-        }
 
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_favorite) {
-//            Toast.makeText(MainActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
-//            return true;
-//        }
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
         return super.onOptionsItemSelected(item);
     }
 

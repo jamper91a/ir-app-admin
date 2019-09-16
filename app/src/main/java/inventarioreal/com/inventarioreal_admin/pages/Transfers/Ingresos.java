@@ -109,8 +109,11 @@ public class Ingresos extends CicloActivity {
         rfdiReader.initSDK();
         init(this,this,R.layout.get_product_by_epc);
         local = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class)).getEmployee().getShop();
-
         this.tabsInit();
+        //toolbar
+        getSupportActionBar().setTitle("Ingresos");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
     @Override
     public void initGui() {
@@ -298,35 +301,6 @@ public class Ingresos extends CicloActivity {
         }
     }
 
-    //region Menu
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menu.add(getString(R.string.log_out));
-//        getMenuInflater().inflate(menu);
-        return true;
-    }
-
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        Log.d(TAG,item.getTitle().toString());
-        if(item.getTitle().equals(getString(R.string.log_out))){
-            admin.log_out(Login.class);
-        }
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_favorite) {
-//            Toast.makeText(MainActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
-//            return true;
-//        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    //endregion
-
     //region Tab Total
     private ViewPager mViewPager;
     TotalViewModel totalViewModel;
@@ -456,4 +430,30 @@ public class Ingresos extends CicloActivity {
         rfdiReader.onDestroy();
         super.onDestroy();
     }
+
+    //region Menu
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(getString(R.string.log_out));
+//        getMenuInflater().inflate(menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //endregion
 }

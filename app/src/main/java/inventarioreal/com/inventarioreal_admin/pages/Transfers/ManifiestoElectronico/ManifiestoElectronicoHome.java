@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.pages.Transfers.ManifiestoElectronico;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -21,6 +22,10 @@ public class ManifiestoElectronicoHome extends CicloActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this, this, R.layout.activity_manifiesto_electronico_home);
+        //toolbar
+        getSupportActionBar().setTitle("Manifiesto Electronico");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -59,7 +64,7 @@ public class ManifiestoElectronicoHome extends CicloActivity {
 
     //region Menu
 
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         menu.add(getString(R.string.log_out));
 //        getMenuInflater().inflate(menu);
@@ -68,15 +73,16 @@ public class ManifiestoElectronicoHome extends CicloActivity {
 
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getTitle().equals(getString(R.string.log_out))){
-            admin.log_out(Login.class);
-        }
 
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_favorite) {
-//            Toast.makeText(MainActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
-//            return true;
-//        }
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -16,9 +16,10 @@ public class CreateCollaborativeInventoryRequest {
     private Inventory inventory;
     private List<InventoryHasProduct> products;
 
-    public CreateCollaborativeInventoryRequest(long zonas_id, List<InventoryHasProduct> products) {
+    public CreateCollaborativeInventoryRequest(long zonas_id, String message,  List<InventoryHasProduct> products) {
         this.inventory = new Inventory();
         this.inventory.setZone(new Zone(zonas_id));
+        this.inventory.setMessage(message);
         this.products = products;
     }
 
@@ -38,6 +39,7 @@ public class CreateCollaborativeInventoryRequest {
         object.addProperty(Constants.collaborative, true);
         object.addProperty(Constants.zone, this.inventory.getZone().getId());
         object.addProperty(Constants.consolidatedInventory  , 1);
+        object.addProperty(Constants.message, this.inventory.getMessage());
         return gson.toJson(object);
     }
 

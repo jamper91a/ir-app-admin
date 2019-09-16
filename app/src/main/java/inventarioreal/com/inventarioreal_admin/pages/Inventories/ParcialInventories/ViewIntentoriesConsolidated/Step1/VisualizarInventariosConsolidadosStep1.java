@@ -3,6 +3,8 @@ package inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInvento
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.daimajia.androidanimations.library.Techniques;
 
@@ -14,6 +16,7 @@ import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestInventoryZoneStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.InventarioParcialHome;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step2.VisualizarInventarioPorZonaStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
@@ -32,18 +35,20 @@ public class VisualizarInventariosConsolidadosStep1 extends CicloActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this, R.layout.activity_visualizar_inventarios);
+        // toolbar
+        getSupportActionBar().setTitle("Visualizar Inventarios Consolidados");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
     public void initGui() {
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.lst1), Techniques.SlideInLeft));
-        addElemento(new Animacion(findViewById(R.id.btnIni), Techniques.SlideInLeft));
 
         //Cambiar los textos a mostrar
 
         getElemento(R.id.txt1).setText("Selecciones el inventory a visualizar");
-        getElemento(R.id.btnIni).setText("Visualizar");
     }
 
     @Override
@@ -106,4 +111,30 @@ public class VisualizarInventariosConsolidadosStep1 extends CicloActivity {
     public void onBackPressed() {
         admin.callIntent(InventarioParcialHome.class, null);
     }
+
+    //region Menu
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(getString(R.string.log_out));
+//        getMenuInflater().inflate(menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //endregion
 }

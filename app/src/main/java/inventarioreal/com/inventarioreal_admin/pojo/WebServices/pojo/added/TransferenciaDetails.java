@@ -2,7 +2,7 @@ package inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Employee;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.User;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 
 public class TransferenciaDetails {
 
@@ -16,6 +16,7 @@ public class TransferenciaDetails {
     private String mensaje;
     private String manifiestoElectronico;
     private ProductosTransferenciaDetail[] productos;
+    private Transfer transfer;
 
     public TransferenciaDetails() {
     }
@@ -86,6 +87,14 @@ public class TransferenciaDetails {
 
     public String getManifiestoElectronico() {
         return manifiestoElectronico;
+    }
+
+    public Transfer getTransfer() {
+        return transfer;
+    }
+
+    public void setTransfer(Transfer transfer) {
+        this.transfer = transfer;
     }
 
     public void setManifiestoElectronico(String manifiestoElectronico) {

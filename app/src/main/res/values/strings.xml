@@ -72,4 +72,5 @@
     <string name="view_cooperative_inventories_by_zone">Visualizar inventories cooperativos por zona</string>
     <string name="view_cooperative_inventories_consolidated">Visualizar inventories cooperativos consolidados</string>
     <string name="salida_mercancia">Salida de Mercancia</string>
+    <string name="id">Id</string>
 </resources>

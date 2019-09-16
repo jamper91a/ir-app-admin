@@ -5,34 +5,34 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/txtEnv"
-        android:layout_width="40dp"
+        android:id="@+id/txtId"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="Env"
+        android:layout_weight=".10"
+        android:text="@string/id"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/txtRec"
-        android:layout_width="40dp"
+        android:id="@+id/txtEpc"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="Rec"
+        android:layout_weight=".40"
+        android:text="@string/epc"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/txtEan"
-        android:layout_width="match_parent"
+        android:id="@+id/txtRecibido"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/eanPlu"
+        android:layout_weight=".10"
+        android:text="R"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/txtDet"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight=".40"
         android:text="@string/details"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

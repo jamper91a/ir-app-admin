@@ -74,6 +74,10 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         init(this,this,R.layout.activity_inventario_parcial_visualizar_por_zona_step_2);
         this.tabsInit();
         //endregion
+        // toolbar
+        getSupportActionBar().setTitle("Visualizar Inv Coo Por Zonas");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -180,29 +184,6 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
 
     }
 
-    //region Menu
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menu.add(getString(R.string.log_out));
-//        getMenuInflater().inflate(menu);
-        return true;
-    }
-
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        Log.d(TAG,item.getTitle().toString());
-        if(item.getTitle().equals(getString(R.string.log_out))){
-            admin.log_out(Login.class);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    //endregion
 
     //region Tab Total
     private ViewPager mViewPager;
@@ -274,5 +255,31 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
             return 2;
         }
     }
+    //endregion
+
+    //region Menu
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(getString(R.string.log_out));
+//        getMenuInflater().inflate(menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     //endregion
 }

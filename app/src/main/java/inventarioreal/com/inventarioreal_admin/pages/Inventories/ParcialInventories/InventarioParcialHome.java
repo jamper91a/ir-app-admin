@@ -1,6 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -12,6 +14,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventor
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step1.CrearInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewIntentoriesConsolidated.Step1.VisualizarInventariosConsolidadosStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step1.VisualizarInventarioPorZonaStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Login;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -23,6 +26,10 @@ public class InventarioParcialHome extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_inventario_home);
         this.menu =init_menu(this,R.layout.layout_menu);
+        // toolbar
+        getSupportActionBar().setTitle("Inventarios");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
     @Override
     public void initGui() {
@@ -83,4 +90,30 @@ public class InventarioParcialHome extends CicloActivity {
     public void onBackPressed() {
         admin.callIntent(Home.class, null);
     }
+
+    //region Menu
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(getString(R.string.log_out));
+//        getMenuInflater().inflate(menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //endregion
 }

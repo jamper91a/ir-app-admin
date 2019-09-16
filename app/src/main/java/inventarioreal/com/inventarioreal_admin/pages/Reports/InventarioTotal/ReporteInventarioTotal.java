@@ -21,6 +21,8 @@ import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.tab
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.tabs.InvTotTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.tabs.InvTotalEanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.tabs.InvTotalEanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.tabs.InvTotalEpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.tabs.InvTotalEpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.UltimoInventarioResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
@@ -46,7 +48,10 @@ public class ReporteInventarioTotal extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_inventario_parcial_visualizar_por_zona_step_2);
         this.tabsInit();
-        //endregion
+        //toolbar
+        getSupportActionBar().setTitle("Reporte Inventarios Total");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -68,6 +73,7 @@ public class ReporteInventarioTotal extends CicloActivity {
                 if(inventarioConsolidado!=null){
                     totalConsolidadoViewModel = ViewModelProviders.of(ReporteInventarioTotal.this).get(InvTotTotalViewModel.class);
                     eanPluConsolidadoVieModel = ViewModelProviders.of(ReporteInventarioTotal.this).get(InvTotalEanPluViewModel.class);
+                    epcConsolidadoVieModel = ViewModelProviders.of(ReporteInventarioTotal.this).get(InvTotalEpcViewModel.class);
                     //Busco la zona del inventory
                     for(Inventory inv: inventarioConsolidado.getInventories()){
                         for (ProductHasZone pz: inv.getProducts()){
@@ -80,17 +86,13 @@ public class ReporteInventarioTotal extends CicloActivity {
                                 pz.setProduct(producto);
                             }
                             eanPluConsolidadoVieModel.addProductoZona(pz);
+                            epcConsolidadoVieModel.addAllProductoZona(pz);
                         }
                     }
 
 
                     //Actualizo la cantidad
                     totalConsolidadoViewModel.setInventario(inventarioConsolidado);
-//                    for(Inventory inv: inventarioConsolidado.getInventories()){
-//                        for (ProductHasZone pz: inv.getProducts()){
-//                            eanPluConsolidadoVieModel.addProductoZona(pz);
-//                        }
-//                    }
                 }
             }
 
@@ -126,29 +128,6 @@ public class ReporteInventarioTotal extends CicloActivity {
 
     }
 
-    //region Menu
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menu.add(getString(R.string.log_out));
-//        getMenuInflater().inflate(menu);
-        return true;
-    }
-
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        Log.d(TAG,item.getTitle().toString());
-        if(item.getTitle().equals(getString(R.string.log_out))){
-            admin.log_out(Login.class);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    //endregion
 
     //region Tab Total
     private ViewPager mViewPager;
@@ -157,6 +136,7 @@ public class ReporteInventarioTotal extends CicloActivity {
 
     InvTotTotalViewModel totalConsolidadoViewModel;
     InvTotalEanPluViewModel eanPluConsolidadoVieModel;
+    InvTotalEpcViewModel epcConsolidadoVieModel;
     //endregion
 
     //region Tabs configuration
@@ -195,6 +175,11 @@ public class ReporteInventarioTotal extends CicloActivity {
                         InvTotalEanPluFragment eanPlu = InvTotalEanPluFragment.newInstance();
                         eanPlu.setAdmin(admin);
                         return eanPlu;
+
+                case 2:
+                        InvTotalEpcFragment epcFragment = InvTotalEpcFragment.newInstance();
+                        epcFragment.setAdmin(admin);
+                        return epcFragment;
                 default:
                     return null;
 
@@ -204,8 +189,40 @@ public class ReporteInventarioTotal extends CicloActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
     }
+    //endregion
+
+
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(HomeReportes.class, null);
+    }
+
+    //region Menu
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(getString(R.string.log_out));
+//        getMenuInflater().inflate(menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     //endregion
 }

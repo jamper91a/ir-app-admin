@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioEanPlu;
+package inventarioreal.com.inventarioreal_admin.adapters;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
@@ -195,4 +195,6 @@ public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapte
         }
 
     }
+
+
 }

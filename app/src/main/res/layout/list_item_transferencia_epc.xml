@@ -18,22 +18,22 @@
 
         <TextView
             android:id="@+id/txt1"
-            android:layout_width="40dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight=".10"
             android:clickable="false"
             android:ems="10"
-            android:gravity="bottom"
             android:inputType="textPersonName"
             android:text=""
             tools:ignore="NestedWeights" />
 
         <TextView
             android:id="@+id/txt2"
-            android:layout_width="40dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight=".40"
             android:clickable="false"
             android:ems="10"
-            android:gravity="bottom"
             android:inputType="textPersonName"
             android:text=""
             android:visibility="visible"
@@ -41,24 +41,23 @@
 
         <TextView
             android:id="@+id/txt3"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight=".10"
             android:clickable="false"
             android:ems="10"
-            android:gravity="bottom"
             android:inputType="textPersonName"
             android:text=""
             android:visibility="visible"
             tools:ignore="NestedWeights" />
+
         <TextView
             android:id="@+id/txt4"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight=".40"
             android:clickable="false"
             android:ems="10"
-            android:gravity="bottom"
             android:inputType="textPersonName"
             android:text=""
             android:visibility="visible"

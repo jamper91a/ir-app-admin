@@ -1,6 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.pages.Reports;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -8,6 +10,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Home;
+import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenciaInventariosFisicos.DIFStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioEanPlu.InventarioEanPlu;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.ReporteInventarioTotal;
@@ -26,6 +29,10 @@ public class HomeReportes extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_home_reportes);
         this.menu =init_menu(this,R.layout.layout_menu);
+        //toolbar
+        getSupportActionBar().setTitle("Reportes");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
     @Override
     public void initGui() {
@@ -99,4 +106,30 @@ public class HomeReportes extends CicloActivity {
             }
         });
     }
+
+    //region Menu
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menu.add(getString(R.string.log_out));
+//        getMenuInflater().inflate(menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        if(item.getTitle()!= null){
+            if(item.getTitle().equals(getString(R.string.log_out))){
+                admin.log_out(Login.class);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //endregion
 }
