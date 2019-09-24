@@ -29,6 +29,7 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Join.UnirseInventariosColaborativos;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestCreateInventory2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluViewModel;
@@ -127,7 +128,10 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         //endregion
         this.tabsInit();
         // toolbar
-        getSupportActionBar().setTitle("Crear Inv Cooperativos");
+        if(!requestInventariorCrear2.isUnion())
+            getSupportActionBar().setTitle("Crear Inv Cooperativos");
+        else
+            getSupportActionBar().setTitle("Unirse Inventario Colaborativo");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         
@@ -316,6 +320,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                     return eanPlu;
                 case 2:
                     EpcFragment epc = EpcFragment.newInstance();
+                    epc.setAdmin(admin);
                     return epc;
                 default:
                     return null;
@@ -389,7 +394,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                                 @Override
                                 public void ok(ResultWebServiceOk ok) {
                                     admin.toast("Inventario actualizado con exito");
-                                    admin.callIntent(CrearInventarioColaborativoStep1.class, null);
+                                    admin.callIntent(UnirseInventariosColaborativos.class, null);
                                 }
 
                                 @Override

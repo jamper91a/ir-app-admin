@@ -21,6 +21,8 @@ import java.util.LinkedList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestInventoryZoneStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step1.VisualizarInventarioColaborativoPorZonaStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario.TotalFragment;
@@ -95,6 +97,7 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         if(inventario!=null){
             totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
             eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
+            epcVieModel = ViewModelProviders.of(this).get(EpcViewModel.class);
 
             WebServices.getProductsByInventory(inventario.getId(), this, admin, new ResultWebServiceInterface() {
                 @Override
@@ -118,6 +121,7 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
                         if(epc!=null)
                             pz.setEpc(epc);
                         eanPluVieModel.addProductoZona(pz);
+                        epcVieModel.addAllProductoZona(pz);
                     }
 
                 }
@@ -132,6 +136,7 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         if(inventarioConsolidado!=null){
             totalConsolidadoViewModel = ViewModelProviders.of(this).get(TotalConsolidadoViewModel.class);
             eanPluConsolidadoVieModel = ViewModelProviders.of(this).get(EanPluConsolidadoViewModel.class);
+            epcVieModel = ViewModelProviders.of(this).get(EpcViewModel.class);
             WebServices.getProductsByConsolidatedInventory(inventarioConsolidado.getId(), this, admin, new ResultWebServiceInterface() {
                 @Override
                 public void ok(ResultWebServiceOk ok) {
@@ -142,11 +147,20 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
                         if(zona!=null){
                             pz.setZone(zona);
                         }
+
                     }
 
                     //Actualizo la cantidad
                     totalConsolidadoViewModel.stInventario(aux.getConsolidatedInventories());
                     for (ProductHasZone pz: aux.getProductosZonas()){
+                        Epc epc = (Epc) db.findById(
+                                Constants.table_epcs,
+                                pz.getEpc().getId()+"",
+                                Epc.class
+                        );
+                        if(epc!=null)
+                            pz.setEpc(epc);
+                        epcVieModel.addAllProductoZona(pz);
                         eanPluConsolidadoVieModel.addProductoZona(pz);
                     }
 
@@ -189,6 +203,7 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
     private ViewPager mViewPager;
     TotalViewModel totalViewModel;
     EanPluViewModel eanPluVieModel;
+    EpcViewModel epcVieModel;
 
     TotalConsolidadoViewModel totalConsolidadoViewModel;
     EanPluConsolidadoViewModel eanPluConsolidadoVieModel;
@@ -240,6 +255,10 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
                         eanPlu.setAdmin(admin);
                         return eanPlu;
                     }
+                case 2:
+                    EpcFragment epcFragment = EpcFragment.newInstance();
+                    epcFragment.setAdmin(admin);
+                    return epcFragment;
 //                case 2:
 //                    Epc epc = new Epc();
 //                    return epc;
@@ -252,7 +271,7 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
     }
     //endregion
