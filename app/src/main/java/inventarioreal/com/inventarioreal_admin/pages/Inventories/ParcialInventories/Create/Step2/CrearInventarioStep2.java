@@ -33,6 +33,8 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.Request
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step1.CrearInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
@@ -71,11 +73,14 @@ public class CrearInventarioStep2 extends CicloActivity {
                 case 1:
                     epc = msg.getData().getString("epc");
                     addToList(epc);
-                    //admin.toast("Epc found: "+epc); //readed
                     break ;
                 case 3:
                     boolean state = msg.getData().getBoolean("state");
                     changedStateLecture(state);
+                    break ;
+                case 4:
+                    String key = msg.getData().getString("key");
+                    admin.toast(key);
                     break ;
             }
         }
@@ -117,12 +122,22 @@ public class CrearInventarioStep2 extends CicloActivity {
 
             @Override
             public void onStateChanged(boolean state) {
-
+                Message msg = new Message();
+                msg.what = 3;
+                Bundle b = new Bundle();
+                b.putBoolean("state", state);
+                msg.setData(b);
+                handler.sendMessage(msg);
             }
 
             @Override
             public void onKeyPresses(String key) {
-
+                Message msg = new Message();
+                msg.what = 4;
+                Bundle b = new Bundle();
+                b.putString("key", key);
+                msg.setData(b);
+                handler.sendMessage(msg);
             }
         }, this);
         rfdiReader.initSDK();
@@ -151,7 +166,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         epcs = new ArrayList<>();
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
-
+        epcVieModel = ViewModelProviders.of(this).get(EpcViewModel.class);
         Inventory inventory = new Inventory();
         inventory.setDate(requestInventariorCrear2.getDate());
         inventory.setZone(requestInventariorCrear2.getZone());
@@ -237,6 +252,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 
                 products.add(ip);
                 eanPluVieModel.addProductoZona(proZon);
+                epcVieModel.addAllProductoZona(proZon);
                 totalViewModel.setAmount(products.size());
                 epcs.add(epc);
             } catch (Exception e) {
@@ -284,6 +300,7 @@ public class CrearInventarioStep2 extends CicloActivity {
     private ViewPager mViewPager;
     TotalViewModel totalViewModel;
     EanPluViewModel eanPluVieModel;
+    EpcViewModel epcVieModel;
     //endregion
 
     //region Tabs configuration
@@ -321,6 +338,10 @@ public class CrearInventarioStep2 extends CicloActivity {
                     EanPluFragment eanPlu = EanPluFragment.newInstance();
                     eanPlu.setAdmin(admin);
                     return eanPlu;
+                case 2:
+                    EpcFragment epc = EpcFragment.newInstance();
+                    epc.setAdmin(admin);
+                    return epc;
 //                case 2:
 //                    Epc epc = new Epc();
 //                    return epc;
@@ -333,7 +354,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
     }
     //endregion
