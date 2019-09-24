@@ -154,8 +154,17 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                     //Actualizo la cantidad
                     totalConsolidadoViewModel.stInventario(aux.getConsolidatedInventories());
                     for (ProductHasZone pz: aux.getProductosZonas()){
-                            eanPluConsolidadoVieModel.addProductoZona(pz);
-                            epcVieModel.addAllProductoZona(pz);
+                        //Busco el epc del producto
+                        Epc epc = (Epc) db.findById(
+                                Constants.table_epcs,
+                                pz.getEpc().getId()+"",
+                                Epc.class
+                        );
+                        if(epc!=null)
+                            pz.setEpc(epc);
+
+                        eanPluConsolidadoVieModel.addProductoZona(pz);
+                        epcVieModel.addAllProductoZona(pz);
                     }
 
 
