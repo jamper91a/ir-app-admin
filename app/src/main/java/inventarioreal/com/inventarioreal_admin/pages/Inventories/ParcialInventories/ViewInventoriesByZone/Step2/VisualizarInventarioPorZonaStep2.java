@@ -20,6 +20,8 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestInventoryZoneStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewIntentoriesConsolidated.Step1.VisualizarInventariosConsolidadosStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step1.VisualizarInventarioPorZonaStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario.EanPluFragment;
@@ -97,6 +99,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
         if(inventario!=null){
             totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
             eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
+            epcVieModel = ViewModelProviders.of(this).get(EpcViewModel.class);
             WebServices.getProductsByInventory(inventario.getId(), this, admin, new ResultWebServiceInterface() {
                 @Override
                 public void ok(ResultWebServiceOk ok) {
@@ -119,6 +122,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                         if(epc!=null)
                             pz.setEpc(epc);
                         eanPluVieModel.addProductoZona(pz);
+                        epcVieModel.addAllProductoZona(pz);
                     }
                     eanPluVieModel.setInventario(inventario);
 
@@ -134,6 +138,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
         if(inventarioConsolidado!=null){
             totalConsolidadoViewModel = ViewModelProviders.of(this).get(TotalConsolidadoViewModel.class);
             eanPluConsolidadoVieModel = ViewModelProviders.of(this).get(EanPluConsolidadoViewModel.class);
+            epcVieModel = ViewModelProviders.of(this).get(EpcViewModel.class);
             WebServices.getProductsByConsolidatedInventory(inventarioConsolidado.getId(), this, admin, new ResultWebServiceInterface() {
                 @Override
                 public void ok(ResultWebServiceOk ok) {
@@ -150,6 +155,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                     totalConsolidadoViewModel.stInventario(aux.getConsolidatedInventories());
                     for (ProductHasZone pz: aux.getProductosZonas()){
                             eanPluConsolidadoVieModel.addProductoZona(pz);
+                            epcVieModel.addAllProductoZona(pz);
                     }
 
 
@@ -195,6 +201,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
     private ViewPager mViewPager;
     TotalViewModel totalViewModel;
     EanPluViewModel eanPluVieModel;
+    EpcViewModel epcVieModel;
 
 
 
@@ -248,10 +255,9 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                         eanPlu.setAdmin(admin);
                         return eanPlu;
                     }
-
-//                case 2:
-//                    Epc epc = new Epc();
-//                    return epc;
+                case 2:
+                    EpcFragment epcFragment = EpcFragment.newInstance();
+                    return epcFragment;
                 default:
                     return null;
 
@@ -261,7 +267,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
     }
     //endregion
