@@ -75,7 +75,6 @@ public class ViewCoopInvConsolidatedStep1 extends CicloActivity {
             @Override
             public void onItemClick(Object item) {
                 ConsolidatedInventory inv = (ConsolidatedInventory) item;
-                admin.toast(inv.createdAt);
                 RequestInventoryZoneStep2 requestInventarioPorZonaStep2 = new RequestInventoryZoneStep2(inv);
                 admin.callIntent(VisualizarInventarioColaborativoPorZonaStep2.class, requestInventarioPorZonaStep2, RequestInventoryZoneStep2.class);
             }

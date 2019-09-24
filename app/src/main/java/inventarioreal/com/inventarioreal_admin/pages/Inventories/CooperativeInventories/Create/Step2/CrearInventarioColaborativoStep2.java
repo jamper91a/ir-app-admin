@@ -387,6 +387,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                 }else{
                     WebServices.attachInventory(
                             requestInventariorCrear2.getInventory(),
+                            edtMensaje.getText().toString(),
                             products,
                             CrearInventarioColaborativoStep2.this,
                             admin,

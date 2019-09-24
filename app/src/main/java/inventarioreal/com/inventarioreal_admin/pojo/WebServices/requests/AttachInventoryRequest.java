@@ -15,8 +15,9 @@ public class AttachInventoryRequest {
     private Inventory inventory;
     private List<InventoryHasProduct> products;
 
-    public AttachInventoryRequest(Inventory inventory, List<InventoryHasProduct> products) {
+    public AttachInventoryRequest(Inventory inventory, String message, List<InventoryHasProduct> products) {
         this.inventory = inventory;
+        this.inventory.setMessage(message);
         this.products = products;
     }
 

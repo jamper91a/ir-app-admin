@@ -412,11 +412,11 @@ public class WebServices {
         executeEnviar(activity, callWebServiceJson);
     }
 
-    public static void attachInventory(Inventory inventory, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void attachInventory(Inventory inventory, String message, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         try {
             final String url=Constants.url+Constants.ws_attachInventory;
 
-            AttachInventoryRequest request = new AttachInventoryRequest(inventory, products);
+            AttachInventoryRequest request = new AttachInventoryRequest(inventory, message, products);
             post(
                     url,
                     request.getCampos(),

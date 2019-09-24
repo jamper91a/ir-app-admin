@@ -77,7 +77,10 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         this.tabsInit();
         //endregion
         // toolbar
-        getSupportActionBar().setTitle("Visualizar Inv Coo Por Zonas");
+        if(this.requestInventarioPorZonaStep2.getInventory()!=null)
+            getSupportActionBar().setTitle("Visualizar Inv Coo Por Zonas");
+        else
+            getSupportActionBar().setTitle("Visualizar Inv Coo Consolidados");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
