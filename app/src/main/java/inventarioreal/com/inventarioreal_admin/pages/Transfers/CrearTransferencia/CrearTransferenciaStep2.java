@@ -100,7 +100,12 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
             @Override
             public void onStateChanged(boolean state) {
-
+                Message msg = new Message();
+                msg.what = 3;
+                Bundle b = new Bundle();
+                b.putBoolean("state", state);
+                msg.setData(b);
+                handler.sendMessage(msg);
             }
 
             @Override

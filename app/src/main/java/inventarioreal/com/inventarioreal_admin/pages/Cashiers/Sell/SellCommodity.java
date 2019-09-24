@@ -32,6 +32,8 @@ import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Cashiers.HomeCashier;
 import inventarioreal.com.inventarioreal_admin.pages.Cashiers.tabs.SellEanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Cashiers.tabs.SellEanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Cashiers.tabs.SellEpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Cashiers.tabs.SellEpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Cashiers.tabs.SellTotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Cashiers.tabs.SellTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
@@ -98,7 +100,12 @@ public class SellCommodity extends CicloActivity {
 
             @Override
             public void onStateChanged(boolean state) {
-
+                Message msg = new Message();
+                msg.what = 3;
+                Bundle b = new Bundle();
+                b.putBoolean("state", state);
+                msg.setData(b);
+                handler.sendMessage(msg);
             }
 
             @Override
@@ -132,6 +139,7 @@ public class SellCommodity extends CicloActivity {
         epcs = new ArrayList<>();
         totalViewModel = ViewModelProviders.of(this).get(SellTotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(SellEanPluViewModel.class);
+        epcViewModel = ViewModelProviders.of(this).get(SellEpcViewModel.class);
     }
 
 
@@ -223,6 +231,7 @@ public class SellCommodity extends CicloActivity {
                 }
                 products.add(proZon);
                 eanPluVieModel.addProductoZonaHasTransferencia(proZon);
+                epcViewModel.addAllProductoZona(proZon);
 
                 //Informacion requeria por el servicio web de crear inventory
                 totalViewModel.setAmount(products.size());
@@ -255,6 +264,7 @@ public class SellCommodity extends CicloActivity {
     private ViewPager mViewPager;
     SellTotalViewModel totalViewModel;
     SellEanPluViewModel eanPluVieModel;
+    SellEpcViewModel epcViewModel;
     //endregion
 
     //region Tabs configuration
@@ -289,6 +299,10 @@ public class SellCommodity extends CicloActivity {
                     SellEanPluFragment eanPlu = SellEanPluFragment.newInstance();
                     eanPlu.setAdmin(admin);
                     return eanPlu;
+                case 2:
+                    SellEpcFragment epcFragment= SellEpcFragment.newInstance();
+                    epcFragment.setAdmin(admin);
+                    return epcFragment;
                 default:
                     return null;
 
@@ -297,7 +311,7 @@ public class SellCommodity extends CicloActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
     //endregion
