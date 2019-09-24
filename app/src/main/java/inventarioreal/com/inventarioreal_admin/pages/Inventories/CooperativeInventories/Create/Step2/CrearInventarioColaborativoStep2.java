@@ -32,6 +32,8 @@ import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestCreateInventory2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Create.Step1.CrearInventarioColaborativoStep1;
@@ -145,6 +147,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         epcs = new ArrayList<>();
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
+        epcViewModel = ViewModelProviders.of(this).get(EpcViewModel.class);
     }
 
     @Override
@@ -192,35 +195,40 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
         if(epcDb!=null){
             //Busco el producto zonas al que pertenece este tag
-            ProductHasZone proZon=
-                    (ProductHasZone) db.getByColumn(
+            LinkedList<ProductHasZone> proZons=
+                    db.getByColumn(
                             Constants.table_productsHasZones,
                             Constants.column_epc_id,
                             epcDb.getId()+"",
-                            ProductHasZone.class).get(0);
-            //Busco el producto de este producto zona
-            Product producto= (Product) db.findById(
-                    Constants.table_products,
-                    proZon.getProduct().getId()+"",
-                    Product.class
-            );
+                            ProductHasZone.class);
+            if(proZons!=null){
+                ProductHasZone proZon = proZons.get(0);
+                //Busco el producto de este producto zona
+                Product producto= (Product) db.findById(
+                        Constants.table_products,
+                        proZon.getProduct().getId()+"",
+                        Product.class
+                );
 
-            if (epc!=null) {
-                proZon.setEpc(epcDb);
-            }
-            if(producto!=null){
-                proZon.setProduct(producto);
-            }
-            //Informacion requeria por el servicio web de crear inventory
-            InventoryHasProduct ip = new InventoryHasProduct();
-            ip.setZone(requestInventariorCrear2.getZone());
-            ip.setProduct(proZon);
-            ip.setEpc(epcDb);
+                if (epc!=null) {
+                    proZon.setEpc(epcDb);
+                }
+                if(producto!=null){
+                    proZon.setProduct(producto);
+                }
+                //Informacion requeria por el servicio web de crear inventory
+                InventoryHasProduct ip = new InventoryHasProduct();
+                ip.setZone(requestInventariorCrear2.getZone());
+                ip.setProduct(proZon);
+                ip.setEpc(epcDb);
 
-            products.add(ip);
-            eanPluVieModel.addProductoZona(proZon);
-            totalViewModel.setAmount(products.size());
-            epcs.add(epc);
+                products.add(ip);
+                eanPluVieModel.addProductoZona(proZon);
+                totalViewModel.setAmount(products.size());
+                epcViewModel.addAllProductoZona(proZon);
+                epcs.add(epc);
+            }
+
         }
     }
 
@@ -268,6 +276,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     private ViewPager mViewPager;
     TotalViewModel totalViewModel;
     EanPluViewModel eanPluVieModel;
+    EpcViewModel epcViewModel;
     //endregion
 
     //region Tabs configuration
@@ -299,15 +308,15 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    TotalFragment total = new TotalFragment();
+                    TotalFragment total = TotalFragment.newInstance();
                     return total;
                 case 1:
                     EanPluFragment eanPlu = EanPluFragment.newInstance();
                     eanPlu.setAdmin(admin);
                     return eanPlu;
-//                case 2:
-//                    Epc epc = new Epc();
-//                    return epc;
+                case 2:
+                    EpcFragment epc = EpcFragment.newInstance();
+                    return epc;
                 default:
                     return null;
 
@@ -317,7 +326,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
     }
     //endregion
