@@ -31,6 +31,8 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
@@ -140,6 +142,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         epcs = new ArrayList<>();
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
+        epcViewModel = ViewModelProviders.of(this).get(EpcViewModel.class);
     }
 
     @Override
@@ -211,6 +214,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                 pzt.setProduct(proZon);
                 products.add(pzt);
                 eanPluVieModel.addProductoZona(proZon);
+                epcViewModel.addAllProductoZona(proZon);
                 totalViewModel.setAmount(products.size());
                 epcs.add(epc);
             } catch (Exception e) {
@@ -264,6 +268,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
     private ViewPager mViewPager;
     TotalViewModel totalViewModel;
     EanPluViewModel eanPluVieModel;
+    EpcViewModel epcViewModel;
     //endregion
 
     //region Tabs configuration
@@ -301,6 +306,10 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                     EanPluFragment eanPlu = EanPluFragment.newInstance();
                     eanPlu.setAdmin(admin);
                     return eanPlu;
+                case 2:
+                    EpcFragment epcFragment = EpcFragment.newInstance();
+                    epcFragment.setAdmin(admin);
+                    return epcFragment;
 //                case 2:
 //                    Epc epc = new Epc();
 //                    return epc;
@@ -313,7 +322,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
     }
     //endregion
@@ -391,11 +400,18 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         rfdiReader.onDestroy();
         super.onDestroy();
     }
+
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(CrearTransferenciaStep1.class, null);
+    }
+
     private void clean(){
         rfdiReader.cleanEpcs();
         epcs.clear();
         products.clear();
         eanPluVieModel.clean();
+        epcViewModel.clean();
         totalViewModel.setAmount(0);
     }
 

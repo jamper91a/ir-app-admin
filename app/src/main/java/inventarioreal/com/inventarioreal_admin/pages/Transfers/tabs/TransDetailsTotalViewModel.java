@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.TransferenciaDetails;
 
-public class TransferenciaDetailsTotalViewModel extends ViewModel {
+public class TransDetailsTotalViewModel extends ViewModel {
 
     private MutableLiveData<TransferenciaDetails> transferencia= new MutableLiveData<>();
 

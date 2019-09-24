@@ -17,11 +17,11 @@ import com.google.gson.Gson;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransferenciaDetailsEanPluFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransferenciaDetailsEanPluViewModel;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransferenciaDetailsEpcFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransferenciaDetailsTotalFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransferenciaDetailsTotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsEanPluFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsEanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsEpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsTotalFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.TransferenciaDetails;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import jamper91.com.easyway.Util.Animacion;
@@ -62,8 +62,8 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
 
     @Override
     public void getData() {
-        totalViewModel = ViewModelProviders.of(this).get(TransferenciaDetailsTotalViewModel.class);
-        eanPluVieModel = ViewModelProviders.of(this).get(TransferenciaDetailsEanPluViewModel.class);
+        totalViewModel = ViewModelProviders.of(this).get(TransDetailsTotalViewModel.class);
+        eanPluVieModel = ViewModelProviders.of(this).get(TransDetailsEanPluViewModel.class);
         totalViewModel.setTransferencia(this.data);
         eanPluVieModel.setTransferencia(this.data);
 
@@ -87,8 +87,8 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
 
     //region Tab Total
     private ViewPager mViewPager;
-    TransferenciaDetailsTotalViewModel totalViewModel;
-    TransferenciaDetailsEanPluViewModel eanPluVieModel;
+    TransDetailsTotalViewModel totalViewModel;
+    TransDetailsEanPluViewModel eanPluVieModel;
     //endregion
 
     //region Tabs configuration
@@ -120,14 +120,14 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    TransferenciaDetailsTotalFragment total = new TransferenciaDetailsTotalFragment ();
+                    TransDetailsTotalFragment total = new TransDetailsTotalFragment();
                     return total;
                 case 1:
-                    TransferenciaDetailsEanPluFragment eanPlu = TransferenciaDetailsEanPluFragment.newInstance();
+                    TransDetailsEanPluFragment eanPlu = TransDetailsEanPluFragment.newInstance();
                     eanPlu.setAdmin(admin);
                     return eanPlu;
                 case 2:
-                    TransferenciaDetailsEpcFragment epcFragment = TransferenciaDetailsEpcFragment.newInstance();
+                    TransDetailsEpcFragment epcFragment = TransDetailsEpcFragment.newInstance();
                     epcFragment.setAdmin(admin);
                     return epcFragment;
                 default:

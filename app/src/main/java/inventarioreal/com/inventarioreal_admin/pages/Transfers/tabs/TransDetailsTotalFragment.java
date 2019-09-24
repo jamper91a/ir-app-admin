@@ -17,13 +17,13 @@ import java.util.LinkedHashMap;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.TransferenciaDetails;
 
-public class TransferenciaDetailsTotalFragment extends Fragment {
+public class TransDetailsTotalFragment extends Fragment {
 
-    private TransferenciaDetailsTotalViewModel mViewModel;
+    private TransDetailsTotalViewModel mViewModel;
     private LinkedHashMap<Integer, View> elementos;
 
-    public static TransferenciaDetailsTotalFragment newInstance() {
-        return new TransferenciaDetailsTotalFragment();
+    public static TransDetailsTotalFragment newInstance() {
+        return new TransDetailsTotalFragment();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class TransferenciaDetailsTotalFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(TransferenciaDetailsTotalViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(TransDetailsTotalViewModel.class);
         mViewModel.getTransferencia().observe(this, new Observer<TransferenciaDetails>() {
             @Override
             public void onChanged(@Nullable TransferenciaDetails transferenciaDetails) {

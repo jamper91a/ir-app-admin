@@ -20,10 +20,10 @@ import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.TransferenciaDetails;
 import jamper91.com.easyway.Util.Administrador;
 
-public class TransferenciaDetailsEpcFragment extends Fragment {
+public class TransDetailsEpcFragment extends Fragment {
 
-    private TransferenciaDetailsEanPluViewModel mViewModel;
-//    private TransferenciaDetailsTotalViewModel mViewModel;
+    private TransDetailsEanPluViewModel mViewModel;
+//    private TransDetailsTotalViewModel mViewModel;
     private LinkedHashMap<Integer, View> elementos;
     public ListAdapterTransferEpcDetails adapter1;
     private Administrador admin;
@@ -31,8 +31,8 @@ public class TransferenciaDetailsEpcFragment extends Fragment {
 
 
 
-    public static TransferenciaDetailsEpcFragment newInstance() {
-        return new TransferenciaDetailsEpcFragment();
+    public static TransDetailsEpcFragment newInstance() {
+        return new TransDetailsEpcFragment();
     }
 
     public void setAdmin(Administrador admin) {
@@ -86,11 +86,11 @@ public class TransferenciaDetailsEpcFragment extends Fragment {
     }
 
     private void getData(){
-        mViewModel = ViewModelProviders.of(getActivity()).get(TransferenciaDetailsEanPluViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(TransDetailsEanPluViewModel.class);
         mViewModel.getTransferencia().observe(this, new Observer<TransferenciaDetails>() {
             @Override
             public void onChanged(@Nullable TransferenciaDetails transferencia) {
-                if(transferencia !=null && transferencia.getProductos()!= null && transferencia.getProductos().length>0){
+                if(transferencia !=null && transferencia.getProductos()!= null){
                     adapter1.setData(transferencia);
                     adapter1.notifyDataSetChanged();
                 }

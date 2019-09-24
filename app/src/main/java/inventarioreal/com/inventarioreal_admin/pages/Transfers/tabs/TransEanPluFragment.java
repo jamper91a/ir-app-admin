@@ -16,35 +16,33 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterTransferenciaDetails;
-import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterTransferenciaDetailsVisual;
+import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasHasTransferencia;
+import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasHasTransferenciasVisual;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.TransferenciaDetails;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import jamper91.com.easyway.Util.Administrador;
 
-public class TransferenciaDetailsEanPluFragment extends Fragment {
+public class TransEanPluFragment extends Fragment {
 
-    private TransferenciaDetailsEanPluViewModel mViewModel;
-//    private TransferenciaDetailsTotalViewModel mViewModel;
+    private TransEanPluViewModel mViewModel;
     private LinkedHashMap<Integer, View> elementos;
-    public ListAdapterTransferenciaDetails adapter1;
-    public ListAdapterTransferenciaDetailsVisual adapterVisual;
+    public ListAdapterProductosZonasHasTransferencia adapter1;
+    public ListAdapterProductosZonasHasTransferenciasVisual adapterVisual;
     private Administrador admin;
-    private TransferenciaDetails transferencia = null;
+//    private LinkedList<Epcs> epcs = new LinkedList<>();
 
 
 
-    public static TransferenciaDetailsEanPluFragment newInstance() {
-        return new TransferenciaDetailsEanPluFragment();
+    public static TransEanPluFragment newInstance() {
+        return new TransEanPluFragment();
     }
 
     public void setAdmin(Administrador admin) {
         this.admin = admin;
     }
-
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -65,8 +63,7 @@ public class TransferenciaDetailsEanPluFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getData();
-
-        adapter1 = new ListAdapterTransferenciaDetails(getActivity(), admin, mViewModel.getTransferencia().getValue(), new OnItemClickListener() {
+        adapter1 = new ListAdapterProductosZonasHasTransferencia(getActivity(), admin, mViewModel.getProductosZonaHasTransferencia().getValue(), new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
             }
@@ -81,9 +78,7 @@ public class TransferenciaDetailsEanPluFragment extends Fragment {
 
             }
         });
-
-
-        adapterVisual = new ListAdapterTransferenciaDetailsVisual(getActivity(), admin, mViewModel.getTransferencia().getValue(), new OnItemClickListener() {
+        adapterVisual = new ListAdapterProductosZonasHasTransferenciasVisual(getActivity(), admin, mViewModel.getProductosZonaHasTransferencia().getValue(), new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
             }
@@ -107,14 +102,14 @@ public class TransferenciaDetailsEanPluFragment extends Fragment {
     }
 
     private void getData(){
-        mViewModel = ViewModelProviders.of(getActivity()).get(TransferenciaDetailsEanPluViewModel.class);
-        mViewModel.getTransferencia().observe(this, new Observer<TransferenciaDetails>() {
+        mViewModel = ViewModelProviders.of(getActivity()).get(TransEanPluViewModel.class);
+        mViewModel.getProductosZonaHasTransferencia().observe(this, new Observer<LinkedList<TransfersHasZonesProduct>>() {
             @Override
-            public void onChanged(@Nullable TransferenciaDetails transferencia) {
-                if(transferencia !=null && transferencia.getProductos()!= null && transferencia.getProductos().length>0){
-                    adapter1.setData(transferencia);
+            public void onChanged(@Nullable LinkedList<TransfersHasZonesProduct> productosZonas) {
+                if(productosZonas!=null){
+                    adapter1.setItems(productosZonas);
                     adapter1.notifyDataSetChanged();
-                    adapterVisual.setData(transferencia.getProductos());
+                    adapterVisual.setItems(productosZonas);
                     adapterVisual.notifyDataSetChanged();
                 }
             }

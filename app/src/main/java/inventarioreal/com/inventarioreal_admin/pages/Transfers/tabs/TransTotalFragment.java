@@ -15,13 +15,13 @@ import java.util.LinkedHashMap;
 
 import inventarioreal.com.inventarioreal_admin.R;
 
-public class TotalFragment extends Fragment {
+public class TransTotalFragment extends Fragment {
 
-    private TotalViewModel mViewModel;
+    private TransTotalViewModel mViewModel;
     private LinkedHashMap<Integer, View> elementos;
 
-    public static TotalFragment newInstance() {
-        return new TotalFragment();
+    public static TransTotalFragment newInstance() {
+        return new TransTotalFragment();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class TotalFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(TotalViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(TransTotalViewModel.class);
         mViewModel.getAmount().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {

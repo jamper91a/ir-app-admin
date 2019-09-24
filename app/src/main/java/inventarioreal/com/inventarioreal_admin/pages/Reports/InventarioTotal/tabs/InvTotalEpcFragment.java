@@ -84,7 +84,7 @@ public class InvTotalEpcFragment extends Fragment {
         mViewModel.getAllProducts().observe(this, new Observer<LinkedList<ProductHasZone>>() {
             @Override
             public void onChanged(@Nullable LinkedList<ProductHasZone> productosZonas) {
-                if(productosZonas.size()>0){
+                if(productosZonas!=null){
                     adapter1.setData(productosZonas);
                     adapter1.notifyDataSetChanged();
                 }

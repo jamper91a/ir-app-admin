@@ -448,6 +448,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         epcs.clear();
         products.clear();
         eanPluVieModel.clean();
+        epcViewModel.clean();
         totalViewModel.setAmount(0);
     }
 

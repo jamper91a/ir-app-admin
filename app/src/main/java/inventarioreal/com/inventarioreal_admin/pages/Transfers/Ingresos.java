@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,11 +27,13 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.EanPluFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.EanPluViewModel;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TotalFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransEanPluFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransEanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransTotalFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
@@ -136,8 +137,9 @@ public class Ingresos extends CicloActivity {
     @Override
     public void getData() {
         epcs = new ArrayList<>();
-        totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
-        eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
+        totalViewModel = ViewModelProviders.of(this).get(TransTotalViewModel.class);
+        eanPluVieModel = ViewModelProviders.of(this).get(TransEanPluViewModel.class);
+        epcViewModel = ViewModelProviders.of(this).get(EpcViewModel.class);
         getTransferencias();
     }
 
@@ -181,6 +183,13 @@ public class Ingresos extends CicloActivity {
             @Override
             public void onClick(View v) {
                 changedStateLecture(!rfdiReader.isStartReader());
+            }
+        });
+
+        add_on_click(R.id.btnBor, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clean();
             }
         });
 
@@ -235,7 +244,7 @@ public class Ingresos extends CicloActivity {
                 //Determino si el productozona de este tag esta en la lista de transferencia
                 for (Transfer transferencia :
                         transferencias) {
-                    if(transferencia.getShopDestination().id==local.id){
+                    if(transferencia.getShopDestination().getId()==local.getId()){
                         for(TransfersHasZonesProduct pzt: transferencia.getProducts()){
 
                             if(pzt.getProduct().getId() == proZon.getId()){
@@ -258,7 +267,9 @@ public class Ingresos extends CicloActivity {
                                 pzt.setProduct(proZon);
                                 pzt.setTransfer(transferencia);
                                 productosZonasHasTransferencias.add(pzt);
+                                epcViewModel.addAllProductoZona(proZon);
                                 eanPluVieModel.addProductoZonaHasTransferencia(pzt);
+
 
 
                             }
@@ -266,6 +277,7 @@ public class Ingresos extends CicloActivity {
                         }
                     }
                 }
+
 
                 //Informacion requeria por el servicio web de crear inventory
                 totalViewModel.setAmount(productosZonasHasTransferencias.size());
@@ -308,8 +320,9 @@ public class Ingresos extends CicloActivity {
 
     //region Tab Total
     private ViewPager mViewPager;
-    TotalViewModel totalViewModel;
-    EanPluViewModel eanPluVieModel;
+    TransTotalViewModel totalViewModel;
+    TransEanPluViewModel eanPluVieModel;
+    EpcViewModel epcViewModel;
     //endregion
 
     //region Tabs configuration
@@ -341,12 +354,16 @@ public class Ingresos extends CicloActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    TotalFragment total = new TotalFragment();
+                    TransTotalFragment total = TransTotalFragment.newInstance();
                     return total;
                 case 1:
-                    EanPluFragment eanPlu = EanPluFragment.newInstance();
+                    TransEanPluFragment eanPlu = TransEanPluFragment.newInstance();
                     eanPlu.setAdmin(admin);
                     return eanPlu;
+                case 2:
+                    EpcFragment epcFragment = EpcFragment.newInstance();
+                    epcFragment.setAdmin(admin);
+                    return epcFragment;
 //                case 2:
 //                    Epc epc = new Epc();
 //                    return epc;
@@ -359,7 +376,7 @@ public class Ingresos extends CicloActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
     }
     //endregion
@@ -434,6 +451,15 @@ public class Ingresos extends CicloActivity {
     protected void onDestroy() {
         rfdiReader.onDestroy();
         super.onDestroy();
+    }
+
+    private void clean(){
+        rfdiReader.cleanEpcs();
+        epcs.clear();
+        productosZonasHasTransferencias.clear();
+        eanPluVieModel.clean();
+        epcViewModel.clean();
+        totalViewModel.setAmount(0);
     }
 
     //region Menu

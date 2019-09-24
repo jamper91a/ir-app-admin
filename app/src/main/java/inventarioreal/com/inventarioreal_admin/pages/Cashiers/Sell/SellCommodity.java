@@ -407,6 +407,7 @@ public class SellCommodity extends CicloActivity {
         epcs.clear();
         products.clear();
         eanPluVieModel.clean();
+        epcViewModel.clean();
         totalViewModel.setAmount(0);
     }
 

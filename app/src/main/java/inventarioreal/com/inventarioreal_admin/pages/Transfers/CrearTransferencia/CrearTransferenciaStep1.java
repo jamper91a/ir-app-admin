@@ -16,6 +16,7 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
+import inventarioreal.com.inventarioreal_admin.pages.Transfers.HomeTransferencia;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
@@ -72,11 +73,18 @@ public class CrearTransferenciaStep1 extends CicloActivity {
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         //Obtengo las zonas usando el local del employee
-        final LinkedList locales = db.getByColumn(
+        final LinkedList<Shop> locales = db.getByColumn(
                 Constants.table_shops,
                 Constants.column_company,
                 empleado.getEmployee().getCompany().getId()+ "",
                 Shop.class);
+
+        //Busco el local actual y lo eliminio de las opciones
+        for (int i = 0; i < locales.size(); i++) {
+            if(locales.get(i).getId() == empleado.getEmployee().getShop().getId()){
+                locales.remove(i);
+            }
+        }
 
         ArrayAdapter<Shop> adapter =
                 new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, locales);
@@ -143,6 +151,11 @@ public class CrearTransferenciaStep1 extends CicloActivity {
     @Override
     public void hasAllPermissions() {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(HomeTransferencia.class, null);
     }
 
     //region Menu

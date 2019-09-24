@@ -42,4 +42,19 @@ public class SellEpcViewModel extends ViewModel {
         this.inventario.setValue(inventario);
     }
 
+    public void clean(){
+        if(allProductsZonasLiveData ==null){
+            allProductsZonasLiveData = new MutableLiveData<>();
+            allProducts = new LinkedList<>();
+            allProductsZonasLiveData.setValue(allProducts);
+        }else{
+            allProducts = new LinkedList<>();
+            allProductsZonasLiveData.setValue(allProducts);
+        }
+        if(inventario!=null)
+        {
+            inventario.setValue(new Inventory[0]);
+        }
+    }
+
 }

@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-public class TotalViewModel extends ViewModel {
+public class TransTotalViewModel extends ViewModel {
 
     private MutableLiveData<Integer> amount= new MutableLiveData<>();
 

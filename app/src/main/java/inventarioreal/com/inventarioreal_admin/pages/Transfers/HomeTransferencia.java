@@ -120,5 +120,9 @@ public class HomeTransferencia extends CicloActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        admin.callIntent(Home.class, null);
+    }
     //endregion
 }

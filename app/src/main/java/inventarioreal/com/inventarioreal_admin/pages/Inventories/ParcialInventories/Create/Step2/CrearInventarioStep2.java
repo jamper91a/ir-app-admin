@@ -291,6 +291,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         epcs.clear();
         products.clear();
         eanPluVieModel.clean();
+        epcVieModel.clean();
         totalViewModel.setAmount(0);
     }
 

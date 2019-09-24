@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 
-public class EanPluViewModel extends ViewModel {
+public class TransEanPluViewModel extends ViewModel {
     MutableLiveData<LinkedList<TransfersHasZonesProduct>> productosZonasHasTransferenciasLiveData = null;
     private LinkedList<TransfersHasZonesProduct> productosZonaHasTransferencias = null;
 
@@ -40,5 +40,10 @@ public class EanPluViewModel extends ViewModel {
             productosZonasHasTransferenciasLiveData.setValue(productosZonaHasTransferencias);
         }
         return productosZonasHasTransferenciasLiveData;
+    }
+
+    public void clean(){
+        productosZonaHasTransferencias = new LinkedList<>();
+        productosZonasHasTransferenciasLiveData.setValue(productosZonaHasTransferencias);
     }
 }
