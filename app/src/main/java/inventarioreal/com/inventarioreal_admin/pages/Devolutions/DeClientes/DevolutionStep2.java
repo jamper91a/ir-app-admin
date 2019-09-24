@@ -36,6 +36,8 @@ import inventarioreal.com.inventarioreal_admin.pages.Devolutions.HomeDevolucione
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step1.CrearInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
@@ -159,6 +161,7 @@ public class DevolutionStep2 extends CicloActivity {
         epcs = new ArrayList<>();
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
+        epcViewModel = ViewModelProviders.of(this).get(EpcViewModel.class);
     }
 
     @Override
@@ -188,7 +191,7 @@ public class DevolutionStep2 extends CicloActivity {
         add_on_click(R.id.btnCan, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(CrearInventarioStep1.class, null);
+                admin.callIntent(HomeDevoluciones.class, null);
             }
         });
         add_on_click(R.id.btnBor, new View.OnClickListener() {
@@ -219,18 +222,20 @@ public class DevolutionStep2 extends CicloActivity {
         Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
         if(epcDb!=null){
             //Busco el producto zonas al que pertenece este tag
-            ProductHasZone proZon=
-                    (ProductHasZone) db.getByColumn(
+            LinkedList<ProductHasZone> proZons=
+                    db.getByColumn(
                             Constants.table_productsHasZones,
                             Constants.column_epc_id,
                             epcDb.getId()+"",
-                            ProductHasZone.class).get(0);
-            //Busco el producto de este producto zona
-            Product producto= (Product) db.findById(
-                    Constants.table_products,
-                    proZon.getProduct().getId()+"",
-                    Product.class
-            );
+                            ProductHasZone.class);
+            if(proZons !=null && proZons.size()>0){
+                ProductHasZone proZon = proZons.get(0);
+                //Busco el producto de este producto zona
+                Product producto= (Product) db.findById(
+                        Constants.table_products,
+                        proZon.getProduct().getId()+"",
+                        Product.class
+                );
                 if (epcDb!=null) {
                     proZon.setEpc(epcDb);
                 }
@@ -249,7 +254,10 @@ public class DevolutionStep2 extends CicloActivity {
                 products.add(proZon);
                 eanPluVieModel.addProductoZona(proZon);
                 totalViewModel.setAmount(products.size());
+                epcViewModel.addAllProductoZona(proZon);
                 epcs.add(epc);
+            }
+
 
         }else{
             admin.toast("Epc no found: "+ epc);
@@ -291,6 +299,7 @@ public class DevolutionStep2 extends CicloActivity {
     private ViewPager mViewPager;
     TotalViewModel totalViewModel;
     EanPluViewModel eanPluVieModel;
+    EpcViewModel epcViewModel;
     //endregion
 
     //region Tabs configuration
@@ -322,12 +331,16 @@ public class DevolutionStep2 extends CicloActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    TotalFragment total = new TotalFragment();
+                    TotalFragment total = TotalFragment.newInstance();
                     return total;
                 case 1:
                     EanPluFragment eanPlu = EanPluFragment.newInstance();
                     eanPlu.setAdmin(admin);
                     return eanPlu;
+                case 2:
+                    EpcFragment epcFragment = EpcFragment.newInstance();
+                    epcFragment.setAdmin(admin);
+                    return epcFragment;
                 default:
                     return null;
 
@@ -337,7 +350,7 @@ public class DevolutionStep2 extends CicloActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
     }
     //endregion
