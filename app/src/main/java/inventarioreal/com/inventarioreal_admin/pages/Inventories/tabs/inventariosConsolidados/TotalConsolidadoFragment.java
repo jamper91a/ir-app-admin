@@ -36,6 +36,8 @@ public class TotalConsolidadoFragment extends Fragment {
         addElemento(v.findViewById(R.id.txt4));
         addElemento(v.findViewById(R.id.txt5));
         addElemento(v.findViewById(R.id.txt6));
+        addElemento(v.findViewById(R.id.txt7));
+        addElemento(v.findViewById(R.id.txt8));
         return v;
     }
 
@@ -49,6 +51,8 @@ public class TotalConsolidadoFragment extends Fragment {
                 TextView txtCant = (TextView) getElemento(R.id.txt2);
                 TextView txtFecha = (TextView) getElemento(R.id.txt4);
                 TextView txtZona = (TextView) getElemento(R.id.txt6);
+                TextView txtMessage= (TextView) getElemento(R.id.txt8);
+                txtMessage.setVisibility(View.GONE);
                 txtFecha.setText(inventory.getCreatedAt().replace("T", " - "));
                 txtZona.setText(inventory.getName());
                 txtCant.setText(inventory.getTotal_products()+"");

@@ -232,10 +232,10 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
             switch (position) {
                 case 0:
                     if(inventario!=null){
-                        TotalFragment total = new TotalFragment();
+                        TotalFragment total = TotalFragment.newInstance();
                         return total;
                     } else{
-                        TotalConsolidadoFragment total = new TotalConsolidadoFragment();
+                        TotalConsolidadoFragment total = TotalConsolidadoFragment.newInstance();
                         return total;
                     }
                 case 1:
