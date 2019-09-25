@@ -14,6 +14,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenciaInventariosFisicos.DIFStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioEanPlu.InventarioEanPlu;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.ReporteInventarioTotal;
+import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -125,6 +126,8 @@ public class HomeReportes extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
+                DataBase db = DataBase.getInstance(this);
+                db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

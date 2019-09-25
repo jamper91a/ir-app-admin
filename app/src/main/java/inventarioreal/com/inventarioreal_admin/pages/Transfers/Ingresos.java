@@ -27,6 +27,7 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
+import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
@@ -406,11 +407,23 @@ public class Ingresos extends CicloActivity {
             public void onClick(DialogInterface dialog, int which) {
                 WebServices.finishTransfer(
                         productosZonasHasTransferencias,
+                        edtMensaje.getText().toString(),
                         Ingresos.this,
                         admin,
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
+                                ProductHasZone[] pzhs = (ProductHasZone[]) ok.getData();
+                                //Update local pzh
+                                for (ProductHasZone productHasZone: pzhs
+                                     ) {
+                                    db.update(
+                                            Constants.table_productsHasZones,
+                                            productHasZone.getId()+"",
+                                            productHasZone.getContentValues()
+                                    );
+
+                                }
                                 admin.toast("Transferencia realizada con 'exito");
                                 admin.callIntent(HomeTransferencia.class, null);
                             }
@@ -480,6 +493,8 @@ public class Ingresos extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
+                DataBase db = DataBase.getInstance(this);
+                db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

@@ -13,7 +13,7 @@ import inventarioreal.com.inventarioreal_admin.util.Constants;
 public class FinishTransferRequet {
     private List<TransfersHasZonesProduct> products;
 
-    public FinishTransferRequet(List<TransfersHasZonesProduct> products) {
+    public FinishTransferRequet(List<TransfersHasZonesProduct> products, String message) {
         this.products = products;
     }
 

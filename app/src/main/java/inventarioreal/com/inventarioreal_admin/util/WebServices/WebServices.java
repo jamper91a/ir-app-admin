@@ -807,9 +807,9 @@ public class WebServices {
         });
     }
 
-    public static void finishTransfer(final LinkedList<TransfersHasZonesProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+    public static void finishTransfer(final LinkedList<TransfersHasZonesProduct> products, final String message, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
         final String url=Constants.url+Constants.ws_finishTransfer;
-        FinishTransferRequet request = new FinishTransferRequet(products);
+        FinishTransferRequet request = new FinishTransferRequet(products, message);
         post(url, request.getCampos(), R.string.enviando_informacion, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
@@ -819,7 +819,19 @@ public class WebServices {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 try {
-                    result.ok(new ResultWebServiceOk());
+                    try {
+                        String data = jsonObject.getJSONArray("data").toString();
+                        ProductHasZone[] aux = gson.fromJson(data, ProductHasZone[].class);
+                        if (aux!=null && aux.length>0) {
+                            result.ok(new ResultWebServiceOk(aux));
+                        }
+                    } catch (JSONException e) {
+                        admin.toast(e.getMessage());
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    } catch (Exception e) {
+                        admin.toast(e.getMessage());
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
                 } catch (Exception e) {
                     admin.toast(e.getMessage());
                     result.fail(new ResultWebServiceFail(e.getMessage()));

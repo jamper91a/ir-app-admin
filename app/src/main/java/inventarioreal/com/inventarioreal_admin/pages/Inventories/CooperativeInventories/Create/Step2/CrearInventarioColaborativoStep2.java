@@ -44,6 +44,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHasProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
@@ -62,6 +63,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     private RequestCreateInventory2 requestInventariorCrear2;
     private LinkedList<InventoryHasProduct> products = new LinkedList<>();
     private Gson gson = new Gson();
+    LoginResponse empleado;
 
     RFDIReader rfdiReader =  null;
 
@@ -153,6 +155,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
     @Override
     public void getData() {
+        empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         epcs = new ArrayList<>();
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
@@ -218,6 +221,12 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                         proZon.getProduct().getId()+"",
                         Product.class
                 );
+                //Busco la zona del producto zona
+                Zone zona = (Zone) db.findById(
+                        Constants.table_zones,
+                        proZon.getZone().getId()+"",
+                        Zone.class
+                );
 
                 if (epc!=null) {
                     proZon.setEpc(epcDb);
@@ -225,17 +234,23 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                 if(producto!=null){
                     proZon.setProduct(producto);
                 }
-                //Informacion requeria por el servicio web de crear inventory
-                InventoryHasProduct ip = new InventoryHasProduct();
-                ip.setZone(requestInventariorCrear2.getZone());
-                ip.setProduct(proZon);
-                ip.setEpc(epcDb);
+                if(zona!=null){
+                    proZon.setZone(zona);
+                }
+                //Valido que este producto pertenezca al local del usuario logeado
+                if (zona!=null && (zona.getShop().getId() == empleado.getEmployee().getShop().getId())) {
+                    //Informacion requeria por el servicio web de crear inventory
+                    InventoryHasProduct ip = new InventoryHasProduct();
+                    ip.setZone(requestInventariorCrear2.getZone());
+                    ip.setProduct(proZon);
+                    ip.setEpc(epcDb);
 
-                products.add(ip);
-                eanPluVieModel.addProductoZona(proZon);
-                totalViewModel.setAmount(products.size());
-                epcViewModel.addAllProductoZona(proZon);
-                epcs.add(epc);
+                    products.add(ip);
+                    eanPluVieModel.addProductoZona(proZon);
+                    totalViewModel.setAmount(products.size());
+                    epcViewModel.addAllProductoZona(proZon);
+                    epcs.add(epc);
+                }
             }
 
         }
@@ -470,6 +485,8 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
+                DataBase db = DataBase.getInstance(this);
+                db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

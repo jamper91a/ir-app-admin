@@ -65,7 +65,7 @@ public class DevolutionStep2 extends CicloActivity {
     private ProductHasZone product;
     private LinkedList<ProductHasZone> products = new LinkedList<>();
     private Gson gson = new Gson();
-
+    LoginResponse empleado;
     RFDIReader rfdiReader =  null;
 
     private Handler handler = new Handler(){
@@ -158,6 +158,7 @@ public class DevolutionStep2 extends CicloActivity {
 
     @Override
     public void getData() {
+        empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         epcs = new ArrayList<>();
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
@@ -236,26 +237,37 @@ public class DevolutionStep2 extends CicloActivity {
                         proZon.getProduct().getId()+"",
                         Product.class
                 );
+                //Busco la zona del producto zona
+                Zone zona = (Zone) db.findById(
+                        Constants.table_zones,
+                        proZon.getZone().getId()+"",
+                        Zone.class
+                );
                 if (epcDb!=null) {
                     proZon.setEpc(epcDb);
                 }
                 if(producto!=null){
                     proZon.setProduct(producto);
                 }
-
-                //Check if product was sold, if was not sold, it can not be returned
-                if(proZon.getSell().getId()<=1){
-                    proZon.setError(true);
+                if(zona!=null){
+                    proZon.setZone(zona);
                 }
-                //Check if product was returned before
-                if(proZon.getDevolution().getId()>1){
-                    proZon.setError(true);
+                //Valido que este producto pertenezca al local del usuario logeado
+                if (zona!=null && (zona.getShop().getId() == empleado.getEmployee().getShop().getId())) {
+                    //Check if product was sold, if was not sold, it can not be returned
+                    if(proZon.getSell().getId()<=1){
+                        proZon.setError(true);
+                    }
+                    //Check if product was returned before
+                    if(proZon.getDevolution().getId()>1){
+                        proZon.setError(true);
+                    }
+                    products.add(proZon);
+                    eanPluVieModel.addProductoZona(proZon);
+                    totalViewModel.setAmount(products.size());
+                    epcViewModel.addAllProductoZona(proZon);
+                    epcs.add(epc);
                 }
-                products.add(proZon);
-                eanPluVieModel.addProductoZona(proZon);
-                totalViewModel.setAmount(products.size());
-                epcViewModel.addAllProductoZona(proZon);
-                epcs.add(epc);
             }
 
 
@@ -489,6 +501,8 @@ public class DevolutionStep2 extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
+                DataBase db = DataBase.getInstance(this);
+                db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

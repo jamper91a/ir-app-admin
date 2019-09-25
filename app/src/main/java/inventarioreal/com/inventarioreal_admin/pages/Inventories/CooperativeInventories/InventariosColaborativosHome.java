@@ -16,6 +16,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInve
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.ViewInventoriesConsolidated.Step1.ViewCoopInvConsolidatedStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step1.VisualizarInventarioColaborativoPorZonaStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
+import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -111,6 +112,8 @@ public class InventariosColaborativosHome extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
+                DataBase db = DataBase.getInstance(this);
+                db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

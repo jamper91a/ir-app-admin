@@ -15,6 +15,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventor
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewIntentoriesConsolidated.Step1.VisualizarInventariosConsolidadosStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step1.VisualizarInventarioPorZonaStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
+import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -109,6 +110,8 @@ public class InventarioParcialHome extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
+                DataBase db = DataBase.getInstance(this);
+                db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

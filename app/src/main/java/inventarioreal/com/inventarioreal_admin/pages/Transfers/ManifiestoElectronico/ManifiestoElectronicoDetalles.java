@@ -24,6 +24,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetails
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.TransferenciaDetails;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
+import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -162,6 +163,8 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
+                DataBase db = DataBase.getInstance(this);
+                db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

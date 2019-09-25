@@ -29,6 +29,7 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
+import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
@@ -42,6 +43,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
@@ -61,6 +63,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
     private Gson gson = new Gson();
     private LinkedList<TransfersHasZonesProduct> products = new LinkedList<>();
     RFDIReader rfdiReader =  null;
+    LoginResponse empleado;
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -139,6 +142,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
     @Override
     public void getData() {
+        empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         epcs = new ArrayList<>();
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
@@ -203,20 +207,34 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                         Product.class
                 );
 
+                //Busco la zona del producto zona
+                Zone zona = (Zone) db.findById(
+                        Constants.table_zones,
+                        proZon.getZone().getId()+"",
+                        Zone.class
+                );
+
                 if (epcDb!=null) {
                     proZon.setEpc(epcDb);
                 }
                 if(producto!=null){
                     proZon.setProduct(producto);
                 }
-                //Informacion requeria por el servicio web de crear inventory
-                TransfersHasZonesProduct pzt = new TransfersHasZonesProduct();
-                pzt.setProduct(proZon);
-                products.add(pzt);
-                eanPluVieModel.addProductoZona(proZon);
-                epcViewModel.addAllProductoZona(proZon);
-                totalViewModel.setAmount(products.size());
-                epcs.add(epc);
+                if(zona!=null){
+                    proZon.setZone(zona);
+                }
+
+                //Valido que este producto pertenezca al local del usuario logeado
+                if(zona!=null && (zona.getShop().getId() == empleado.getEmployee().getShop().getId())){
+                    //Informacion requeria por el servicio web de crear inventory
+                    TransfersHasZonesProduct pzt = new TransfersHasZonesProduct();
+                    pzt.setProduct(proZon);
+                    products.add(pzt);
+                    eanPluVieModel.addProductoZona(proZon);
+                    epcViewModel.addAllProductoZona(proZon);
+                    totalViewModel.setAmount(products.size());
+                    epcs.add(epc);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -433,6 +451,8 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
+                DataBase db = DataBase.getInstance(this);
+                db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }
