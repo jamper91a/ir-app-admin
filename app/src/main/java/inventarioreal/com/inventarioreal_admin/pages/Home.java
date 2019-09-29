@@ -1,9 +1,12 @@
 package inventarioreal.com.inventarioreal_admin.pages;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
+import com.google.gson.Gson;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
@@ -14,6 +17,8 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventor
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.InventariosColaborativosHome;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.HomeTransferencia;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
+import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
@@ -33,6 +38,9 @@ public class Home extends CicloActivity {
     }
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.txtVersion),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txtUser),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txtShop),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnIng),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSalMer),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnInv),Techniques.FadeInLeft));
@@ -47,7 +55,11 @@ public class Home extends CicloActivity {
 
     @Override
     public void getData() {
-
+        Gson gson = new Gson();
+        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        getElemento(R.id.txtVersion).setText(getCurrentVersion());
+        getElemento(R.id.txtUser).setText(empleado.getEmployee().getUser().getUsername());
+        getElemento(R.id.txtShop).setText(empleado.getEmployee().getShop().getName());
     }
 
     @Override
@@ -150,5 +162,16 @@ public class Home extends CicloActivity {
 
             }
         });
+    }
+
+    public String getCurrentVersion(){
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            return version;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

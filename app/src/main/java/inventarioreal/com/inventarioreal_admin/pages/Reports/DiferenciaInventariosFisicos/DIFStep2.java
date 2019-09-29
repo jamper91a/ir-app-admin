@@ -19,12 +19,15 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenciaInventariosFisicos.tabs.RepDifInvEanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenciaInventariosFisicos.tabs.RepDifInvEanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenciaInventariosFisicos.tabs.RepDifInvTotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenciaInventariosFisicos.tabs.RepDifInvTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Report;
@@ -85,6 +88,7 @@ public class DIFStep2 extends CicloActivity {
                 if(productosZona!=null){
                     totalConsolidadoViewModel = ViewModelProviders.of(DIFStep2.this).get(RepDifInvTotalViewModel.class);
                     eanPluConsolidadoVieModel = ViewModelProviders.of(DIFStep2.this).get(RepDifInvEanPluViewModel.class);
+                    epcViewModel = ViewModelProviders.of(DIFStep2.this).get(EpcViewModel.class);
                     //Busco la zona del inventory
                     for(ProductHasZone pz: productosZona){
                         Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
@@ -95,7 +99,12 @@ public class DIFStep2 extends CicloActivity {
                         if(producto!=null){
                             pz.setProduct(producto);
                         }
+                        Epc epc = (Epc) db.findById(Constants.table_epcs, pz.getEpc().getId()+"", Epc.class);
+                        if(epc!=null){
+                            pz.setEpc(epc);
+                        }
                         eanPluConsolidadoVieModel.addProductoZona(pz);
+                        epcViewModel.addAllProductoZona(pz);
 
                     }
 
@@ -178,6 +187,7 @@ public class DIFStep2 extends CicloActivity {
 
     RepDifInvTotalViewModel totalConsolidadoViewModel;
     RepDifInvEanPluViewModel eanPluConsolidadoVieModel;
+    EpcViewModel epcViewModel;
     //endregion
 
     //region Tabs configuration
@@ -216,6 +226,11 @@ public class DIFStep2 extends CicloActivity {
                     RepDifInvEanPluFragment eanPlu = RepDifInvEanPluFragment.newInstance();
                     eanPlu.setAdmin(admin);
                     return eanPlu;
+
+                case 2:
+                    EpcFragment epcF = EpcFragment.newInstance();
+                    epcF.setAdmin(admin);
+                    return epcF;
                 default:
                     return null;
 
@@ -225,7 +240,7 @@ public class DIFStep2 extends CicloActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
     }
     //endregion
