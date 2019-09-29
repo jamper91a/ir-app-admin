@@ -47,7 +47,7 @@ public class ProductHasZone extends InventarioRealPojo {
 
     @Override
     public void fromCursor(Cursor c) {
-        this.id = c.getLong(c.getColumnIndexOrThrow(Constants.column_id));
+        this.setId(c.getLong(c.getColumnIndexOrThrow(Constants.column_id)));
 
         this.admission_date = c.getString(c.getColumnIndex(Constants.column_admissionDate));
         this.sell_date = c.getString(c.getColumnIndex(Constants.column_sellDate));
@@ -80,28 +80,27 @@ public class ProductHasZone extends InventarioRealPojo {
                         c.getColumnIndexOrThrow(Constants.column_epc_id)
                 )
         );
-        this.createdAt = c.getString(c.getColumnIndexOrThrow(Constants.createdAt));
-        this.updatedAt = c.getString(c.getColumnIndexOrThrow(Constants.updatedAt));
-
+        this.setCreatedAt(c.getString(c.getColumnIndexOrThrow(Constants.createdAt)));
+        this.setUpdatedAt(c.getString(c.getColumnIndexOrThrow(Constants.updatedAt)));
     }
 
 
     @Override
     public ContentValues getContentValues(){
         ContentValues values = new ContentValues();
-        values.put(Constants.column_id, id);
+        values.put(Constants.column_id, getId());
         values.put(Constants.column_admissionDate, admission_date);
         values.put(Constants.column_sellDate, sell_date);
         values.put(Constants.column_returnDate, return_date);
         values.put(Constants.column_notesReturn, notes_return);
         values.put(Constants.column_logsUsers, logs_users);
-        values.put(Constants.column_product, product.id);
-        values.put(Constants.column_zone, zone.id);
-        values.put(Constants.column_devolution, devolution.id);
-        values.put(Constants.column_sell, sell.id);
-        values.put(Constants.column_epc_id, epc.id);
-        values.put(Constants.createdAt, createdAt);
-        values.put(Constants.updatedAt, updatedAt);
+        values.put(Constants.column_product, product.getId());
+        values.put(Constants.column_zone, zone.getId());
+        values.put(Constants.column_devolution, devolution.getId());
+        values.put(Constants.column_sell, sell.getId());
+        values.put(Constants.column_epc_id, epc.getId());
+        values.put(Constants.createdAt,getCreatedAt());
+		values.put(Constants.updatedAt,getUpdatedAt());
         return values;
     }
 

@@ -50,21 +50,21 @@ public class Zone extends InventarioRealPojo {
     @Override
     public ContentValues getContentValues() {
         ContentValues values = new ContentValues();
-        values.put(Constants.column_id, id);
+        values.put(Constants.column_id, getId());
         values.put(Constants.column_name, name);
-        values.put(Constants.column_shop, shop.id);
-        values.put(Constants.createdAt, createdAt);
-        values.put(Constants.updatedAt, updatedAt);
+        values.put(Constants.column_shop, shop.getId());
+        values.put(Constants.createdAt,getCreatedAt());
+		values.put(Constants.updatedAt,getUpdatedAt());
         return values;
     }
 
     @Override
     public void fromCursor(Cursor c) {
-        this.id = c.getLong(c.getColumnIndexOrThrow(Constants.column_id));
+        this.setId(c.getLong(c.getColumnIndexOrThrow(Constants.column_id)));
         this.name = c.getString(c.getColumnIndexOrThrow(Constants.column_name));
         this.shop = new Shop(c.getLong(c.getColumnIndexOrThrow(Constants.column_shop)));
-        this.createdAt = c.getString(c.getColumnIndexOrThrow(Constants.createdAt));
-        this.updatedAt = c.getString(c.getColumnIndexOrThrow(Constants.updatedAt));
+        this.setCreatedAt(c.getString(c.getColumnIndexOrThrow(Constants.createdAt)));
+        this.setUpdatedAt(c.getString(c.getColumnIndexOrThrow(Constants.updatedAt)));
 
     }
 

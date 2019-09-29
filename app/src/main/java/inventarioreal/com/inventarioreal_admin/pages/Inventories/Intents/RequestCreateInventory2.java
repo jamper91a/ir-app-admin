@@ -59,7 +59,7 @@ public class RequestCreateInventory2 implements IntentRequests {
     @Override
     public boolean validar() {
         try {
-            if(this.date.isEmpty() && this.power.isEmpty() && this.zone.id<=0)
+            if(this.date.isEmpty() && this.power.isEmpty() && this.zone.getId()<=0)
             {
                 return false;
             }else{

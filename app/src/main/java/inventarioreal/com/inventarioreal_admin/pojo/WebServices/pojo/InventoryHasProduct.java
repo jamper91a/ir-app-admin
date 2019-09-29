@@ -58,13 +58,13 @@ public class InventoryHasProduct extends InventarioRealPojo {
     @Override
     public ContentValues getContentValues() {
         ContentValues values = new ContentValues();
-        values.put(Constants.column_id, id);
-        values.put(Constants.column_inventory, inventory.id);
-        values.put(Constants.column_epc_id, epc.id);
-        values.put(Constants.column_zone, zone.id);
-        values.put(Constants.column_productHasZone, product.id);
-        values.put(Constants.createdAt, createdAt);
-        values.put(Constants.updatedAt, updatedAt);
+        values.put(Constants.column_id, getId());
+        values.put(Constants.column_inventory, inventory.getId());
+        values.put(Constants.column_epc_id, epc.getId());
+        values.put(Constants.column_zone, zone.getId());
+        values.put(Constants.column_productHasZone, product.getId());
+        values.put(Constants.createdAt,getCreatedAt());
+		values.put(Constants.updatedAt,getUpdatedAt());
         return values;
     }
 

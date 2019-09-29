@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step1;
+package inventarioreal.com.inventarioreal_admin.pages.Reports.HomologateDifferences;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,13 +11,11 @@ import com.daimajia.androidanimations.library.Techniques;
 import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventarios;
+import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterReports;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestInventoryZoneStep2;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.InventariosColaborativosHome;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step2.VisualizarInventarioColaborativoPorZonaStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
+import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Report;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -27,20 +25,19 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class VisualizarInventarioColaborativoPorZonaStep1 extends CicloActivity {
-
-
-
-    private RecyclerAdapterInventarios adapter;
-    private ArrayList<Inventory> inventariosPorZonas = new ArrayList<>();
+public class HomologateDiferencesStep1 extends CicloActivity {
+    private RecyclerAdapterReports adapter;
+    private ArrayList<Report> reportsSaved = new ArrayList<>();
     RecyclerView recyclerView = null;
+    private Report report =null;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this, R.layout.activity_visualizar_inventarios);
         // toolbar
-        getSupportActionBar().setTitle("Visualizar Inv Cooperativos Por Zonas");
+        getSupportActionBar().setTitle("Homologar Diferencia de inventarios");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -51,14 +48,12 @@ public class VisualizarInventarioColaborativoPorZonaStep1 extends CicloActivity 
         addElemento(new Animacion(findViewById(R.id.lst1), Techniques.SlideInLeft));
 
         //Cambiar los textos a mostrar
-
-        getElemento(R.id.txt1).setText("Seleccione el inventory cooperativo a visualizar");
-
+        getElemento(R.id.txt1).setText("Selecciones el reporte de diferencias");
     }
 
     @Override
     public void getData() {
-        getinventariosPorConsolidar();
+        getReports();
     }
 
     @Override
@@ -71,18 +66,16 @@ public class VisualizarInventarioColaborativoPorZonaStep1 extends CicloActivity 
 
     }
 
-    private void getinventariosPorConsolidar() {
+    private void getReports() {
         recyclerView = (RecyclerView) getElemento(R.id.lst1).getElemento();
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(VisualizarInventarioColaborativoPorZonaStep1.this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new RecyclerAdapterInventarios(VisualizarInventarioColaborativoPorZonaStep1.this, inventariosPorZonas, admin, new OnItemClickListener() {
+        adapter = new RecyclerAdapterReports(this, reportsSaved, admin, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
-                Inventory inv = (Inventory) item;
-                admin.toast(inv.getCreatedAt());
-                RequestInventoryZoneStep2 requestInventarioPorZonaStep2 = new RequestInventoryZoneStep2(inv);
-                admin.callIntent(VisualizarInventarioColaborativoPorZonaStep2.class, requestInventarioPorZonaStep2, RequestInventoryZoneStep2.class);
+                report = (Report) item;
+                admin.callIntent(null, report, Report.class);
             }
 
             @Override
@@ -96,11 +89,11 @@ public class VisualizarInventarioColaborativoPorZonaStep1 extends CicloActivity 
             }
         });
         recyclerView.setAdapter(adapter);
-        WebServices.listInventories(Constants.tipo_all,true,this, admin, new ResultWebServiceInterface() {
+        WebServices.getReportsByType(Constants.type_report_1, this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                inventariosPorZonas = (ArrayList<Inventory>) ok.getData();
-                adapter.setInventarios(inventariosPorZonas);
+                reportsSaved = (ArrayList<Report>) ok.getData();
+                adapter.setReports(reportsSaved);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
@@ -114,7 +107,7 @@ public class VisualizarInventarioColaborativoPorZonaStep1 extends CicloActivity 
     }
     @Override
     public void onBackPressed() {
-        admin.callIntent(InventariosColaborativosHome.class, null);
+        admin.callIntent(HomeReportes.class, null);
     }
 
     //region Menu
@@ -144,4 +137,6 @@ public class VisualizarInventarioColaborativoPorZonaStep1 extends CicloActivity 
     }
 
     //endregion
+
+
 }

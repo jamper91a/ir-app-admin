@@ -171,7 +171,7 @@ public class Product extends InventarioRealPojo {
     public ContentValues getContentValues(){
         ContentValues values = new ContentValues();
 
-        values.put(Constants.column_id,id);
+        values.put(Constants.column_id,getId());
         values.put(Constants.column_ean,ean);
         values.put(Constants.column_plu,plu);
         values.put(Constants.column_plu2,plu2);
@@ -186,10 +186,10 @@ public class Product extends InventarioRealPojo {
         values.put(Constants.column_imagen,imagen);
         values.put(Constants.column_costPrice, cost_price);
         values.put(Constants.column_sellPrice, sell_price);
-        values.put(Constants.column_company,company.id);
-        values.put(Constants.column_supplier,supplier.id);
-        values.put(Constants.createdAt,createdAt);
-        values.put(Constants.updatedAt,updatedAt);
+        values.put(Constants.column_company,company.getId());
+        values.put(Constants.column_supplier,supplier.getId());
+        values.put(Constants.createdAt,getCreatedAt());
+		values.put(Constants.updatedAt,getUpdatedAt());
 
         return values;
     }
@@ -206,7 +206,7 @@ public class Product extends InventarioRealPojo {
 
     @Override
     public void fromCursor(Cursor c) {
-        this.id = c.getLong(c.getColumnIndexOrThrow(Constants.column_id));
+        this.setId(c.getLong(c.getColumnIndexOrThrow(Constants.column_id)));
         this.ean = c.getString(c.getColumnIndexOrThrow(Constants.column_ean));
         this.plu = c.getString(c.getColumnIndexOrThrow(Constants.column_plu));
         this.plu2 = c.getString(c.getColumnIndexOrThrow(Constants.column_plu2));
@@ -222,7 +222,7 @@ public class Product extends InventarioRealPojo {
         this.cost_price = c.getDouble(c.getColumnIndexOrThrow(Constants.column_costPrice));
         this.sell_price = c.getDouble(c.getColumnIndexOrThrow(Constants.column_sellPrice));
         this.company = new Company(c.getLong(c.getColumnIndexOrThrow(Constants.column_company)));
-        this.createdAt = c.getString(c.getColumnIndexOrThrow(Constants.createdAt));
-        this.updatedAt = c.getString(c.getColumnIndexOrThrow(Constants.updatedAt));
+        this.setCreatedAt(c.getString(c.getColumnIndexOrThrow(Constants.createdAt)));
+        this.setUpdatedAt(c.getString(c.getColumnIndexOrThrow(Constants.updatedAt)));
     }
 }

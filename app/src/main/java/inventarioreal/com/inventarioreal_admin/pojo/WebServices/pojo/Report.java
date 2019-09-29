@@ -14,7 +14,7 @@ public class Report extends InventarioRealPojo {
     private int units_returned;
     private ConsolidatedInventory firstInventory;
     private ConsolidatedInventory secondInventory;
-    private ProductHasZone[] products;
+    private ReportsHasProductsZone[] products;
 
     public Report() {
     }
@@ -91,11 +91,11 @@ public class Report extends InventarioRealPojo {
         this.secondInventory = secondInventory;
     }
 
-    public ProductHasZone[] getProducts() {
+    public ReportsHasProductsZone[] getProducts() {
         return products;
     }
 
-    public void setProducts(ProductHasZone[] products) {
+    public void setProducts(ReportsHasProductsZone[] products) {
         this.products = products;
     }
 }

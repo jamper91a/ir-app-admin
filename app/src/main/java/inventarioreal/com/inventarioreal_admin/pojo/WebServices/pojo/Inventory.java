@@ -96,15 +96,15 @@ public class Inventory extends InventarioRealPojo {
     @Override
     public ContentValues getContentValues() {
         ContentValues values = new ContentValues();
-        values.put(Constants.column_id, id);
+        values.put(Constants.column_id, getId());
         values.put(Constants.column_date, date);
         values.put(Constants.column_parcial, parcial);
         values.put(Constants.column_collaborative, collaborative);
         values.put(Constants.column_message, message);
-        values.put(Constants.column_zone, zone.id);
-        values.put(Constants.column_consolidatedInventory, consolidatedInventory.id);
-        values.put(Constants.createdAt, createdAt);
-        values.put(Constants.updatedAt, updatedAt);
+        values.put(Constants.column_zone, zone.getId());
+        values.put(Constants.column_consolidatedInventory, consolidatedInventory.getId());
+        values.put(Constants.createdAt,getCreatedAt());
+		values.put(Constants.updatedAt,getUpdatedAt());
         return values;
     }
 

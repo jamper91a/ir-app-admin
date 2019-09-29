@@ -42,7 +42,7 @@ public class RequestDIFStep2 implements IntentRequests {
             {
                 throw new Error("Se deben seleccionar los dos inventory");
             }
-            if(inventarioInicial.id== inventarioFinal.id){
+            if(inventarioInicial.getId()== inventarioFinal.getId()){
                 throw new Error("Se deben seleccionar inventory diferentes");
             }
             try {

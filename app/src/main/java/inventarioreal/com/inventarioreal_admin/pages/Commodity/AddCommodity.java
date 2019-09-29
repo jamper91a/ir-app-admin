@@ -266,7 +266,7 @@ public class AddCommodity extends CicloActivity {
                         }
                     }
                     WebServices.addCommodity(
-                            productos_id.id,
+                            productos_id.getId(),
                             products,
                             AddCommodity.this,
                             admin,

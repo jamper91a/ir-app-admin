@@ -44,6 +44,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetDife
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductInShopByEanPluRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductsByConsolidatedInventoryRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductsByInventoryRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetReportsByType;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetTransfersByTypeRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetTransfersRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ListConsolidatedInventoriesRequest;
@@ -980,9 +981,9 @@ public class WebServices {
         });
     }
 
-    public static void saveReport(final Report report, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void saveReport(final Report report, ProductHasZone[] products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_saveReport;
-        SaveReportRequest request = new SaveReportRequest(report);
+        SaveReportRequest request = new SaveReportRequest(report, products);
         post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
@@ -1045,5 +1046,50 @@ public class WebServices {
         });
     }
 
+    public static void getReportsByType(final String type, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.listReportsByType;
+        GetReportsByType report = new GetReportsByType(type);
+        post(url, report.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
+                    try {
+                        Report[] reports = gson.fromJson(jsonObject.getJSONArray("data").toString(), Report[].class);
+
+                        try {
+                            if (reports!=null && reports.length>0) {
+                                ArrayList<Report> arrayReports = new ArrayList<Report>(Arrays.asList(reports));
+                                result.ok(new ResultWebServiceOk(arrayReports));
+                            }else{
+                                result.fail(new ResultWebServiceFail("No hay reportes"));
+                            }
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
 
 }

@@ -80,7 +80,7 @@ public class VisualizarInventarioPorZonaStep1 extends CicloActivity {
             @Override
             public void onItemClick(Object item) {
                 Inventory inv = (Inventory) item;
-                admin.toast(inv.createdAt);
+                admin.toast(inv.getCreatedAt());
                 RequestInventoryZoneStep2 requestInventarioPorZonaStep2 = new RequestInventoryZoneStep2(inv);
                 admin.callIntent(VisualizarInventarioPorZonaStep2.class, requestInventarioPorZonaStep2, RequestInventoryZoneStep2.class);
             }

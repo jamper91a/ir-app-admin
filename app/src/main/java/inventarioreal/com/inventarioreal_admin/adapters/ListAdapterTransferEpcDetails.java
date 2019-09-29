@@ -74,7 +74,7 @@ public class ListAdapterTransferEpcDetails extends RecyclerView.Adapter<ListAdap
                 break;
             case TYPE_ITEM:
                 final TransfersHasZonesProduct item = data.getTransfer().getProducts()[position-1];
-                holder.getTxt1().setText(item.getProduct().getProduct().id+"");
+                holder.getTxt1().setText(item.getProduct().getProduct().getId()+"");
                 holder.getTxt2().setText(item.getProduct().getEpc().getEpc());
                 holder.getTxt3().setText(item.getState()+"");
                 holder.getTxt4().setText(item.getProduct().getProduct().getDescription());

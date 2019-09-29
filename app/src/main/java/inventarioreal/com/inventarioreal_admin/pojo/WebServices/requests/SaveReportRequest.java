@@ -8,18 +8,21 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Report;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ReportsHasProductsZone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.RequestWebServiceInterface;
 
 public class SaveReportRequest implements RequestWebServiceInterface {
     private Report report;
+    private ProductHasZone[] products;
 
     public SaveReportRequest() {
 
     }
 
-    public SaveReportRequest(Report report) {
+    public SaveReportRequest(Report report, ProductHasZone[] products) {
         this.report = report;
+        this.products = products;
     }
 
 
@@ -35,7 +38,7 @@ public class SaveReportRequest implements RequestWebServiceInterface {
     private String getProducts(){
         Gson gson = new Gson();
         JsonArray array = new JsonArray();
-        for (ProductHasZone product: report.getProducts()
+        for (ProductHasZone product: products
         ) {
             JsonObject object = new JsonObject();
             object.addProperty(Constants.product, product.getId());

@@ -85,11 +85,8 @@ public class Constants {
     //endregion
 
 
-    //public static final String url="http://c945485b.ngrok.io/";
 //    public static final String url = "http://coexnort.servehttp.com:8023/";
     public static final String url = "http://192.168.1.14:1337/";
-//    public static final String url = "http://coexnort.servehttp.com:8023/";
-//    public static final String url = "http://192.168.0.26:1337/";
     public static final String user = "user";
     public static final String token = "token";
     public static final String authorization = "Authorization";
@@ -98,7 +95,7 @@ public class Constants {
 
 
     public static final String employee = "employee";
-    //Region Web services
+    //region Web services
     public static final String ws_attachInventory ="inventarios/adjuntar";
     public static final String ws_consolidateInventory ="inventarios/consolidar";
     public static final String ws_createInventory = "inventarios/crear";
@@ -121,6 +118,7 @@ public class Constants {
     public static final String ws_login = "login";
     public static final String ws_sync = "sync";
     public static final String ws_sellCommodity= "sells/create";
+    public static final String listReportsByType="reportes/getReportsByType";
     //endregion
 
 
@@ -164,5 +162,7 @@ public class Constants {
     public static final String report="report";
     public static final int inventory_diference_between_inventories = 1;
     public static final int inventory_diference_between_inventories2 = 2;
+    public static final String type_report_1="diferenceBetweenInventories";
+
 
 }

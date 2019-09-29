@@ -71,12 +71,12 @@ public class Epc extends InventarioRealPojo {
 
     public ContentValues getContentValues(){
 		ContentValues values = new ContentValues();
-		values.put(Constants.column_id,id);
+		values.put(Constants.column_id,getId());
 		values.put(Constants.column_state,state);
 		values.put(Constants.column_epc,epc);
-		values.put(Constants.column_company, company.id);
-		values.put(Constants.createdAt,createdAt);
-		values.put(Constants.updatedAt,updatedAt);
+		values.put(Constants.column_company, company.getId());
+		values.put(Constants.createdAt,getCreatedAt());
+		values.put(Constants.updatedAt,getUpdatedAt());
 
 		return values;
 	}
@@ -84,7 +84,7 @@ public class Epc extends InventarioRealPojo {
     @Override
     public void fromCursor(Cursor c) {
 
-        this.id = c.getLong(c.getColumnIndexOrThrow(Constants.column_id));
+        this.setId(c.getLong(c.getColumnIndexOrThrow(Constants.column_id)));
         this.state = c.getInt(c.getColumnIndexOrThrow(Constants.column_state));
         this.epc = c.getString(c.getColumnIndexOrThrow(Constants.column_epc));
         this.company = new Company(
@@ -92,8 +92,8 @@ public class Epc extends InventarioRealPojo {
                         c.getColumnIndexOrThrow(Constants.column_company)
                 )
         );
-        this.createdAt = c.getString(c.getColumnIndexOrThrow(Constants.createdAt));
-        this.updatedAt = c.getString(c.getColumnIndexOrThrow(Constants.updatedAt));
+        this.setCreatedAt(c.getString(c.getColumnIndexOrThrow(Constants.createdAt)));
+        this.setUpdatedAt(c.getString(c.getColumnIndexOrThrow(Constants.updatedAt)));
     }
 
     public boolean isError() {

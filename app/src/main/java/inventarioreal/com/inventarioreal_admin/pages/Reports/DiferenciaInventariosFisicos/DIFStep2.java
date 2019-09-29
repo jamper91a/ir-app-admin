@@ -31,6 +31,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Report;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -46,6 +47,7 @@ public class DIFStep2 extends CicloActivity {
     final DataBase db = DataBase.getInstance(this);
     private String TAG="ReporteInventarioTotal";
     private ArrayList<ProductHasZone> productosZona = new ArrayList<>();
+    private ArrayList<TransfersHasZonesProduct> transfersHasZonesProducts= new ArrayList<>();
     private RequestDIFStep2 request=null;
 
     @Override
@@ -77,8 +79,8 @@ public class DIFStep2 extends CicloActivity {
     public void getData() {
 
         WebServices.getDiferenceBetweenInventories(
-                request.inventarioInicial.id,
-                request.inventarioFinal.id,
+                request.inventarioInicial.getId(),
+                request.inventarioFinal.getId(),
                 this,
                 admin,
                 new ResultWebServiceInterface() {
@@ -149,9 +151,9 @@ public class DIFStep2 extends CicloActivity {
                 report.setAmount(productosZona.size());
                 report.setUnitsReturned(0);
                 report.setUnitsSell(0);
-                report.setProducts(productosZona.toArray(new ProductHasZone[productosZona.size()]));
+                ProductHasZone[] products = productosZona.toArray(new ProductHasZone[productosZona.size()]);
 
-                WebServices.saveReport(report, DIFStep2.this, admin, new ResultWebServiceInterface() {
+                WebServices.saveReport(report, products, DIFStep2.this, admin, new ResultWebServiceInterface() {
                     @Override
                     public void ok(ResultWebServiceOk ok) {
                         admin.toast("Reporte creado con exito");

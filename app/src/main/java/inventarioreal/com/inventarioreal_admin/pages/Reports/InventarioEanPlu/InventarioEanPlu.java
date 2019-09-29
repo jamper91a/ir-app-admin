@@ -85,7 +85,7 @@ public class InventarioEanPlu extends CicloActivity {
     }
 
     public void findProductosByEanPlu(){
-        WebServices.getProductInShopByEanPlu(productos_id.id, this, admin, new ResultWebServiceInterface() {
+        WebServices.getProductInShopByEanPlu(productos_id.getId(), this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 productos = (ArrayList<ProductHasZone>) ok.getData();

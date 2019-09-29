@@ -11,9 +11,9 @@ import java.util.HashMap;
 
 public abstract class InventarioRealPojo {
 
-    public long id;
-    public String createdAt;
-    public String updatedAt;
+    private long id;
+    private String createdAt;
+    private String updatedAt;
     public InventarioRealPojo() {
     }
 

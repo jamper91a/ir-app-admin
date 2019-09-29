@@ -12,6 +12,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenciaInventariosFisicos.DIFStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Reports.HomologateDifferences.HomologateDiferencesStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioEanPlu.InventarioEanPlu;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.ReporteInventarioTotal;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -75,6 +76,13 @@ public class HomeReportes extends CicloActivity {
             @Override
             public void onClick(View v) {
                 sync(DIFStep1.class);
+
+            }
+        });
+        add_on_click(R.id.btnHomDifInvFis, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sync(HomologateDiferencesStep1.class);
 
             }
         });

@@ -33,7 +33,7 @@ public class CreateSellRequest {
 
     private String getSell(){
         JsonObject object = new JsonObject();
-        object.addProperty(Constants.user, sell.getUser().id);
+        object.addProperty(Constants.user, sell.getUser().getId());
         return gson.toJson(object);
     }
     private String getProducts(){

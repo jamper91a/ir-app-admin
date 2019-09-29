@@ -61,7 +61,7 @@
     <string name="message">Mensaje</string>
     <string name="inventario_total">Inventario Total</string>
     <string name="inventario_eanplu">Inventario EAN/PLU</string>
-    <string name="diferencias_inventarios_fisicos">Diferencias inventarios fisicos</string>
+    <string name="diferencias_inventarios_fisicos">Diferencias reports fisicos</string>
     <string name="diferencias_inventarios_fisicos_inventarios_erp"><![CDATA[Diferencias consolidatedInventory fisicos & consolidatedInventory ERP]]></string>
     <string name="homologar_diferencias_inventario_fisico">Homologar diferencias inventory fisico</string>
     <string name="unidades_vendidas">Unidades vendidas</string>
