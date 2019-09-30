@@ -17,10 +17,21 @@ public class EpcViewModel extends ViewModel {
 
 
 
-    public void addAllProductoZona(ProductHasZone product){
+    public void addProductoZona(ProductHasZone product){
         getAllProducts();
 
         allProducts.add(product);
+        allProductsZonasLiveData.setValue(allProducts);
+
+    }
+
+    public void removeProductoZona(ProductHasZone product){
+        getAllProducts();
+        for(ProductHasZone pz: allProducts){
+            if(pz.getId() == product.getId()){
+                allProducts.remove(pz);
+            }
+        }
         allProductsZonasLiveData.setValue(allProducts);
 
     }

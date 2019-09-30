@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -248,7 +247,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                     products.add(ip);
                     eanPluVieModel.addProductoZona(proZon);
                     totalViewModel.setAmount(products.size());
-                    epcViewModel.addAllProductoZona(proZon);
+                    epcViewModel.addProductoZona(proZon);
                     epcs.add(epc);
                 }
             }

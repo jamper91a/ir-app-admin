@@ -11,11 +11,11 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZ
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Sell;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class GetReportsByType {
+public class GetReportsByTypeRequest {
     private String type;
     private Gson gson = new Gson();
 
-    public GetReportsByType(String type) {
+    public GetReportsByTypeRequest(String type) {
         this.type = type;
     }
 

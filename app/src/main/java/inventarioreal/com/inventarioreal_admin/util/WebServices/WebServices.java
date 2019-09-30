@@ -16,7 +16,8 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddCommodityResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductosInventariosConsolidados;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductsByConsolidatedInventoryResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetReportByIdResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.UltimoInventarioResponse;
@@ -26,6 +27,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHasProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Report;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ReportsHasProductsZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Sell;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
@@ -44,9 +46,11 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetDife
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductInShopByEanPluRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductsByConsolidatedInventoryRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductsByInventoryRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetReportsByType;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetReportByIdRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetReportsByTypeRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetTransfersByTypeRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetTransfersRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.HomologateUnitsRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ListConsolidatedInventoriesRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ListInventoriesRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ReturnProductRequest;
@@ -719,7 +723,7 @@ public class WebServices {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
-                        GetProductosInventariosConsolidados aux = gson.fromJson(jsonObject.getJSONObject("data").toString(),GetProductosInventariosConsolidados.class);
+                        GetProductsByConsolidatedInventoryResponse aux = gson.fromJson(jsonObject.getJSONObject("data").toString(), GetProductsByConsolidatedInventoryResponse.class);
                         result.ok(new ResultWebServiceOk(aux));
                     } catch (Exception e) {
                         admin.toast(e.getMessage());
@@ -1047,8 +1051,8 @@ public class WebServices {
     }
 
     public static void getReportsByType(final String type, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.listReportsByType;
-        GetReportsByType report = new GetReportsByType(type);
+        final String url=Constants.url+Constants.ws_getReportsByType;
+        GetReportsByTypeRequest report = new GetReportsByTypeRequest(type);
         post(url, report.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
@@ -1068,6 +1072,94 @@ public class WebServices {
                                 result.ok(new ResultWebServiceOk(arrayReports));
                             }else{
                                 result.fail(new ResultWebServiceFail("No hay reportes"));
+                            }
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
+
+    public static void getReportById(final long id, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_getReportById;
+        GetReportByIdRequest report = new GetReportByIdRequest(id);
+        post(url, report.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
+                    try {
+                        GetReportByIdResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(), GetReportByIdResponse.class);
+                        try {
+                            if (response!=null) {
+                                result.ok(new ResultWebServiceOk(response));
+                            }else{
+                                result.fail(new ResultWebServiceFail("No hay informacion"));
+                            }
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
+
+    public static void homologateUnits(LinkedList<ReportsHasProductsZone> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_homologateUnits;
+        HomologateUnitsRequest report = new HomologateUnitsRequest(products);
+        post(url, report.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
+                    try {
+                        GetReportByIdResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(), GetReportByIdResponse.class);
+                        try {
+                            if (response!=null) {
+                                result.ok(new ResultWebServiceOk(response));
+                            }else{
+                                result.fail(new ResultWebServiceFail("No hay informacion"));
                             }
 
                         } catch (Exception e) {

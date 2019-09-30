@@ -32,7 +32,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventariosConsolidados.TotalConsolidadoFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventariosConsolidados.TotalConsolidadoViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductosInventariosConsolidados;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductsByConsolidatedInventoryResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
@@ -124,7 +124,7 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
                         if(epc!=null)
                             pz.setEpc(epc);
                         eanPluVieModel.addProductoZona(pz);
-                        epcVieModel.addAllProductoZona(pz);
+                        epcVieModel.addProductoZona(pz);
                     }
 
                 }
@@ -143,7 +143,7 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
             WebServices.getProductsByConsolidatedInventory(inventarioConsolidado.getId(), this, admin, new ResultWebServiceInterface() {
                 @Override
                 public void ok(ResultWebServiceOk ok) {
-                    GetProductosInventariosConsolidados aux = (GetProductosInventariosConsolidados) ok.getData();
+                    GetProductsByConsolidatedInventoryResponse aux = (GetProductsByConsolidatedInventoryResponse) ok.getData();
                     //Busco la zona del inventory
                     for (ProductHasZone pz: aux.getProductosZonas()){
                         Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
@@ -163,7 +163,7 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
                         );
                         if(epc!=null)
                             pz.setEpc(epc);
-                        epcVieModel.addAllProductoZona(pz);
+                        epcVieModel.addProductoZona(pz);
                         eanPluConsolidadoVieModel.addProductoZona(pz);
                     }
 

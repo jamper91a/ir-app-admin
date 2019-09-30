@@ -75,7 +75,7 @@ public class HomologateDiferencesStep1 extends CicloActivity {
             @Override
             public void onItemClick(Object item) {
                 report = (Report) item;
-                admin.callIntent(null, report, Report.class);
+                admin.callIntent(HomologateDiferencesStep2.class, report, Report.class);
             }
 
             @Override

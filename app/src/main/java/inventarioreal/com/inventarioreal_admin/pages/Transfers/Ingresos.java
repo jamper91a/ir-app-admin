@@ -27,7 +27,6 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
-import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
@@ -268,7 +267,7 @@ public class Ingresos extends CicloActivity {
                                 pzt.setProduct(proZon);
                                 pzt.setTransfer(transferencia);
                                 productosZonasHasTransferencias.add(pzt);
-                                epcViewModel.addAllProductoZona(proZon);
+                                epcViewModel.addProductoZona(proZon);
                                 eanPluVieModel.addProductoZonaHasTransferencia(pzt);
 
 

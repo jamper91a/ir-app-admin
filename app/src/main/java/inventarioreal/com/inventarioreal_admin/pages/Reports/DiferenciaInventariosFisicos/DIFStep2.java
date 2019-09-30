@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +30,6 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Report;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -47,7 +45,6 @@ public class DIFStep2 extends CicloActivity {
     final DataBase db = DataBase.getInstance(this);
     private String TAG="ReporteInventarioTotal";
     private ArrayList<ProductHasZone> productosZona = new ArrayList<>();
-    private ArrayList<TransfersHasZonesProduct> transfersHasZonesProducts= new ArrayList<>();
     private RequestDIFStep2 request=null;
 
     @Override
@@ -106,7 +103,7 @@ public class DIFStep2 extends CicloActivity {
                             pz.setEpc(epc);
                         }
                         eanPluConsolidadoVieModel.addProductoZona(pz);
-                        epcViewModel.addAllProductoZona(pz);
+                        epcViewModel.addProductoZona(pz);
 
                     }
 

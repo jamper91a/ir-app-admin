@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +32,6 @@ import java.util.List;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Devolutions.HomeDevoluciones;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step1.CrearInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
@@ -265,7 +263,7 @@ public class DevolutionStep2 extends CicloActivity {
                     products.add(proZon);
                     eanPluVieModel.addProductoZona(proZon);
                     totalViewModel.setAmount(products.size());
-                    epcViewModel.addAllProductoZona(proZon);
+                    epcViewModel.addProductoZona(proZon);
                     epcs.add(epc);
                 }
             }
