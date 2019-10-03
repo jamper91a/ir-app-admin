@@ -304,7 +304,7 @@ public class HomologateDiferencesStep2 extends CicloActivity {
 
     @Override
     public void onBackPressed() {
-        admin.callIntent(DIFStep1.class, null);
+        admin.callIntent(HomologateDiferencesStep1.class, null);
     }
 
     //region Menu

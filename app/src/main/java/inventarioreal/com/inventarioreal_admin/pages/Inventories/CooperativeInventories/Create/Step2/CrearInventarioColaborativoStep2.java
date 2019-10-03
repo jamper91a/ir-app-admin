@@ -40,6 +40,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInve
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHasProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
@@ -59,7 +60,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     //private UhfManager uhfManager;
     private String TAG="CrearInventarioStep2";
     private DataBase db = DataBase.getInstance(this);
-    private RequestCreateInventory2 requestInventariorCrear2;
+    private RequestCreateInventory2 request;
     private LinkedList<InventoryHasProduct> products = new LinkedList<>();
     private Gson gson = new Gson();
     LoginResponse empleado;
@@ -85,6 +86,12 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //region Obtener parametros
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(Constants.parameters);
+        Gson gson = new Gson();
+        this.request = gson.fromJson(message, RequestCreateInventory2.class);
+        //endregion
         init(this,this,R.layout.activity_crear_inventario_colaborativo_step2);
         //region UhF
         rfdiReader = new RFDIReader(new RFDIListener() {
@@ -126,15 +133,10 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         rfdiReader.initSDK();
 //        rfdiReader.startReader();
         //endregion
-        //region Obtener parametros
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(Constants.parameters);
-        Gson gson = new Gson();
-        this.requestInventariorCrear2 = gson.fromJson(message, RequestCreateInventory2.class);
-        //endregion
+
         this.tabsInit();
         // toolbar
-        if(!requestInventariorCrear2.isUnion())
+        if(!request.isUnion())
             getSupportActionBar().setTitle("Crear Inv Cooperativos");
         else
             getSupportActionBar().setTitle("Unirse Inventario Colaborativo");
@@ -159,6 +161,11 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
         epcViewModel = ViewModelProviders.of(this).get(EpcViewModel.class);
+        Inventory inventory = new Inventory();
+        inventory.setZone(this.request.getZone());
+        inventory.setDate(this.request.getDate());
+        eanPluVieModel.setInventory(inventory);
+        totalViewModel.setInventory(inventory);
     }
 
     @Override
@@ -240,7 +247,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                 if (zona!=null && (zona.getShop().getId() == empleado.getEmployee().getShop().getId())) {
                     //Informacion requeria por el servicio web de crear inventory
                     InventoryHasProduct ip = new InventoryHasProduct();
-                    ip.setZone(requestInventariorCrear2.getZone());
+                    ip.setZone(request.getZone());
                     ip.setProduct(proZon);
                     ip.setEpc(epcDb);
 
@@ -357,7 +364,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        if(!requestInventariorCrear2.isUnion())
+        if(!request.isUnion())
             builder.setTitle("Crear Inventario Colaborativo");
         else
             builder.setTitle("Modificar Inventario Colaborativo");
@@ -372,7 +379,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
-        txtZona.setText("Zonas : "+requestInventariorCrear2.getZone().getName());
+        txtZona.setText("Zonas : "+ request.getZone().getName());
         builder.setView(dialogView);
 
 
@@ -382,9 +389,9 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
             public void onClick(DialogInterface dialog, int which) {
 
                 //Determino si es para crear o para adjuntar
-                if(requestInventariorCrear2.getInventory() ==null){
+                if(request.getInventory() ==null){
                     WebServices.createCollaborativeInventory(
-                            requestInventariorCrear2.getZone().getId(),
+                            request.getZone().getId(),
                             edtMensaje.getText().toString(),
                             products,
                             CrearInventarioColaborativoStep2.this,
@@ -405,7 +412,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                     );
                 }else{
                     WebServices.attachInventory(
-                            requestInventariorCrear2.getInventory(),
+                            request.getInventory(),
                             edtMensaje.getText().toString(),
                             products,
                             CrearInventarioColaborativoStep2.this,

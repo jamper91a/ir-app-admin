@@ -37,6 +37,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventor
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
@@ -80,6 +81,11 @@ public class CrearTransferenciaStep2 extends CicloActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(Constants.parameters);
+        Gson gson = new Gson();
+        this.request = gson.fromJson(message, Transfer.class);
+
         rfdiReader = new RFDIReader(new RFDIListener() {
             @Override
             public void onEpcAdded(String epc) {
@@ -118,10 +124,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         }, this);
         rfdiReader.initSDK();
         init(this, this, R.layout.get_product_by_epc);
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(Constants.parameters);
-        Gson gson = new Gson();
-        this.request = gson.fromJson(message, Transfer.class);
+
         this.tabsInit();
         //toolbar
         getSupportActionBar().setTitle("Crear Transferencia");
@@ -145,6 +148,8 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
         epcViewModel = ViewModelProviders.of(this).get(EpcViewModel.class);
+        eanPluVieModel.setTransfer(this.request);
+        totalViewModel.setTransfer(this.request);
     }
 
     @Override

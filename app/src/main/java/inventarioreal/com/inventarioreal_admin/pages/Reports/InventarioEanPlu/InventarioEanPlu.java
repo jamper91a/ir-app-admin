@@ -92,6 +92,7 @@ public class InventarioEanPlu extends CicloActivity {
                 if(productos!=null){
                     adapter.setItems(productos);
                     adapter.notifyDataSetChanged();
+                    getElemento(R.id.txtTags).setText("Tag Leidos: " +productos.size());
                 }
             }
 

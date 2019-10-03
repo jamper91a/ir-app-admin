@@ -172,7 +172,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         Inventory inventory = new Inventory();
         inventory.setDate(requestInventariorCrear2.getDate());
         inventory.setZone(requestInventariorCrear2.getZone());
-        eanPluVieModel.setInventario(inventory);
+        eanPluVieModel.setInventory(inventory);
         totalViewModel.setInventory(inventory);
     }
 

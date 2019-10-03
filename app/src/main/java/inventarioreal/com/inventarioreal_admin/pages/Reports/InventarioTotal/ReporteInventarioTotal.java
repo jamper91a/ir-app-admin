@@ -24,6 +24,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.tab
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.tabs.InvTotalEpcFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.tabs.InvTotalEpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.UltimoInventarioResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
@@ -84,6 +85,11 @@ public class ReporteInventarioTotal extends CicloActivity {
                             Product producto = (Product) db.findById(Constants.table_products, pz.getProduct().getId()+"", Product.class);
                             if(producto!=null){
                                 pz.setProduct(producto);
+                            }
+                            //Busco el epc
+                            Epc epc = (Epc) db.findById(Constants.table_epcs, pz.getEpc().getId()+"", Epc.class);
+                            if(epc!=null){
+                                pz.setEpc(epc);
                             }
                             eanPluConsolidadoVieModel.addProductoZona(pz);
                             epcConsolidadoVieModel.addAllProductoZona(pz);

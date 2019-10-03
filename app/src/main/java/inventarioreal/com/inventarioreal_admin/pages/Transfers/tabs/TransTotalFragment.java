@@ -30,6 +30,7 @@ public class TransTotalFragment extends Fragment {
         View v =  inflater.inflate(R.layout.total_fragment, container, false);
         this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.txt2));
+        addElemento(v.findViewById(R.id.txt4));
         return v;
     }
 
@@ -42,6 +43,13 @@ public class TransTotalFragment extends Fragment {
             public void onChanged(@Nullable Integer integer) {
                 TextView txtCant = (TextView)getElemento(R.id.txt2);
                 txtCant.setText(integer+"");
+            }
+        });
+        mViewModel.getDate().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                TextView txtDate = (TextView)getElemento(R.id.txt4);
+                txtDate.setText(s);
             }
         });
     }

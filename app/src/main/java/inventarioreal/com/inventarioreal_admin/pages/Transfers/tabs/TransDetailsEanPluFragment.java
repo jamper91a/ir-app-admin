@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs;
+package inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -14,38 +14,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonas;
-import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasVisual;
+import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterTransferenciaDetails;
+import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterTransferenciaDetailsVisual;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.TransferenciaDetails;
 import jamper91.com.easyway.Util.Administrador;
 
-public class EanPluFragment extends Fragment {
+public class TransDetailsEanPluFragment extends Fragment {
 
-    private EanPluViewModel mViewModel;
+    private TransDetailsEanPluViewModel mViewModel;
+//    private TransDetailsTotalViewModel mViewModel;
     private LinkedHashMap<Integer, View> elementos;
-    public ListAdapterProductosZonas adapter1;
-    public ListAdapterProductosZonasVisual adapterVisual;
+    public ListAdapterTransferenciaDetails adapter1;
+    public ListAdapterTransferenciaDetailsVisual adapterVisual;
     private Administrador admin;
-//    private LinkedList<Epcs> epcs = new LinkedList<>();
+    private TransferenciaDetails transferencia = null;
 
 
 
-    public static EanPluFragment newInstance() {
-        return new EanPluFragment();
+    public static TransDetailsEanPluFragment newInstance() {
+        return new TransDetailsEanPluFragment();
     }
 
     public void setAdmin(Administrador admin) {
         this.admin = admin;
     }
+
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -58,6 +57,7 @@ public class EanPluFragment extends Fragment {
         addElemento(v.findViewById(R.id.txtZone));
         addElemento(v.findViewById(R.id.txtDate));
 
+
         return v;
     }
 
@@ -65,7 +65,8 @@ public class EanPluFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getData();
-        adapter1 = new ListAdapterProductosZonas(getActivity(), admin, mViewModel.getProductosZona().getValue(), new OnItemClickListener() {
+
+        adapter1 = new ListAdapterTransferenciaDetails(getActivity(), admin, mViewModel.getTransferencia().getValue(), new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
             }
@@ -80,7 +81,9 @@ public class EanPluFragment extends Fragment {
 
             }
         });
-        adapterVisual = new ListAdapterProductosZonasVisual(getActivity(), admin, mViewModel.getProductosZona().getValue(), new OnItemClickListener() {
+
+
+        adapterVisual = new ListAdapterTransferenciaDetailsVisual(getActivity(), admin, mViewModel.getTransferencia().getValue(), new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
             }
@@ -104,28 +107,17 @@ public class EanPluFragment extends Fragment {
     }
 
     private void getData(){
-        mViewModel = ViewModelProviders.of(getActivity()).get(EanPluViewModel.class);
-        mViewModel.getProductosZona().observe(this, new Observer<LinkedList<ProductHasZone>>() {
+        mViewModel = ViewModelProviders.of(getActivity()).get(TransDetailsEanPluViewModel.class);
+        mViewModel.getTransferencia().observe(this, new Observer<TransferenciaDetails>() {
             @Override
-            public void onChanged(@Nullable LinkedList<ProductHasZone> productosZonas) {
-                    adapter1.setItems(productosZonas);
+            public void onChanged(@Nullable TransferenciaDetails transferencia) {
+                if(transferencia !=null && transferencia.getProductos()!= null){
+                    adapter1.setData(transferencia);
                     adapter1.notifyDataSetChanged();
-                    adapterVisual.setItems(productosZonas);
+                    adapterVisual.setData(transferencia.getProductos());
                     adapterVisual.notifyDataSetChanged();
-            }
-        });
-        mViewModel.getInventario().observe(this, new Observer<Inventory>() {
-            @Override
-            public void onChanged(@Nullable Inventory inventory) {
-                ((TextView)getElemento(R.id.txtZone)).setText(inventory.getZone().getName());
-                ((TextView)getElemento(R.id.txtDate)).setText(inventory.getDate());
-            }
-        });
-        mViewModel.getTransfer().observe(this, new Observer<Transfer>() {
-            @Override
-            public void onChanged(@Nullable Transfer transfer) {
-                ((TextView)getElemento(R.id.txtZone)).setText(transfer.getShopDestination().getName());
-                ((TextView)getElemento(R.id.txtDate)).setText(transfer.getCreatedAt());
+                }
+
             }
         });
 

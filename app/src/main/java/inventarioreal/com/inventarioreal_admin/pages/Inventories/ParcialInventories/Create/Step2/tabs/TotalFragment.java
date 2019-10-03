@@ -15,6 +15,7 @@ import java.util.LinkedHashMap;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 
 public class TotalFragment extends Fragment {
 
@@ -57,6 +58,15 @@ public class TotalFragment extends Fragment {
                 TextView txtZona = (TextView) getElemento(R.id.txt6);
                 txtFecha.setText(inventory.getDate().replace("T", " - "));
                 txtZona.setText(inventory.getZone().getName());
+            }
+        });
+        mViewModel.getTransfer().observe(this, new Observer<Transfer>() {
+            @Override
+            public void onChanged(@Nullable Transfer transfer) {
+                TextView txtFecha = (TextView) getElemento(R.id.txt4);
+                TextView txtZona = (TextView) getElemento(R.id.txt6);
+                txtFecha.setText(transfer.getCreatedAt().replace("T", " - "));
+                txtZona.setText(transfer.getShopDestination().getName());
             }
         });
     }

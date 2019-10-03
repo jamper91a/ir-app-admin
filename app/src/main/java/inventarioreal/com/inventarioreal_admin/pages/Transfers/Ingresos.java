@@ -141,6 +141,7 @@ public class Ingresos extends CicloActivity {
         eanPluVieModel = ViewModelProviders.of(this).get(TransEanPluViewModel.class);
         epcViewModel = ViewModelProviders.of(this).get(EpcViewModel.class);
         getTransferencias();
+        totalViewModel.setDate(admin.getCurrentDateAndTime());
     }
 
     public void getTransferencias(){
