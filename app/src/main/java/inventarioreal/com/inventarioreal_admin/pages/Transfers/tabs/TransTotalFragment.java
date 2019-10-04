@@ -50,6 +50,7 @@ public class TransTotalFragment extends Fragment {
             public void onChanged(@Nullable String s) {
                 TextView txtDate = (TextView)getElemento(R.id.txt4);
                 txtDate.setText(s);
+                txtDate.setVisibility(View.VISIBLE);
             }
         });
     }

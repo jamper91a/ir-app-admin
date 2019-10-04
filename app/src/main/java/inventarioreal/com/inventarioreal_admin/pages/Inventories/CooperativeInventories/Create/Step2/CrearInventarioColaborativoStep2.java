@@ -213,50 +213,53 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
         if(epcDb!=null){
             //Busco el producto zonas al que pertenece este tag
-            LinkedList<ProductHasZone> proZons=
-                    db.getByColumn(
+            ProductHasZone proZon=
+                    (ProductHasZone) db.findOneByColumn(
                             Constants.table_productsHasZones,
                             Constants.column_epc_id,
                             epcDb.getId()+"",
                             ProductHasZone.class);
-            if(proZons!=null){
-                ProductHasZone proZon = proZons.get(0);
-                //Busco el producto de este producto zona
-                Product producto= (Product) db.findById(
-                        Constants.table_products,
-                        proZon.getProduct().getId()+"",
-                        Product.class
-                );
-                //Busco la zona del producto zona
-                Zone zona = (Zone) db.findById(
-                        Constants.table_zones,
-                        proZon.getZone().getId()+"",
-                        Zone.class
-                );
+            if(proZon!=null){
+                //Determino si el producto no ha sido vendido
+                if(proZon.getSell().getId()==1){
+                    //Busco el producto de este producto zona
+                    Product producto= (Product) db.findById(
+                            Constants.table_products,
+                            proZon.getProduct().getId()+"",
+                            Product.class
+                    );
+                    //Busco la zona del producto zona
+                    Zone zona = (Zone) db.findById(
+                            Constants.table_zones,
+                            proZon.getZone().getId()+"",
+                            Zone.class
+                    );
 
-                if (epc!=null) {
-                    proZon.setEpc(epcDb);
-                }
-                if(producto!=null){
-                    proZon.setProduct(producto);
-                }
-                if(zona!=null){
-                    proZon.setZone(zona);
-                }
-                //Valido que este producto pertenezca al local del usuario logeado
-                if (zona!=null && (zona.getShop().getId() == empleado.getEmployee().getShop().getId())) {
-                    //Informacion requeria por el servicio web de crear inventory
-                    InventoryHasProduct ip = new InventoryHasProduct();
-                    ip.setZone(request.getZone());
-                    ip.setProduct(proZon);
-                    ip.setEpc(epcDb);
+                    if (epc!=null) {
+                        proZon.setEpc(epcDb);
+                    }
+                    if(producto!=null){
+                        proZon.setProduct(producto);
+                    }
+                    if(zona!=null){
+                        proZon.setZone(zona);
+                    }
+                    //Valido que este producto pertenezca al local del usuario logeado
+                    if (zona!=null && (zona.getShop().getId() == empleado.getEmployee().getShop().getId())) {
+                        //Informacion requeria por el servicio web de crear inventory
+                        InventoryHasProduct ip = new InventoryHasProduct();
+                        ip.setZone(request.getZone());
+                        ip.setProduct(proZon);
+                        ip.setEpc(epcDb);
 
-                    products.add(ip);
-                    eanPluVieModel.addProductoZona(proZon);
-                    totalViewModel.setAmount(products.size());
-                    epcViewModel.addProductoZona(proZon);
-                    epcs.add(epc);
+                        products.add(ip);
+                        eanPluVieModel.addProductoZona(proZon);
+                        totalViewModel.setAmount(products.size());
+                        epcViewModel.addProductoZona(proZon);
+                        epcs.add(epc);
+                    }
                 }
+
             }
 
         }

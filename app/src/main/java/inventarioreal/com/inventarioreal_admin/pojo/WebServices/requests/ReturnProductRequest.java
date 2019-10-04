@@ -31,6 +31,7 @@ public class ReturnProductRequest {
         for (ProductHasZone pz: products
         ) {
             JsonObject object = new JsonObject();
+            object.addProperty(Constants.id, pz.getId());
             object.addProperty(Constants.zone, pz.getZone().getId());
             object.addProperty(Constants.epc, pz.getEpc().getId());
             object.addProperty(Constants.devolution, pz.getDevolution().getId());

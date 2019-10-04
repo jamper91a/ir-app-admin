@@ -43,6 +43,7 @@ public class CreateSellRequest {
         ) {
             JsonObject object = new JsonObject();
             object.addProperty(Constants.id, product.getId());
+            object.addProperty(Constants.column_product, product.getProduct().getId());
             array.add(object);
 
         }

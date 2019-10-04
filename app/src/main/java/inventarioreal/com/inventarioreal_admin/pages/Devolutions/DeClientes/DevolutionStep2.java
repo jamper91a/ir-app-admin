@@ -42,6 +42,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devolution;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
@@ -88,6 +89,12 @@ public class DevolutionStep2 extends CicloActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //region Obtener parametros
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(Constants.parameters);
+        Gson gson = new Gson();
+        this.product = gson.fromJson(message, ProductHasZone.class);
+        //endregion
         init(this,this,R.layout.get_product_by_epc);
         //region UhF
         rfdiReader = new RFDIReader(new RFDIListener() {
@@ -129,12 +136,7 @@ public class DevolutionStep2 extends CicloActivity {
         rfdiReader.initSDK();
         //rfdiReader.startReader();
         //endregion
-        //region Obtener parametros
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(Constants.parameters);
-        Gson gson = new Gson();
-        this.product = gson.fromJson(message, ProductHasZone.class);
-        //endregion
+
         this.tabsInit();
         // toolbar
         getSupportActionBar().setTitle("Devoluciones");
@@ -161,6 +163,12 @@ public class DevolutionStep2 extends CicloActivity {
         totalViewModel = ViewModelProviders.of(this).get(TotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
         epcViewModel = ViewModelProviders.of(this).get(EpcViewModel.class);
+        Inventory inventory = new Inventory();
+        inventory.setDate(this.product.getCreatedAt());
+        inventory.setZone(this.product.getZone());
+//        epcViewModel.setT(inventory);
+        eanPluVieModel.setInventory(inventory);
+        totalViewModel.setInventory(inventory);
     }
 
     @Override
