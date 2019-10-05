@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -1186,9 +1187,9 @@ public class WebServices {
         });
     }
 
-    public static void saleUnits(final long firstInventory, final long secondInventory, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void saleUnits(final String firstDate, final String secondDate, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_saleUnits;
-        SaleUnitsReportRequest request = new SaleUnitsReportRequest(firstInventory, secondInventory);
+        SaleUnitsReportRequest request = new SaleUnitsReportRequest(firstDate, secondDate);
         post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {

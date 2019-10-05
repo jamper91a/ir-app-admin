@@ -1,14 +1,19 @@
 package inventarioreal.com.inventarioreal_admin.pages.Reports.SaleUnits;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 
 import com.daimajia.androidanimations.library.Techniques;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventariosConsolidados;
@@ -19,6 +24,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenciaInventari
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import inventarioreal.com.inventarioreal_admin.util.DatePickerFragment;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -27,19 +33,12 @@ import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class SUStep1 extends CicloActivity {
-    private RecyclerAdapterInventariosConsolidados adapter;
-    private ArrayList<ConsolidatedInventory> inventariosConsolidados = new ArrayList<>();
-    RecyclerView recyclerView = null;
-    private ConsolidatedInventory inventarioInicial=null;
-    private ConsolidatedInventory inventarioFinal=null;
-    //Var to know in which step the use is
-    private int step=1;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this,this, R.layout.activity_visualizar_inventarios);
+        init(this,this, R.layout.activity_report_sell_units_step_1);
         // toolbar
         getSupportActionBar().setTitle("Reporte Unidades Vendidas");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -49,20 +48,49 @@ public class SUStep1 extends CicloActivity {
     @Override
     public void initGui() {
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.SlideInLeft));
-        addElemento(new Animacion(findViewById(R.id.lst1), Techniques.SlideInLeft));
+        addElemento(new Animacion(findViewById(R.id.edt1), Techniques.SlideInLeft));
+        addElemento(new Animacion(findViewById(R.id.txt2), Techniques.SlideInLeft));
+        addElemento(new Animacion(findViewById(R.id.edt2), Techniques.SlideInLeft));
+        addElemento(new Animacion(findViewById(R.id.btn1), Techniques.SlideInLeft));
 
-        //Cambiar los textos a mostrar
-        getElemento(R.id.txt1).setText("Selecciones el inventory Inicial");
     }
 
     @Override
     public void getData() {
-        getInventariosConsolidados();
+
     }
 
     @Override
     public void initOnClick() {
+        add_on_click(R.id.edt1, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(view);
+            }
+        });
+        add_on_click(R.id.edt2, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(view);
+            }
+        });
 
+        add_on_click(R.id.btn1, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RequestSUStep2 request = new RequestSUStep2();
+                request.setFirstDate(getElemento(R.id.edt1).getText());
+                request.setSecondDate(getElemento(R.id.edt2).getText());
+                try {
+                    if(request.validar()){
+                        admin.callIntent(SUStep2.class, request, RequestSUStep2.class);
+                    }
+                } catch (Error error) {
+                    admin.toast(error.getMessage());
+                }
+
+            }
+        });
     }
 
     @Override
@@ -70,61 +98,6 @@ public class SUStep1 extends CicloActivity {
 
     }
 
-    private void getInventariosConsolidados() {
-        recyclerView = (RecyclerView) getElemento(R.id.lst1).getElemento();
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new RecyclerAdapterInventariosConsolidados(this, inventariosConsolidados, admin, new OnItemClickListener() {
-            @Override
-            public void onItemClick(Object item) {
-                ConsolidatedInventory inv = (ConsolidatedInventory) item;
-                if(step==2){
-//                    inv.setId(2);
-                    inventarioFinal=inv;
-                    RequestSUStep2 request = new RequestSUStep2(inventarioInicial, inventarioFinal);
-                    try {
-                        request.validar();
-                            admin.callIntent(SUStep2.class, request, RequestSUStep2.class);
-                    } catch (Error e) {
-                        admin.toast(e.getMessage());
-                    }
-                }
-                if(step==1){
-                    inventarioInicial=inv;
-                    getElemento(R.id.txt1).setText("Selecciones el inventory final");
-                    step=2;
-                }
-
-            }
-
-            @Override
-            public void onLongItemClick(Object item) {
-
-            }
-
-            @Override
-            public void onItemClick(int view, Object item) {
-
-            }
-        });
-        recyclerView.setAdapter(adapter);
-        WebServices.listAllConsolidatedInventories(this, admin, new ResultWebServiceInterface() {
-            @Override
-            public void ok(ResultWebServiceOk ok) {
-                inventariosConsolidados = (ArrayList<ConsolidatedInventory>) ok.getData();
-                adapter.setInventarios(inventariosConsolidados);
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void fail(ResultWebServiceFail fail) {
-
-            }
-        });
-
-    }
     @Override
     public void onBackPressed() {
         admin.callIntent(HomeReportes.class, null);
@@ -157,6 +130,23 @@ public class SUStep1 extends CicloActivity {
     }
 
     //endregion
+
+    private void showDatePickerDialog(final View view) {
+        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                // +1 because January is zero
+                final String selectedDate = year + "-" + twoDigits(month+1) + "-" + twoDigits(day);
+                ((EditText)view).setText(selectedDate);
+            }
+        });
+
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    private String twoDigits(int n) {
+        return (n<=9) ? ("0"+n) : String.valueOf(n);
+    }
 
 
 }

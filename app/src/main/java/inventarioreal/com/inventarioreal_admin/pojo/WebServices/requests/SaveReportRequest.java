@@ -56,6 +56,8 @@ public class SaveReportRequest implements RequestWebServiceInterface {
         newReport.addProperty(Constants.column_amount, report.getAmount());
         newReport.addProperty(Constants.column_unitsSell, report.getUnitsSell());
         newReport.addProperty(Constants.column_unitsReturned, report.getUnitsReturned());
+        newReport.addProperty(Constants.firstDate, report.getFirstDate());
+        newReport.addProperty(Constants.secondDate, report.getSecondDate());
         return gson.toJson(newReport);
     }
 

@@ -12,6 +12,8 @@ public class Report extends InventarioRealPojo {
     private int amount;
     private int units_sell;
     private int units_returned;
+    private String firstDate;
+    private String secondDate;
     private ConsolidatedInventory firstInventory;
     private ConsolidatedInventory secondInventory;
     private ReportsHasProductsZone[] products;
@@ -97,5 +99,21 @@ public class Report extends InventarioRealPojo {
 
     public void setProducts(ReportsHasProductsZone[] products) {
         this.products = products;
+    }
+
+    public String getFirstDate() {
+        return firstDate;
+    }
+
+    public void setFirstDate(String firstDate) {
+        this.firstDate = firstDate;
+    }
+
+    public String getSecondDate() {
+        return secondDate;
+    }
+
+    public void setSecondDate(String secondDate) {
+        this.secondDate = secondDate;
     }
 }

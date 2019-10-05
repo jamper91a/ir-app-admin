@@ -77,8 +77,8 @@ public class SUStep2 extends CicloActivity {
     public void getData() {
 
         WebServices.saleUnits(
-                request.inventarioInicial.getId(),
-                request.inventarioFinal.getId(),
+                request.getFirstDateToString(),
+                request.getSecondDateToString(),
                 this,
                 admin,
                 new ResultWebServiceInterface() {
@@ -87,7 +87,7 @@ public class SUStep2 extends CicloActivity {
                 SaleUnitsResponse response = (SaleUnitsResponse) ok.getData();
                 productosZona.addAll(response.getArraySaleUnits());
                 productosZona.addAll(response.getArrayReturnedUnits());
-                if(productosZona!=null){
+                if(productosZona!=null && productosZona.size()>0){
                     totalViewModel = ViewModelProviders.of(SUStep2.this).get(SUTotalViewModel.class);
                     eanPluViewModel = ViewModelProviders.of(SUStep2.this).get(SUEanPluViewModel.class);
                     epcViewModel = ViewModelProviders.of(SUStep2.this).get(EpcViewModel.class);
@@ -119,6 +119,8 @@ public class SUStep2 extends CicloActivity {
                     totalViewModel.setDate(admin.getCurrentDateAndTime());
 
 
+                }else{
+                    onBackPressed();
                 }
             }
 
@@ -147,8 +149,8 @@ public class SUStep2 extends CicloActivity {
             public void onClick(View v) {
                 //Creo el reporte
 
-                reportToSave.setFirstInventory(request.getInventarioInicial());
-                reportToSave.setSecondInventory(request.getInventarioFinal());
+                reportToSave.setFirstDate(request.getFirstDateToString());
+                reportToSave.setSecondDate(request.getSecondDateToString());
                 reportToSave.setType(Constants.inventory_sell_units);
                 reportToSave.setAmount(productosZona.size());
                 ProductHasZone[] products = productosZona.toArray(new ProductHasZone[productosZona.size()]);

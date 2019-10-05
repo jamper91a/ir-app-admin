@@ -73,4 +73,8 @@
     <string name="view_cooperative_inventories_consolidated">Visualizar inventories cooperativos consolidados</string>
     <string name="salida_mercancia">Salida de Mercancia</string>
     <string name="id">Id</string>
+    <string name="fecha_inicial">Fecha Inicial</string>
+    <string name="escoger_fecha">Escoger fecha</string>
+    <string name="fecha_final">Fecha final</string>
+    <string name="ver_reporte">Ver Reporte</string>
 </resources>

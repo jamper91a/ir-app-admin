@@ -85,8 +85,8 @@ public class Constants {
     //endregion
 
 
-    public static final String url = "http://coexnort.servehttp.com:8023/";
-//    public static final String url = "http://192.168.1.11:1337/";
+//    public static final String url = "http://coexnort.servehttp.com:8023/";
+    public static final String url = "http://192.168.1.11:1337/";
     public static final String user = "user";
     public static final String token = "token";
     public static final String authorization = "Authorization";
@@ -166,4 +166,6 @@ public class Constants {
     public static final int inventory_diference_between_inventories = 1;
     public static final int inventory_sell_units = 2;
     public static final String type_report_1="diferenceBetweenInventories";
+    public static final String firstDate="firstDate";
+    public static final String secondDate="secondDate";
 }
