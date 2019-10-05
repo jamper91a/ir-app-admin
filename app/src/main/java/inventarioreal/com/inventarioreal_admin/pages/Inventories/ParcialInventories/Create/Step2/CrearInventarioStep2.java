@@ -79,10 +79,6 @@ public class CrearInventarioStep2 extends CicloActivity {
                     boolean state = msg.getData().getBoolean("state");
                     changedStateLecture(state);
                     break ;
-                case 4:
-                    String key = msg.getData().getString("key");
-                    admin.toast(key);
-                    break ;
             }
         }
     } ;
@@ -421,7 +417,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 
                             @Override
                             public void fail(ResultWebServiceFail fail) {
-                                admin.toast("fail");
+                                admin.toast("Fail: "+ fail.getError());
                             }
                         }
 

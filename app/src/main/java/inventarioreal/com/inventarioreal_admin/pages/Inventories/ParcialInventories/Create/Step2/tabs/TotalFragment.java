@@ -64,9 +64,11 @@ public class TotalFragment extends Fragment {
             @Override
             public void onChanged(@Nullable Transfer transfer) {
                 TextView txtFecha = (TextView) getElemento(R.id.txt4);
-                TextView txtZona = (TextView) getElemento(R.id.txt6);
+                TextView lblLocDes = (TextView) getElemento(R.id.txt5);
+                TextView txtLocDes = (TextView) getElemento(R.id.txt6);
                 txtFecha.setText(transfer.getCreatedAt().replace("T", " - "));
-                txtZona.setText(transfer.getShopDestination().getName());
+                lblLocDes.setText("Local destino");
+                txtLocDes.setText(transfer.getShopDestination().getName());
             }
         });
     }

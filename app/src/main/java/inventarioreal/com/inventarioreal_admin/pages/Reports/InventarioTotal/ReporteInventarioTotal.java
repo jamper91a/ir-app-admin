@@ -104,7 +104,7 @@ public class ReporteInventarioTotal extends CicloActivity {
 
             @Override
             public void fail(ResultWebServiceFail fail) {
-
+                onBackPressed();
             }
         });
 

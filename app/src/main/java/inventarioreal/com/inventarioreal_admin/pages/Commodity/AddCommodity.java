@@ -154,7 +154,6 @@ public class AddCommodity extends CicloActivity {
         adapter1 = new ListAdapterEpcs(this, admin, epcs, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
-                admin.toast("onItemClick");
             }
 
             @Override
@@ -168,7 +167,6 @@ public class AddCommodity extends CicloActivity {
 
             @Override
             public void onItemClick(int view, Object item) {
-                admin.toast("onItemClick");
             }
         });
         RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1).getElemento();

@@ -321,7 +321,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    TotalFragment total = new TotalFragment();
+                    TotalFragment total = TotalFragment.newInstance();
                     return total;
                 case 1:
                     EanPluFragment eanPlu = EanPluFragment.newInstance();

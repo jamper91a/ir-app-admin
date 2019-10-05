@@ -181,7 +181,7 @@ public class DevolutionStep2 extends CicloActivity {
                 for(ProductHasZone product: products){
                     if(product.isError()){
                         pass=false;
-                        admin.toast("Hay productos que no se pueden sacar");
+                        admin.toast("Producto actualmente en inventario, no se puede reintegrar");
                     }
                 }
                 if(pass)

@@ -63,7 +63,6 @@ public class InventarioEanPlu extends CicloActivity {
         adapter = new ListAdapterInventarioEanPlu(this, admin, productos, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
-                admin.toast("onItemClick");
             }
 
             @Override
@@ -72,7 +71,6 @@ public class InventarioEanPlu extends CicloActivity {
 
             @Override
             public void onItemClick(int view, Object item) {
-                admin.toast("onItemClick");
             }
         });
         RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1).getElemento();
