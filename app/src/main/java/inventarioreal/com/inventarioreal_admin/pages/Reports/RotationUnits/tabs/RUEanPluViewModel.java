@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Reports.SaleUnits.tabs;
+package inventarioreal.com.inventarioreal_admin.pages.Reports.RotationUnits.tabs;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 
-public class SUEanPluViewModel extends ViewModel {
+public class RUEanPluViewModel extends ViewModel {
     MutableLiveData<LinkedList<ProductHasZone>> productosZonasLiveData = null;
     private LinkedList<ProductHasZone> productosZona = null;
 
@@ -24,13 +24,16 @@ public class SUEanPluViewModel extends ViewModel {
             ) {
                 if(pz.getProduct().getId() == productosZonas.getProduct().getId()){
                     pz.setTotal(pz.getTotal()+1);
-
+                    if(productosZonas.getSell()!=null && productosZonas.getSell().getId()>1)
+                        pz.setVendidas(pz.getVendidas()+1);
                     productosZona.set(count,pz);
                     productosZonasLiveData.setValue(productosZona);
                     return;
                 }
                 count+=1;
             }
+            if(productosZonas.getSell()!=null && productosZonas.getSell().getId()>1)
+                productosZonas.setVendidas(productosZonas.getVendidas()+1);
             productosZona.add(productosZonas);
             productosZonasLiveData.setValue(productosZona);
         }

@@ -77,4 +77,6 @@
     <string name="escoger_fecha">Escoger fecha</string>
     <string name="fecha_final">Fecha final</string>
     <string name="ver_reporte">Ver Reporte</string>
+    <string name="vendidas">Vendidas</string>
+    <string name="diferencia">Direferencia</string>
 </resources>
