@@ -63,6 +63,8 @@
         <activity android:name=".pages.Reports.DiferenciaInventariosFisicos.DIFStep2" />
         <activity android:name=".pages.Reports.HomologateDifferences.HomologateDiferencesStep1" />
         <activity android:name=".pages.Reports.HomologateDifferences.HomologateDiferencesStep2" />
+        <activity android:name=".pages.Reports.SaleUnits.SUStep1" />
+        <activity android:name=".pages.Reports.SaleUnits.SUStep2" />
         <activity android:name=".pages.Cashiers.HomeCashier" />
         <activity android:name=".pages.Cashiers.Sell.SellCommodity" />
 

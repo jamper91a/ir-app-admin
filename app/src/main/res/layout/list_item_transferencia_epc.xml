@@ -25,6 +25,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:text=""
+            android:visibility="gone"
             tools:ignore="NestedWeights" />
 
         <TextView

@@ -121,6 +121,7 @@ public class Constants {
     public static final String ws_getReportsByType ="reportes/getReportsByType";
     public static final String ws_getReportById = "reportes/getReportById";
     public static final String ws_homologateUnits = "reportes/homologateUnits";
+    public static final String ws_saleUnits="reportes/saleUnits";
     //endregion
 
 
@@ -163,9 +164,6 @@ public class Constants {
     public static final String content_type = "Content-Type";
     public static final String report="report";
     public static final int inventory_diference_between_inventories = 1;
-    public static final int inventory_diference_between_inventories2 = 2;
+    public static final int inventory_sell_units = 2;
     public static final String type_report_1="diferenceBetweenInventories";
-
-
-
 }

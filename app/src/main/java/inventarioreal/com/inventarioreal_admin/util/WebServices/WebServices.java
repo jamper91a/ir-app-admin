@@ -19,6 +19,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddCommo
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductsByConsolidatedInventoryResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetReportByIdResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SaleUnitsResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.UltimoInventarioResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devolution;
@@ -57,6 +58,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ReturnP
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FinishTransferRequet;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductByEanPluRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.LoginRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SaleUnitsReportRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SaveReportRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
@@ -1161,6 +1163,57 @@ public class WebServices {
                             }else{
                                 result.fail(new ResultWebServiceFail("No hay informacion"));
                             }
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
+
+    public static void saleUnits(final long firstInventory, final long secondInventory, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_saleUnits;
+        SaleUnitsReportRequest request = new SaleUnitsReportRequest(firstInventory, secondInventory);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
+                    // trae informacion de las zonas
+                    try {
+                        ProductHasZone[] saleUnits = gson.fromJson(jsonObject.getJSONObject("data").getJSONArray("saleUnits").toString(), ProductHasZone[].class);
+                        ProductHasZone[] returnedUnits = gson.fromJson(jsonObject.getJSONObject("data").getJSONArray("returnedUnits").toString(), ProductHasZone[].class);
+                        ArrayList<ProductHasZone> arraySaleUnits = new ArrayList<>();
+                        ArrayList<ProductHasZone> arrayReturnedUnits = new ArrayList<>();
+                        try {
+                            if (saleUnits!=null && saleUnits.length>0) {
+                                arraySaleUnits = new ArrayList<>(Arrays.asList(saleUnits));
+                            }
+                            if (returnedUnits!=null && returnedUnits.length>0) {
+                                arrayReturnedUnits = new ArrayList<>(Arrays.asList(returnedUnits));
+                            }
+
+                            result.ok(new ResultWebServiceOk(new SaleUnitsResponse(arraySaleUnits, arrayReturnedUnits)));
 
                         } catch (Exception e) {
                             admin.toast(e.getMessage());
