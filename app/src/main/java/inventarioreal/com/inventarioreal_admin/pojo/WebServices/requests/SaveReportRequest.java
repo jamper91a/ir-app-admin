@@ -1,7 +1,9 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
@@ -48,10 +50,18 @@ public class SaveReportRequest implements RequestWebServiceInterface {
         return gson.toJson(array);
     }
     private String getReport(){
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .serializeNulls()
+                .create();
         JsonObject newReport = new JsonObject();
-        newReport.addProperty(Constants.firstInventory, report.getFirstInventory().getId());
-        newReport.addProperty(Constants.secondInventory, report.getSecondInventory().getId());
+        if(report.getFirstInventory()!=null)
+            newReport.addProperty(Constants.firstInventory, report.getFirstInventory().getId());
+        else
+            newReport.add(Constants.firstInventory, JsonNull.INSTANCE);
+        if(report.getSecondInventory()!=null)
+            newReport.addProperty(Constants.secondInventory, report.getSecondInventory().getId());
+        else
+            newReport.add(Constants.secondInventory, JsonNull.INSTANCE);
         newReport.addProperty(Constants.type, report.getType());
         newReport.addProperty(Constants.column_amount, report.getAmount());
         newReport.addProperty(Constants.column_unitsSell, report.getUnitsSell());

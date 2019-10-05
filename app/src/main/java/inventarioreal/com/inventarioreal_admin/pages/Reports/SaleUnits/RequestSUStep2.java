@@ -27,7 +27,7 @@ public class RequestSUStep2 implements IntentRequests {
         return firstDate;
     }
     public String getFirstDateToString(){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = dateFormat.format(getFirstDate());
         return date;
     }
