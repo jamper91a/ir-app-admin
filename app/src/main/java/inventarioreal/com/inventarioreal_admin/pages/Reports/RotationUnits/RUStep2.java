@@ -77,7 +77,7 @@ public class RUStep2 extends CicloActivity {
     @Override
     public void getData() {
 
-        WebServices.saleUnits(
+        WebServices.rotationUnits(
                 request.getFirstDateToString(),
                 request.getSecondDateToString(),
                 this,
@@ -85,9 +85,8 @@ public class RUStep2 extends CicloActivity {
                 new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                SaleUnitsResponse response = (SaleUnitsResponse) ok.getData();
-                productosZona.addAll(response.getArraySaleUnits());
-                productosZona.addAll(response.getArrayReturnedUnits());
+                ArrayList<ProductHasZone> arrayUnits = (ArrayList<ProductHasZone>) ok.getData();
+                productosZona.addAll(arrayUnits);
                 if(productosZona!=null && productosZona.size()>0){
                     eanPluViewModel = ViewModelProviders.of(RUStep2.this).get(RUEanPluViewModel.class);
                     //Busco la zona del inventory

@@ -59,6 +59,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ReturnP
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FinishTransferRequet;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductByEanPluRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.LoginRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.RotationUnitsReportRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SaleUnitsReportRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SaveReportRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
@@ -1215,6 +1216,52 @@ public class WebServices {
                             }
 
                             result.ok(new ResultWebServiceOk(new SaleUnitsResponse(arraySaleUnits, arrayReturnedUnits)));
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
+
+    public static void rotationUnits(final String firstDate, final String secondDate, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_rotationUnits;
+        RotationUnitsReportRequest request = new RotationUnitsReportRequest(firstDate, secondDate);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
+                    // trae informacion de las zonas
+                    try {
+                        ProductHasZone[] units = gson.fromJson(jsonObject.getJSONArray("data").toString(), ProductHasZone[].class);
+                        ArrayList<ProductHasZone> arrayUnits = new ArrayList<>();
+                        try {
+                            if (units!=null && units.length>0) {
+                                arrayUnits = new ArrayList<>(Arrays.asList(units));
+                            }
+
+                            result.ok(new ResultWebServiceOk(arrayUnits));
 
                         } catch (Exception e) {
                             admin.toast(e.getMessage());
