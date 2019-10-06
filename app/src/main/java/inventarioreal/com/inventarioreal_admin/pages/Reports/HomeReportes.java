@@ -30,12 +30,10 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class HomeReportes extends CicloActivity {
 
-    private SlidingMenu menu;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_home_reportes);
-        this.menu =init_menu(this,R.layout.layout_menu);
         //toolbar
         getSupportActionBar().setTitle("Reportes");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -109,7 +107,12 @@ public class HomeReportes extends CicloActivity {
             @Override
             public void onClick(View v) {
                 admin.callIntent(REStep1.class, 1, Integer.class);
-
+            }
+        });
+        add_on_click(R.id.btnDevPro, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(REStep1.class, 2, Integer.class);
             }
         });
 

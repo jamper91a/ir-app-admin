@@ -64,7 +64,7 @@
         android:id="@+id/btnDevPro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:enabled="false"
+        android:enabled="true"
         android:text="@string/devoluciones_proveedores" />
 
     <Button
