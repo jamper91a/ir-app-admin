@@ -2,13 +2,14 @@ package inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class ProductHasZone extends InventarioRealPojo {
+public class ProductHasZone extends InventarioRealPojo implements Comparable  {
 
     private String admission_date;
     private String sell_date;
@@ -215,5 +216,12 @@ public class ProductHasZone extends InventarioRealPojo {
 
     public void setVendidas(int vendidas) {
         this.vendidas = vendidas;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object p) {
+        int compareTotal=((ProductHasZone)p).getTotal();
+
+        return  compareTotal- this.getTotal();
     }
 }

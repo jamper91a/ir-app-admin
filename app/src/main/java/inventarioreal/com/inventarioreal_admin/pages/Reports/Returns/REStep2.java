@@ -16,6 +16,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
@@ -94,9 +95,10 @@ public class REStep2 extends CicloActivity {
                             pz.setEpc(epc);
                         }
                         eanPluViewModel.addProductoZona(pz);
-
                     }
 
+                    //Order products by total
+                    Collections.sort(productosZona);
 
 
 
