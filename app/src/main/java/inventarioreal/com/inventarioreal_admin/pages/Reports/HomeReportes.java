@@ -8,6 +8,8 @@ import android.view.View;
 import com.daimajia.androidanimations.library.Techniques;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
+import java.util.HashMap;
+
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
@@ -15,6 +17,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenciaInventari
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomologateDifferences.HomologateDiferencesStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioEanPlu.InventarioEanPlu;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.ReporteInventarioTotal;
+import inventarioreal.com.inventarioreal_admin.pages.Reports.Returns.REStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.RotationUnits.RUStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.SaleUnits.SUStep1;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -99,6 +102,13 @@ public class HomeReportes extends CicloActivity {
             @Override
             public void onClick(View v) {
                 sync(RUStep1.class);
+
+            }
+        });
+        add_on_click(R.id.btnDevCli, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(REStep1.class, 1, Integer.class);
 
             }
         });

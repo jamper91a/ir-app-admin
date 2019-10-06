@@ -44,6 +44,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateC
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateInventoryRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateSellRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateTransferRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.DevolutionsByTypeReportRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetDiferenceBetweenInventoriesRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductInShopByEanPluRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductsByConsolidatedInventoryRequest;
@@ -1285,4 +1286,49 @@ public class WebServices {
         });
     }
 
+    public static void devolutionsByType(final int type, final String firstDate, final String secondDate, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_devolutionsByType;
+        DevolutionsByTypeReportRequest request = new DevolutionsByTypeReportRequest(firstDate, secondDate, type);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
+                    // trae informacion de las zonas
+                    try {
+                        ProductHasZone[] units = gson.fromJson(jsonObject.getJSONArray("data").toString(), ProductHasZone[].class);
+                        ArrayList<ProductHasZone> arrayUnits = new ArrayList<>();
+                        try {
+                            if (units!=null && units.length>0) {
+                                arrayUnits = new ArrayList<>(Arrays.asList(units));
+                            }
+
+                            result.ok(new ResultWebServiceOk(arrayUnits));
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
 }

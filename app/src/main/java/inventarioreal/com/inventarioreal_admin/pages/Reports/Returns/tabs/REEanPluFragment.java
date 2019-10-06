@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Reports.RotationUnits.tabs;
+package inventarioreal.com.inventarioreal_admin.pages.Reports.Returns.tabs;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -19,25 +19,25 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonas;
+import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasReturns;
+import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasReturnsVisual;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasRotacion;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasRotacionVisual;
-import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasVisual;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import jamper91.com.easyway.Util.Administrador;
 
-public class RUEanPluFragment extends Fragment {
+public class REEanPluFragment extends Fragment {
 
-    private RUEanPluViewModel mViewModel;
+    private REEanPluViewModel mViewModel;
     private LinkedHashMap<Integer, View> elementos;
-    public ListAdapterProductosZonasRotacion adapter1;
-    public ListAdapterProductosZonasRotacionVisual adapterVisual;
+    public ListAdapterProductosZonasReturns adapter1;
+    public ListAdapterProductosZonasReturnsVisual adapterVisual;
     private Administrador admin;
 
 
-    public static RUEanPluFragment newInstance() {
-        return new RUEanPluFragment();
+    public static REEanPluFragment newInstance() {
+        return new REEanPluFragment();
     }
 
     public void setAdmin(Administrador admin) {
@@ -60,7 +60,7 @@ public class RUEanPluFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getData();
-        adapter1 = new ListAdapterProductosZonasRotacion(getActivity(), admin, mViewModel.getProductosZona().getValue(), new OnItemClickListener() {
+        adapter1 = new ListAdapterProductosZonasReturns(getActivity(), admin, mViewModel.getProductosZona().getValue(), new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
             }
@@ -75,7 +75,7 @@ public class RUEanPluFragment extends Fragment {
 
             }
         });
-        adapterVisual = new ListAdapterProductosZonasRotacionVisual(getActivity(), admin, mViewModel.getProductosZona().getValue(), new OnItemClickListener() {
+        adapterVisual = new ListAdapterProductosZonasReturnsVisual(getActivity(), admin, mViewModel.getProductosZona().getValue(), new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
             }
@@ -99,7 +99,7 @@ public class RUEanPluFragment extends Fragment {
     }
 
     private void getData(){
-        mViewModel = ViewModelProviders.of(getActivity()).get(RUEanPluViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(REEanPluViewModel.class);
         mViewModel.getProductosZona().observe(this, new Observer<LinkedList<ProductHasZone>>() {
             @Override
             public void onChanged(@Nullable LinkedList<ProductHasZone> productosZonas) {

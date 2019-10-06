@@ -123,6 +123,7 @@ public class Constants {
     public static final String ws_homologateUnits = "reportes/homologateUnits";
     public static final String ws_saleUnits="reportes/saleUnits";
     public static final String ws_rotationUnits="reportes/rotationUnits";
+    public static final String ws_devolutionsByType="reportes/devolutionsByType";
     //endregion
 
 
@@ -169,5 +170,4 @@ public class Constants {
     public static final String type_report_1="diferenceBetweenInventories";
     public static final String firstDate="firstDate";
     public static final String secondDate="secondDate";
-
 }

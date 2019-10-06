@@ -33,7 +33,6 @@
                 android:id="@+id/txt1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowColor="#2196F3"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="350dp"
                 tools:layout_editor_absoluteY="709dp" />
@@ -42,16 +41,6 @@
                 android:id="@+id/txt2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowColor="#4CAF50"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="360dp"
-                tools:layout_editor_absoluteY="0dp" />
-
-            <TextView
-                android:id="@+id/txt3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="360dp"
                 tools:layout_editor_absoluteY="0dp" />
@@ -59,6 +48,15 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="360dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <TextView
         android:id="@+id/txt4"

@@ -67,6 +67,8 @@
         <activity android:name=".pages.Reports.SaleUnits.SUStep2" />
         <activity android:name=".pages.Reports.RotationUnits.RUStep1" />
         <activity android:name=".pages.Reports.RotationUnits.RUStep2" />
+        <activity android:name=".pages.Reports.Returns.REStep1" />
+        <activity android:name=".pages.Reports.Returns.REStep2" />
         <activity android:name=".pages.Cashiers.HomeCashier" />
         <activity android:name=".pages.Cashiers.Sell.SellCommodity" />
 
