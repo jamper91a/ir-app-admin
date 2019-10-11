@@ -80,4 +80,5 @@
     <string name="vendidas">Vendidas</string>
     <string name="diferencia">Direferencia</string>
     <string name="proveedor">Proveedor</string>
+    <string name="total_unidades_sugeridas">Total Unidades sugeridas</string>
 </resources>
