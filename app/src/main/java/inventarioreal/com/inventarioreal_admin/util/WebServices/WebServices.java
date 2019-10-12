@@ -37,6 +37,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZ
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.DiferenceInventoryErp;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddCommodityRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AttachInventoryRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ConsolidateInventoriesRequest;
@@ -1348,6 +1349,49 @@ public class WebServices {
                     try {
                         ProductHasZone[] units = gson.fromJson(jsonObject.getJSONArray("data").toString(), ProductHasZone[].class);
                         ArrayList<ProductHasZone> arrayUnits = new ArrayList<>();
+                        try {
+                            if (units!=null && units.length>0) {
+                                arrayUnits = new ArrayList<>(Arrays.asList(units));
+                            }
+
+                            result.ok(new ResultWebServiceOk(arrayUnits));
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
+
+    public static void diferenceInventoryErp(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_diferenceInventoryErp;
+        post(url, new HashMap<String, String>(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    try {
+                        DiferenceInventoryErp[] units = gson.fromJson(jsonObject.getJSONArray("data").toString(), DiferenceInventoryErp[].class);
+                        ArrayList<DiferenceInventoryErp> arrayUnits = new ArrayList<>();
                         try {
                             if (units!=null && units.length>0) {
                                 arrayUnits = new ArrayList<>(Arrays.asList(units));
