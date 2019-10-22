@@ -81,4 +81,8 @@
     <string name="diferencia">Direferencia</string>
     <string name="proveedor">Proveedor</string>
     <string name="total_unidades_sugeridas">Total Unidades sugeridas</string>
+    <string name="busqueda_items_listar_ubicaciones">Ean / Plu - Listar Ubicaciones</string>
+    <string name="buscar_sonar_ean">Buscar Ean / Plu - Sonar</string>
+    <string name="buscar_sonar_epc">Buscar Epc (RFID) Sonar</string>
+    <string name="buscar_epc_ultima_ubicacion">Buscar Epc (RFID) Ultima ubicacion conocida</string>
 </resources>

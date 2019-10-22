@@ -16,6 +16,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Devolutions.HomeDevolucione
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.InventarioParcialHome;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.InventariosColaborativosHome;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
+import inventarioreal.com.inventarioreal_admin.pages.Search.HomeSearch;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.HomeTransferencia;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
@@ -29,12 +30,10 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class Home extends CicloActivity {
 
-    private SlidingMenu menu;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_home);
-        this.menu =init_menu(this,R.layout.layout_menu);
     }
     @Override
     public void initGui() {
@@ -122,8 +121,7 @@ public class Home extends CicloActivity {
         add_on_click(R.id.btnBusYGeo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                admin.callIntent(crear_inventario.class, null);
-                sync(ReaderActivity.class);
+                admin.callIntent(HomeSearch.class, null);
             }
         });
 
