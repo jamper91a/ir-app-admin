@@ -11,6 +11,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
+import inventarioreal.com.inventarioreal_admin.pages.Search.ListLocations.SearchListLocationsStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.CrearTransferencia.CrearTransferenciaStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.Ingresos;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.ManifiestoElectronico.ManifiestoElectronicoHome;
@@ -45,7 +46,12 @@ public class HomeSearch extends CicloActivity {
 
     @Override
     public void getData() {
-
+        add_on_click(R.id.btn1, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                admin.callIntent(SearchListLocationsStep1.class, null);
+            }
+        });
     }
 
     @Override
