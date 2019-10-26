@@ -1,6 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.pages.Search.ListLocations;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,12 +11,16 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.androidanimations.library.Techniques;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterInventarioEanPlu;
+import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.RotationProyected.ReportRotationProyectedStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.RotationProyected.RequestRPStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Search.HomeSearch;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -26,9 +32,9 @@ import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class SearchListLocationsStep1 extends CicloActivity {
-
-    RequestRPStep2 request;
-
+    private Product product = null;
+    private ArrayList<ProductHasZone> products = new ArrayList<>();;
+    private ListAdapterInventarioEanPlu adapter = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +48,7 @@ public class SearchListLocationsStep1 extends CicloActivity {
     public void initGui() {
         addElemento(new Animacion(findViewById(R.id.lbl1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtEanPlu),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txtEanPlu),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.btnBus),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes1),Techniques.FadeInLeft));
@@ -54,13 +61,32 @@ public class SearchListLocationsStep1 extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.btnNo),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft,null, false));
         addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnVerOtro),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txtTags),Techniques.FadeInLeft));
+
+        adapter = new ListAdapterInventarioEanPlu(this, admin, products, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object item) {
+            }
+
+            @Override
+            public void onLongItemClick(Object item) {
+            }
+
+            @Override
+            public void onItemClick(int view, Object item) {
+            }
+        });
+        RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1).getElemento();
+        lst1.setLayoutManager(new LinearLayoutManager(this));
+        lst1.setAdapter(adapter);
 
     }
 
     @Override
     public void getData() {
-        this.request = new RequestRPStep2();
     }
 
     @Override
@@ -96,7 +122,17 @@ public class SearchListLocationsStep1 extends CicloActivity {
         add_on_click(R.id.btnSi, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(product!=null){
+                    getElemento((R.id.edtEanPlu)).getElemento().setVisibility(View.GONE);
+                    getElemento((R.id.btnBus)).getElemento().setVisibility(View.GONE);
+                    getElemento((R.id.txtEanPlu)).setText(product.getEan());
+                    getElemento((R.id.txtEanPlu)).getElemento().setVisibility(View.VISIBLE);
+                    getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+                    findProductosByEanPlu();
+                    getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
+                }else{
+                    admin.toast("Debes buscar un producto");
+                }
 
             }
         });
@@ -106,10 +142,16 @@ public class SearchListLocationsStep1 extends CicloActivity {
                 admin.callIntent(HomeReportes.class, null);
             }
         });
+        add_on_click(R.id.btnVerOtro, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(SearchListLocationsStep1.class, null);
+            }
+        });
     }
 
     private void mostrarInformacionProducto(Product p){
-        this.request.setProduct(p);
+        this.product = p;
         getElemento(R.id.lblDes1).setText(p.getDescription());
         getElemento(R.id.lblDes2).setText(p.getBranch());
         getElemento(R.id.lblDes3).setText(p.getColor());
@@ -121,6 +163,25 @@ public class SearchListLocationsStep1 extends CicloActivity {
         getElemento(R.id.lnl1a).getElemento().setVisibility(View.VISIBLE);
     }
 
+    public void findProductosByEanPlu(){
+        WebServices.getProductInShopByEanPlu(product.getId(), this, admin, new ResultWebServiceInterface() {
+            @Override
+            public void ok(ResultWebServiceOk ok) {
+                products = (ArrayList<ProductHasZone>) ok.getData();
+                if(products!=null){
+                    adapter.setItems(products);
+                    adapter.notifyDataSetChanged();
+                    getElemento(R.id.txtTags).setText("Tag Leidos: " +products.size());
+                }
+            }
+
+            @Override
+            public void fail(ResultWebServiceFail fail) {
+
+            }
+        });
+    }
+
     @Override
     public void hasAllPermissions() {
 
@@ -130,7 +191,7 @@ public class SearchListLocationsStep1 extends CicloActivity {
 
     @Override
     public void onBackPressed() {
-        admin.callIntent(HomeReportes.class, null);
+        admin.callIntent(HomeSearch.class, null);
     }
 
     //region Menu

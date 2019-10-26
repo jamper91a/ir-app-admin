@@ -85,4 +85,6 @@
     <string name="buscar_sonar_ean">Buscar Ean / Plu - Sonar</string>
     <string name="buscar_sonar_epc">Buscar Epc (RFID) Sonar</string>
     <string name="buscar_epc_ultima_ubicacion">Buscar Epc (RFID) Ultima ubicacion conocida</string>
+    <string name="ver_otro">Ver otro</string>
+    <string name="unidades">Unidades</string>
 </resources>
