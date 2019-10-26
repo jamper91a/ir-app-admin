@@ -85,8 +85,8 @@ public class Constants {
     //endregion
 
 
-    public static final String url = "http://coexnort.servehttp.com:8023/";
-//    public static final String url = "http://192.168.1.7:1337/";
+//    public static final String url = "http://coexnort.servehttp.com:8023/";
+    public static final String url = "http://192.168.1.7:1337/";
     public static final String user = "user";
     public static final String token = "token";
     public static final String authorization = "Authorization";
@@ -106,8 +106,10 @@ public class Constants {
     public static final String ws_listProductByConsolidatedInventory ="inventariosConsolidados/listarProductos";
     public static final String ws_listLastConsolidatedInventory ="inventariosConsolidados/ultimoInventario";
     public static final String ws_addCommodity = "productos/addMercancia";
-    public static final String ws_findProduct = "productos/findOne";
+    public static final String ws_findProductByEanPlu = "productos/findOne";
+    public static final String ws_findProductByEpc = "productos/findOneByEpc";
     public static final String ws_findProductInShopByEanPlu ="productos/findProductInLocalByEanPlu";
+    public static final String ws_findProductInShopByEpc ="productos/findProductInLocalByEpc";
     public static final String ws_diferenceBetweenInventories="reportes/diferenceBetweenInventories";
     public static final String ws_createTransfer ="transferencias/crear";
     public static final String ws_finishTransfer ="transferencias/finishTransfer";

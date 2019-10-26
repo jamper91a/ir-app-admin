@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,6 +47,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateT
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.DevolutionsByTypeReportRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetDiferenceBetweenInventoriesRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductInShopByEanPluRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductInShopByEpcRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductsByConsolidatedInventoryRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductsByInventoryRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetReportByIdRequest;
@@ -186,7 +186,48 @@ public class WebServices {
      * @param result Callback
      */
     public static void getProductByEanPlu(String code, final Activity activity, final Administrador admin,final ResultWebServiceInterface result){
-        final String url=Constants.url+Constants.ws_findProduct;
+        final String url=Constants.url+Constants.ws_findProductByEanPlu;
+        try {
+            GetProductByEanPluRequest request = new GetProductByEanPluRequest(code);
+            post(
+                    url,
+                    request.getCampos(),
+                    R.string.consultando,
+                    activity,
+                    admin,
+                    new ResponseListener() {
+                        @Override
+                        public void onResponse(String s) {
+                            //result.ok(new ResultWebServiceOk());
+                        }
+
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
+                            try {
+                                Product productos = gson.fromJson(jsonObject.getJSONObject("data").toString(), Product.class);
+                                result.ok(new ResultWebServiceOk(productos));
+                            } catch (JSONException e) {
+                                result.fail(new ResultWebServiceFail(e));
+                            } catch (Exception e) {
+                                result.fail(new ResultWebServiceFail(e.getMessage()));
+                            }
+                        }
+
+                        @Override
+                        public void onErrorResponse(String s) {
+                            errorWebService(s, result);
+                        }
+                    }
+            );
+        } catch (Exception e){
+            result.fail(new ResultWebServiceFail(e.getMessage()));
+        }
+
+
+    }
+
+    public static void getProductByEpc(String code, final Activity activity, final Administrador admin,final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_findProductByEpc;
         try {
             GetProductByEanPluRequest request = new GetProductByEanPluRequest(code);
             post(
@@ -931,6 +972,38 @@ public class WebServices {
                         result.ok(new ResultWebServiceOk(arrayProductosZonas));
                     }else{
                         result.fail(new ResultWebServiceFail("No hay productos"));
+                    }
+                } catch (Exception e) {
+                    admin.toast(e.getMessage());
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+    public static void getProductInShopByEpc(final String epc, final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
+        final String url=Constants.url+Constants.ws_findProductInShopByEpc;
+        GetProductInShopByEpcRequest request = new GetProductInShopByEpcRequest(epc);
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    ProductHasZone[] aux = gson.fromJson(jsonObject.getJSONArray("data").toString(), ProductHasZone[].class);
+                    if (aux!=null && aux.length>0) {
+                        ArrayList<ProductHasZone> arrayProductosZonas = new ArrayList<ProductHasZone>(Arrays.asList(aux));
+                        result.ok(new ResultWebServiceOk(arrayProductosZonas));
+                    }else{
+                        result.fail(new ResultWebServiceFail("No hay epc, el producto pudo haber sido vendido o esta en otro local"));
                     }
                 } catch (Exception e) {
                     admin.toast(e.getMessage());

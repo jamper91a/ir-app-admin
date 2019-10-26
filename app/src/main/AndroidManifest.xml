@@ -77,6 +77,7 @@
         <activity android:name=".pages.Search.HomeSearch" />
         <activity android:name=".pages.Search.ListLocations.SearchListLocationsStep1" />
         <activity android:name=".pages.Search.EanPluSonar.SearchEanPluSonar" />
+        <activity android:name=".pages.Search.EpcLastLocation.SearchEpcLastLocation" />
 
     </application>
 
