@@ -30,7 +30,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class SearchEpcLastLocation extends CicloActivity {
     private Product product = null;
-    private ArrayList<ProductHasZone> products = new ArrayList<>();;
+    private ArrayList<ProductHasZone> products = new ArrayList<>();
     private ListAdapterInventarioEanPlu adapter = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +84,7 @@ public class SearchEpcLastLocation extends CicloActivity {
 
     @Override
     public void getData() {
+        getElemento(R.id.lbl1).setText(getString(R.string.epc));
     }
 
     @Override
@@ -125,10 +126,10 @@ public class SearchEpcLastLocation extends CicloActivity {
                     getElemento((R.id.txtEanPlu)).setText(product.getEan());
                     getElemento((R.id.txtEanPlu)).getElemento().setVisibility(View.VISIBLE);
                     getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
-                    findProductosByEanPlu();
+                    findLastLocationByEpc();
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
                 }else{
-                    admin.toast("Debes buscar un producto");
+                    admin.toast("Debes buscar un epc primero");
                 }
 
             }
@@ -160,8 +161,8 @@ public class SearchEpcLastLocation extends CicloActivity {
         getElemento(R.id.lnl1a).getElemento().setVisibility(View.VISIBLE);
     }
 
-    public void findProductosByEanPlu(){
-        WebServices.getProductInShopByEanPlu(product.getId(), this, admin, new ResultWebServiceInterface() {
+    public void findLastLocationByEpc(){
+        WebServices.getProductInShopByEpc(getElemento(R.id.edtEanPlu).getText(), this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 products = (ArrayList<ProductHasZone>) ok.getData();

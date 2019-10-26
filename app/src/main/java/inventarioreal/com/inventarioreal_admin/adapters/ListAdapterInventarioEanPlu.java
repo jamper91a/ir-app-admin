@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.adapters;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,8 @@ import jamper91.com.easyway.Util.Administrador;
 
 public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapterInventarioEanPlu.ViewHolder> {
 
+    private static final int TYPE_HEADER=0;
+    private static final int TYPE_ITEM=1;
     private static final String TAG = "dapterInventarioEanPlu";
     private Activity activity;
     private Administrador admin;
@@ -52,24 +55,49 @@ public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_inventarios_ean_plu, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        View view=null;
+        switch (viewType){
+            case TYPE_HEADER:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_list_item_inventarios_ean_plu, parent, false);
+                break;
+            case TYPE_ITEM:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_inventarios_ean_plu, parent, false);
+                break;
+        }
+        ViewHolder viewHolder = new ViewHolder(view, viewType);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final ProductHasZone item = items.get(position);
-        holder.getTxtId().setText(item.getId()+"");
-        holder.getTxEpc().setText(item.getEpc().getEpc());
-        holder.getTxtZona().setText(item.getZone().getName());
-        holder.bind(item);
+        switch (holder.viewType){
+            case TYPE_HEADER:
+//                holder.bind(item);
+                break;
+            case TYPE_ITEM:
+                final ProductHasZone item = items.get(position-1);
+                holder.getTxtId().setText(item.getId()+"");
+                holder.getTxEpc().setText(item.getEpc().getEpc());
+                holder.getTxtZona().setText(item.getZone().getName());
+                holder.bind(item);
+                break;
+        }
+
 
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items.size()+1;
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        if(position==0){
+            return TYPE_HEADER;
+        }
+        return TYPE_ITEM;
     }
 
     public void add(ProductHasZone item) {
@@ -140,14 +168,20 @@ public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapte
         private TextView txtId;
         private TextView txEpc;
         private TextView txtZona;
+        int viewType;
 
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, int viewType) {
             super(view);
             this.lnl1 = (LinearLayout)view.findViewById(R.id.lnl1);
             this.txtId = (TextView)view.findViewById(R.id.txtId);
             this.txEpc = (TextView)view.findViewById(R.id.txtEpc);
             this.txtZona = (TextView)view.findViewById(R.id.txtZona);
+
+            this.viewType = viewType;
+
+
+
 
         }
 
