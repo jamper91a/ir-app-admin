@@ -1,6 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.pages.Search.EanPluSonar;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -15,12 +17,17 @@ import java.util.ArrayList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterInventarioEanPlu;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
+import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pages.Search.HomeSearch;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
+import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -30,14 +37,62 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class SearchEanPluSonar extends CicloActivity {
     private Product product = null;
-    private ArrayList<ProductHasZone> products = new ArrayList<>();;
+    private ArrayList<ProductHasZone> allProducts = new ArrayList<>();
+    private ArrayList<ProductHasZone> productsFound = new ArrayList<>();
     private ListAdapterInventarioEanPlu adapter = null;
+
+    RFDIReader rfdiReader =  null;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    String epc = msg.getData().getString("epc");
+                    addToList(epc);
+                    break ;
+                case 3:
+                    boolean state = msg.getData().getBoolean("state");
+                    changedStateLecture(state);
+                    break ;
+            }
+        }
+    } ;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        rfdiReader = new RFDIReader(new RFDIListener() {
+            @Override
+            public void onEpcAdded(String epc) {
+                Message msg = new Message();
+                msg.what = 1;
+                Bundle b = new Bundle();
+                b.putString("epc", epc);
+                msg.setData(b);
+                handler.sendMessage(msg);
+            }
+
+            @Override
+            public void onEpcRepeated(String epc) {
+            }
+
+            @Override
+            public void onStateChanged(boolean state) {
+                Message msg = new Message();
+                msg.what = 3;
+                Bundle b = new Bundle();
+                b.putBoolean("state", state);
+                msg.setData(b);
+                handler.sendMessage(msg);
+            }
+
+            @Override
+            public void onKeyPresses(String key) {
+
+            }
+        }, this);
         init(this,this,R.layout.activity_search_ean_plu_sonar);
         // toolbar
-        getSupportActionBar().setTitle("Busqueda de items - Ean/Plu Listado");
+        getSupportActionBar().setTitle("Busqueda de items - Ean/Plu Sonar");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -59,12 +114,12 @@ public class SearchEanPluSonar extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft,null, false));
         addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.btnEmp),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnLee),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBor),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnVerOtro),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txtTags),Techniques.FadeInLeft));
 
-        adapter = new ListAdapterInventarioEanPlu(this, admin, products, new OnItemClickListener() {
+        adapter = new ListAdapterInventarioEanPlu(this, admin, productsFound, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
             }
@@ -114,7 +169,12 @@ public class SearchEanPluSonar extends CicloActivity {
             }
         });
 
-
+        add_on_click(R.id.btnLee, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changedStateLecture(!rfdiReader.isStartReader());
+            }
+        });
 
 
         add_on_click(R.id.btnSi, new View.OnClickListener() {
@@ -146,6 +206,13 @@ public class SearchEanPluSonar extends CicloActivity {
                 admin.callIntent(SearchEanPluSonar.class, null);
             }
         });
+
+        add_on_click(R.id.btnBor, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clean();
+            }
+        });
     }
 
     private void mostrarInformacionProducto(Product p){
@@ -165,12 +232,8 @@ public class SearchEanPluSonar extends CicloActivity {
         WebServices.getProductInShopByEanPlu(product.getId(), this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                products = (ArrayList<ProductHasZone>) ok.getData();
-                if(products!=null){
-                    adapter.setItems(products);
-                    adapter.notifyDataSetChanged();
-                    getElemento(R.id.txtTags).setText("Tag Leidos: " +products.size());
-                }
+                allProducts = (ArrayList<ProductHasZone>) ok.getData();
+
             }
 
             @Override
@@ -218,5 +281,41 @@ public class SearchEanPluSonar extends CicloActivity {
 
     //endregion
 
+
+    private void addToList(final String epc) {
+        createEpc(epc);
+    }
+
+    private void createEpc(String epc){
+        //Find the epc in the list
+        for (ProductHasZone product: allProducts){
+            if(product.getEpc().getEpc().equals(epc)){
+                productsFound.add(product);
+            }
+        }
+        if(productsFound !=null){
+            adapter.setItems(productsFound);
+            adapter.notifyDataSetChanged();
+            getElemento(R.id.txtTags).setText("Total unidades: " + productsFound.size());
+        }
+    }
+
+    private void changedStateLecture(boolean state){
+        if(state){
+            rfdiReader.startReader();
+            getElemento(R.id.btnLee).setText("Detener");
+        }else{
+            rfdiReader.stopReader();
+            getElemento(R.id.btnLee).setText("Leer");
+        }
+    }
+
+    private void clean(){
+        rfdiReader.cleanEpcs();
+        productsFound.clear();
+        getElemento(R.id.txtTags).setText("Total unidades: 0");
+        adapter.setItems(productsFound);
+        adapter.notifyDataSetChanged();
+    }
 
 }

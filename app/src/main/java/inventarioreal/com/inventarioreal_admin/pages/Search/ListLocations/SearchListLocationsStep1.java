@@ -171,7 +171,7 @@ public class SearchListLocationsStep1 extends CicloActivity {
                 if(products!=null){
                     adapter.setItems(products);
                     adapter.notifyDataSetChanged();
-                    getElemento(R.id.txtTags).setText("Tag Leidos: " +products.size());
+                    getElemento(R.id.txtTags).setText("Total Unidades: " +products.size());
                 }
             }
 

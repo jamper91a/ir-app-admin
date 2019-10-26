@@ -133,7 +133,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnEmp"
+                android:id="@+id/btnLee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
