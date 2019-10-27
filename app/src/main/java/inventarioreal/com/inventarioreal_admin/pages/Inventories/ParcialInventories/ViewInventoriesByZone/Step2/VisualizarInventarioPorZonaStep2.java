@@ -22,7 +22,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestInventoryZoneStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewIntentoriesConsolidated.Step1.VisualizarInventariosConsolidadosStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewIntentoriesConsolidated.Step1.VisualizarInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step1.VisualizarInventarioPorZonaStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario.EanPluViewModel;
@@ -78,7 +78,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
         this.tabsInit();
         //endregion
         // toolbar
-        getSupportActionBar().setTitle("Visualizar Inventarios por Zonas");
+        getSupportActionBar().setTitle(R.string.visualizar_inventarios_parciales_por_zonas);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -187,14 +187,14 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                 if(inventario!=null)
                     admin.callIntent(VisualizarInventarioPorZonaStep1.class, null);
                 else
-                    admin.callIntent(VisualizarInventariosConsolidadosStep1.class, null);
+                    admin.callIntent(VisualizarInventariosConsolidados.class, null);
             }
         });
 
         add_on_click(R.id.btnEnv, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.toast("No implemented yet");
+               admin.toast(R.string.no_implementado);
             }
         });
     }

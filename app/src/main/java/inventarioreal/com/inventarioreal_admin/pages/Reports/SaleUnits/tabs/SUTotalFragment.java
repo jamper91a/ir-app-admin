@@ -35,9 +35,9 @@ public class SUTotalFragment extends Fragment {
         addElemento(v.findViewById(R.id.txt4));
         addElemento(v.findViewById(R.id.txt5));
         addElemento(v.findViewById(R.id.txt6));
-        ((TextView)getElemento(R.id.txt1)).setText("Unidades Vendidas");
-        ((TextView)getElemento(R.id.txt3)).setText("Unidades devueltas");
-        ((TextView)getElemento(R.id.txt5)).setText("Fecha");
+        ((TextView)getElemento(R.id.txt1)).setText(R.string.unidades_vendidas);
+        ((TextView)getElemento(R.id.txt3)).setText(R.string.unidades_devueltas);
+        ((TextView)getElemento(R.id.txt5)).setText(R.string.fecha);
         return v;
     }
 

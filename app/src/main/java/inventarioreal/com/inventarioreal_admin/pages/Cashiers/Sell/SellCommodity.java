@@ -118,7 +118,7 @@ public class SellCommodity extends CicloActivity {
         shop = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class)).getEmployee().getShop();
         this.tabsInit();
         // toolbar
-        getSupportActionBar().setTitle("Salida Mercancia");
+        getSupportActionBar().setTitle(getString(R.string.salida_mercancia));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -153,7 +153,7 @@ public class SellCommodity extends CicloActivity {
                 for(ProductHasZone product: products){
                     if(product.isError()){
                         pass=false;
-                        admin.toast("Hay productos que no se pueden sacar");
+                        admin.toast(getString(R.string.error_productos_no_vender));
                     }
                 }
                 if(pass)
@@ -252,10 +252,10 @@ public class SellCommodity extends CicloActivity {
     private void changedStateLecture(boolean state){
         if(state){
             rfdiReader.startReader();
-            getElemento(R.id.btnLee).setText("Detener");
+            getElemento(R.id.btnLee).setText(getString(R.string.detener));
         }else{
             rfdiReader.stopReader();
-            getElemento(R.id.btnLee).setText("Leer");
+            getElemento(R.id.btnLee).setText(getString(R.string.leer));
         }
     }
 
@@ -319,7 +319,7 @@ public class SellCommodity extends CicloActivity {
     private void showDialog(){
         rfdiReader.stopReader();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Sacar Productos");
+        builder.setTitle(getString(R.string.sacar_producto));
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
@@ -329,14 +329,14 @@ public class SellCommodity extends CicloActivity {
 
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
-        txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
+        txtLocal.setText(getString(R.string.local) +": "+empleado.getEmployee().getShop().getName());
         builder.setView(dialogView);
 
         final Sell newSell = new Sell();
         newSell.setUser(empleado.getEmployee().getUser());
 
 // Set up the buttons
-        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.guardar), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 WebServices.createSell(
@@ -347,7 +347,7 @@ public class SellCommodity extends CicloActivity {
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                admin.toast("Salida de mercancia realizada con 'exito");
+                                admin.toast(getString(R.string.salida_mercancia_exitosa));
                                 ProductHasZone[] newProducts = (ProductHasZone[]) ok.getData();
                                 //Update local information
                                 for(ProductHasZone product: newProducts){
@@ -366,14 +366,14 @@ public class SellCommodity extends CicloActivity {
 
                             @Override
                             public void fail(ResultWebServiceFail fail) {
-                                admin.toast("fail");
+                                admin.toast(getString(R.string.salida_mercancia_error));
                             }
                         }
 
                 );
             }
         });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

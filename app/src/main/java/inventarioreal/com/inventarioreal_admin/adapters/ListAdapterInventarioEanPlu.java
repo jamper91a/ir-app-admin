@@ -30,15 +30,11 @@ public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapte
     private static final int TYPE_HEADER=0;
     private static final int TYPE_ITEM=1;
     private static final String TAG = "dapterInventarioEanPlu";
-    private Activity activity;
-    private Administrador admin;
     private ArrayList<ProductHasZone> items;
     private ArrayList<ProductHasZone> todos;
     private OnItemClickListener onItemClickListener;
 
     public ListAdapterInventarioEanPlu(Activity activity, Administrador admin, ArrayList<ProductHasZone> items, OnItemClickListener onItemClickListener) {
-        this.activity = activity;
-        this.admin = admin;
         this.items = items;
         this.todos = items;
         this.onItemClickListener = onItemClickListener;

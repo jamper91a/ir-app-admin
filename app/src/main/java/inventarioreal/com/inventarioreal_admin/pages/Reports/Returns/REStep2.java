@@ -52,9 +52,9 @@ public class REStep2 extends CicloActivity {
         init(this,this, R.layout.activity_report_rotation_step_2);
         this.tabsInit();
         if(this.request.getType() == 1)
-            getSupportActionBar().setTitle("Reporte Devolucion Clientes");
+            getSupportActionBar().setTitle(R.string.reporte_devolucion_clientes);
         else
-            getSupportActionBar().setTitle("Reporte Devolucion Proveedores");
+            getSupportActionBar().setTitle(R.string.reporte_devolucion_proveedores);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         //endregion
@@ -124,7 +124,7 @@ public class REStep2 extends CicloActivity {
         add_on_click(R.id.btnEnv, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.toast("No implemented yet");
+               admin.toast(R.string.no_implementado);
             }
         });
     }

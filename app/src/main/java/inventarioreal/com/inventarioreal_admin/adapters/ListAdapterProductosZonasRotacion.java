@@ -81,7 +81,7 @@ public class ListAdapterProductosZonasRotacion extends RecyclerView.Adapter<List
                 holder.getTxt4().setText(item.getProduct().getEan());
                 holder.getTxt5().setText(item.getProduct().getDescription());
                 if(item.isError())
-                    holder.getLnl1().setBackgroundColor(Color.parseColor("#A9E64336"));
+                    holder.getLnl1().setBackgroundColor(activity.getResources().getColor(R.color.colorError));
                 holder.bind(item);
                 break;
         }

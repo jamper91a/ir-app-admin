@@ -127,7 +127,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
         this.tabsInit();
         //toolbar
-        getSupportActionBar().setTitle("Crear Transferencia");
+        getSupportActionBar().setTitle(R.string.crear_transferencia);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -160,7 +160,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                 if(products.size()>0)
                     showDialog();
                 else{
-                    admin.toast("Debes leer al menos un producto");
+                    admin.toast(R.string.error_minimo_un_producto);
                 }
             }
         });
@@ -242,32 +242,23 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                 e.printStackTrace();
             }
         }else{
-//            admin.toast("Epc no found: "+ epc);
+//            admin.toast(getString(R.string.error_epc_no_encontrado)+": "+ epc);
         }
     }
 
     private void changedStateLecture(boolean state){
         if(state){
             rfdiReader.startReader();
-            getElemento(R.id.btnLee).setText("Detener");
+            getElemento(R.id.btnLee).setText(getString(R.string.detener));
         }else{
             rfdiReader.stopReader();
-            getElemento(R.id.btnLee).setText("Leer");
+            getElemento(R.id.btnLee).setText(getString(R.string.leer));
         }
     }
 
     private List<String> epcs;
 
     private boolean wasRead(String epc){
-//        for (int i = 0; i < eanPluVieModel.getProducts().getValue().size(); i++) {
-//            //Determino si ese epc ya se leyo antes
-//            ProductosZonas mEPC = eanPluVieModel.getProducts().getValue().get(i);
-//            if (epc.equals(mEPC.getEpc().getEpc())){
-//                return true;
-//            }
-//
-//        }
-//        return false;
         for (String epcR:epcs){
             if(epcR.equals(epc))
                 return true;
@@ -350,7 +341,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Crear Transferencia");
+        builder.setTitle(R.string.crear_transferencia);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
@@ -361,13 +352,13 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
-        txtLocal.setText("Local Origen : "+empleado.getEmployee().getShop().getName());
-        txtNum.setText("Local Destino: "+request.getShopDestination().getName());
+        txtLocal.setText(getString(R.string.local_origen)+": "+empleado.getEmployee().getShop().getName());
+        txtNum.setText(getString(R.string.local_destino) + ": "+request.getShopDestination().getName());
         builder.setView(dialogView);
 
 
 // Set up the buttons
-        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.guardar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 admin.toast(edtMensaje.getText().toString());
@@ -380,20 +371,20 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                admin.toast("Transferencia creada con 'exito");
+                                admin.toast(R.string.transferencia_exito);
                                 admin.callIntent(CrearTransferenciaStep1.class, null);
                             }
 
                             @Override
                             public void fail(ResultWebServiceFail fail) {
-                                admin.toast(fail.getError());
+                                admin.toast(R.string.transferencia_error);
                             }
                         }
 
                 );
             }
         });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

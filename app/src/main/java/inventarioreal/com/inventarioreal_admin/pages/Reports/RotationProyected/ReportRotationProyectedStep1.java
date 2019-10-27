@@ -51,7 +51,7 @@ public class ReportRotationProyectedStep1 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_report_rotation_proyected_step_1);
         // toolbar
-        getSupportActionBar().setTitle("Rotacion Proyectada");
+        getSupportActionBar().setTitle(R.string.reporte_rotacion_proyectada);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -77,7 +77,7 @@ public class ReportRotationProyectedStep1 extends CicloActivity {
 
     @Override
     public void getData() {
-        this.request = new RequestRPStep2();
+        this.request = new RequestRPStep2(this);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class ReportRotationProyectedStep1 extends CicloActivity {
                             @Override
                             public void fail(ResultWebServiceFail fail) {
                                 if(fail.getError().equals("error_G06")){
-                                    admin.toast("Codigo EAN/PLU no existe");
+                                    admin.toast(R.string.error_G06);
                                 }
                                 getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
                             }

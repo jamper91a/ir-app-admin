@@ -38,7 +38,7 @@ public class ReportRotationProyectedStep2 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_report_rotation_proyected_step_2);
         // toolbar
-        getSupportActionBar().setTitle("Rotacion Proyectada");
+        getSupportActionBar().setTitle(R.string.reporte_rotacion_proyectada);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

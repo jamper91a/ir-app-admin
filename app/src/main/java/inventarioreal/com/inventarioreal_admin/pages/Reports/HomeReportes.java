@@ -38,7 +38,7 @@ public class HomeReportes extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_home_reportes);
         //toolbar
-        getSupportActionBar().setTitle("Reportes");
+        getSupportActionBar().setTitle(R.string.reportes);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

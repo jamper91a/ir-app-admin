@@ -141,7 +141,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         //endregion
         this.tabsInit();
         // toolbar
-        getSupportActionBar().setTitle("Crear Inventarios Parciales");
+        getSupportActionBar().setTitle(R.string.crear_inventario_parcial);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -205,10 +205,10 @@ public class CrearInventarioStep2 extends CicloActivity {
     private void changedStateLecture(boolean state){
         if(state){
             rfdiReader.startReader();
-            getElemento(R.id.btnLee).setText("Detener");
+            getElemento(R.id.btnLee).setText(getString(R.string.detener));
         }else{
             rfdiReader.stopReader();
-            getElemento(R.id.btnLee).setText("Leer");
+            getElemento(R.id.btnLee).setText(getString(R.string.leer));
         }
     }
 
@@ -279,7 +279,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 //                admin.toast(e.getMessage());
             }
         }else{
-            admin.toast("Epc no found: "+ epc);
+            admin.toast(getString(R.string.error_epc_no_encontrado)+": "+ epc);
         }
     }
 
@@ -382,7 +382,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Crear Inventario");
+        builder.setTitle(R.string.crear_inventario_parcial);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
@@ -393,13 +393,13 @@ public class CrearInventarioStep2 extends CicloActivity {
 
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
-        txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
-        txtZona.setText("Zonas : "+requestInventariorCrear2.getZone().getName());
+        txtLocal.setText(getString(R.string.local) +": "+empleado.getEmployee().getShop().getName());
+        txtZona.setText(getString(R.string.zona) + ": "+requestInventariorCrear2.getZone().getName());
         builder.setView(dialogView);
 
 
 // Set up the buttons
-        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.guardar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 WebServices.createInventory(
@@ -411,20 +411,20 @@ public class CrearInventarioStep2 extends CicloActivity {
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                admin.toast("Inventario Creado con 'exito");
+                                admin.toast(R.string.inventario_creado_exito);
                                 admin.callIntent(CrearInventarioStep1.class, null);
                             }
 
                             @Override
                             public void fail(ResultWebServiceFail fail) {
-                                admin.toast("Fail: "+ fail.getError());
+                                admin.toast(R.string.inventario_creado_error);
                             }
                         }
 
                 );
             }
         });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

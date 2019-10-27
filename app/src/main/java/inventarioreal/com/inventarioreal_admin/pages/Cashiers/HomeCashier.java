@@ -29,7 +29,7 @@ public class HomeCashier extends CicloActivity {
         init(this,this,R.layout.activity_home_cashier);
         this.menu =init_menu(this,R.layout.layout_menu);
         // toolbar
-        getSupportActionBar().setTitle("Salida Mercancia");
+        getSupportActionBar().setTitle(getString(R.string.salida_mercancia));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

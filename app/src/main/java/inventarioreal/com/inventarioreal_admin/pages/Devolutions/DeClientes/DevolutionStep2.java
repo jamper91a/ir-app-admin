@@ -139,7 +139,7 @@ public class DevolutionStep2 extends CicloActivity {
 
         this.tabsInit();
         // toolbar
-        getSupportActionBar().setTitle("Devoluciones");
+        getSupportActionBar().setTitle(R.string.devoluciones);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -181,7 +181,7 @@ public class DevolutionStep2 extends CicloActivity {
                 for(ProductHasZone product: products){
                     if(product.isError()){
                         pass=false;
-                        admin.toast("Producto actualmente en inventario, no se puede reintegrar");
+                        admin.toast(R.string.error_devolver_producto);
                     }
                 }
                 if(pass)
@@ -213,10 +213,10 @@ public class DevolutionStep2 extends CicloActivity {
     private void changedStateLecture(boolean state){
         if(state){
             rfdiReader.startReader();
-            getElemento(R.id.btnLee).setText("Detener");
+            getElemento(R.id.btnLee).setText(getString(R.string.detener));
         }else{
             rfdiReader.stopReader();
-            getElemento(R.id.btnLee).setText("Leer");
+            getElemento(R.id.btnLee).setText(getString(R.string.leer));
         }
     }
 
@@ -278,7 +278,7 @@ public class DevolutionStep2 extends CicloActivity {
 
 
         }else{
-            admin.toast("Epc no found: "+ epc);
+            admin.toast(getString(R.string.error_epc_no_encontrado)+ ": " +epc);
         }
     }
 
@@ -286,15 +286,6 @@ public class DevolutionStep2 extends CicloActivity {
     private List<String> epcs;
 
     private boolean wasRead(String epc){
-//        for (int i = 0; i < eanPluVieModel.getProducts().getValue().size(); i++) {
-//            //Determino si ese epc ya se leyo antes
-//            ProductosZonas mEPC = eanPluVieModel.getProducts().getValue().get(i);
-//            if (epc.equals(mEPC.getEpc().getEpc())){
-//                return true;
-//            }
-//
-//        }
-//        return false;
         for (String epcR:epcs){
             if(epcR.equals(epc))
                 return true;
@@ -375,7 +366,7 @@ public class DevolutionStep2 extends CicloActivity {
 
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Crear Devolucion");
+        builder.setTitle(R.string.crear_devolucion);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_devolver_producto_zona, null);
@@ -386,8 +377,8 @@ public class DevolutionStep2 extends CicloActivity {
 
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
-        txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
-        txtZona.setText("Zonas : "+ product.getZone().getName());
+        txtLocal.setText(getString(R.string.local) +": "+empleado.getEmployee().getShop().getName());
+        txtZona.setText(getString(R.string.zona) + ": "+ product.getZone().getName());
         request.setCreatedAt(admin.getCurrentDateAndTime());
         txtTime.setText(request.getCreatedAt());
         // inicio spnMotDev
@@ -420,7 +411,7 @@ public class DevolutionStep2 extends CicloActivity {
 
 
 // Set up the buttons
-        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.guardar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 for (ProductHasZone pr: products) {
@@ -433,20 +424,20 @@ public class DevolutionStep2 extends CicloActivity {
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                admin.toast("Productos devueltos con exito");
+                                admin.toast(R.string.productos_devueltos_exito);
                                 admin.callIntent(HomeDevoluciones.class, null);
                             }
 
                             @Override
                             public void fail(ResultWebServiceFail fail) {
-                                admin.toast("fail");
+                                admin.toast(R.string.productos_devueltos_error);
                             }
                         }
 
                 );
             }
         });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

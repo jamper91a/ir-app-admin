@@ -28,7 +28,7 @@ public class RUStep1 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this, R.layout.activity_report_sell_units_step_1);
         // toolbar
-        getSupportActionBar().setTitle("Reporte Rotacion de unidades");
+        getSupportActionBar().setTitle(R.string.reporte_rotacion_unidades);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -66,7 +66,7 @@ public class RUStep1 extends CicloActivity {
         add_on_click(R.id.btn1, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RequestRUStep2 request = new RequestRUStep2();
+                RequestRUStep2 request = new RequestRUStep2(RUStep1.this);
                 request.setFirstDate(getElemento(R.id.edt1).getText());
                 request.setSecondDate(getElemento(R.id.edt2).getText());
                 try {

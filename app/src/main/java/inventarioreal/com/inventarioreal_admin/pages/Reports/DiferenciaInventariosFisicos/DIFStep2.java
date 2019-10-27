@@ -56,7 +56,7 @@ public class DIFStep2 extends CicloActivity {
         this.request = gson.fromJson(message, RequestDIFStep2.class);
         init(this,this, R.layout.activity_inventario_parcial_visualizar_por_zona_step_2);
         this.tabsInit();
-        getSupportActionBar().setTitle("Diferencia Inventarios Fisicos");
+        getSupportActionBar().setTitle(R.string.diferencias_inventarios_fisicos);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         //endregion
@@ -76,8 +76,8 @@ public class DIFStep2 extends CicloActivity {
     public void getData() {
 
         WebServices.getDiferenceBetweenInventories(
-                request.inventarioInicial.getId(),
-                request.inventarioFinal.getId(),
+                request.getInventarioInicial().getId(),
+                request.getInventarioFinal().getId(),
                 this,
                 admin,
                 new ResultWebServiceInterface() {
@@ -153,13 +153,13 @@ public class DIFStep2 extends CicloActivity {
                 WebServices.saveReport(report, products, DIFStep2.this, admin, new ResultWebServiceInterface() {
                     @Override
                     public void ok(ResultWebServiceOk ok) {
-                        admin.toast("Reporte creado con exito");
+                        admin.toast(R.string.reporte_creado_exito);
                         admin.callIntent(HomeReportes.class, null);
                     }
 
                     @Override
                     public void fail(ResultWebServiceFail fail) {
-                        admin.toast("Error creando reporte");
+                        admin.toast(R.string.reporte_creado_error);
                     }
                 });
             }
@@ -168,7 +168,7 @@ public class DIFStep2 extends CicloActivity {
         add_on_click(R.id.btnEnv, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.toast("No implemented yet");
+               admin.toast(R.string.no_implementado);
             }
         });
     }

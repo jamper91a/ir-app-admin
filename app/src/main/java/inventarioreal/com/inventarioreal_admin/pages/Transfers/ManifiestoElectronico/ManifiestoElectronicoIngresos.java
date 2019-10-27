@@ -44,7 +44,7 @@ public class ManifiestoElectronicoIngresos extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_manifiesto_electronico_ingresos);
         //toolbar
-        getSupportActionBar().setTitle("Manifiesto electronico Ingresos");
+        getSupportActionBar().setTitle(R.string.manifiesto_electronico_ingresos);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

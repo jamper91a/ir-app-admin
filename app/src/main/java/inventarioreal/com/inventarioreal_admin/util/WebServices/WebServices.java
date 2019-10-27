@@ -628,7 +628,7 @@ public class WebServices {
                                 ArrayList<ConsolidatedInventory> arrayInventarios = new ArrayList<ConsolidatedInventory>(Arrays.asList(inventariosConsolidados));
                                 result.ok(new ResultWebServiceOk(arrayInventarios));
                             }else{
-                                result.fail(new ResultWebServiceFail("No hay inventory"));
+                                result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
                             }
 
                         } catch (Exception e) {
@@ -674,7 +674,7 @@ public class WebServices {
                                 ArrayList<ConsolidatedInventory> arrayInventarios = new ArrayList<ConsolidatedInventory>(Arrays.asList(inventariosConsolidados));
                                 result.ok(new ResultWebServiceOk(arrayInventarios));
                             }else{
-                                result.fail(new ResultWebServiceFail("No hay inventory"));
+                                result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
                             }
 
                         } catch (Exception e) {
@@ -808,7 +808,7 @@ public class WebServices {
                     if (aux!=null && aux.length>0) {
                         result.ok(new ResultWebServiceOk(aux));
                     }else{
-                        result.fail(new ResultWebServiceFail("No hay transferencias"));
+                        result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
                     }
                 } catch (JSONException e) {
                     admin.toast(e.getMessage());
@@ -845,7 +845,7 @@ public class WebServices {
                         ArrayList<Transfer> arrayInventarios = new ArrayList<>(Arrays.asList(aux));
                         result.ok(new ResultWebServiceOk(arrayInventarios));
                     }else{
-                        result.fail(new ResultWebServiceFail("No hay transferencias"));
+                        result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
                     }
                 } catch (Exception e) {
                     admin.toast(e.getMessage());
@@ -939,7 +939,7 @@ public class WebServices {
                     if (aux!=null) {
                         result.ok(new ResultWebServiceOk(aux));
                     }else{
-                        result.fail(new ResultWebServiceFail("No hay transferencias"));
+                        result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
                     }
                 } catch (Exception e) {
                     admin.toast(e.getMessage());
@@ -971,7 +971,7 @@ public class WebServices {
                         ArrayList<ProductHasZone> arrayProductosZonas = new ArrayList<ProductHasZone>(Arrays.asList(aux));
                         result.ok(new ResultWebServiceOk(arrayProductosZonas));
                     }else{
-                        result.fail(new ResultWebServiceFail("No hay productos"));
+                        result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
                     }
                 } catch (Exception e) {
                     admin.toast(e.getMessage());
@@ -1003,7 +1003,7 @@ public class WebServices {
                         ArrayList<ProductHasZone> arrayProductosZonas = new ArrayList<ProductHasZone>(Arrays.asList(aux));
                         result.ok(new ResultWebServiceOk(arrayProductosZonas));
                     }else{
-                        result.fail(new ResultWebServiceFail("No hay epc, el producto pudo haber sido vendido o esta en otro local"));
+                        result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
                     }
                 } catch (Exception e) {
                     admin.toast(e.getMessage());
@@ -1040,7 +1040,7 @@ public class WebServices {
                                 ArrayList<ProductHasZone> arrayInventarios = new ArrayList<>(Arrays.asList(productosZonas));
                                 result.ok(new ResultWebServiceOk(arrayInventarios));
                             }else{
-                                result.fail(new ResultWebServiceFail("No hay productos"));
+                                result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
                             }
 
                         } catch (Exception e) {
@@ -1105,7 +1105,7 @@ public class WebServices {
                             if (products!=null && products.length>0) {
                                 result.ok(new ResultWebServiceOk(products));
                             }else{
-                                result.fail(new ResultWebServiceFail("Error vendiendo los productos"));
+                                result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
                             }
 
                         } catch (Exception e) {
@@ -1151,7 +1151,7 @@ public class WebServices {
                                 ArrayList<Report> arrayReports = new ArrayList<Report>(Arrays.asList(reports));
                                 result.ok(new ResultWebServiceOk(arrayReports));
                             }else{
-                                result.fail(new ResultWebServiceFail("No hay reportes"));
+                                result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
                             }
 
                         } catch (Exception e) {
@@ -1195,7 +1195,7 @@ public class WebServices {
                             if (response!=null) {
                                 result.ok(new ResultWebServiceOk(response));
                             }else{
-                                result.fail(new ResultWebServiceFail("No hay informacion"));
+                                result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
                             }
 
                         } catch (Exception e) {
@@ -1239,7 +1239,7 @@ public class WebServices {
                             if (response!=null) {
                                 result.ok(new ResultWebServiceOk(response));
                             }else{
-                                result.fail(new ResultWebServiceFail("No hay informacion"));
+                                result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
                             }
 
                         } catch (Exception e) {

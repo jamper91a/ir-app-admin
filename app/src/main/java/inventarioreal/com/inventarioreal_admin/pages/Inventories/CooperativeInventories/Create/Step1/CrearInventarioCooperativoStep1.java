@@ -17,7 +17,7 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestCreateInventory2;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Create.Step2.CrearInventarioColaborativoStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Create.Step2.CrearInventarioCooperativoStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.InventariosColaborativosHome;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
@@ -31,7 +31,7 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class CrearInventarioColaborativoStep1 extends CicloActivity {
+public class CrearInventarioCooperativoStep1 extends CicloActivity {
 
     private SlidingMenu menu;
     final DataBase db = DataBase.getInstance(this);
@@ -43,7 +43,7 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
         init(this, this, R.layout.activity_inventario_colaborativo_crear_step1);
         this.menu = init_menu(this, R.layout.layout_menu);
         // toolbar
-        getSupportActionBar().setTitle("Crear Inv Cooperativos");
+        getSupportActionBar().setTitle(R.string.crear_inventario_cooperativo);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -72,7 +72,7 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
 
     private void sync() {
 
-        WebServices.sync(CrearInventarioColaborativoStep1.this, admin, new ResultWebServiceInterface() {
+        WebServices.sync(CrearInventarioCooperativoStep1.this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 //Obtener Zonas
@@ -157,9 +157,9 @@ public class CrearInventarioColaborativoStep1 extends CicloActivity {
             public void onClick(View v) {
                 //Valido que la informacion este completa
                 if (request.validar())
-                    admin.callIntent(CrearInventarioColaborativoStep2.class, request, RequestCreateInventory2.class);
+                    admin.callIntent(CrearInventarioCooperativoStep2.class, request, RequestCreateInventory2.class);
                 else
-                    admin.toast("Revisa los datos");
+                    admin.toast(R.string.revisar_los_datos);
 
             }
         });

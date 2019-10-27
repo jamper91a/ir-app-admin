@@ -29,7 +29,7 @@ public class HomeTransferencia extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_home_transferencia);
         //toolbar
-        getSupportActionBar().setTitle("Transferencias");
+        getSupportActionBar().setTitle(R.string.transferencias);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

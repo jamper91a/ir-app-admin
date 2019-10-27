@@ -37,7 +37,7 @@ public class ViewCoopInvConsolidatedStep1 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this, R.layout.activity_visualizar_inventarios);
         // toolbar
-        getSupportActionBar().setTitle("Visualizar Inv Cooperativos");
+        getSupportActionBar().setTitle(R.string.visualizar_inventario_cooperativo_consolidado);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -49,7 +49,7 @@ public class ViewCoopInvConsolidatedStep1 extends CicloActivity {
 
         //Cambiar los textos a mostrar
 
-        getElemento(R.id.txt1).setText("Selecciones el inventory a visualizar");
+        getElemento(R.id.txt1).setText(getString(R.string.seleccione_inventario_a_visualizar));
     }
 
     @Override

@@ -39,7 +39,7 @@ public class DIFStep1 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this, R.layout.activity_visualizar_inventarios);
         // toolbar
-        getSupportActionBar().setTitle("Diferencia Inventarios Fisicos");
+        getSupportActionBar().setTitle(R.string.diferencias_inventarios_fisicos);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -50,7 +50,7 @@ public class DIFStep1 extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.lst1), Techniques.SlideInLeft));
 
         //Cambiar los textos a mostrar
-        getElemento(R.id.txt1).setText("Selecciones el inventory Inicial");
+        getElemento(R.id.txt1).setText(getString(R.string.selecciones_inventory_inicial));
     }
 
     @Override
@@ -80,7 +80,7 @@ public class DIFStep1 extends CicloActivity {
                 if(step==2){
 //                    inv.setId(2);
                     inventarioFinal=inv;
-                    RequestDIFStep2 requestDIFStep2 = new RequestDIFStep2(inventarioInicial, inventarioFinal);
+                    RequestDIFStep2 requestDIFStep2 = new RequestDIFStep2(DIFStep1.this, inventarioInicial, inventarioFinal);
                     try {
                         requestDIFStep2.validar();
                             admin.callIntent(DIFStep2.class, requestDIFStep2, RequestDIFStep2.class);
@@ -90,7 +90,7 @@ public class DIFStep1 extends CicloActivity {
                 }
                 if(step==1){
                     inventarioInicial=inv;
-                    getElemento(R.id.txt1).setText("Selecciones el inventory final");
+                    getElemento(R.id.txt1).setText(getString(R.string.selecciones_inventory_final));
                     step=2;
                 }
 

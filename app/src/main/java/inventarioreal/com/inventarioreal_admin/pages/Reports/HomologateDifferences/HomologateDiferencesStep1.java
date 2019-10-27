@@ -37,7 +37,7 @@ public class HomologateDiferencesStep1 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this, R.layout.activity_visualizar_inventarios);
         // toolbar
-        getSupportActionBar().setTitle("Homologar Diferencia de inventarios");
+        getSupportActionBar().setTitle(R.string.homologar_diferencias_inventario_fisico);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -48,7 +48,7 @@ public class HomologateDiferencesStep1 extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.lst1), Techniques.SlideInLeft));
 
         //Cambiar los textos a mostrar
-        getElemento(R.id.txt1).setText("Selecciones el reporte de diferencias");
+        getElemento(R.id.txt1).setText(getString(R.string.seleccione_reporte));
     }
 
     @Override

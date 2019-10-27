@@ -40,7 +40,7 @@ public class SearchListLocationsStep1 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_search_list_locations);
         // toolbar
-        getSupportActionBar().setTitle("Busqueda de items - Ean/Plu Listado");
+        getSupportActionBar().setTitle(R.string.busqueda_items_ean_plu_listado);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -108,7 +108,7 @@ public class SearchListLocationsStep1 extends CicloActivity {
                             @Override
                             public void fail(ResultWebServiceFail fail) {
                                 if(fail.getError().equals("error_G06")){
-                                    admin.toast("Codigo EAN/PLU no existe");
+                                    admin.toast(R.string.error_G06);
                                 }
                                 getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
                             }
@@ -131,7 +131,7 @@ public class SearchListLocationsStep1 extends CicloActivity {
                     findProductosByEanPlu();
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
                 }else{
-                    admin.toast("Debes buscar un producto");
+                    admin.toast(R.string.error_minimo_un_producto);
                 }
 
             }
@@ -171,7 +171,7 @@ public class SearchListLocationsStep1 extends CicloActivity {
                 if(products!=null){
                     adapter.setItems(products);
                     adapter.notifyDataSetChanged();
-                    getElemento(R.id.txtTags).setText("Total Unidades: " +products.size());
+                    getElemento(R.id.txtTags).setText(getString(R.string.total_unidades)+": " +products.size());
                 }
             }
 

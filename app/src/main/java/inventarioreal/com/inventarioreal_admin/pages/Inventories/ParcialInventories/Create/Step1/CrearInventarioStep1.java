@@ -43,7 +43,7 @@ public class CrearInventarioStep1 extends CicloActivity {
         init(this, this, R.layout.activity_inventario_parcial_crear_inventario_step_1);
         this.menu = init_menu(this, R.layout.layout_menu);
         // toolbar
-        getSupportActionBar().setTitle("Crear Inventarios Parciales");
+        getSupportActionBar().setTitle(R.string.crear_inventario_parcial);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -160,7 +160,7 @@ public class CrearInventarioStep1 extends CicloActivity {
                 if (request.validar())
                     admin.callIntent(CrearInventarioStep2.class, request, RequestCreateInventory2.class);
                 else
-                    admin.toast("Revisa los datos");
+                    admin.toast(R.string.revisar_los_datos);
 
             }
         });

@@ -67,7 +67,7 @@ public class TotalFragment extends Fragment {
                 TextView lblLocDes = (TextView) getElemento(R.id.txt5);
                 TextView txtLocDes = (TextView) getElemento(R.id.txt6);
                 txtFecha.setText(transfer.getCreatedAt().replace("T", " - "));
-                lblLocDes.setText("Local destino");
+                lblLocDes.setText(R.string.local_destino+": ");
                 txtLocDes.setText(transfer.getShopDestination().getName());
             }
         });

@@ -83,7 +83,7 @@ public class HomologateDiferencesStep2 extends CicloActivity {
         this.report = gson.fromJson(message, Report.class);
         init(this,this, R.layout.activity_crear_inventario_colaborativo_step2);
         this.tabsInit();
-        getSupportActionBar().setTitle("Homologacion diferencia inventario");
+        getSupportActionBar().setTitle(R.string.homologar_diferencias_inventario_fisico);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         //region UhF
@@ -213,17 +213,17 @@ public class HomologateDiferencesStep2 extends CicloActivity {
                     WebServices.homologateUnits(newData, HomologateDiferencesStep2.this, admin, new ResultWebServiceInterface() {
                         @Override
                         public void ok(ResultWebServiceOk ok) {
-                            admin.toast("Reporte actualizado con exito creado con exito");
-                        admin.callIntent(HomeReportes.class, null);
+                            admin.toast(R.string.reporte_actualizado_exito);
+                            admin.callIntent(HomeReportes.class, null);
                         }
 
                         @Override
                         public void fail(ResultWebServiceFail fail) {
-                            admin.toast("Error creando reporte");
+                            admin.toast(R.string.reporte_actualizado_error);
                         }
                     });
                 }else{
-                    admin.toast("No ay informacion para enviar");
+                    admin.toast(R.string.error_sin_informacion);
                 }
             }
         });
@@ -339,10 +339,10 @@ public class HomologateDiferencesStep2 extends CicloActivity {
     private void changedStateLecture(boolean state){
         if(state){
             rfdiReader.startReader();
-            getElemento(R.id.btnLee).setText("Detener");
+            getElemento(R.id.btnLee).setText(getString(R.string.detener));
         }else{
             rfdiReader.stopReader();
-            getElemento(R.id.btnLee).setText("Leer");
+            getElemento(R.id.btnLee).setText(getString(R.string.leer));
         }
     }
 

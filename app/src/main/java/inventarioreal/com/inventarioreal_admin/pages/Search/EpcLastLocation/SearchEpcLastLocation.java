@@ -37,7 +37,7 @@ public class SearchEpcLastLocation extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_search_list_locations);
         // toolbar
-        getSupportActionBar().setTitle("Busqueda de items - Epc Ultima ubicacion");
+        getSupportActionBar().setTitle(R.string.busqueda_items_epc_ultima_ubicacion);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -106,7 +106,7 @@ public class SearchEpcLastLocation extends CicloActivity {
                             @Override
                             public void fail(ResultWebServiceFail fail) {
                                 if(fail.getError().equals("error_E01")){
-                                    admin.toast("Codigo epc no existe");
+                                    admin.toast(R.string.error_epc_no_encontrado);
                                 }
                                 getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
                             }
@@ -129,7 +129,7 @@ public class SearchEpcLastLocation extends CicloActivity {
                     findLastLocationByEpc();
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
                 }else{
-                    admin.toast("Debes buscar un epc primero");
+                    admin.toast(R.string.error_minimo_un_epc);
                 }
 
             }
@@ -169,7 +169,7 @@ public class SearchEpcLastLocation extends CicloActivity {
                 if(products!=null){
                     adapter.setItems(products);
                     adapter.notifyDataSetChanged();
-                    getElemento(R.id.txtTags).setText("Total Unidades: " +products.size());
+                    getElemento(R.id.txtTags).setText(getString(R.string.total_unidades)+": " +products.size());
                 }
             }
 

@@ -20,8 +20,6 @@ import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenceInventoryErp.tabs.DifInvErpEanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenceInventoryErp.tabs.DifInvErpEanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.DiferenceInventoryErp;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -41,7 +39,7 @@ public class ReportInventoryErp extends CicloActivity {
         init(this,this,R.layout.activity_report_diference_inventory_erp);
         this.tabsInit();
         //toolbar
-        getSupportActionBar().setTitle("Reporte Diferencia Inventario Erp");
+        getSupportActionBar().setTitle(R.string.reporte_diferencia_inventario_erp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -85,7 +83,7 @@ public class ReportInventoryErp extends CicloActivity {
         add_on_click(R.id.btnEnv, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.toast("No implemented yet");
+               admin.toast(R.string.no_implementado);
             }
         });
     }

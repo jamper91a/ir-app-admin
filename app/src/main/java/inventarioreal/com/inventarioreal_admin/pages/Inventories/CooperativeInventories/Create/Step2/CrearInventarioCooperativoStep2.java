@@ -28,7 +28,7 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Join.UnirseInventariosColaborativos;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Join.UnirseInventariosCooperativo;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestCreateInventory2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluViewModel;
@@ -36,7 +36,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventor
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalViewModel;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Create.Step1.CrearInventarioColaborativoStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Create.Step1.CrearInventarioCooperativoStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
@@ -55,7 +55,7 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class CrearInventarioColaborativoStep2 extends CicloActivity {
+public class CrearInventarioCooperativoStep2 extends CicloActivity {
 
     //private UhfManager uhfManager;
     private String TAG="CrearInventarioStep2";
@@ -137,9 +137,9 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
         this.tabsInit();
         // toolbar
         if(!request.isUnion())
-            getSupportActionBar().setTitle("Crear Inv Cooperativos");
+            getSupportActionBar().setTitle(R.string.crear_inventario_cooperativo);
         else
-            getSupportActionBar().setTitle("Unirse Inventario Colaborativo");
+            getSupportActionBar().setTitle(R.string.unirse_inventario_cooperativo);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         
@@ -176,7 +176,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                 if(products.size()>0)
                     showDialog();
                 else
-                    admin.toast("Debes leer al menos 1 producto");
+                    admin.toast(R.string.error_minimo_un_producto);
             }
         });
 
@@ -268,15 +268,6 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     private List<String> epcs;
 
     private boolean wasRead(String epc){
-//        for (int i = 0; i < eanPluVieModel.getProducts().getValue().size(); i++) {
-//            //Determino si ese epc ya se leyo antes
-//            ProductosZonas mEPC = eanPluVieModel.getProducts().getValue().get(i);
-//            if (epc.equals(mEPC.getEpc().getEpc())){
-//                return true;
-//            }
-//
-//        }
-//        return false;
         for (String epcR:epcs){
             if(epcR.equals(epc))
                 return true;
@@ -297,10 +288,10 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     private void changedStateLecture(boolean state){
         if(state){
             rfdiReader.startReader();
-            getElemento(R.id.btnLee).setText("Detener");
+            getElemento(R.id.btnLee).setText(getString(R.string.detener));
         }else{
             rfdiReader.stopReader();
-            getElemento(R.id.btnLee).setText("Leer");
+            getElemento(R.id.btnLee).setText(getString(R.string.leer));
         }
     }
 
@@ -313,12 +304,12 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     //endregion
 
     //region Tabs configuration
-    private CrearInventarioColaborativoStep2.SectionsPagerAdapter mSectionsPagerAdapter;
+    private CrearInventarioCooperativoStep2.SectionsPagerAdapter mSectionsPagerAdapter;
     public void tabsInit() {
 //        /region Tabs section
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new CrearInventarioColaborativoStep2.SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new CrearInventarioCooperativoStep2.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -368,9 +359,9 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
     private void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         if(!request.isUnion())
-            builder.setTitle("Crear Inventario Colaborativo");
+            builder.setTitle(R.string.crear_inventario_cooperativo);
         else
-            builder.setTitle("Modificar Inventario Colaborativo");
+            builder.setTitle(R.string.modificar_inventario_cooperativo);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
@@ -381,13 +372,13 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
-        txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
-        txtZona.setText("Zonas : "+ request.getZone().getName());
+        txtLocal.setText(getString(R.string.local) +": "+empleado.getEmployee().getShop().getName());
+        txtZona.setText(getString(R.string.zona) + ": "+ request.getZone().getName());
         builder.setView(dialogView);
 
 
 // Set up the buttons
-        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.guardar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -397,13 +388,13 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                             request.getZone().getId(),
                             edtMensaje.getText().toString(),
                             products,
-                            CrearInventarioColaborativoStep2.this,
+                            CrearInventarioCooperativoStep2.this,
                             admin,
                             new ResultWebServiceInterface() {
                                 @Override
                                 public void ok(ResultWebServiceOk ok) {
                                     admin.toast("Inventario creado con exito");
-                                    admin.callIntent(CrearInventarioColaborativoStep1.class, null);
+                                    admin.callIntent(CrearInventarioCooperativoStep1.class, null);
                                 }
 
                                 @Override
@@ -418,13 +409,13 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
                             request.getInventory(),
                             edtMensaje.getText().toString(),
                             products,
-                            CrearInventarioColaborativoStep2.this,
+                            CrearInventarioCooperativoStep2.this,
                             admin,
                             new ResultWebServiceInterface() {
                                 @Override
                                 public void ok(ResultWebServiceOk ok) {
                                     admin.toast("Inventario actualizado con exito");
-                                    admin.callIntent(UnirseInventariosColaborativos.class, null);
+                                    admin.callIntent(UnirseInventariosCooperativo.class, null);
                                 }
 
                                 @Override
@@ -438,7 +429,7 @@ public class CrearInventarioColaborativoStep2 extends CicloActivity {
 
             }
         });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

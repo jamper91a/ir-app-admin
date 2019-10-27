@@ -28,7 +28,7 @@ public class HomeDevoluciones extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_devolucion_home);
         // toolbar
-        getSupportActionBar().setTitle("Devoluciones");
+        getSupportActionBar().setTitle(R.string.devoluciones);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

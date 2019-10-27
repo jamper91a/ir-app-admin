@@ -33,9 +33,9 @@ public class REStep1 extends CicloActivity {
         init(this,this, R.layout.activity_report_sell_units_step_1);
         // toolbar
         if(this.type == 1)
-            getSupportActionBar().setTitle("Reporte Devolucion Clientes");
+            getSupportActionBar().setTitle(R.string.reporte_devolucion_clientes);
         else
-            getSupportActionBar().setTitle("Reporte Devolucion Proveedores");
+            getSupportActionBar().setTitle(R.string.reporte_devolucion_proveedores);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

@@ -91,7 +91,7 @@ public class RecyclerAdapterInventariosAConsolidar extends RecyclerView.Adapter<
                     boolean r=itemCheckBoxChanged(v);
                     ((CompoundButton) v).setChecked(r);
                     if(!r){
-                        admin.toast("No se pueden escoger inventory de la misma zona");
+                        admin.toast(context.getString(R.string.error_inventarios_de_la_misma_zona));
                     }
                 } else {
                     inventariosSeleccionados.remove(v.getTag());
@@ -135,7 +135,7 @@ public class RecyclerAdapterInventariosAConsolidar extends RecyclerView.Adapter<
         if(!inventariosSeleccionados.isEmpty()){
             return inventariosSeleccionados;
         }else{
-            throw new Exception("No se seleccionaron inventory");
+            throw new Exception(context.getString(R.string.error_inventario_no_seleccionado));
         }
     }
 

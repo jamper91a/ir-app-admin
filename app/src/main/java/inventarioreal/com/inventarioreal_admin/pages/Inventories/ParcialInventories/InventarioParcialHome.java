@@ -12,7 +12,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Consolidate.ConsolidarInventarioStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step1.CrearInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewIntentoriesConsolidated.Step1.VisualizarInventariosConsolidadosStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewIntentoriesConsolidated.Step1.VisualizarInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step1.VisualizarInventarioPorZonaStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -28,7 +28,7 @@ public class InventarioParcialHome extends CicloActivity {
         init(this,this,R.layout.activity_inventario_home);
         this.menu =init_menu(this,R.layout.layout_menu);
         // toolbar
-        getSupportActionBar().setTitle("Inventarios");
+        getSupportActionBar().setTitle(R.string.inventarios);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -71,7 +71,7 @@ public class InventarioParcialHome extends CicloActivity {
         add_on_click(R.id.btnVisCon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(VisualizarInventariosConsolidadosStep1.class, null);
+                admin.callIntent(VisualizarInventariosConsolidados.class, null);
             }
         });
         add_on_click(R.id.btnRet, new View.OnClickListener() {

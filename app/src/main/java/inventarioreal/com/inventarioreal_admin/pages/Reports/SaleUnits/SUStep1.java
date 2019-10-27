@@ -40,7 +40,7 @@ public class SUStep1 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this, R.layout.activity_report_sell_units_step_1);
         // toolbar
-        getSupportActionBar().setTitle("Reporte Unidades Vendidas");
+        getSupportActionBar().setTitle(R.string.reporte_unidades_vendidas);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -78,7 +78,7 @@ public class SUStep1 extends CicloActivity {
         add_on_click(R.id.btn1, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RequestSUStep2 request = new RequestSUStep2();
+                RequestSUStep2 request = new RequestSUStep2(SUStep1.this);
                 request.setFirstDate(getElemento(R.id.edt1).getText());
                 request.setSecondDate(getElemento(R.id.edt2).getText());
                 try {

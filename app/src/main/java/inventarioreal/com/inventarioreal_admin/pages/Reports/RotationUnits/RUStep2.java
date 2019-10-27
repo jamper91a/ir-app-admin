@@ -60,7 +60,7 @@ public class RUStep2 extends CicloActivity {
         this.request = gson.fromJson(message, RequestRUStep2.class);
         init(this,this, R.layout.activity_report_rotation_step_2);
         this.tabsInit();
-        getSupportActionBar().setTitle("Reporte Rotacion de unidades");
+        getSupportActionBar().setTitle(R.string.reporte_rotacion_unidades);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         //endregion
@@ -132,7 +132,7 @@ public class RUStep2 extends CicloActivity {
         add_on_click(R.id.btnEnv, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.toast("No implemented yet");
+               admin.toast(R.string.no_implementado);
             }
         });
     }

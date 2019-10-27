@@ -35,7 +35,7 @@ public class CrearTransferenciaStep1 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_crear_transferencia_step1);
         //toolbar
-        getSupportActionBar().setTitle("Crear Transferencia");
+        getSupportActionBar().setTitle(R.string.crear_transferencia);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

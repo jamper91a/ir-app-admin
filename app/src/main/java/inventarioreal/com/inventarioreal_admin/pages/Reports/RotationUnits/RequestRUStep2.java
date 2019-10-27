@@ -1,22 +1,28 @@
 package inventarioreal.com.inventarioreal_admin.pages.Reports.RotationUnits;
 
+import android.content.Context;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
+import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.util.IntentRequests;
 
 
 public class RequestRUStep2 implements IntentRequests {
-    public Date firstDate=null;
-    public Date secondDate=null;
+    private Date firstDate=null;
+    private Date secondDate=null;
+    private Context context = null;
 
-    public RequestRUStep2() {
+    public RequestRUStep2(Context c) {
+        this.context = c;
     }
 
-    public RequestRUStep2(Date firstDate, Date secondDate) {
+    public RequestRUStep2(Context c, Date firstDate, Date secondDate) {
+        this.context = c;
         this.firstDate = firstDate;
         this.secondDate = secondDate;
     }
@@ -65,12 +71,13 @@ public class RequestRUStep2 implements IntentRequests {
         try {
             if(firstDate==null || secondDate==null)
             {
-                throw new Error("Se deben seleccionar las dos fecha");
+                throw new Error(this.context.getString(R.string.error_se_deben_seleccionar_todos_los_datos));
+
             }
             try {
                 if(secondDate.before(firstDate) ||
                         secondDate.equals(firstDate))
-                    throw new Error("La fecha final debe ser posterior a la inicial");
+                    throw new Error(this.context.getString(R.string.error_fecha_final_superior));
             } catch (Exception e) {
 
                 throw e;

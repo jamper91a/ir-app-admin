@@ -24,7 +24,7 @@ public class ManifiestoElectronicoHome extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this, this, R.layout.activity_manifiesto_electronico_home);
         //toolbar
-        getSupportActionBar().setTitle("Manifiesto Electronico");
+        getSupportActionBar().setTitle(R.string.manifiesto_electronico);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

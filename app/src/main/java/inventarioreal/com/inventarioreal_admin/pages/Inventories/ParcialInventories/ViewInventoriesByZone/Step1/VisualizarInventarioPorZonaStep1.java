@@ -40,7 +40,7 @@ public class VisualizarInventarioPorZonaStep1 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this, R.layout.activity_visualizar_inventarios);
         // toolbar
-        getSupportActionBar().setTitle("Visualizar Inventarios por Zonas");
+        getSupportActionBar().setTitle(R.string.visualizar_inventarios_parciales_por_zonas);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -52,7 +52,7 @@ public class VisualizarInventarioPorZonaStep1 extends CicloActivity {
 
         //Cambiar los textos a mostrar
 
-        getElemento(R.id.txt1).setText("Selecciones el inventario a visualizar");
+        getElemento(R.id.txt1).setText(getString(R.string.seleccione_inventario_a_visualizar));
 
     }
 

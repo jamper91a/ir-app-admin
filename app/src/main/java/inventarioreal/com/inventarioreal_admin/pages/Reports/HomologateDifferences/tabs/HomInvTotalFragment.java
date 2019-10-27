@@ -35,8 +35,8 @@ public class HomInvTotalFragment extends Fragment {
         addElemento(v.findViewById(R.id.txt4));
         addElemento(v.findViewById(R.id.txt5));
         addElemento(v.findViewById(R.id.txt6));
-        ((TextView)getElemento(R.id.txt1)).setText("Unidades no encontradas");
-        ((TextView)getElemento(R.id.txt3)).setText("Fecha");
+        ((TextView)getElemento(R.id.txt1)).setText(R.string.unidades_no_encontradas);
+        ((TextView)getElemento(R.id.txt3)).setText(R.string.fecha);
         return v;
     }
 

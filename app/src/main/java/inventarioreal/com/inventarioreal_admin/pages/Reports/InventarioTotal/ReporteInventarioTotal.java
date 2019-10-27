@@ -50,7 +50,7 @@ public class ReporteInventarioTotal extends CicloActivity {
         init(this,this,R.layout.activity_inventario_parcial_visualizar_por_zona_step_2);
         this.tabsInit();
         //toolbar
-        getSupportActionBar().setTitle("Reporte Inventarios Total");
+        getSupportActionBar().setTitle(R.string.reporte_inventario_total);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -124,7 +124,7 @@ public class ReporteInventarioTotal extends CicloActivity {
         add_on_click(R.id.btnEnv, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.toast("No implemented yet");
+               admin.toast(R.string.no_implementado);
             }
         });
     }

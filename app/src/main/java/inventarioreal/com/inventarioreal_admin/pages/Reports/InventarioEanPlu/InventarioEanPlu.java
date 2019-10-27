@@ -39,7 +39,7 @@ public class InventarioEanPlu extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_inventario_ean_plu);
         //toolbar
-        getSupportActionBar().setTitle("Reporte Inventarios Ean/Plu");
+        getSupportActionBar().setTitle(R.string.reporte_inventario_ean_plu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -90,7 +90,7 @@ public class InventarioEanPlu extends CicloActivity {
                 if(productos!=null){
                     adapter.setItems(productos);
                     adapter.notifyDataSetChanged();
-                    getElemento(R.id.txtTags).setText("Tag Leidos: " +productos.size());
+                    getElemento(R.id.txtTags).setText(getString(R.string.tag_leidos) + ": " +productos.size());
                 }
             }
 
@@ -135,7 +135,7 @@ public class InventarioEanPlu extends CicloActivity {
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
 
                 }else{
-                    admin.toast("Se debe buscar un producto");
+                    admin.toast(R.string.se_debe_buscar_un_producto);
                 }
             }
         });

@@ -61,7 +61,7 @@ public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHo
         final Epc item = items.get(position);
         holder.getTxt1().setText(item.getEpc());
         if(item.isError()){
-            holder.getLnl1().setBackgroundColor(Color.parseColor("#A9E64336"));
+            holder.getLnl1().setBackgroundColor(activity.getResources().getColor(R.color.colorError));
         }
         holder.bind(item);
 
@@ -81,15 +81,6 @@ public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHo
         }
     }
 
-    public void clear() {
-        try {
-            int amountItems = items.size();
-//            items.clear();
-//            notifyItemRangeRemoved(0, amountItems);
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        }
-    }
 
     public void remove(Epc item) {
         int position = items.indexOf(item);

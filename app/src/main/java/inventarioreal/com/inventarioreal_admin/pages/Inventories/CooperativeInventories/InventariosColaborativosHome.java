@@ -10,11 +10,11 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Home;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Consolidate.ConsolidarInventariosColaborativosStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Create.Step1.CrearInventarioColaborativoStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Join.UnirseInventariosColaborativos;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Consolidate.ConsolidarInventariosCooperativoStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Create.Step1.CrearInventarioCooperativoStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Join.UnirseInventariosCooperativo;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.ViewInventoriesConsolidated.Step1.ViewCoopInvConsolidatedStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step1.VisualizarInventarioColaborativoPorZonaStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step1.VisualizarInventarioCooperativoPorZonaStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import jamper91.com.easyway.Util.Animacion;
@@ -29,7 +29,7 @@ public class InventariosColaborativosHome extends CicloActivity {
         init(this,this,R.layout.activity_inventarios_colaborativos_home);
         this.menu =init_menu(this,R.layout.layout_menu);
         // toolbar
-        getSupportActionBar().setTitle("Inventarios Cooperativos");
+        getSupportActionBar().setTitle(R.string.inventario_cooperativo);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -53,28 +53,28 @@ public class InventariosColaborativosHome extends CicloActivity {
         add_on_click(R.id.btnCre, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(CrearInventarioColaborativoStep1.class, null);
+                admin.callIntent(CrearInventarioCooperativoStep1.class, null);
             }
         });
 
         add_on_click(R.id.btnUni, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(UnirseInventariosColaborativos.class, null);
+                admin.callIntent(UnirseInventariosCooperativo.class, null);
             }
         });
 
         add_on_click(R.id.btnCon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(ConsolidarInventariosColaborativosStep1.class, null);
+                admin.callIntent(ConsolidarInventariosCooperativoStep1.class, null);
             }
         });
 
         add_on_click(R.id.btnVisPorZon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(VisualizarInventarioColaborativoPorZonaStep1.class, null);
+                admin.callIntent(VisualizarInventarioCooperativoPorZonaStep1.class, null);
             }
         });
         add_on_click(R.id.btnVisCon, new View.OnClickListener() {

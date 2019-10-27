@@ -20,7 +20,7 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestInventoryZoneStep2;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step1.VisualizarInventarioColaborativoPorZonaStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step1.VisualizarInventarioCooperativoPorZonaStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario.EanPluFragment;
@@ -78,9 +78,9 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         //endregion
         // toolbar
         if(this.requestInventarioPorZonaStep2.getInventory()!=null)
-            getSupportActionBar().setTitle("Visualizar Inv Coo Por Zonas");
+            getSupportActionBar().setTitle(R.string.visualizar_inventario_cooperativo_por_zonas);
         else
-            getSupportActionBar().setTitle("Visualizar Inv Coo Consolidados");
+            getSupportActionBar().setTitle(R.string.visualizar_inventario_cooperativo_consolidado);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -184,14 +184,14 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         add_on_click(R.id.btnSal, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(VisualizarInventarioColaborativoPorZonaStep1.class, null);
+                admin.callIntent(VisualizarInventarioCooperativoPorZonaStep1.class, null);
             }
         });
 
         add_on_click(R.id.btnEnv, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.toast("No implemented yet");
+                admin.toast(R.string.no_implementado);
             }
         });
     }

@@ -117,7 +117,7 @@ public class Ingresos extends CicloActivity {
         local = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class)).getEmployee().getShop();
         this.tabsInit();
         //toolbar
-        getSupportActionBar().setTitle("Ingresos");
+        getSupportActionBar().setTitle(R.string.ingresos);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -173,7 +173,7 @@ public class Ingresos extends CicloActivity {
                 {
                     if(pzt.getState()==false)
                     {
-                        admin.toast("Hay productos que no pertenecen a este local (E) y no seran transferidos");
+                        admin.toast(R.string.error_productos_invalidos);
                     }
                 }
                 showDialog();
@@ -210,10 +210,10 @@ public class Ingresos extends CicloActivity {
     private void changedStateLecture(boolean state){
         if(state){
             rfdiReader.startReader();
-            getElemento(R.id.btnLee).setText("Detener");
+            getElemento(R.id.btnLee).setText(getString(R.string.detener));
         }else{
             rfdiReader.stopReader();
-            getElemento(R.id.btnLee).setText("Leer");
+            getElemento(R.id.btnLee).setText(getString(R.string.leer));
         }
     }
     //region UHD Sdk
@@ -387,7 +387,7 @@ public class Ingresos extends CicloActivity {
 //        startFlag=false;
         rfdiReader.setStartReader(false);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Guardar Transferencia");
+        builder.setTitle(R.string.guardar_transferencia);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
@@ -397,12 +397,12 @@ public class Ingresos extends CicloActivity {
 
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
-        txtLocal.setText("Local : "+empleado.getEmployee().getShop().getName());
+        txtLocal.setText(getString(R.string.local) +": "+empleado.getEmployee().getShop().getName());
         builder.setView(dialogView);
 
 
 // Set up the buttons
-        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.guardar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 WebServices.finishTransfer(
@@ -424,20 +424,20 @@ public class Ingresos extends CicloActivity {
                                     );
 
                                 }
-                                admin.toast("Transferencia realizada con 'exito");
+                                admin.toast(R.string.transferencia_exito);
                                 admin.callIntent(HomeTransferencia.class, null);
                             }
 
                             @Override
                             public void fail(ResultWebServiceFail fail) {
-                                admin.toast("fail");
+                                admin.toast(R.string.transferencia_error);
                             }
                         }
 
                 );
             }
         });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

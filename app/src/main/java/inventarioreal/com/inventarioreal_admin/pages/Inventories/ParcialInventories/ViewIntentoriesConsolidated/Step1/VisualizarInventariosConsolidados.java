@@ -1,4 +1,4 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Join;
+package inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewIntentoriesConsolidated.Step1;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,14 +11,13 @@ import com.daimajia.androidanimations.library.Techniques;
 import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventarios;
+import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventariosConsolidados;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestCreateInventory2;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Create.Step2.CrearInventarioColaborativoStep2;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.InventariosColaborativosHome;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestInventoryZoneStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.InventarioParcialHome;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step2.VisualizarInventarioPorZonaStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
-import inventarioreal.com.inventarioreal_admin.util.Constants;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
@@ -27,18 +26,18 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class UnirseInventariosColaborativos extends CicloActivity {
-
-    private RecyclerAdapterInventarios adapter;
-    private ArrayList<Inventory> inventariosPorZonas = new ArrayList<>();
+public class VisualizarInventariosConsolidados extends CicloActivity {
+    private RecyclerAdapterInventariosConsolidados adapter;
+    private ArrayList<ConsolidatedInventory> inventariosConsolidados = new ArrayList<>();
     RecyclerView recyclerView = null;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this,this,R.layout.activity_inventarios_colaborativos_universe);
+        init(this,this, R.layout.activity_visualizar_inventarios);
         // toolbar
-        getSupportActionBar().setTitle("Universe Inv Cooperativos");
+        getSupportActionBar().setTitle(R.string.visualizar_inventarios_parciales_consolidados);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -50,12 +49,12 @@ public class UnirseInventariosColaborativos extends CicloActivity {
 
         //Cambiar los textos a mostrar
 
-        getElemento(R.id.txt1).setText("Selecciones el inventory a unirse");
+        getElemento(R.id.txt1).setText(getString(R.string.seleccione_inventario_a_visualizar));
     }
 
     @Override
     public void getData() {
-        getinventariosPorConsolidar();
+        getInventariosConsolidados();
     }
 
     @Override
@@ -68,19 +67,18 @@ public class UnirseInventariosColaborativos extends CicloActivity {
 
     }
 
-    private void getinventariosPorConsolidar() {
+    private void getInventariosConsolidados() {
         recyclerView = (RecyclerView) getElemento(R.id.lst1).getElemento();
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UnirseInventariosColaborativos.this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new RecyclerAdapterInventarios(UnirseInventariosColaborativos.this, inventariosPorZonas, admin, new OnItemClickListener() {
+        adapter = new RecyclerAdapterInventariosConsolidados(this, inventariosConsolidados, admin, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
-                Inventory inv = (Inventory) item;
-                //Busco la zonaz
-                RequestCreateInventory2 requestInventariorCrear2 = new RequestCreateInventory2(inv);
-                requestInventariorCrear2.setUnion(true);
-                admin.callIntent(CrearInventarioColaborativoStep2.class, requestInventariorCrear2, RequestCreateInventory2.class);
+                ConsolidatedInventory inv = (ConsolidatedInventory) item;
+                admin.toast(inv.getCreatedAt());
+                RequestInventoryZoneStep2 requestInventarioPorZonaStep2 = new RequestInventoryZoneStep2(inv);
+                admin.callIntent(VisualizarInventarioPorZonaStep2.class, requestInventarioPorZonaStep2, RequestInventoryZoneStep2.class);
             }
 
             @Override
@@ -94,11 +92,11 @@ public class UnirseInventariosColaborativos extends CicloActivity {
             }
         });
         recyclerView.setAdapter(adapter);
-        WebServices.listInventories(Constants.tipo_no_consolidado,true,this, admin, new ResultWebServiceInterface() {
+        WebServices.listConsolidatedInventories(false, this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                inventariosPorZonas = (ArrayList<Inventory>) ok.getData();
-                adapter.setInventarios(inventariosPorZonas);
+                inventariosConsolidados = (ArrayList<ConsolidatedInventory>) ok.getData();
+                adapter.setInventarios(inventariosConsolidados);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
@@ -112,7 +110,7 @@ public class UnirseInventariosColaborativos extends CicloActivity {
     }
     @Override
     public void onBackPressed() {
-        admin.callIntent(InventariosColaborativosHome.class, null);
+        admin.callIntent(InventarioParcialHome.class, null);
     }
 
     //region Menu

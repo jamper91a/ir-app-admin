@@ -33,7 +33,7 @@ public class HomeSearch extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_home_search);
         //toolbar
-        getSupportActionBar().setTitle("Busqueda de items");
+        getSupportActionBar().setTitle(R.string.busqueda_items);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

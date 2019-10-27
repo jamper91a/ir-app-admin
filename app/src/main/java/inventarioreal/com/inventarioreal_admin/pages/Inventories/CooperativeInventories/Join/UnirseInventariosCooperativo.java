@@ -1,18 +1,20 @@
-package inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Consolidate;
+package inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Join;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
 
 import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventariosAConsolidar;
+import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventarios;
+import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestCreateInventory2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Create.Step2.CrearInventarioCooperativoStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.InventariosColaborativosHome;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
@@ -25,19 +27,18 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class ConsolidarInventariosColaborativosStep1 extends CicloActivity {
+public class UnirseInventariosCooperativo extends CicloActivity {
 
-    private static final String TAG = "ConsolidarInventario";
-    private RecyclerAdapterInventariosAConsolidar adapter;
-    private ArrayList<Inventory> inventariosPorConsolidar= new ArrayList<>();
+    private RecyclerAdapterInventarios adapter;
+    private ArrayList<Inventory> inventariosPorZonas = new ArrayList<>();
     RecyclerView recyclerView = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this,this,R.layout.activity_consolidar_inventario_step1);
+        init(this,this,R.layout.activity_inventarios_colaborativos_universe);
         // toolbar
-        getSupportActionBar().setTitle("Consolidar Inv Cooperativos");
+        getSupportActionBar().setTitle(R.string.unirse_inventario_cooperativo);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -46,7 +47,10 @@ public class ConsolidarInventariosColaborativosStep1 extends CicloActivity {
     public void initGui() {
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.lst1), Techniques.SlideInLeft));
-        addElemento(new Animacion(findViewById(R.id.btnIni), Techniques.SlideInLeft));
+
+        //Cambiar los textos a mostrar
+
+        getElemento(R.id.txt1).setText(getString(R.string.seleccione_inventario_unirse));
     }
 
     @Override
@@ -56,43 +60,7 @@ public class ConsolidarInventariosColaborativosStep1 extends CicloActivity {
 
     @Override
     public void initOnClick() {
-        add_on_click(R.id.btnIni, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    ArrayList<Integer> invenntariosSeleccionados = adapter.getInventariosSeleccionados();
-                    ArrayList<Long> invenntariosSeleccionadosId = new ArrayList<>();
-                    String inventarioName = "";
-                    for (Integer i: invenntariosSeleccionados
-                         ) {
-                        inventarioName+=" / "+ inventariosPorConsolidar.get(i.intValue()).getZone().getName();
-                        invenntariosSeleccionadosId.add(inventariosPorConsolidar.get(i).getId());
-                    }
-                    inventarioName += "/ Colaborativo";
-                    if(inventarioName.length()>254)
-                        inventarioName = inventarioName.substring(0,254);
-                    WebServices.consolidateInventories(
-                            invenntariosSeleccionadosId,
-                            inventarioName,
-                            ConsolidarInventariosColaborativosStep1.this,
-                            admin,
-                            new ResultWebServiceInterface() {
-                                @Override
-                                public void ok(ResultWebServiceOk ok) {
-                                    admin.toast("Inventarios consolidados con exito");
-                                }
 
-                                @Override
-                                public void fail(ResultWebServiceFail fail) {
-
-                                }
-                            });
-                } catch (Exception e) {
-                    admin.toast(e.getMessage());
-                }
-
-            }
-        });
     }
 
     @Override
@@ -103,16 +71,34 @@ public class ConsolidarInventariosColaborativosStep1 extends CicloActivity {
     private void getinventariosPorConsolidar() {
         recyclerView = (RecyclerView) getElemento(R.id.lst1).getElemento();
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ConsolidarInventariosColaborativosStep1.this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UnirseInventariosCooperativo.this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new RecyclerAdapterInventariosAConsolidar(ConsolidarInventariosColaborativosStep1.this, inventariosPorConsolidar, admin);
+        adapter = new RecyclerAdapterInventarios(UnirseInventariosCooperativo.this, inventariosPorZonas, admin, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object item) {
+                Inventory inv = (Inventory) item;
+                //Busco la zonaz
+                RequestCreateInventory2 requestInventariorCrear2 = new RequestCreateInventory2(inv);
+                requestInventariorCrear2.setUnion(true);
+                admin.callIntent(CrearInventarioCooperativoStep2.class, requestInventariorCrear2, RequestCreateInventory2.class);
+            }
+
+            @Override
+            public void onLongItemClick(Object item) {
+
+            }
+
+            @Override
+            public void onItemClick(int view, Object item) {
+
+            }
+        });
         recyclerView.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
         WebServices.listInventories(Constants.tipo_no_consolidado,true,this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
-                inventariosPorConsolidar = (ArrayList<Inventory>) ok.getData();
-                adapter.setInventarios(inventariosPorConsolidar);
+                inventariosPorZonas = (ArrayList<Inventory>) ok.getData();
+                adapter.setInventarios(inventariosPorZonas);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }

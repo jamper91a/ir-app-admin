@@ -124,7 +124,7 @@ public class AddCommodity extends CicloActivity {
         rfdiReader.initSDK();
         //endregion
         // toolbar
-        getSupportActionBar().setTitle("Agregar Mercancia");
+        getSupportActionBar().setTitle(R.string.agregar_mercancia);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -198,7 +198,7 @@ public class AddCommodity extends CicloActivity {
                             @Override
                             public void fail(ResultWebServiceFail fail) {
                                 if(fail.getError().equals("error_G06")){
-                                    admin.toast("Codigo EAN/PLU no existe");
+                                    admin.toast(getString(R.string.error_G06));
                                 }
                                 getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
                             }
@@ -229,7 +229,7 @@ public class AddCommodity extends CicloActivity {
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
 
                 }else{
-                    admin.toast("Se debe buscar un producto");
+                    admin.toast(R.string.se_debe_buscar_un_producto);
                 }
             }
         });
@@ -246,7 +246,7 @@ public class AddCommodity extends CicloActivity {
                     changedStateLecture(!rfdiReader.isStartReader());
 
                 }else{
-                    admin.toast("Se debe buscar un producto");
+                    admin.toast(R.string.se_debe_buscar_un_producto);
                 }
             }
         });
@@ -259,7 +259,7 @@ public class AddCommodity extends CicloActivity {
                     for (ProductHasZone product :
                             products) {
                         if (product.getEpc().isError()){
-                            admin.toast("Algunos tags no se pueden usar, por favor valida la informacion");
+                            admin.toast(R.string.error_tags_no_validos);
                             return;
                         }
                     }
@@ -277,7 +277,7 @@ public class AddCommodity extends CicloActivity {
                                     for(Epc epc: response.getEpcs()){
                                         db.update(Constants.table_epcs, epc.getId()+"", epc.getContentValues());
                                     }
-                                    admin.toast("Productos agregados con 'exito");
+                                    admin.toast(R.string.productos_agregados_exito);
                                     admin.callIntent(AddCommodity.class, null);
                                 }
 
@@ -288,7 +288,7 @@ public class AddCommodity extends CicloActivity {
                             }
                     );
                 } else {
-                    admin.toast("Debes agregar al menos un tag");
+                    admin.toast(R.string.error_no_tags);
                 }
             }
         });
@@ -360,10 +360,10 @@ public class AddCommodity extends CicloActivity {
     private void changedStateLecture(boolean state){
         if(state){
             rfdiReader.startReader();
-            getElemento(R.id.btnEmp).setText("Detener");
+            getElemento(R.id.btnEmp).setText(getString(R.string.detener));
         }else{
             rfdiReader.stopReader();
-            getElemento(R.id.btnEmp).setText("Leer");
+            getElemento(R.id.btnEmp).setText(getString(R.string.leer));
         }
     }
 
@@ -415,7 +415,7 @@ public class AddCommodity extends CicloActivity {
     }
 
     private void updatedAmountTags(){
-        getElemento(R.id.txtTags).setText("Tags leidos: "+epcs.size());
+        getElemento(R.id.txtTags).setText(getString(R.string.tag_leidos)+ ": " + epcs.size());
     }
 
     private void borrar(){

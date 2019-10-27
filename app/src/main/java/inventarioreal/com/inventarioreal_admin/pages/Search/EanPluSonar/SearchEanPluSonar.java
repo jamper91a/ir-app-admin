@@ -92,7 +92,7 @@ public class SearchEanPluSonar extends CicloActivity {
         }, this);
         init(this,this,R.layout.activity_search_ean_plu_sonar);
         // toolbar
-        getSupportActionBar().setTitle("Busqueda de items - Ean/Plu Sonar");
+        getSupportActionBar().setTitle(R.string.busqueda_items_ean_plu_sonar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -161,7 +161,7 @@ public class SearchEanPluSonar extends CicloActivity {
                             @Override
                             public void fail(ResultWebServiceFail fail) {
                                 if(fail.getError().equals("error_G06")){
-                                    admin.toast("Codigo EAN/PLU no existe");
+                                    admin.toast(R.string.error_G06);
                                 }
                                 getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
                             }
@@ -189,7 +189,7 @@ public class SearchEanPluSonar extends CicloActivity {
                     findProductosByEanPlu();
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
                 }else{
-                    admin.toast("Debes buscar un producto");
+                    admin.toast(R.string.error_minimo_un_producto);
                 }
 
             }
@@ -296,24 +296,24 @@ public class SearchEanPluSonar extends CicloActivity {
         if(productsFound !=null){
             adapter.setItems(productsFound);
             adapter.notifyDataSetChanged();
-            getElemento(R.id.txtTags).setText("Total unidades: " + productsFound.size());
+            getElemento(R.id.txtTags).setText(getString(R.string.total_unidades) + ": " + productsFound.size());
         }
     }
 
     private void changedStateLecture(boolean state){
         if(state){
             rfdiReader.startReader();
-            getElemento(R.id.btnLee).setText("Detener");
+            getElemento(R.id.btnLee).setText(getString(R.string.detener));
         }else{
             rfdiReader.stopReader();
-            getElemento(R.id.btnLee).setText("Leer");
+            getElemento(R.id.btnLee).setText(getString(R.string.leer));
         }
     }
 
     private void clean(){
         rfdiReader.cleanEpcs();
         productsFound.clear();
-        getElemento(R.id.txtTags).setText("Total unidades: 0");
+        getElemento(R.id.txtTags).setText(getString(R.string.total_unidades) + ": 0");
         adapter.setItems(productsFound);
         adapter.notifyDataSetChanged();
     }

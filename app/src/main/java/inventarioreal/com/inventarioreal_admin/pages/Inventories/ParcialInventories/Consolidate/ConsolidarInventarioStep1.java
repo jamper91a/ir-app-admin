@@ -37,7 +37,7 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_consolidar_inventario_step1);
         // toolbar
-        getSupportActionBar().setTitle("Consolidar Inventarios");
+        getSupportActionBar().setTitle(R.string.consolidate_inventories);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -76,7 +76,7 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
                             new ResultWebServiceInterface() {
                                 @Override
                                 public void ok(ResultWebServiceOk ok) {
-                                    admin.toast("Inventarios consolidados con exito");
+                                    admin.toast(R.string.inventarios_consolidados_exito);
                                 }
 
                                 @Override

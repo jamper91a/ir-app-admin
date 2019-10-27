@@ -36,7 +36,7 @@ public class DevolutionStep1 extends CicloActivity {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_devolucion_decliente_step1);
         // toolbar
-        getSupportActionBar().setTitle("Devoluciones");
+        getSupportActionBar().setTitle(R.string.devoluciones);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -104,9 +104,6 @@ public class DevolutionStep1 extends CicloActivity {
             }
         });
 
-        //Set Local origen
-        //request.(employee.getEmployee().getShop());
-        //Log.d("lOCAL", request.getLocal_id().getName());
         getElemento(R.id.txtLoc).setText(empleado.getEmployee().getShop().getName());
     }
 

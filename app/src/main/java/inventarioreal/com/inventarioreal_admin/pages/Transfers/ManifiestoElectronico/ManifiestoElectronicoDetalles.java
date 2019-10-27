@@ -47,7 +47,7 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
         //endregion
         this.tabsInit();
         //toolbar
-        getSupportActionBar().setTitle("Detalles manifiesto electronico");
+        getSupportActionBar().setTitle(R.string.detalles_manifiesto_electronico);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
