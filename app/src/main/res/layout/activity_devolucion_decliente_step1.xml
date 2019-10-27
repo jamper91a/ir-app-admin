@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Local" />
+            android:text="@string/local" />
 
         <TextView
             android:id="@+id/txtLoc"
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Zona" />
+            android:text="@string/zona" />
 
         <Spinner
             android:id="@+id/spnZonaDestino"
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Poder Lectura" />
+            android:text="@string/poder_lectura" />
 
         <Spinner
             android:id="@+id/spnPodLec"

@@ -65,21 +65,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Regresar" />
+                android:text="@string/regresar" />
             <Button
                 android:id="@+id/btnGua"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:visibility="gone"
-                android:text="Guardar" />
+                android:text="@string/guardar" />
 
             <Button
                 android:id="@+id/btnEnv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Enviar email" />
+                android:text="@string/enviar_email" />
         </LinearLayout>
 
 

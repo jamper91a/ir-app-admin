@@ -18,11 +18,11 @@
         android:id="@+id/btnSal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Salidas" />
+        android:text="@string/salidas" />
 
     <Button
         android:id="@+id/btnIng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ingresos" />
+        android:text="@string/ingresos" />
 </LinearLayout>

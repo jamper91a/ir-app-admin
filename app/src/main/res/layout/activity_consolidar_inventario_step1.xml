@@ -10,7 +10,7 @@
         android:id="@+id/txt1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Selecciones consolidatedInventory a consolidar" />
+        android:text="@string/seleccione_inventario_a_consolidar" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lst1"
@@ -24,6 +24,6 @@
         android:id="@+id/btnIni"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Iniciar" />
+        android:text="@string/iniciar" />
 
 </LinearLayout>

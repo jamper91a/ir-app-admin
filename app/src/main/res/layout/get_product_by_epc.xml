@@ -64,14 +64,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cancelar" />
+                android:text="@string/cancelar" />
 
             <Button
                 android:id="@+id/btnLee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Leer" />
+                android:text="@string/leer" />
 
             <Button
                 android:id="@+id/btnFin"
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Borrar" />
+                android:text="@string/borrar" />
         </LinearLayout>
 
 

@@ -22,12 +22,10 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class HomeCashier extends CicloActivity {
 
-    private SlidingMenu menu;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_home_cashier);
-        this.menu =init_menu(this,R.layout.layout_menu);
         // toolbar
         getSupportActionBar().setTitle(getString(R.string.salida_mercancia));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

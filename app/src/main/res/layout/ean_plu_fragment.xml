@@ -29,13 +29,13 @@
                     android:id="@+id/txtZone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Zonas: " />
+                    android:text="@string/zona" />
 
                 <TextView
                     android:id="@+id/txtDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Fecha: " />
+                    android:text="@string/fecha" />
             </LinearLayout>
 
             <Switch

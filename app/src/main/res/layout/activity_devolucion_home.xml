@@ -12,12 +12,12 @@
         android:id="@+id/btnCust"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="De Clientes" />
+        android:text="@string/devoluciones_clientes" />
 
     <Button
         android:id="@+id/btnProv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="a proveedores" />
+        android:text="@string/devoluciones_proveedores" />
 
 </LinearLayout>

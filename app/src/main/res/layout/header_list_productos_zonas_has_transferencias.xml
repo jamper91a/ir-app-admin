@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/details"
+        android:text="@string/detalles"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     <TextView
         android:id="@+id/txtME"
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/local"
+        android:text="@string/local_destino"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
@@ -49,6 +49,6 @@
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:text="@string/local"
+        android:text="@string/estado"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 </LinearLayout>

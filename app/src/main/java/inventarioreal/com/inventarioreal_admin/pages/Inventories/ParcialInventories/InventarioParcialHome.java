@@ -21,12 +21,10 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class InventarioParcialHome extends CicloActivity {
 
-    private SlidingMenu menu;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_inventario_home);
-        this.menu =init_menu(this,R.layout.layout_menu);
         // toolbar
         getSupportActionBar().setTitle(R.string.inventarios);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

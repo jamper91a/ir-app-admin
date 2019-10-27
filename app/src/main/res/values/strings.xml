@@ -171,4 +171,16 @@
     <string name="error_productos_invalidos">ay productos que no pertenecen a este local (E) y no seran transferidos</string>
     <string name="guardar_transferencia">Guardar Transferencia</string>
     <string name="error_no_hay_informacion">No hay informacion</string>
+    <string name="seleccione_inventario_a_consolidar">Seleccione inventario a consolidar</string>
+    <string name="version">Version</string>
+    <string name="tienda">Tienda</string>
+    <string name="salidas">Salidas</string>
+    <string name="regresar">Regresar</string>
+    <string name="seleccione_manifiesto_a_revisar">Seleccione manifiesto a revisar</string>
+    <string name="dias_de_rotacion">Dias de rotacion</string>
+    <string name="motivo_devolucion">Motivo devolucion</string>
+    <string name="total_fisico">Total fisico</string>
+    <string name="total_erp">Total erp</string>
+    <string name="detalles">Detalles</string>
+    <string name="estado">Estado</string>
 </resources>

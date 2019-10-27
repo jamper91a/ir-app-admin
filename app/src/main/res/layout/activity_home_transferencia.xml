@@ -12,17 +12,17 @@
         android:id="@+id/btnIng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ingresos" />
+        android:text="@string/ingresos" />
 
     <Button
         android:id="@+id/btnSal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Salidas" />
+        android:text="@string/salidas" />
 
     <Button
         android:id="@+id/btnMan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manifiesto Electronico" />
+        android:text="@string/manifiesto_electronico" />
 </LinearLayout>

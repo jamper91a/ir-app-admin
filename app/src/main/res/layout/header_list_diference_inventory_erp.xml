@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/total"
+            android:text="@string/total_fisico"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/total"
+        android:text="@string/total_erp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/total"
+        android:text="@string/diferencia"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
@@ -43,6 +43,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/details"
+        android:text="@string/detalles"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 </LinearLayout>

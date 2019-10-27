@@ -149,21 +149,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cancelar" />
+                android:text="@string/cancelar" />
 
             <Button
                 android:id="@+id/btnEmp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Leer" />
+                android:text="@string/leer" />
 
             <Button
                 android:id="@+id/btnGua"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Guardar" />
+                android:text="@string/guardar" />
 
             <Button
                 android:id="@+id/btnBor"
@@ -172,7 +172,7 @@
                 android:layout_weight="1"
                 android:enabled="true"
                 android:clickable="true"
-                android:text="Borrar" />
+                android:text="@string/borrar" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

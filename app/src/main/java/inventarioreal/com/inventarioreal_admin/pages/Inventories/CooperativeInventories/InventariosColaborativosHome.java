@@ -22,12 +22,11 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class InventariosColaborativosHome extends CicloActivity {
 
-    private SlidingMenu menu;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_inventarios_colaborativos_home);
-        this.menu =init_menu(this,R.layout.layout_menu);
         // toolbar
         getSupportActionBar().setTitle(R.string.inventario_cooperativo);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

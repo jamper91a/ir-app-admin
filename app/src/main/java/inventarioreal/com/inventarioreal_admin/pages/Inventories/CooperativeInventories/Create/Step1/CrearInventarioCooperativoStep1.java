@@ -33,7 +33,6 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class CrearInventarioCooperativoStep1 extends CicloActivity {
 
-    private SlidingMenu menu;
     final DataBase db = DataBase.getInstance(this);
     private RequestCreateInventory2 request = new RequestCreateInventory2();
 
@@ -41,7 +40,6 @@ public class CrearInventarioCooperativoStep1 extends CicloActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this, this, R.layout.activity_inventario_colaborativo_crear_step1);
-        this.menu = init_menu(this, R.layout.layout_menu);
         // toolbar
         getSupportActionBar().setTitle(R.string.crear_inventario_cooperativo);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
