@@ -6,8 +6,8 @@ android {
         applicationId "inventarioreal.com.inventarioreal_admin"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 15
-        versionName "1.3.2"
+        versionCode 16
+        versionName "1.3.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi-v7a", "x86", "armeabi", "mips"
