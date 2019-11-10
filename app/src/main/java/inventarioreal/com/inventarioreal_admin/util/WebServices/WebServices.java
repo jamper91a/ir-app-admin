@@ -35,6 +35,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.User;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.DiferenceInventoryErp;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddCommodityRequest;
@@ -46,6 +47,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateS
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateTransferRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateUserRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.DevolutionsByTypeReportRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FindUserByEmailRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetDiferenceBetweenInventoriesRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductInShopByEanPluRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductInShopByEpcRequest;
@@ -1509,6 +1511,33 @@ public class WebServices {
                     if(jsonObject.getString("code").equals("OK")){
                         result.ok(new ResultWebServiceOk(null));
                     }
+                } catch (JSONException e) {
+                    result.fail(new ResultWebServiceFail(e));
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+    public static void findUserByEmail(final Activity activity, final FindUserByEmailRequest request, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_findEmployeeByUsername;
+        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    User user = gson.fromJson(jsonObject.getJSONObject("data").toString(), User.class);
+                    result.ok(new ResultWebServiceOk(user));
                 } catch (JSONException e) {
                     result.fail(new ResultWebServiceFail(e));
                 } catch (Exception e) {

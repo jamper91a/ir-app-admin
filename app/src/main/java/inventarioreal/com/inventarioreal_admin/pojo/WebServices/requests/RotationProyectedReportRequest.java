@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class RotationProyectedReportRequest {
+public class RotationProyectedReportRequest  implements WebServiceRequest{
     private int days;
     private String product_id;
 
@@ -39,6 +39,10 @@ public class RotationProyectedReportRequest {
         return campos;
     }
 
+    @Override
+    public boolean validar() throws Error {
+        return false;
+    }
 
 
 }

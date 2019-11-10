@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class SaleUnitsReportRequest {
+public class SaleUnitsReportRequest implements WebServiceRequest {
     private String firstDate;
     private String secondDate;
 
@@ -20,6 +20,10 @@ public class SaleUnitsReportRequest {
         return campos;
     }
 
+    @Override
+    public boolean validar() throws Error {
+        return false;
+    }
 
 
 }

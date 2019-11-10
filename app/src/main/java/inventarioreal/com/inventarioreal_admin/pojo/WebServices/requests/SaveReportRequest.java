@@ -10,11 +10,9 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Report;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ReportsHasProductsZone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
-import inventarioreal.com.inventarioreal_admin.util.WebServices.RequestWebServiceInterface;
 
-public class SaveReportRequest implements RequestWebServiceInterface {
+public class SaveReportRequest implements WebServiceRequest {
     private Report report;
     private ProductHasZone[] products;
 
@@ -35,6 +33,11 @@ public class SaveReportRequest implements RequestWebServiceInterface {
         campos.put(Constants.report, getReport());
         campos.put(Constants.products, getProducts());
         return campos;
+    }
+
+    @Override
+    public boolean validar() throws Error {
+        return false;
     }
 
     private String getProducts(){

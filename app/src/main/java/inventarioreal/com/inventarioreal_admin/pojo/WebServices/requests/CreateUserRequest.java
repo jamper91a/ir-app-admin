@@ -11,7 +11,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import jamper91.com.easyway.Util.Administrador;
 
-public class CreateUserRequest {
+public class CreateUserRequest implements WebServiceRequest {
     private String username = "";
     private String password = "";
     private String rpassword = "";

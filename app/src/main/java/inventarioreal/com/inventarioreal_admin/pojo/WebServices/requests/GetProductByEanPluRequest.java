@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class GetProductByEanPluRequest {
+public class GetProductByEanPluRequest implements WebServiceRequest {
     private String code;
 
     public GetProductByEanPluRequest(String code) {
@@ -19,6 +19,10 @@ public class GetProductByEanPluRequest {
         return campos;
     }
 
+    @Override
+    public boolean validar() throws Error {
+        return false;
+    }
 
 
 }

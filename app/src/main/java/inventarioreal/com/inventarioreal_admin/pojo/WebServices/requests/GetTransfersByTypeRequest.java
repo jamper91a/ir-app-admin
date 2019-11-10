@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class GetTransfersByTypeRequest {
+public class GetTransfersByTypeRequest implements WebServiceRequest {
     private long shopSource;
     private String type;
 
@@ -20,6 +20,10 @@ public class GetTransfersByTypeRequest {
         return campos;
     }
 
+    @Override
+    public boolean validar() throws Error {
+        return false;
+    }
 
 
 }

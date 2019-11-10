@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class LoginRequest {
+public class LoginRequest implements WebServiceRequest {
     private String username;
     private String password;
 
@@ -20,6 +20,10 @@ public class LoginRequest {
         return campos;
     }
 
+    @Override
+    public boolean validar() throws Error {
+        return false;
+    }
 
 
 }

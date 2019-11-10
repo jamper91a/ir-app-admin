@@ -11,7 +11,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHa
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class CreateTransferRequest {
+public class CreateTransferRequest implements WebServiceRequest {
     private Transfer transfer;
     private List<TransfersHasZonesProduct> products;
     private Gson gson = new Gson();
@@ -27,6 +27,11 @@ public class CreateTransferRequest {
         campos.put(Constants.transfer, this.getTransfer());
         campos.put(Constants.products, this.getProductosZonaHasTransfenrencias());
         return campos;
+    }
+
+    @Override
+    public boolean validar() throws Error {
+        return false;
     }
 
 

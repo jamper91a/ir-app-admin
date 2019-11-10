@@ -15,7 +15,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class HomologateUnitsRequest {
+public class HomologateUnitsRequest  implements WebServiceRequest{
     private LinkedList<ReportsHasProductsZone> products;
     private Gson gson = new Gson();
 
@@ -32,6 +32,11 @@ public class HomologateUnitsRequest {
         HashMap<String, String> campos = new HashMap<>();
         campos.put(Constants.products, this.getProducts());
         return campos;
+    }
+
+    @Override
+    public boolean validar() throws Error {
+        return false;
     }
 
     private String getProducts(){

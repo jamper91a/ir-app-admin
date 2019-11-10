@@ -12,7 +12,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHa
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class CreateCollaborativeInventoryRequest {
+public class CreateCollaborativeInventoryRequest implements WebServiceRequest {
     private Inventory inventory;
     private List<InventoryHasProduct> products;
 
@@ -29,6 +29,11 @@ public class CreateCollaborativeInventoryRequest {
         campos.put(Constants.inventory, this.getInventario());
         campos.put(Constants.products, this.getInventarioProductos());
         return campos;
+    }
+
+    @Override
+    public boolean validar() throws Error {
+        return false;
     }
 
 

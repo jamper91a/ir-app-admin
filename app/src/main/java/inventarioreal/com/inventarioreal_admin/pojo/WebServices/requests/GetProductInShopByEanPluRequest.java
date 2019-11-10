@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class GetProductInShopByEanPluRequest {
+public class GetProductInShopByEanPluRequest implements WebServiceRequest {
     private long product;
 
     public GetProductInShopByEanPluRequest(long product) {
@@ -17,6 +17,10 @@ public class GetProductInShopByEanPluRequest {
         return campos;
     }
 
+    @Override
+    public boolean validar() throws Error {
+        return false;
+    }
 
 
 }

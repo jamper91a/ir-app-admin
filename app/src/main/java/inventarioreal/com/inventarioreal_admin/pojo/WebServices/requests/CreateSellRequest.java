@@ -12,7 +12,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Sell;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class CreateSellRequest {
+public class CreateSellRequest implements WebServiceRequest {
     private Sell sell;
     private List<ProductHasZone> products;
     private Gson gson = new Gson();
@@ -28,6 +28,11 @@ public class CreateSellRequest {
         campos.put(Constants.sell, this.getSell());
         campos.put(Constants.products, this.getProducts());
         return campos;
+    }
+
+    @Override
+    public boolean validar() throws Error {
+        return false;
     }
 
 

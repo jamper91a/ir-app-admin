@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class GetReportByIdRequest {
+public class GetReportByIdRequest implements WebServiceRequest {
     private long id;
     private Gson gson = new Gson();
 
@@ -19,6 +19,11 @@ public class GetReportByIdRequest {
         HashMap<String, String> campos = new HashMap<>();
         campos.put(Constants.id, this.id+"");
         return campos;
+    }
+
+    @Override
+    public boolean validar() throws Error {
+        return false;
     }
 
 

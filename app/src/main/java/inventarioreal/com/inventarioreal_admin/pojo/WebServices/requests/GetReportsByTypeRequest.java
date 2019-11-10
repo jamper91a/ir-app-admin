@@ -11,7 +11,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZ
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Sell;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class GetReportsByTypeRequest {
+public class GetReportsByTypeRequest  implements WebServiceRequest{
     private String type;
     private Gson gson = new Gson();
 
@@ -24,6 +24,11 @@ public class GetReportsByTypeRequest {
         HashMap<String, String> campos = new HashMap<>();
         campos.put(Constants.type, this.type);
         return campos;
+    }
+
+    @Override
+    public boolean validar() throws Error {
+        return false;
     }
 
 

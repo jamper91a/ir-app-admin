@@ -1,20 +1,28 @@
-package inventarioreal.com.inventarioreal_admin.pages.Users;
+package inventarioreal.com.inventarioreal_admin.pages.Users.UpdateUsers;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.daimajia.androidanimations.library.Techniques;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.google.gson.Gson;
+
+import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.CrearTransferencia.CrearTransferenciaStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.Ingresos;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.ManifiestoElectronico.ManifiestoElectronicoHome;
-import inventarioreal.com.inventarioreal_admin.pages.Users.UpdateUsers.ModifyUserStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Users.HomeUsers;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.User;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateUserRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FindUserByEmailRequest;
+import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
@@ -23,28 +31,28 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class HomeUsers extends CicloActivity {
-    private Class destino = null;
+public class ModifyUserStep1 extends CicloActivity {
+    private FindUserByEmailRequest request;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this,this,R.layout.activity_home_users);
+        init(this,this,R.layout.activity_users_modify_step_1);
         //toolbar
-        getSupportActionBar().setTitle(R.string.usuarios);
+        getSupportActionBar().setTitle(R.string.modificar_usuario);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.txt1), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtEmail), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btn1), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.btn2), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.btn3), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.btn4), Techniques.FadeInLeft));
     }
 
     @Override
     public void getData() {
+        this.request = new FindUserByEmailRequest(this, admin);
 
     }
 
@@ -53,54 +61,31 @@ public class HomeUsers extends CicloActivity {
         add_on_click(R.id.btn1, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                destino = CreateUser.class;
-                sync();
+                try {
+                    request.setEmail(getElemento(R.id.edtEmail).getText());
+                    request.validar();
+                    WebServices.findUserByEmail(ModifyUserStep1.this, request, admin, new ResultWebServiceInterface() {
+                        @Override
+                        public void ok(ResultWebServiceOk ok) {
+                            User user  = (User) ok.getData();
+                            if(user!= null){
+                                admin.toast(user.getUsername());
+                            }
+                        }
 
-            }
-        });
-        add_on_click(R.id.btn2, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                destino = ModifyUserStep1.class;
-                sync();
-
-            }
-        });
-        add_on_click(R.id.btn3, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                destino = ManifiestoElectronicoHome.class;
-//                sync();
-
-            }
-        });
-        add_on_click(R.id.btn4, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                destino = ManifiestoElectronicoHome.class;
-//                sync();
+                        @Override
+                        public void fail(ResultWebServiceFail fail) {
+                            admin.toast(fail.getError());
+                        }
+                    });
+                }catch (Error e){
+                    admin.toast(e.getMessage());
+                }
 
             }
         });
     }
 
-    private void sync() {
-
-        WebServices.sync(HomeUsers.this, admin, new ResultWebServiceInterface() {
-            @Override
-            public void ok(ResultWebServiceOk ok) {
-                admin.callIntent(destino, null);
-            }
-
-            @Override
-            public void fail(ResultWebServiceFail fail) {
-                admin.toast(fail.getError());
-                admin.callIntent(destino, null);
-
-
-            }
-        });
-    }
 
     @Override
     public void hasAllPermissions() {
@@ -135,7 +120,8 @@ public class HomeUsers extends CicloActivity {
 
     @Override
     public void onBackPressed() {
-        admin.callIntent(Home.class, null);
+        admin.callIntent(HomeUsers.class, null);
     }
     //endregion
 }
+

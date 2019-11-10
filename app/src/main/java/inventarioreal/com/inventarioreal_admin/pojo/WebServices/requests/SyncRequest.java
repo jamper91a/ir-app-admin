@@ -1,13 +1,10 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests;
 
-import com.google.gson.Gson;
-
 import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.util.Constants;
-import inventarioreal.com.inventarioreal_admin.util.WebServices.RequestWebServiceInterface;
 
-public class SyncRequest implements RequestWebServiceInterface {
+public class SyncRequest implements WebServiceRequest {
     private String last_update;
 
     public SyncRequest() {
@@ -30,6 +27,11 @@ public class SyncRequest implements RequestWebServiceInterface {
         HashMap<String, String> campos = new HashMap<>();
         campos.put(Constants.last_updated, getLast_update());
         return campos;
+    }
+
+    @Override
+    public boolean validar() throws Error {
+        return false;
     }
 
 

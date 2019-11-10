@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class DevolutionsByTypeReportRequest {
+public class DevolutionsByTypeReportRequest implements WebServiceRequest {
     private final String firstDate;
     private final String secondDate;
     private final int type;
@@ -23,6 +23,10 @@ public class DevolutionsByTypeReportRequest {
         return campos;
     }
 
+    @Override
+    public boolean validar() throws Error {
+        return false;
+    }
 
 
 }

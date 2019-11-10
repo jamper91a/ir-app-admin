@@ -11,7 +11,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHasProduct;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class AttachInventoryRequest {
+public class AttachInventoryRequest implements WebServiceRequest {
     private Inventory inventory;
     private List<InventoryHasProduct> products;
 
@@ -28,6 +28,11 @@ public class AttachInventoryRequest {
         campos.put(Constants.inventory, this.getInventario());
         campos.put(Constants.products, this.getInventarioProductos());
         return campos;
+    }
+
+    @Override
+    public boolean validar() throws Error {
+        return false;
     }
 
 

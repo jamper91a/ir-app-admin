@@ -10,7 +10,7 @@ import inventarioreal.com.inventarioreal_admin.util.Constants;
 
 import static inventarioreal.com.inventarioreal_admin.util.Constants.username;
 
-public class ConsolidateInventoriesRequest {
+public class ConsolidateInventoriesRequest implements WebServiceRequest{
     private List<Long> inventories;
     private String name;
 
@@ -24,6 +24,11 @@ public class ConsolidateInventoriesRequest {
         campos.put(Constants.inventories, getInventories());
         campos.put(Constants.name, name);
         return campos;
+    }
+
+    @Override
+    public boolean validar() throws Error {
+        return false;
     }
 
     private String getInventories(){

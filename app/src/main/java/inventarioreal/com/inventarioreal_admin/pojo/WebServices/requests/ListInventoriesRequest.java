@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class ListInventoriesRequest {
+public class ListInventoriesRequest implements WebServiceRequest {
     private String type;
     private boolean collaborative;
 
@@ -20,6 +20,10 @@ public class ListInventoriesRequest {
         return campos;
     }
 
+    @Override
+    public boolean validar() throws Error {
+        return false;
+    }
 
 
 }

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class GetProductInShopByEpcRequest {
+public class GetProductInShopByEpcRequest implements WebServiceRequest {
     private String epc;
 
     public GetProductInShopByEpcRequest(String epc) {
@@ -17,6 +17,10 @@ public class GetProductInShopByEpcRequest {
         return campos;
     }
 
+    @Override
+    public boolean validar() throws Error {
+        return false;
+    }
 
 
 }

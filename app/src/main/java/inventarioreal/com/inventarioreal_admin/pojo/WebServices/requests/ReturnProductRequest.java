@@ -10,7 +10,7 @@ import java.util.List;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class ReturnProductRequest {
+public class ReturnProductRequest  implements WebServiceRequest{
     private List<ProductHasZone> products;
 
     public ReturnProductRequest(List<ProductHasZone> products) {
@@ -22,6 +22,11 @@ public class ReturnProductRequest {
         HashMap<String, String> campos = new HashMap<>();
         campos.put(Constants.products, this.getProducts());
         return campos;
+    }
+
+    @Override
+    public boolean validar() throws Error {
+        return false;
     }
 
 

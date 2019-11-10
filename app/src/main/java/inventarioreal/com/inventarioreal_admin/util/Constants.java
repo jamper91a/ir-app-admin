@@ -129,6 +129,7 @@ public class Constants {
     public static final String ws_rotationProyected="reportes/rotationProyectedByEanPlu";
     public static final String ws_diferenceInventoryErp="reportes/diferenceWithInventoryErp";
     public static final String ws_createUser="users";
+    public static final String ws_findEmployeeByUsername = "users/findEmployeeByUsername";
     //endregion
 
 
@@ -179,4 +180,5 @@ public class Constants {
     public static final String product_id="product_id";
     public static final String group="group";
     public static final String company = "company";
+
 }

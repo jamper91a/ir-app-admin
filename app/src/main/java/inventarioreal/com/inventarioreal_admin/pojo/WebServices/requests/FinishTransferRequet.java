@@ -10,7 +10,7 @@ import java.util.List;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class FinishTransferRequet {
+public class FinishTransferRequet implements WebServiceRequest {
     private List<TransfersHasZonesProduct> products;
 
     public FinishTransferRequet(List<TransfersHasZonesProduct> products, String message) {
@@ -24,6 +24,10 @@ public class FinishTransferRequet {
         return campos;
     }
 
+    @Override
+    public boolean validar() throws Error {
+        return false;
+    }
 
 
     private String getProductosZonaHasTransfenrencias(){

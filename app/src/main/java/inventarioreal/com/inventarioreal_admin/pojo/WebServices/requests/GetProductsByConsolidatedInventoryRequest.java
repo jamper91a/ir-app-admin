@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
-public class GetProductsByConsolidatedInventoryRequest {
+public class GetProductsByConsolidatedInventoryRequest implements WebServiceRequest {
     private long consolidatedInventory;
 
     public GetProductsByConsolidatedInventoryRequest(long consolidatedInventory) {
@@ -17,6 +17,10 @@ public class GetProductsByConsolidatedInventoryRequest {
         return campos;
     }
 
+    @Override
+    public boolean validar() throws Error {
+        return false;
+    }
 
 
 }

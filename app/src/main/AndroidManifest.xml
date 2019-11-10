@@ -80,6 +80,8 @@
         <activity android:name=".pages.Search.EpcLastLocation.SearchEpcLastLocation" />
         <activity android:name=".pages.Users.HomeUsers" />
         <activity android:name=".pages.Users.CreateUser" />
+        <activity android:name=".pages.Users.UpdateUsers.ModifyUserStep1" />
+        <activity android:name=".pages.Users.UpdateUsers.ModifyUserStep2" />
 
     </application>
 
