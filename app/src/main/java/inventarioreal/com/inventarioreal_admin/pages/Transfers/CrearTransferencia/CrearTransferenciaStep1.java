@@ -56,7 +56,7 @@ public class CrearTransferenciaStep1 extends CicloActivity {
     public void getData() {
         try {
             //Obtener Zonas
-            getLocales();
+            getShops();
             //Obtener poder de lecura
             getPoderLectura();
             //Obtener date actual
@@ -68,26 +68,26 @@ public class CrearTransferenciaStep1 extends CicloActivity {
 
 
 
-    private void getLocales() {
+    private void getShops() {
         Gson gson = new Gson();
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         //Obtengo las zonas usando el local del employee
-        final LinkedList<Shop> locales = db.getByColumn(
+        final LinkedList<Shop> shops = db.getByColumn(
                 Constants.table_shops,
                 Constants.column_company,
                 empleado.getEmployee().getCompany().getId()+ "",
                 Shop.class);
 
         //Busco el local actual y lo eliminio de las opciones
-        for (int i = 0; i < locales.size(); i++) {
-            if(locales.get(i).getId() == empleado.getEmployee().getShop().getId()){
-                locales.remove(i);
+        for (int i = 0; i < shops.size(); i++) {
+            if(shops.get(i).getId() == empleado.getEmployee().getShop().getId()){
+                shops.remove(i);
             }
         }
 
         ArrayAdapter<Shop> adapter =
-                new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, locales);
+                new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, shops);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         ((Spinner) getElemento(R.id.spnLocalDestino).getElemento()).setAdapter(adapter);
@@ -95,7 +95,7 @@ public class CrearTransferenciaStep1 extends CicloActivity {
         ((Spinner) getElemento(R.id.spnLocalDestino).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                request.setShopDestination((Shop)locales.get(position));
+                request.setShopDestination((Shop)shops.get(position));
             }
 
             @Override

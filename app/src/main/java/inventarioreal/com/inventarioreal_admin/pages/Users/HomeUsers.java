@@ -23,7 +23,6 @@ import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class HomeUsers extends CicloActivity {
-    private SlidingMenu menu;
     private Class destino = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,7 @@ public class HomeUsers extends CicloActivity {
         add_on_click(R.id.btn1, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                destino = Ingresos.class;
+                destino = CreateUser.class;
                 sync();
 
             }

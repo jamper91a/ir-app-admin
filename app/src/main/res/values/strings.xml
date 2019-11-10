@@ -185,4 +185,9 @@
     <string name="modificar_usuario">Modificar Usuario</string>
     <string name="activar_desactivar_usuario">Activar / Desactivar usuario</string>
     <string name="listado_usuarios">Listado de usuarios</string>
+    <string name="repetir_contrasena">Repetir contrasena</string>
+    <string name="tipo_usuario">Tipo Usuario</string>
+    <string name="error_contrasena_no_coincide">Contrasenas no coinciden</string>
+    <string name="usuario_creado_exitosamente">Usuario creado exitosamente</string>
+    <string name="error_email_valido">Email no valido</string>
 </resources>
