@@ -12,6 +12,7 @@ import inventarioreal.com.inventarioreal_admin.util.Constants;
 import jamper91.com.easyway.Util.Administrador;
 
 public class CreateUserRequest implements WebServiceRequest {
+    private String name = "";
     private String username = "";
     private String password = "";
     private String rpassword = "";
@@ -24,6 +25,14 @@ public class CreateUserRequest implements WebServiceRequest {
     public CreateUserRequest(Context context, Administrador admin) {
         this.context = context;
         this.admin = admin;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUsername() {
@@ -78,6 +87,7 @@ public class CreateUserRequest implements WebServiceRequest {
         HashMap<String, String> campos = new HashMap<>();
         Gson gson = new Gson();
         JsonObject user = new JsonObject();
+        user.addProperty(Constants.name, this.getName());
         user.addProperty(Constants.username, this.getUsername());
         user.addProperty(Constants.password, this.getPassword());
         user.addProperty(Constants.group, this.getType());
