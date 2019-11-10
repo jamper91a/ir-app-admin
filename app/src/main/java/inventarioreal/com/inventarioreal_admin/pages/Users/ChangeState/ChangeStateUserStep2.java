@@ -50,10 +50,12 @@ public class ChangeStateUserStep2 extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtLocal), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txt2), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.edtEmail), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtName), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txt3), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.edtType), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtEmail), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txt4), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtType), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txt5), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtState), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btn1), Techniques.FadeInLeft));
     }
@@ -68,6 +70,7 @@ public class ChangeStateUserStep2 extends CicloActivity {
         this.request = new ChangeStateUserRequest();
         this.request.setUsername(this.employee.getUser().getUsername());
         getElemento(R.id.edtLocal).setText(this.employee.getShop().getName());
+        getElemento(R.id.edtName).setText(this.employee.getUser().getName());
         getElemento(R.id.edtEmail).setText(this.employee.getUser().getUsername());
         getElemento(R.id.edtType).setText(this.employee.getUser().getGroup().getName());
         getElemento(R.id.edtState).setText(
