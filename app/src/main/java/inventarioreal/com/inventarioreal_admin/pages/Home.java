@@ -18,6 +18,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInve
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pages.Search.HomeSearch;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.HomeTransferencia;
+import inventarioreal.com.inventarioreal_admin.pages.Users.HomeUsers;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -122,6 +123,13 @@ public class Home extends CicloActivity {
             @Override
             public void onClick(View v) {
                 admin.callIntent(HomeSearch.class, null);
+            }
+        });
+
+        add_on_click(R.id.btnUsu, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(HomeUsers.class, null);
             }
         });
 

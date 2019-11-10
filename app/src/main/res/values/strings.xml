@@ -181,4 +181,8 @@
     <string name="total_erp">Total erp</string>
     <string name="detalles">Detalles</string>
     <string name="estado">Estado</string>
+    <string name="crear_nuevo_usuario">Crear nuevo usuario</string>
+    <string name="modificar_usuario">Modificar Usuario</string>
+    <string name="activar_desactivar_usuario">Activar / Desactivar usuario</string>
+    <string name="listado_usuarios">Listado de usuarios</string>
 </resources>
