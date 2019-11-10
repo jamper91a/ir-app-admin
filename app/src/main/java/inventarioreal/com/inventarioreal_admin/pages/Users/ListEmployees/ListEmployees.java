@@ -79,7 +79,7 @@ public class ListEmployees extends CicloActivity {
             @Override
             public void onItemClick(Object item) {
                 employee = (Employee) item;
-//                admin.callIntent(HomologateDiferencesStep2.class, employee, Report.class);
+                admin.callIntent(DetailsEmployee.class, employee, Employee.class);
             }
 
             @Override

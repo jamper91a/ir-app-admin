@@ -85,6 +85,7 @@
         <activity android:name=".pages.Users.ChangeState.ChangeStateUserStep1" />
         <activity android:name=".pages.Users.ChangeState.ChangeStateUserStep2" />
         <activity android:name=".pages.Users.ListEmployees.ListEmployees" />
+        <activity android:name=".pages.Users.ListEmployees.DetailsEmployee" />
 
     </application>
 
