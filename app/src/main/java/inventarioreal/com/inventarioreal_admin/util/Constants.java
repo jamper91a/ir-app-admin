@@ -130,6 +130,7 @@ public class Constants {
     public static final String ws_diferenceInventoryErp="reportes/diferenceWithInventoryErp";
     public static final String ws_createUser="users";
     public static final String ws_findEmployeeByUsername = "users/findEmployeeByUsername";
+    public static final String ws_modifyUser = "users/modifyEmployeeByUsername";
     //endregion
 
 
@@ -180,5 +181,4 @@ public class Constants {
     public static final String product_id="product_id";
     public static final String group="group";
     public static final String company = "company";
-
 }

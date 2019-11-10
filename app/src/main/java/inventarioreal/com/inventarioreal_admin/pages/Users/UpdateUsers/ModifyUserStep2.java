@@ -24,6 +24,10 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.User;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateUserRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Group;
@@ -193,6 +197,18 @@ public class ModifyUserStep2 extends CicloActivity {
                     request.setPassword(getElemento(R.id.edtPassword).getText());
                     request.setRpassword(getElemento(R.id.edtRPassword).getText());
                     request.validar();
+                    WebServices.modifyUser(ModifyUserStep2.this, request, admin, new ResultWebServiceInterface() {
+                        @Override
+                        public void ok(ResultWebServiceOk ok) {
+                            admin.toast(getString(R.string.usuario_modificado_exitosamente));
+                            admin.callIntent(ModifyUserStep1.class, null);
+                        }
+
+                        @Override
+                        public void fail(ResultWebServiceFail fail) {
+                            admin.toast(fail.getError());
+                        }
+                    });
 
                 } catch (Error e) {
                     admin.toast(e.getMessage());

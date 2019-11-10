@@ -1500,7 +1500,7 @@ public class WebServices {
 
     public static void createUser(final Activity activity, final CreateUserRequest request, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_createUser;
-        post(url, request.getCampos(), R.string.consultando, activity, admin, new ResponseListener() {
+        post(url, request.getCampos(), R.string.enviando_informacion, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -1539,6 +1539,34 @@ public class WebServices {
                 try {
                     Employee user = gson.fromJson(jsonObject.getJSONObject("data").toString(), Employee.class);
                     result.ok(new ResultWebServiceOk(user));
+                } catch (JSONException e) {
+                    result.fail(new ResultWebServiceFail(e));
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+    public static void modifyUser(final Activity activity, final CreateUserRequest request, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_modifyUser;
+        post(url, request.getCampos(), R.string.enviando_informacion, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    if(jsonObject.getString("code").equals("OK")){
+                        result.ok(new ResultWebServiceOk(null));
+                    }
                 } catch (JSONException e) {
                     result.fail(new ResultWebServiceFail(e));
                 } catch (Exception e) {
