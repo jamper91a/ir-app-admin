@@ -12,6 +12,7 @@ public class User extends InventarioRealPojo {
     private String username;
     private String username_rfdi;
     private String password_rfdi;
+    private Boolean active;
     private Group group;
     private Employee employee;
 
@@ -53,6 +54,14 @@ public class User extends InventarioRealPojo {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public User() {

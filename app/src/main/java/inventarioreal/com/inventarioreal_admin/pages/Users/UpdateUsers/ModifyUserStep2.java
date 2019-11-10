@@ -137,9 +137,9 @@ public class ModifyUserStep2 extends CicloActivity {
         Gson gson = new Gson();
         Spinner spnType = ((Spinner) getElemento(R.id.spnType).getElemento());
         final LinkedList<UserType> userTypes = new LinkedList<>();
-        userTypes.add(new UserType(1, "Administrador"));
-        userTypes.add(new UserType(2, "Cajero"));
-        userTypes.add(new UserType(3, "Bodega"));
+        userTypes.add(new UserType(2, "Administrador"));
+        userTypes.add(new UserType(3, "Cajero"));
+        userTypes.add(new UserType(4, "Bodega"));
         ArrayAdapter<UserType> adapter =
                 new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, userTypes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

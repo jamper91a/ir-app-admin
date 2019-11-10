@@ -192,4 +192,8 @@
     <string name="error_email_valido">Email no valido</string>
     <string name="usuario_modificado_exitosamente">Usuario modificado exitosamente</string>
     <string name="siguiente">Siguiente</string>
+    <string name="state">Estado</string>
+    <string name="active">Activo</string>
+    <string name="no_active">No activo</string>
+    <string name="change_state">Cambiar estado</string>
 </resources>

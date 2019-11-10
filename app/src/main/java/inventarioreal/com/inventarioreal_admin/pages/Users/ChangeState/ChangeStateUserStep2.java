@@ -1,18 +1,29 @@
 package inventarioreal.com.inventarioreal_admin.pages.Users.ChangeState;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.daimajia.androidanimations.library.Techniques;
+import com.google.gson.Gson;
+
+import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pages.Users.HomeUsers;
-import inventarioreal.com.inventarioreal_admin.pages.Users.UpdateUsers.ModifyUserStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Users.UpdateUsers.ModifyUserStep1;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Employee;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FindUserByEmailRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Group;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ChangeStateUserRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateUserRequest;
+import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
@@ -21,13 +32,14 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
-public class ChangeStateUserStep1 extends CicloActivity {
-    private FindUserByEmailRequest request;
+public class ChangeStateUserStep2 extends CicloActivity {
+    final DataBase db = DataBase.getInstance(this);
+    private ChangeStateUserRequest request;
+    private Employee employee;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this,this,R.layout.activity_users_modify_step_1);
-        //toolbar
+        init(this,this,R.layout.activity_users_change_state_step_2);
         getSupportActionBar().setTitle(R.string.activar_desactivar_usuario);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -36,31 +48,49 @@ public class ChangeStateUserStep1 extends CicloActivity {
     @Override
     public void initGui() {
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtLocal), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txt2), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtEmail), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txt3), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtType), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txt4), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtState), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btn1), Techniques.FadeInLeft));
     }
 
     @Override
     public void getData() {
-        this.request = new FindUserByEmailRequest(this, admin);
+        //toolbar
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(Constants.parameters);
+        Gson gson = new Gson();
+        this.employee = gson.fromJson(message, Employee.class);
+        this.request = new ChangeStateUserRequest();
+        this.request.setUsername(this.employee.getUser().getUsername());
+        getElemento(R.id.edtLocal).setText(this.employee.getShop().getName());
+        getElemento(R.id.edtEmail).setText(this.employee.getUser().getUsername());
+        getElemento(R.id.edtType).setText(this.employee.getUser().getGroup().getName());
+        getElemento(R.id.edtState).setText(
+                this.employee.getUser().getActive() ? getString(R.string.active) : getString(R.string.no_active)
+        );
+
+
 
     }
 
+
     @Override
     public void initOnClick() {
-        add_on_click(R.id.btn1, new View.OnClickListener() {
+        add_on_click(R.id.btn1,new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    request.setEmail(getElemento(R.id.edtEmail).getText());
-                    request.validar();
-                    WebServices.findUserByEmail(ChangeStateUserStep1.this, request, admin, new ResultWebServiceInterface() {
+                    request.setActive(!employee.getUser().getActive());
+                    WebServices.changeStateUser(ChangeStateUserStep2.this, request, admin, new ResultWebServiceInterface() {
                         @Override
                         public void ok(ResultWebServiceOk ok) {
-                            Employee employee  = (Employee) ok.getData();
-                            if(employee!= null){
-                                admin.callIntent(ChangeStateUserStep2.class, employee, Employee.class);
-                            }
+                            admin.toast(getString(R.string.usuario_modificado_exitosamente));
+                            admin.callIntent(ChangeStateUserStep1.class, null);
                         }
 
                         @Override
@@ -68,10 +98,10 @@ public class ChangeStateUserStep1 extends CicloActivity {
                             admin.toast(fail.getError());
                         }
                     });
-                }catch (Error e){
+
+                } catch (Error e) {
                     admin.toast(e.getMessage());
                 }
-
             }
         });
     }
@@ -108,10 +138,6 @@ public class ChangeStateUserStep1 extends CicloActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        admin.callIntent(HomeUsers.class, null);
-    }
     //endregion
 }
 

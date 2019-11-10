@@ -13,7 +13,7 @@ import jamper91.com.easyway.Util.Administrador;
 
 public class ChangeStateUserRequest implements WebServiceRequest {
     private String username = "";
-    private int active = 0;
+    private boolean active;
 
     public ChangeStateUserRequest() {
     }
@@ -26,18 +26,18 @@ public class ChangeStateUserRequest implements WebServiceRequest {
         this.username = username;
     }
 
-    public int getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(int active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
     public HashMap<String, String> getCampos(){
         HashMap<String, String> campos = new HashMap<>();
         campos.put(Constants.username, this.getUsername());
-        campos.put(Constants.active, this.getActive()+"");
+        campos.put(Constants.active, this.getActive()? "1": "0");
         return campos;
     }
 
