@@ -9,12 +9,21 @@ import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
 
 public class User extends InventarioRealPojo {
 
+    private String name;
     private String username;
     private String username_rfdi;
     private String password_rfdi;
     private Boolean active;
     private Group group;
     private Employee employee;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getUsername() {
         return username;

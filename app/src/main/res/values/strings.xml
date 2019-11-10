@@ -196,4 +196,5 @@
     <string name="active">Activo</string>
     <string name="no_active">No activo</string>
     <string name="change_state">Cambiar estado</string>
+    <string name="seleccione_usuario_visualizar">Seleccione usuario a visualizar</string>
 </resources>

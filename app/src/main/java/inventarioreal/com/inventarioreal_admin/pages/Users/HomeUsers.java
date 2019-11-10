@@ -15,6 +15,7 @@ import inventarioreal.com.inventarioreal_admin.pages.Transfers.CrearTransferenci
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.Ingresos;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.ManifiestoElectronico.ManifiestoElectronicoHome;
 import inventarioreal.com.inventarioreal_admin.pages.Users.ChangeState.ChangeStateUserStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Users.ListEmployees.ListEmployees;
 import inventarioreal.com.inventarioreal_admin.pages.Users.UpdateUsers.ModifyUserStep1;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -78,8 +79,8 @@ public class HomeUsers extends CicloActivity {
         add_on_click(R.id.btn4, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                destino = ManifiestoElectronicoHome.class;
-//                sync();
+                destino = ListEmployees.class;
+                sync();
 
             }
         });

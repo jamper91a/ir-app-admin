@@ -132,6 +132,7 @@ public class Constants {
     public static final String ws_findEmployeeByUsername = "users/findEmployeeByUsername";
     public static final String ws_modifyUser = "users/modifyEmployeeByUsername";
     public static final String ws_changeStateUser="users/changeEmployeeState";
+    public static final String ws_getEmployeesByCompany = "users/listEmployeesByCompany";
     //endregion
 
 

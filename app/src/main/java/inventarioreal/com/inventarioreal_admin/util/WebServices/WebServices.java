@@ -1609,4 +1609,49 @@ public class WebServices {
             }
         });
     }
+
+    public static void getEmployeesByCompany(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_getEmployeesByCompany;
+        post(url, new HashMap<String, String>(), R.string.consultando, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    //Obtengo la respuesta y la completo, debido a que el servicio web no me
+                    try {
+                        Employee[] employees = gson.fromJson(jsonObject.getJSONArray("data").toString(), Employee[].class);
+
+                        try {
+                            if (employees!=null && employees.length>0) {
+                                ArrayList<Employee> arrayReports = new ArrayList<Employee>(Arrays.asList(employees));
+                                result.ok(new ResultWebServiceOk(arrayReports));
+                            }else{
+                                result.fail(new ResultWebServiceFail(activity.getString(R.string.error_no_hay_informacion)));
+                            }
+
+                        } catch (Exception e) {
+                            admin.toast(e.getMessage());
+                            result.fail(new ResultWebServiceFail(e.getMessage()));
+                        }
+
+                    } catch (JSONException e) {
+                        result.fail(new ResultWebServiceFail(e));
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
+                    }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
 }
