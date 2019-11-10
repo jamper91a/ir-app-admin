@@ -191,4 +191,5 @@
     <string name="usuario_creado_exitosamente">Usuario creado exitosamente</string>
     <string name="error_email_valido">Email no valido</string>
     <string name="usuario_modificado_exitosamente">Usuario modificado exitosamente</string>
+    <string name="siguiente">Siguiente</string>
 </resources>

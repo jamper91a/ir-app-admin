@@ -41,6 +41,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.DiferenceInventoryErp;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddCommodityRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AttachInventoryRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ChangeStateUserRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ConsolidateInventoriesRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateCollaborativeInventoryRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateInventoryRequest;
@@ -1555,6 +1556,34 @@ public class WebServices {
 
     public static void modifyUser(final Activity activity, final CreateUserRequest request, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_modifyUser;
+        post(url, request.getCampos(), R.string.enviando_informacion, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    if(jsonObject.getString("code").equals("OK")){
+                        result.ok(new ResultWebServiceOk(null));
+                    }
+                } catch (JSONException e) {
+                    result.fail(new ResultWebServiceFail(e));
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+                result.fail(new ResultWebServiceFail(s));
+            }
+        });
+    }
+
+    public static void changeStateUser(final Activity activity, final ChangeStateUserRequest request, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_changeStateUser;
         post(url, request.getCampos(), R.string.enviando_informacion, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
