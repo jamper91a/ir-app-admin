@@ -9,9 +9,11 @@ import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
 
 public class User extends InventarioRealPojo {
 
-    public String username;
-    public String username_rfdi;
-    public String password_rfdi;
+    private String username;
+    private String username_rfdi;
+    private String password_rfdi;
+    private Group group;
+    private Employee employee;
 
     public String getUsername() {
         return username;
@@ -37,15 +39,21 @@ public class User extends InventarioRealPojo {
         this.password_rfdi = password_rfdi;
     }
 
-    public Group getGroups_id() {
-        return groups_id;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setGroups_id(Group groups_id) {
-        this.groups_id = groups_id;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
-    public Group groups_id;
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
     public User() {
     }

@@ -23,6 +23,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SaleUnit
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.UltimoInventarioResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devolution;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Employee;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
@@ -1536,7 +1537,7 @@ public class WebServices {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 try {
-                    User user = gson.fromJson(jsonObject.getJSONObject("data").toString(), User.class);
+                    Employee user = gson.fromJson(jsonObject.getJSONObject("data").toString(), Employee.class);
                     result.ok(new ResultWebServiceOk(user));
                 } catch (JSONException e) {
                     result.fail(new ResultWebServiceFail(e));

@@ -1,7 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.pages.Users;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,13 +14,7 @@ import com.google.gson.Gson;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenciaInventariosFisicos.DIFStep2;
-import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenciaInventariosFisicos.RequestDIFStep2;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.CrearTransferencia.CrearTransferenciaStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.Ingresos;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.ManifiestoElectronico.ManifiestoElectronicoHome;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateUserRequest;
@@ -40,7 +33,7 @@ public class CreateUser extends CicloActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this,this,R.layout.activity_users_create);
+        init(this,this,R.layout.activity_users_modify_step_2);
         //toolbar
         getSupportActionBar().setTitle(R.string.crear_nuevo_usuario);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

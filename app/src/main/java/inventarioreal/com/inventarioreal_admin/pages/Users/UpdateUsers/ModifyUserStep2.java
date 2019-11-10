@@ -1,5 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.pages.Users.UpdateUsers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,22 +18,25 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Users.HomeUsers;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Employee;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.User;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateUserRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Group;
 
 public class ModifyUserStep2 extends CicloActivity {
     final DataBase db = DataBase.getInstance(this);
     private CreateUserRequest request;
+    private Employee employee;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this,this,R.layout.activity_users_create);
-        //toolbar
-        getSupportActionBar().setTitle(R.string.crear_nuevo_usuario);
+        init(this,this,R.layout.activity_users_modify_step_2);
+        getSupportActionBar().setTitle(R.string.modificar_usuario);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -55,14 +59,25 @@ public class ModifyUserStep2 extends CicloActivity {
 
     @Override
     public void getData() {
+        //toolbar
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(Constants.parameters);
+        Gson gson = new Gson();
+        this.employee = gson.fromJson(message, Employee.class);
         this.request = new CreateUserRequest(this, this.admin);
+
         this.getShops();
         this.getUserTypes();
+
+        getElemento(R.id.edtEmail).setText(this.employee.getUser().getUsername());
+
+
 
     }
 
     private void getShops() {
         Gson gson = new Gson();
+        Spinner spnLocal = ((Spinner) getElemento(R.id.spnLocal).getElemento());
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
         LoginResponse employee = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         //Obtengo las zonas usando el local del employee
@@ -77,9 +92,9 @@ public class ModifyUserStep2 extends CicloActivity {
                 new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, shops);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        ((Spinner) getElemento(R.id.spnLocal).getElemento()).setAdapter(adapter);
+        spnLocal.setAdapter(adapter);
 
-        ((Spinner) getElemento(R.id.spnLocal).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spnLocal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 request.setShop((shops.get(position)).getId());
@@ -93,11 +108,30 @@ public class ModifyUserStep2 extends CicloActivity {
 
         request.setCompany(employee.getEmployee().getCompany().getId());
 
+        if(this.employee.getShop()!=null){
+            int pos = getShopIndex(spnLocal, this.employee.getShop());
+            spnLocal.setSelection(pos);
+        }
 
+
+    }
+
+    //private method of your class
+    private int getShopIndex(Spinner spinner, Shop myShop){
+        for (int i=0;i<spinner.getCount();i++){
+            Shop aux = (Shop) spinner.getItemAtPosition(i);
+            if(aux.getId() == myShop.getId())
+            {
+                return i;
+            }
+        }
+
+        return 0;
     }
 
     private void getUserTypes() {
         Gson gson = new Gson();
+        Spinner spnType = ((Spinner) getElemento(R.id.spnType).getElemento());
         final LinkedList<UserType> userTypes = new LinkedList<>();
         userTypes.add(new UserType(1, "Administrador"));
         userTypes.add(new UserType(2, "Cajero"));
@@ -106,9 +140,9 @@ public class ModifyUserStep2 extends CicloActivity {
                 new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, userTypes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        ((Spinner) getElemento(R.id.spnType).getElemento()).setAdapter(adapter);
+        spnType.setAdapter(adapter);
 
-        ((Spinner) getElemento(R.id.spnType).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spnType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 request.setType((userTypes.get(position)).getId());
@@ -120,7 +154,24 @@ public class ModifyUserStep2 extends CicloActivity {
             }
         });
 
+        if(this.employee.getUser().getGroup()!=null){
+            int pos = getUserTypeIndex(spnType, this.employee.getUser().getGroup());
+            spnType.setSelection(pos);
+        }
 
+
+    }
+
+    private int getUserTypeIndex(Spinner spinner, Group myGroup){
+        for (int i=0;i<spinner.getCount();i++){
+            UserType aux = (UserType) spinner.getItemAtPosition(i);
+            if(aux.getId() == myGroup.getId())
+            {
+                return i;
+            }
+        }
+
+        return 0;
     }
 
     @Override
@@ -182,10 +233,12 @@ public class ModifyUserStep2 extends CicloActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        admin.callIntent(HomeUsers.class, null);
-    }
+//    @Override
+//    public void onBackPressed() {
+////        admin.callIntent(ModifyUserStep1.class, null);
+//        onBackPressed();
+//
+//    }
     //endregion
 }
 

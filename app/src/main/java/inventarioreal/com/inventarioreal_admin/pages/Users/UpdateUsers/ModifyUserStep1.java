@@ -17,6 +17,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Users.HomeUsers;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Employee;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.User;
@@ -67,9 +68,9 @@ public class ModifyUserStep1 extends CicloActivity {
                     WebServices.findUserByEmail(ModifyUserStep1.this, request, admin, new ResultWebServiceInterface() {
                         @Override
                         public void ok(ResultWebServiceOk ok) {
-                            User user  = (User) ok.getData();
-                            if(user!= null){
-                                admin.toast(user.getUsername());
+                            Employee employee  = (Employee) ok.getData();
+                            if(employee!= null){
+                                admin.callIntent(ModifyUserStep2.class, employee, Employee.class);
                             }
                         }
 

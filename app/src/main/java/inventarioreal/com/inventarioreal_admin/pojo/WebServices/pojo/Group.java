@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.InventarioRealPojo;
 
-class Group extends InventarioRealPojo {
+public class Group extends InventarioRealPojo {
     private String name;
 
     public Group(long id) {
