@@ -184,25 +184,34 @@ public class AddCommodity extends CicloActivity {
         add_on_click(R.id.btnBus, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebServices.getProductByEanPlu(
-                        getElemento(R.id.edtEanPlu).getText(),
-                        AddCommodity.this,
-                        admin,
-                        new ResultWebServiceInterface() {
-                            @Override
-                            public void ok(ResultWebServiceOk ok) {
-                                Product productoConsultado = (Product) ok.getData();
-                                mostrarInformacionProducto(productoConsultado);
-                            }
-
-                            @Override
-                            public void fail(ResultWebServiceFail fail) {
-                                if(fail.getError().equals("error_G06")){
-                                    admin.toast(getString(R.string.error_G06));
+                if(getElemento(R.id.edtEanPlu).getElemento().isEnabled()){
+                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(false);
+                    getElemento(R.id.btnBus).setText(getString(R.string.buscar_otro));
+                    WebServices.getProductByEanPlu(
+                            getElemento(R.id.edtEanPlu).getText(),
+                            AddCommodity.this,
+                            admin,
+                            new ResultWebServiceInterface() {
+                                @Override
+                                public void ok(ResultWebServiceOk ok) {
+                                    Product productoConsultado = (Product) ok.getData();
+                                    mostrarInformacionProducto(productoConsultado);
                                 }
-                                getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
-                            }
-                        });
+
+                                @Override
+                                public void fail(ResultWebServiceFail fail) {
+                                    if(fail.getError().equals("error_G06")){
+                                        admin.toast(getString(R.string.error_G06));
+                                    }
+                                    getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+                                }
+                            });
+                }else{
+                    getElemento(R.id.btnBus).setText(getString(R.string.buscar));
+                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                    ocultarInformacionProducto();
+
+                }
             }
         });
 
@@ -304,7 +313,17 @@ public class AddCommodity extends CicloActivity {
                 (NetworkImageView)getElemento(R.id.img1).getElemento(),
                 R.drawable.imagennoencontrada,
                 R.drawable.imagennoencontrada);
+        getElemento(R.id.img1).getElemento().setVisibility(View.VISIBLE);
         getElemento(R.id.lnl1a).getElemento().setVisibility(View.VISIBLE);
+    }
+
+    private void ocultarInformacionProducto(){
+        this.productos_id = null;
+        getElemento(R.id.lblDes1).setText("");
+        getElemento(R.id.lblDes2).setText("");
+        getElemento(R.id.lblDes3).setText("");
+        getElemento(R.id.img1).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
     }
 
     @Override

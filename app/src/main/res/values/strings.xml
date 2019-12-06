@@ -198,4 +198,6 @@
     <string name="change_state">Cambiar estado</string>
     <string name="seleccione_usuario_visualizar">Seleccione usuario a visualizar</string>
     <string name="name">Nombre</string>
+    <string name="biscar_otro">Buscar otro</string>
+    <string name="buscar_otro">Buscar otro</string>
 </resources>

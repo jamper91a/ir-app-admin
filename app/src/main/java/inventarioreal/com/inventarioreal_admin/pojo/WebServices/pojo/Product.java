@@ -161,8 +161,10 @@ public class Product extends InventarioRealPojo {
     public String getImagen() {
         if(imagen==null)
             return "";
-        else
-            return imagen;
+        else{
+            imagen = imagen.replaceAll(" ","%20");
+            return Constants.url+imagen;
+        }
     }
 
 

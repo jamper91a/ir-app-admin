@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.util.Constants;
 
 public class DiferenceInventoryErp {
     private int id;
@@ -91,7 +92,12 @@ public class DiferenceInventoryErp {
     }
 
     public String getImagen() {
-        return imagen;
+        if(imagen==null)
+            return "";
+        else{
+            imagen = imagen.replaceAll(" ","%20");
+            return Constants.url+imagen;
+        }
     }
 
     public void setImagen(String imagen) {
