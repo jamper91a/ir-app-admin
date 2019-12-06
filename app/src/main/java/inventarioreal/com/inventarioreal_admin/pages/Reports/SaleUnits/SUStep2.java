@@ -87,7 +87,7 @@ public class SUStep2 extends CicloActivity {
                 SaleUnitsResponse response = (SaleUnitsResponse) ok.getData();
                 productosZona.addAll(response.getArraySaleUnits());
                 productosZona.addAll(response.getArrayReturnedUnits());
-                if(productosZona!=null && productosZona.size()>0){
+                if(productosZona!=null){
                     totalViewModel = ViewModelProviders.of(SUStep2.this).get(SUTotalViewModel.class);
                     eanPluViewModel = ViewModelProviders.of(SUStep2.this).get(SUEanPluViewModel.class);
                     epcViewModel = ViewModelProviders.of(SUStep2.this).get(EpcViewModel.class);

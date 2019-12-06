@@ -16,7 +16,7 @@ public class RequestREStep2 implements IntentRequests {
     private Date firstDate=null;
     private Date secondDate=null;
     private int type = 0;
-    private Context context = null;
+    private transient Context context = null;
 
     public RequestREStep2() {
     }

@@ -17,7 +17,7 @@ public class RequestRPStep2 implements IntentRequests {
     private Product product=null;
     private int days = 0;
     private int total = 0;
-    private Context context = null;
+    private transient Context context = null;
 
     public RequestRPStep2(Context c) {
         this.context = c;

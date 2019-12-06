@@ -15,7 +15,7 @@ import inventarioreal.com.inventarioreal_admin.util.IntentRequests;
 public class RequestRUStep2 implements IntentRequests {
     private Date firstDate=null;
     private Date secondDate=null;
-    private Context context = null;
+    private transient Context context = null;
 
     public RequestRUStep2(Context c) {
         this.context = c;

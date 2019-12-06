@@ -17,7 +17,7 @@ import inventarioreal.com.inventarioreal_admin.util.IntentRequests;
 public class RequestSUStep2 implements IntentRequests {
     private Date firstDate=null;
     private Date secondDate=null;
-    private Context context = null;
+    private transient Context context = null;
 
     public RequestSUStep2(Context c) {
         this.context = c;
@@ -76,8 +76,7 @@ public class RequestSUStep2 implements IntentRequests {
                 throw new Error(this.context.getString(R.string.error_se_deben_seleccionar_todos_los_datos));
             }
             try {
-                if(secondDate.before(firstDate) ||
-                        secondDate.equals(firstDate))
+                if(secondDate.before(firstDate))
                     throw new Error(this.context.getString(R.string.error_fecha_final_superior));
             } catch (Exception e) {
 

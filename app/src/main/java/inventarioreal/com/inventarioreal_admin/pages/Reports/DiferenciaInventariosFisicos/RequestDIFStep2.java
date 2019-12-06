@@ -13,7 +13,7 @@ public class RequestDIFStep2 implements IntentRequests {
     private static final String TAG = "RequestDIFStep2";
     private ConsolidatedInventory inventarioInicial=null;
     private ConsolidatedInventory inventarioFinal=null;
-    private Context context= null;
+    private transient Context context= null;
     public RequestDIFStep2() {
     }
 
