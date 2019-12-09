@@ -73,7 +73,7 @@ public class REStep1 extends CicloActivity {
         add_on_click(R.id.btn1, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RequestREStep2 request = new RequestREStep2();
+                RequestREStep2 request = new RequestREStep2(REStep1.this);
                 request.setFirstDate(getElemento(R.id.edt1).getText());
                 request.setSecondDate(getElemento(R.id.edt2).getText());
                 request.setType(type);

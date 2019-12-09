@@ -21,7 +21,11 @@ public class RequestREStep2 implements IntentRequests {
     public RequestREStep2() {
     }
 
-    public RequestREStep2(Context c,Date firstDate, Date secondDate, int type) {
+    public RequestREStep2(Context context) {
+        this.context = context;
+    }
+
+    public RequestREStep2(Context c, Date firstDate, Date secondDate, int type) {
         this.context = c;
         this.firstDate = firstDate;
         this.secondDate = secondDate;
@@ -82,14 +86,14 @@ public class RequestREStep2 implements IntentRequests {
             {
                 throw new Error(context.getString(R.string.error_se_deben_seleccionar_todos_los_datos));
             }
-            try {
-                if(secondDate.before(firstDate) ||
-                        secondDate.equals(firstDate))
-                    throw new Error(context.getString(R.string.error_fecha_final_superior));
-            } catch (Exception e) {
-
-                throw e;
-            }
+//            try {
+//                if(secondDate.before(firstDate) ||
+//                        secondDate.equals(firstDate))
+//                    throw new Error(context.getString(R.string.error_fecha_final_superior));
+//            } catch (Exception e) {
+//
+//                throw e;
+//            }
 
             return true;
         } catch (Error error) {

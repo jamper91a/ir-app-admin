@@ -52,6 +52,8 @@ public class CreateUser extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.edtRPassword), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txt6), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.spnType), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txt7), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtName), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btn1), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btn2), Techniques.FadeInLeft));
     }
@@ -134,6 +136,7 @@ public class CreateUser extends CicloActivity {
                 getElemento(R.id.edtEmail).setText("");
                 getElemento(R.id.edtPassword).setText("");
                 getElemento(R.id.edtRPassword).setText("");
+                getElemento(R.id.edtName).setText("");
 
             }
         });
@@ -141,6 +144,7 @@ public class CreateUser extends CicloActivity {
             @Override
             public void onClick(View v) {
                 try {
+                    request.setName(getElemento(R.id.edtName).getText());
                     request.setUsername(getElemento(R.id.edtEmail).getText());
                     request.setPassword(getElemento(R.id.edtPassword).getText());
                     request.setRpassword(getElemento(R.id.edtRPassword).getText());
