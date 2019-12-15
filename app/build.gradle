@@ -6,8 +6,8 @@ android {
         applicationId "inventarioreal.com.inventarioreal_admin"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 19
-        versionName "1.4.2"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi-v7a", "x86", "armeabi", "mips"
@@ -46,5 +46,4 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation project(':EasyWay')
     implementation files('libs/serialPort.jar')
-    implementation 'com.michaelmuenzer.android:ScrollableNumberPicker:0.2.2'
 }
