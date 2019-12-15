@@ -43,7 +43,7 @@ public class RFDIReader {
 
     //region Public functions
     public RFDIReader(RFDIListener listener, Activity myActivity){
-        this.type=BIG;
+        this.type=SMALL;
         this.listener= listener;
         this.myActivity = myActivity;
         epcs = new LinkedList<String>();
