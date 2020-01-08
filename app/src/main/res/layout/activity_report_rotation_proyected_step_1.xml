@@ -42,7 +42,7 @@
             android:ems="10"
             android:hint="@string/codigo"
             android:importantForAutofill="no"
-            android:inputType="number"
+            android:inputType="text"
             tools:targetApi="o" />
 
         <Button
