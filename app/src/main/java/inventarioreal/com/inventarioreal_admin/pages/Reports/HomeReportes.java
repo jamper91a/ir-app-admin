@@ -146,20 +146,21 @@ public class HomeReportes extends CicloActivity {
     }
 
     public void sync(final Class destino){
-        WebServices.sync(HomeReportes.this, admin, new ResultWebServiceInterface() {
-            @Override
-            public void ok(ResultWebServiceOk ok) {
-                admin.callIntent(destino, null);
-            }
-
-            @Override
-            public void fail(ResultWebServiceFail fail) {
-                admin.toast(fail.getError());
-                admin.callIntent(destino, null);
-
-
-            }
-        });
+//        WebServices.sync(HomeReportes.this, admin, new ResultWebServiceInterface() {
+//            @Override
+//            public void ok(ResultWebServiceOk ok) {
+//                admin.callIntent(destino, null);
+//            }
+//
+//            @Override
+//            public void fail(ResultWebServiceFail fail) {
+//                admin.toast(fail.getError());
+//                admin.callIntent(destino, null);
+//
+//
+//            }
+//        });
+        admin.callIntent(destino, null);
     }
 
     //region Menu

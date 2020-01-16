@@ -45,6 +45,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ChangeS
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ConsolidateInventoriesRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateCollaborativeInventoryRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateInventoryRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreatePdfRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateSellRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateTransferRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateUserRequest;
@@ -1611,6 +1612,7 @@ public class WebServices {
     }
 
     public static void getEmployeesByCompany(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+
         final String url=Constants.url+Constants.ws_getEmployeesByCompany;
         post(url, new HashMap<String, String>(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
@@ -1643,6 +1645,31 @@ public class WebServices {
                     } catch (Exception e) {
                         result.fail(new ResultWebServiceFail(e.getMessage()));
                     }
+                } catch (Exception e) {
+                    result.fail(new ResultWebServiceFail(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String s) {
+
+            }
+        });
+    }
+
+    public static void createPdf(final Activity activity, final CreatePdfRequest request, final Administrador admin, final ResultWebServiceInterface result){
+        final String url=Constants.url+Constants.ws_createPdf;
+        post(url, request.getCampos(), R.string.enviando_informacion, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    String document = jsonObject.getString("data");
+                    result.ok(new ResultWebServiceOk(document));
                 } catch (Exception e) {
                     result.fail(new ResultWebServiceFail(e.getMessage()));
                 }

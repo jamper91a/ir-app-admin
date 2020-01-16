@@ -4,10 +4,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.listener.OnAcceptCancelListener;
+import inventarioreal.com.inventarioreal_admin.pages.Cashiers.HomeCashier;
+import inventarioreal.com.inventarioreal_admin.pages.Cashiers.Sell.SellCommodity;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 
 
 public class Util {
@@ -44,5 +58,31 @@ public class Util {
     }
     public static void pasue() {
         sp.pause(0);
+    }
+
+    public static void askForEmail(final OnAcceptCancelListener listener){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.sacar_producto));
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View dialogView = inflater.inflate(R.layout.dialog_send_report, null);
+        final EditText edtEmail = dialogView.findViewById(R.id.edtEmail);
+        builder.setView(dialogView);
+        builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                listener.onAccept(edtEmail.getText().toString());
+            }
+        });
+        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                listener.onCancel(null);
+            }
+        });
+
+        builder.show();
     }
 }

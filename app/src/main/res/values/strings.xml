@@ -201,4 +201,9 @@
     <string name="biscar_otro">Buscar otro</string>
     <string name="buscar_otro">Buscar otro</string>
     <string name="nombre">Nombre</string>
+    <string name="total_inventory">Inventario Total</string>
+    <string name="description">Descripcion</string>
+    <string name="send_report">Enviar Reporte</string>
+    <string name="ok">Ok</string>
+    <string name="email_sent">Email enviado</string>
 </resources>

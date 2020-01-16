@@ -1,6 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,7 +16,10 @@ import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
 
+import java.util.LinkedList;
+
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.listener.OnAcceptCancelListener;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.tabs.InvTotTotalFragment;
@@ -29,8 +34,11 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreatePdfRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreatePdfTotalnventoryRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import inventarioreal.com.inventarioreal_admin.util.Util;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -43,6 +51,7 @@ public class ReporteInventarioTotal extends CicloActivity {
     final DataBase db = DataBase.getInstance(this);
     private String TAG="ReporteInventarioTotal";
     private UltimoInventarioResponse inventarioConsolidado=null;
+    private int tabSelected = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -124,7 +133,51 @@ public class ReporteInventarioTotal extends CicloActivity {
         add_on_click(R.id.btnEnv, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               admin.toast(R.string.no_implementado);
+
+                switch (tabSelected){
+
+                    case 1:
+                        admin.toast(R.string.no_implementado);
+                        break;
+                    case 2:
+                        Util.context = ReporteInventarioTotal.this;
+                        Util.askForEmail(new OnAcceptCancelListener() {
+                            @Override
+                            public void onAccept(Object item) {
+                                CreatePdfTotalnventoryRequest request = new CreatePdfTotalnventoryRequest(ReporteInventarioTotal.this);
+                                request.setTitle(getString(R.string.total_inventory));
+                                LinkedList<ProductHasZone> products = eanPluConsolidadoVieModel.getStaticProducts();
+                                request.addRows(products);
+                                request.setTo((String) item);
+                                WebServices.createPdf(ReporteInventarioTotal.this, request, admin, new ResultWebServiceInterface() {
+                                    @Override
+                                    public void ok(ResultWebServiceOk ok) {
+//                                        String url = (String)ok.getData();
+//                                        Intent i = new Intent(Intent.ACTION_VIEW);
+//                                        i.setData(Uri.parse(Constants.url+url));
+//                                        startActivity(i);
+                                        admin.toast(getString(R.string.email_sent));
+                                    }
+
+                                    @Override
+                                    public void fail(ResultWebServiceFail fail) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancel(Object item) {
+
+                            }
+                        });
+
+                        break;
+                    case 3:
+                        admin.toast(R.string.no_implementado);
+                        break;
+                }
+
             }
         });
     }
@@ -172,6 +225,7 @@ public class ReporteInventarioTotal extends CicloActivity {
 
         @Override
         public Fragment getItem(int position) {
+            tabSelected = position;
             switch (position) {
                 case 0:
                         InvTotTotalFragment total = new InvTotTotalFragment();

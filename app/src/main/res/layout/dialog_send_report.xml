@@ -5,28 +5,17 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/txtLocal"
+        android:id="@+id/lblTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="@string/send_report" />
 
-    <TextView
-        android:id="@+id/txtNum"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/txtTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
 
     <EditText
-        android:id="@+id/edtMensaje"
+        android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/message"
-        android:inputType="textMultiLine" />
+        android:hint="@string/email"
+        android:inputType="textEmailAddress" />
 </LinearLayout>

@@ -76,4 +76,12 @@ public class InvTotalEanPluViewModel extends ViewModel {
         this.inventario.setValue(inventario);
     }
 
+    public LinkedList<ProductHasZone> getStaticProducts(){
+        return this.products;
+    }
+
+    public LinkedList<ProductHasZone> getStaticAllProducts(){
+        return this.allProducts;
+    }
+
 }

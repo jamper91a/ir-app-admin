@@ -86,7 +86,7 @@ public class Constants {
 
 
 //    public static final String url = "http://coexnort.servehttp.com:8023/";
-    public static final String url = "http://192.168.1.74:1337/";
+    public static final String url = "http://192.168.1.70:1337/";
     public static final String user = "user";
     public static final String token = "token";
     public static final String authorization = "Authorization";
@@ -133,6 +133,7 @@ public class Constants {
     public static final String ws_modifyUser = "users/modifyEmployeeByUsername";
     public static final String ws_changeStateUser="users/changeEmployeeState";
     public static final String ws_getEmployeesByCompany = "users/listEmployeesByCompany";
+    public static final String ws_createPdf="pdf/create";
     //endregion
 
 
@@ -184,4 +185,12 @@ public class Constants {
     public static final String group="group";
     public static final String company = "company";
     public static final String active = "active";
+    public static final String templateId = "templateId";
+    public static final String data = "data";
+    public static final String title = "title";
+    public static final String rows = "rows";
+    public static final String shops = "shops";
+
+    public static final String total = "total";
+    public static final String to = "to";
 }
