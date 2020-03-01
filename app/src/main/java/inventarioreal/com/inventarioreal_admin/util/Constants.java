@@ -1,5 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.util;
 
+import inventarioreal.com.inventarioreal_admin.BuildConfig;
+
 /**
  * Created by @jvillafane on 05/10/2016.
  */
@@ -85,8 +87,8 @@ public class Constants {
     //endregion
 
 
-//    public static final String url = "http://coexnort.servehttp.com:8023/";
-    public static final String url = "http://192.168.1.70:1337/";
+    public static final String url = BuildConfig.API_URL;
+//    public static final String url = "http://192.168.1.70:1337/";
     public static final String user = "user";
     public static final String token = "token";
     public static final String authorization = "Authorization";
@@ -193,4 +195,5 @@ public class Constants {
 
     public static final String total = "total";
     public static final String to = "to";
+    public static final String page = "page";
 }

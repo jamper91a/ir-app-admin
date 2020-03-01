@@ -8,6 +8,7 @@ import android.view.View;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 
+import inventarioreal.com.inventarioreal_admin.BuildConfig;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
@@ -25,6 +26,7 @@ public class Login extends CicloActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init(this,this,R.layout.activity_login);
+        getSupportActionBar().setTitle(BuildConfig.ENV);
 
 
     }
@@ -59,7 +61,7 @@ public class Login extends CicloActivity {
                                 LoginResponse data = (LoginResponse)ok.getData();
                                 admin.escribir_preferencia(Constants.employee, gson.toJson(data, LoginResponse.class));
                                 //Llamo a servicio web de sincronizacion
-                                WebServices.sync(Login.this, admin, new ResultWebServiceInterface() {
+                                WebServices.sync(0,Login.this, admin, new ResultWebServiceInterface() {
                                     @Override
                                     public void ok(ResultWebServiceOk ok) {
                                         SyncResponse data = (SyncResponse)ok.getData();
@@ -71,7 +73,7 @@ public class Login extends CicloActivity {
                                         admin.toast(fail.getError());
 
                                     }
-                                });
+                                }) ;
 
                             }
 

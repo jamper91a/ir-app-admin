@@ -146,7 +146,7 @@ public class HomeReportes extends CicloActivity {
     }
 
     public void sync(final Class destino){
-//        WebServices.sync(HomeReportes.this, admin, new ResultWebServiceInterface() {
+//        WebServices.sync(0,HomeReportes.this, admin, new ResultWebServiceInterface() {
 //            @Override
 //            public void ok(ResultWebServiceOk ok) {
 //                admin.callIntent(destino, null);

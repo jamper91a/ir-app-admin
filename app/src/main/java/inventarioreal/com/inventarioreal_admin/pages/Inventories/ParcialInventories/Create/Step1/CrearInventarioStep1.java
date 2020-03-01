@@ -71,7 +71,7 @@ public class CrearInventarioStep1 extends CicloActivity {
 
     private void sync() {
 
-        WebServices.sync(CrearInventarioStep1.this, admin, new ResultWebServiceInterface() {
+        WebServices.sync(0,CrearInventarioStep1.this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 //Obtener Zonas

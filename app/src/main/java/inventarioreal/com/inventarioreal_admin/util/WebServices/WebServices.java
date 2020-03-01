@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.util.WebServices;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -310,7 +311,8 @@ public class WebServices {
         );
     }
 
-    public static void sync(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+    public static void sync(final int page ,final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+        Log.d("Inventario real", page + " number of page");
         final DataBase db = DataBase.getInstance(activity);
         try {
             final String url=Constants.url+Constants.ws_sync;
@@ -318,7 +320,7 @@ public class WebServices {
             if(last_update.isEmpty()) {
                 admin.escribir_preferencia(Constants.last_updated,admin.getCurrentDateAndTime());
             }
-            SyncRequest request= new SyncRequest(last_update);
+            SyncRequest request= new SyncRequest(last_update, page);
             post(
                     url,
                     request.getCampos(),
@@ -335,40 +337,51 @@ public class WebServices {
                         public void onResponse(JSONObject jsonObject) {
                             try {
                                 SyncResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),SyncResponse.class);
+                                boolean thereIsMore = false;
 
                                 try {
                                     if (response.getEpcs()!=null && response.getEpcs().length>0) {
+                                        thereIsMore = true;
                                         for (Epc epc: response.getEpcs()) {
                                             db.insert(Constants.table_epcs, epc.getContentValues());
                                         }
                                     }
                                     if (response.getProducts()!=null && response.getProducts().length>0) {
+                                        thereIsMore = true;
                                         for (Product pro: response.getProducts()) {
                                             db.insert(Constants.table_products, pro.getContentValues());
                                         }
                                     }
                                     if (response.getProductsHasZones()!=null && response.getProductsHasZones().length>0) {
+                                        thereIsMore = true;
                                         for (ProductHasZone productosZona: response.getProductsHasZones()) {
                                             db.insert(Constants.table_productsHasZones, productosZona.getContentValues());
                                         }
                                     }
                                     if (response.getZones()!=null && response.getZones().length>0) {
+                                        thereIsMore = true;
                                         for (Zone zona: response.getZones()) {
                                             db.insert(Constants.table_zones, zona.getContentValues());
                                         }
                                     }
                                     if (response.getShops()!=null && response.getShops().length>0) {
+                                        thereIsMore = true;
                                         for (Shop local: response.getShops()) {
                                             db.insert(Constants.table_shops, local.getContentValues());
                                         }
                                     }
 
                                     if (response.getDevolutions()!=null && response.getDevolutions().length>0) {
+                                        thereIsMore = true;
                                         for (Devolution devoluciones: response.getDevolutions()) {
                                             db.insert(Constants.table_devolutions, devoluciones.getContentValues());
                                         }
                                     }
-                                    result.ok(new ResultWebServiceOk(response));
+                                    if(thereIsMore) {
+                                        sync(page + 1, activity, admin, result);
+                                    } else {
+                                        result.ok(new ResultWebServiceOk(response));
+                                    }
 
                                 } catch (Exception e) {
                                     admin.toast(e.getMessage());

@@ -7,14 +7,31 @@ android {
         minSdkVersion 17
         targetSdkVersion 27
         versionCode 20
-        versionName "1.4.3"
+        versionName "1.4.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi-v7a", "x86", "armeabi", "mips"
         }
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            buildConfigField "String", "API_URL", DEBUG_API_URL
+            buildConfigField "String", "ENV", DEBUG_ENV
+        }
+        internal {
+            applicationIdSuffix ".test"
+            buildConfigField "String", "API_URL", INTERNAL_API_URL
+            buildConfigField "String", "ENV", INTERNAL_ENV
+        }
+        staging {
+            applicationIdSuffix ".staging"
+            buildConfigField "String", "API_URL", STAGING_API_URL
+            buildConfigField "String", "ENV", STAGING_ENV
+        }
         release {
+            buildConfigField "String", "API_URL", API_URL
+            buildConfigField "String", "ENV", ENV
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

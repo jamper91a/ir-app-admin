@@ -76,7 +76,7 @@ public class HomeTransferencia extends CicloActivity {
 
     private void sync() {
 
-        WebServices.sync(HomeTransferencia.this, admin, new ResultWebServiceInterface() {
+        WebServices.sync(0,HomeTransferencia.this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 admin.callIntent(destino, null);

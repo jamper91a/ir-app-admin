@@ -65,7 +65,7 @@ public class HomeDevoluciones extends CicloActivity {
     }
 
     private void sync(final int type) {
-        WebServices.sync(HomeDevoluciones.this, admin, new ResultWebServiceInterface() {
+        WebServices.sync(0,HomeDevoluciones.this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 admin.callIntent(destino,type,Integer.class);

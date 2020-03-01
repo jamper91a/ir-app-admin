@@ -154,7 +154,7 @@ public class Home extends CicloActivity {
     }
 
     public void sync(final Class destino){
-        WebServices.sync(Home.this, admin, new ResultWebServiceInterface() {
+        WebServices.sync(0,Home.this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 admin.callIntent(destino, null);

@@ -84,7 +84,7 @@ public class LoginTest {
 
     @Test
     public void sync(){
-//        WebServices.sync(
+//        WebServices.sync(0,
 //                login,
 //                login.admin,
 //                new ResultWebServiceInterface() {

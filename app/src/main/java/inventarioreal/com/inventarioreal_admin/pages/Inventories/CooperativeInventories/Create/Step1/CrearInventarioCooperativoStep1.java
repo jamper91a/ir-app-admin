@@ -70,7 +70,7 @@ public class CrearInventarioCooperativoStep1 extends CicloActivity {
 
     private void sync() {
 
-        WebServices.sync(CrearInventarioCooperativoStep1.this, admin, new ResultWebServiceInterface() {
+        WebServices.sync(0,CrearInventarioCooperativoStep1.this, admin, new ResultWebServiceInterface() {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 //Obtener Zonas
