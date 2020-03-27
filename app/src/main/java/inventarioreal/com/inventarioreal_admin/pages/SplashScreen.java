@@ -2,15 +2,12 @@ package inventarioreal.com.inventarioreal_admin.pages;
 
 import android.Manifest;
 import android.os.Bundle;
-
-import com.daimajia.androidanimations.library.Techniques;
-
-import java.io.IOException;
+import android.os.Handler;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
-import jamper91.com.easyway.Util.Animacion;
+import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class SplashScreen extends CicloActivity {
@@ -28,7 +25,7 @@ public class SplashScreen extends CicloActivity {
     }
     @Override
     public void initGui() {
-        addElemento(new Animacion(findViewById(R.id.img1), Techniques.Flash));
+//        addElemento(new Animacion(findViewById(R.id.img1), Techniques.Flash));
     }
 
     @Override
@@ -44,11 +41,17 @@ public class SplashScreen extends CicloActivity {
     public void hasAllPermissions() {
         //Genero la base de datos local
         DataBase dataBase=new DataBase(this);
-        //Valido si esta logeado  o no
-        if(!admin.obtener_preferencia(Constants.token).isEmpty()){
-            admin.callIntent(Home.class, null);
-        }else{
-            admin.callIntent(Login.class, null);
-        }
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                //Valido si esta logeado  o no
+                if (!admin.obtener_preferencia(Constants.token).isEmpty()) {
+                    Administrador.callIntent(Home.class, null);
+                } else {
+                    Administrador.callIntent(Login.class, null);
+                }
+            }
+        }, 5000);   //5 seconds
+
     }
 }
