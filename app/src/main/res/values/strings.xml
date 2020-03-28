@@ -206,4 +206,6 @@
     <string name="send_report">Enviar Reporte</string>
     <string name="ok">Ok</string>
     <string name="email_sent">Email enviado</string>
+    <string name="signUp">Registrate</string>
+    <string name="forgot_password">Olvide la contrasena</string>
 </resources>

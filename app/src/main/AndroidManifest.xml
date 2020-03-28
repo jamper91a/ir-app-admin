@@ -48,7 +48,6 @@
         <activity android:name=".pages.Inventories.ParcialInventories.ViewIntentoriesConsolidated.Step1.VisualizarInventariosConsolidados" />
         <activity android:name=".pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step2.VisualizarInventarioPorZonaStep2" />
         <activity android:name=".pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step1.VisualizarInventarioPorZonaStep1" />
-
         <activity android:name=".pages.Login" />
         <activity android:name=".pages.Home" />
         <activity android:name=".pages.Commodity.AddCommodity" />

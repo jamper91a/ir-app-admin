@@ -9,4 +9,5 @@
     <color name="blue_dark">#093b57</color>
     <color name="gray">#e3e4e4</color>
     <color name="gray_2">#e4e4e4</color>
+    <color name="gray_border_button">#a3a3a3</color>
 </resources>
