@@ -86,7 +86,7 @@
 
         <Button
             android:id="@+id/button"
-            style="@style/button_blue"
+            style="@style/button_blue_light"
             android:drawableLeft="@drawable/icn_new_user_r"
             android:text="@string/signUp" />
 

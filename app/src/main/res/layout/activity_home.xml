@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/logo2" />
+
     <TextView
         android:id="@+id/txtVersion"
+        style="@style/text_link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -14,6 +22,7 @@
 
     <TextView
         android:id="@+id/txtUser"
+        style="@style/text_link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -21,71 +30,112 @@
 
     <TextView
         android:id="@+id/txtShop"
+        style="@style/text_link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/tienda" />
 
-    <Button
-        android:id="@+id/btnIng"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ingresar_mercancia" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnSalMer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/salida_mercancia" />
+        <Button
+            android:id="@+id/btnIng"
+            style="@style/button_blue"
+            android:layout_marginRight="10dp"
+            android:drawableTop="@drawable/icn_commodity_r"
+            android:text="@string/ingresar_mercancia" />
 
-    <Button
-        android:id="@+id/btnInv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/inventory" />
+        <Button
+            android:id="@+id/btnSalMer"
+            style="@style/button_blue"
+            android:layout_marginLeft="10dp"
+            android:drawableTop="@drawable/icn_commodity_r"
+            android:text="@string/salida_mercancia" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnInvCoo"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/inventario_cooperativo" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnTrans"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/transferencias" />
+        <Button
+            android:id="@+id/btnInv"
+            style="@style/button_blue"
+            android:layout_marginRight="10dp"
+            android:drawableTop="@drawable/icn_inventory_r"
+            android:text="@string/inventory" />
 
-    <Button
-        android:id="@+id/btnDev"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/devolutions" />
+        <Button
+            android:id="@+id/btnInvCoo"
+            style="@style/button_blue"
+            android:layout_marginLeft="10dp"
+            android:drawableTop="@drawable/icn_co_inventory_r"
+            android:text="@string/inventario_cooperativo" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnUsu"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="@string/usuarios" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnBusYGeo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="@string/busqueda_y_georeferenciacion" />
+        <Button
+            android:id="@+id/btnTrans"
+            style="@style/button_blue"
+            android:layout_marginRight="10dp"
+            android:drawableTop="@drawable/icn_transfers_r"
+            android:text="@string/transferencias" />
 
-    <Button
-        android:id="@+id/btnRep"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/reportes" />
+        <Button
+            android:id="@+id/btnDev"
+            style="@style/button_blue"
+            android:layout_marginLeft="10dp"
+            android:drawableTop="@drawable/icn_returns_r"
+            android:text="@string/devolutions" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnSal"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/salir" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnUsu"
+            style="@style/button_blue"
+            android:layout_marginRight="10dp"
+            android:drawableTop="@drawable/icn_users_r"
+            android:enabled="true"
+            android:text="@string/usuarios" />
+
+        <Button
+            android:id="@+id/btnBusYGeo"
+            style="@style/button_blue"
+            android:layout_marginLeft="10dp"
+            android:drawableTop="@drawable/icn_search_white_r"
+            android:enabled="true"
+            android:text="@string/busqueda_y_georeferenciacion" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnRep"
+            style="@style/button_blue"
+            android:layout_marginRight="10dp"
+            android:drawableTop="@drawable/icn_reports_r"
+            android:text="@string/reportes" />
+
+        <Button
+            android:id="@+id/btnSal"
+            style="@style/button_blue"
+            android:layout_marginLeft="10dp"
+            android:drawableTop="@drawable/icn_reports_r"
+            android:text="@string/salir" />
+    </LinearLayout>
 
 </LinearLayout>
