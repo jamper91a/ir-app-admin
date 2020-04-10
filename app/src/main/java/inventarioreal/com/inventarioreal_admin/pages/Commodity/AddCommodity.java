@@ -37,6 +37,7 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebService
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
+import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -130,7 +131,6 @@ public class AddCommodity extends CicloActivity {
     }
     @Override
     public void initGui() {
-        addElemento(new Animacion(findViewById(R.id.lbl1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtEanPlu),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBus),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft));
@@ -218,7 +218,7 @@ public class AddCommodity extends CicloActivity {
         add_on_click(R.id.btnCan, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(AddCommodity.class, null);
+                Administrador.callIntent(AddCommodity.class, null);
             }
         });
 
@@ -245,7 +245,7 @@ public class AddCommodity extends CicloActivity {
         add_on_click(R.id.btnNo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(Home.class, null);
+                Administrador.callIntent(Home.class, null);
             }
         });
         add_on_click(R.id.btnEmp, new View.OnClickListener() {
@@ -287,7 +287,7 @@ public class AddCommodity extends CicloActivity {
                                         db.update(Constants.table_epcs, epc.getId()+"", epc.getContentValues());
                                     }
                                     admin.toast(R.string.productos_agregados_exito);
-                                    admin.callIntent(AddCommodity.class, null);
+                                    Administrador.callIntent(AddCommodity.class, null);
                                 }
 
                                 @Override
@@ -344,8 +344,8 @@ public class AddCommodity extends CicloActivity {
                 Zone.class);
 
         ArrayAdapter<Zone> adapter =
-                new ArrayAdapter<>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, zonas);
-        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+                new ArrayAdapter<>(getApplicationContext(), R.layout.simple_spinner_item, zonas);
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
         ((Spinner)getElemento(R.id.spnZona).getElemento()).setAdapter(adapter);
 
@@ -360,20 +360,6 @@ public class AddCommodity extends CicloActivity {
 
             }
         });
-
-//        WebServices.listarZonas(this, admin, new ResultWebServiceInterface() {
-//            @Override
-//            public void ok(ResultWebServiceOk ok) {
-//                final ZonasListarResponse response = (ZonasListarResponse)ok.getData();
-//
-//
-//            }
-//
-//            @Override
-//            public void fail(ResultWebServiceFail fail) {
-//                admin.toast(fail.getError());
-//            }
-//        });
     }
 
     private void changedStateLecture(boolean state){
@@ -475,7 +461,7 @@ public class AddCommodity extends CicloActivity {
 
     @Override
     public void onBackPressed() {
-        admin.callIntent(Home.class, null);
+        Administrador.callIntent(Home.class, null);
     }
 
     //region Menu

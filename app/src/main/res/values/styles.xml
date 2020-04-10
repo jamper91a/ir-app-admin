@@ -33,6 +33,13 @@
         <item name="android:layout_marginBottom">17dp</item>
     </style>
 
+    <style name="icnRight">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_marginStart">350dp</item>
+        <item name="android:layout_marginTop">13dp</item>
+    </style>
+
     <style name="edit">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:layout_marginStart">30dp</item>
@@ -41,6 +48,16 @@
         <item name="android:layout_width">350dp</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:textColor">@color/blue_light</item>
+    </style>
+
+    <style name="labelContainer">
+        <item name="android:background">@drawable/back_label</item>
+        <item name="android:layout_width">400dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
     </style>
 
     <style name="button_white">
@@ -60,7 +77,18 @@
         <item name="android:layout_width">150dp</item>
         <item name="android:layout_height">45dp</item>
         <item name="android:textColor">@color/blue_light</item>
-        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+
+    <style name="button_blue_dark">
+        <item name="android:background">@drawable/back_button_blue_dark</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingLeft">10dp</item>
     </style>
@@ -86,6 +114,40 @@
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingLeft">10dp</item>
+    </style>
+
+    <style name="spinnerContainer">
+        <item name="android:background">@drawable/back_label</item>
+        <item name="android:layout_width">400dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="spinnerItem">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:spinnerMode">dialog</item>
+    </style>
+
+    <style name="spinnerIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/gray_2</item>
+    </style>
+
+    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/gray_2</item>
     </style>
 
 

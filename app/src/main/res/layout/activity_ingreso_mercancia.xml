@@ -7,34 +7,34 @@
     android:gravity="center"
     android:orientation="vertical">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/lbl1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/ean_plu" />
 
-        <EditText
-            android:id="@+id/edtEanPlu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/codigo"
-            android:importantForAutofill="no"
-            android:inputType="textAutoComplete"
-            tools:targetApi="o" />
+        <RelativeLayout
+            style="@style/editContainer"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtEanPlu"
+                style="@style/edit"
+                android:hint="@string/ean_plu" />
+
+            <ImageView
+                android:id="@+id/icn2"
+                style="@style/icnRight"
+                app:srcCompat="@drawable/icn_search" />
+        </RelativeLayout>
 
         <Button
+            style="@style/button_blue_dark"
+            android:layout_marginTop="10dp"
             android:id="@+id/btnBus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/buscar" />
 
@@ -44,29 +44,31 @@
         android:id="@+id/lnl1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:layout_weight="1"
         android:orientation="vertical"
         android:visibility="visible">
 
         <TextView
             android:id="@+id/lblDes1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            style="@style/labelContainer"
+            android:hint="@string/description" />
 
         <TextView
             android:id="@+id/lblDes2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            style="@style/labelContainer"
+            android:hint="@string/description" />
 
         <TextView
             android:id="@+id/lblDes3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            style="@style/labelContainer"
+            android:hint="@string/description" />
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/img1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:contentDescription="@string/imagen_del_producto"
             tools:srcCompat="@tools:sample/avatars" />
@@ -76,32 +78,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/text_link"
                     android:text="@string/zona" />
 
-                <Spinner
-                    android:id="@+id/spnZona"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                <RelativeLayout style="@style/spinnerContainer">
+
+                    <Spinner
+                        android:id="@+id/spnZona"
+                        style="@style/spinnerItem" />
+
+                    <ImageView
+                        style="@style/spinnerIcon"
+                        android:src="@drawable/ic_arrow_down" />
+
+                </RelativeLayout>
+
+
             </LinearLayout>
 
             <TextView
                 android:id="@+id/lbl2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/text_link"
                 android:text="@string/desea_continuar" />
 
             <LinearLayout
@@ -113,16 +120,12 @@
 
                 <Button
                     android:id="@+id/btnSi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/button_blue_dark"
                     android:text="@string/si" />
 
                 <Button
                     android:id="@+id/btnNo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/button_blue_dark"
                     android:text="@string/no" />
             </LinearLayout>
 
@@ -136,6 +139,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -170,8 +174,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:enabled="true"
                 android:clickable="true"
+                android:enabled="true"
                 android:text="@string/borrar" />
         </LinearLayout>
 
