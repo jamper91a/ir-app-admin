@@ -87,7 +87,7 @@ public class Constants {
 
     //public static final String url="http://c945485b.ngrok.io/";
 //    public static final String url = "http://coexnort.servehttp.com:8023/";
-    public static final String url = "http://192.168.1.74:1337/";
+    public static final String url = "http://192.168.1.50:1337/";
 //    public static final String url = "http://coexnort.servehttp.com:8023/";
 //    public static final String url = "http://192.168.0.26:1337/";
     public static final String user = "user";
@@ -99,27 +99,27 @@ public class Constants {
 
     public static final String employee = "employee";
     //Region Web services
-    public static final String ws_attachInventory ="inventarios/adjuntar";
-    public static final String ws_consolidateInventory ="inventarios/consolidar";
-    public static final String ws_createInventory = "inventarios/crear";
-    public static final String ws_listInventories = "inventarios/listarInventarios";
-    public static final String ws_listProductsByInventory ="inventarios/listarProductosInventario";
-    public static final String ws_listConsolidatedInventories ="inventariosConsolidados/listar";
-    public static final String ws_listAllConsolidatedInventories ="inventariosConsolidados/listarTodos";
-    public static final String ws_listProductByConsolidatedInventory ="inventariosConsolidados/listarProductos";
-    public static final String ws_listLastConsolidatedInventory ="inventariosConsolidados/ultimoInventario";
-    public static final String ws_addCommodity = "productos/addMercancia";
-    public static final String ws_findProduct = "productos/findOne";
-    public static final String ws_findProductInShopByEanPlu ="productos/findProductInLocalByEanPlu";
-    public static final String ws_diferenceBetweenInventories="reportes/diferenceBetweenInventories";
-    public static final String ws_createTransfer ="transferencias/crear";
-    public static final String ws_finishTransfer ="transferencias/finishTransfer";
-    public static final String ws_findTransfersByShop ="transferencias/listTransfersByShop";
-    public static final String ws_findTransfersByType ="transferencias/listTransfersByType";
-    public static final String ws_returnProduct ="devoluciones/devolverProductos";
-    public static final String ws_saveReport="";
-    public static final String ws_login = "login";
-    public static final String ws_sync = "sync";
+    public static final String ws_attachInventory ="inventor/attach";
+    public static final String ws_consolidateInventory ="inventor/consolidate";
+    public static final String ws_createInventory = "inventor/create";
+    public static final String ws_listInventories = "inventor/list";
+    public static final String ws_listProductsByInventory ="inventor/list-products-by-inventory";
+    public static final String ws_listConsolidatedInventories ="ci/listByCollaborative";
+    public static final String ws_listAllConsolidatedInventories ="ci/listAll";
+    public static final String ws_listProductByConsolidatedInventory ="ci/listProducts";
+    public static final String ws_listLastConsolidatedInventory ="ci/lastInventory";
+    public static final String ws_addCommodity = "product/add-commodity";
+    public static final String ws_findProduct = "product/find-one";
+    public static final String ws_findProductInShopByEanPlu ="product/find-products-in-local-by-id";
+    public static final String ws_diferenceBetweenInventories="report/difference-between-inventories";
+    public static final String ws_createTransfer ="transfer/create-transfer";
+    public static final String ws_finishTransfer ="transfer/finish-transfer";
+    public static final String ws_findTransfersByShop ="transfer/get-transfers-by-shop";
+    public static final String ws_findTransfersByType ="transfer/get-transfers-by-type";
+    public static final String ws_returnProduct ="devolution/returnProducts";
+    public static final String ws_saveReport="report/save-report";
+    public static final String ws_login = "user/login";
+    public static final String ws_sync = "user/sync";
 
     //endregion
 
