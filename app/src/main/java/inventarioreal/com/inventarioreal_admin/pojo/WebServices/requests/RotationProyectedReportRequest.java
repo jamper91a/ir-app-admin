@@ -32,8 +32,8 @@ public class RotationProyectedReportRequest  implements WebServiceRequest{
         this.product_id = product_id;
     }
 
-    public HashMap<String, String> getCampos(){
-        HashMap<String, String> campos = new HashMap<>();
+    public HashMap<String, Object> getCampos(){
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.days, this.days+"");
         campos.put(Constants.product_id, this.product_id);
         return campos;

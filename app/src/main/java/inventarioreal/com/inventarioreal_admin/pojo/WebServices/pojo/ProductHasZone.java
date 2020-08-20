@@ -89,21 +89,23 @@ public class ProductHasZone extends InventarioRealPojo implements Comparable  {
 
     @Override
     public ContentValues getContentValues(){
-        ContentValues values = new ContentValues();
-        values.put(Constants.column_id, getId());
-        values.put(Constants.column_admissionDate, admission_date);
-        values.put(Constants.column_sellDate, sell_date);
-        values.put(Constants.column_returnDate, return_date);
-        values.put(Constants.column_notesReturn, notes_return);
-        values.put(Constants.column_logsUsers, logs_users);
-        values.put(Constants.column_product, product.getId());
-        values.put(Constants.column_zone, zone.getId());
-        values.put(Constants.column_devolution, devolution.getId());
-        values.put(Constants.column_sell, sell.getId());
-        values.put(Constants.column_epc_id, epc.getId());
-        values.put(Constants.createdAt,getCreatedAt());
-		values.put(Constants.updatedAt,getUpdatedAt());
-        return values;
+            ContentValues values = new ContentValues();
+            values.put(Constants.column_id, getId());
+            values.put(Constants.column_admissionDate, admission_date);
+            values.put(Constants.column_sellDate, sell_date);
+            values.put(Constants.column_returnDate, return_date);
+            values.put(Constants.column_notesReturn, notes_return);
+            values.put(Constants.column_logsUsers, logs_users);
+            values.put(Constants.column_product, product.getId());
+            values.put(Constants.column_zone, zone.getId());
+            if(devolution!=null)
+                values.put(Constants.column_devolution, devolution.getId());
+            if(sell!=null)
+                values.put(Constants.column_sell, sell.getId());
+            values.put(Constants.column_epc_id, epc.getId());
+            values.put(Constants.createdAt,getCreatedAt());
+            values.put(Constants.updatedAt,getUpdatedAt());
+            return values;
     }
 
     public String getAdmission_date() {

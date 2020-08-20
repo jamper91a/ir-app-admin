@@ -94,6 +94,7 @@ public class WebServices {
         headers.put(Constants.authorization, "Bearer  "+admin.obtener_preferencia(Constants.token));
         headers.put(Constants.content_type, "application/json");
         headers.put("Content-Type", "application/json");
+
         return  headers;
     }
 
@@ -116,7 +117,7 @@ public class WebServices {
         callWebServiceJson.execute();
     }
 
-    private static void post(final String url, final HashMap<String, String> campos, final int mensaje, final Activity activity, final Administrador admin, final ResponseListener result){
+    private static void post(final String url, final HashMap<String, Object> campos, final int mensaje, final Activity activity, final Administrador admin, final ResponseListener result){
         CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
                 activity,
                 url,
@@ -150,9 +151,6 @@ public class WebServices {
 
             @Override
             public void onResponse(JSONObject jsonObject) {
-                try {
-                    if(jsonObject.getString("code").equals("OK")){
-                        //Almaceno la información del usuario
                         try {
                             LoginResponse data=gson.fromJson(jsonObject.getJSONObject("data").toString(), LoginResponse.class);
                             admin.escribir_preferencia(Constants.user, gson.toJson(data));
@@ -165,12 +163,6 @@ public class WebServices {
                         } catch (Exception e){
                             result.fail(new ResultWebServiceFail(e.getMessage()));
                         }
-
-
-                    }
-                } catch (JSONException e) {
-                    result.fail(new ResultWebServiceFail(e));
-                }
             }
             /**
              * Puede ser un error dado en formato string, o puede ser un json en
@@ -674,7 +666,7 @@ public class WebServices {
 
     public static void listAllConsolidatedInventories(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_listAllConsolidatedInventories;
-        post(url, new HashMap<String, String>(), R.string.consultando, activity, admin, new ResponseListener() {
+        post(url, new HashMap<String, Object>(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -729,13 +721,7 @@ public class WebServices {
 
             @Override
             public void onResponse(JSONObject jsonObject) {
-                try {
-                    if(jsonObject.getString("code").equals("OK")){
-                        result.ok(new ResultWebServiceOk(null));
-                    }
-                } catch (JSONException e) {
-                    result.fail(new ResultWebServiceFail(e));
-                }
+                    result.ok(new ResultWebServiceOk(null));
             }
 
             @Override
@@ -945,7 +931,7 @@ public class WebServices {
 
     public static void getLastConsolidatedInventory(final Activity activity, final Administrador admin, final ResultWebServiceInterface result ){
         final String url=Constants.url+Constants.ws_listLastConsolidatedInventory;
-        post(url, new HashMap<String, String>(), R.string.consultando, activity, admin, new ResponseListener() {
+        post(url, new HashMap<String, Object>(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -1472,7 +1458,7 @@ public class WebServices {
 
     public static void diferenceInventoryErp(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         final String url=Constants.url+Constants.ws_diferenceInventoryErp;
-        post(url, new HashMap<String, String>(), R.string.consultando, activity, admin, new ResponseListener() {
+        post(url, new HashMap<String, Object>(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 
@@ -1523,15 +1509,7 @@ public class WebServices {
 
             @Override
             public void onResponse(JSONObject jsonObject) {
-                try {
-                    if(jsonObject.getString("code").equals("OK")){
-                        result.ok(new ResultWebServiceOk(null));
-                    }
-                } catch (JSONException e) {
-                    result.fail(new ResultWebServiceFail(e));
-                } catch (Exception e) {
-                    result.fail(new ResultWebServiceFail(e.getMessage()));
-                }
+                result.ok(new ResultWebServiceOk(null));
             }
 
             @Override
@@ -1578,15 +1556,8 @@ public class WebServices {
 
             @Override
             public void onResponse(JSONObject jsonObject) {
-                try {
-                    if(jsonObject.getString("code").equals("OK")){
-                        result.ok(new ResultWebServiceOk(null));
-                    }
-                } catch (JSONException e) {
-                    result.fail(new ResultWebServiceFail(e));
-                } catch (Exception e) {
-                    result.fail(new ResultWebServiceFail(e.getMessage()));
-                }
+                result.ok(new ResultWebServiceOk(null));
+
             }
 
             @Override
@@ -1606,15 +1577,7 @@ public class WebServices {
 
             @Override
             public void onResponse(JSONObject jsonObject) {
-                try {
-                    if(jsonObject.getString("code").equals("OK")){
                         result.ok(new ResultWebServiceOk(null));
-                    }
-                } catch (JSONException e) {
-                    result.fail(new ResultWebServiceFail(e));
-                } catch (Exception e) {
-                    result.fail(new ResultWebServiceFail(e.getMessage()));
-                }
             }
 
             @Override
@@ -1627,7 +1590,7 @@ public class WebServices {
     public static void getEmployeesByCompany(final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
 
         final String url=Constants.url+Constants.ws_getEmployeesByCompany;
-        post(url, new HashMap<String, String>(), R.string.consultando, activity, admin, new ResponseListener() {
+        post(url, new HashMap<String, Object>(), R.string.consultando, activity, admin, new ResponseListener() {
             @Override
             public void onResponse(String s) {
 

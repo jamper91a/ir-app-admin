@@ -13,8 +13,8 @@ public class RotationUnitsReportRequest implements WebServiceRequest {
         this.secondDate = secondDate;
     }
 
-    public HashMap<String, String> getCampos(){
-        HashMap<String, String> campos = new HashMap<>();
+    public HashMap<String, Object> getCampos(){
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.firstDate, firstDate);
         campos.put(Constants.secondDate, secondDate);
         return campos;

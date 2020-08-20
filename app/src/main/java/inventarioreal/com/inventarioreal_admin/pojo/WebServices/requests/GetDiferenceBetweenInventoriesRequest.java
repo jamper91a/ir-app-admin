@@ -13,8 +13,8 @@ public class GetDiferenceBetweenInventoriesRequest implements WebServiceRequest 
         this.secondInventory = secondInventory;
     }
 
-    public HashMap<String, String> getCampos(){
-        HashMap<String, String> campos = new HashMap<>();
+    public HashMap<String, Object> getCampos(){
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.firstInventory, firstInventory+"");
         campos.put(Constants.secondInventory, secondInventory+"");
         return campos;

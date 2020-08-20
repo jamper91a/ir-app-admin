@@ -33,8 +33,8 @@ public class SyncRequest implements WebServiceRequest {
         this.last_update = last_update;
     }
 
-    public HashMap<String, String> getCampos(){
-        HashMap<String, String> campos = new HashMap<>();
+    public HashMap<String, Object> getCampos(){
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.last_updated, getLast_update());
         campos.put(Constants.page, getPage()+"");
         return campos;

@@ -11,8 +11,8 @@ public class GetProductsByConsolidatedInventoryRequest implements WebServiceRequ
         this.consolidatedInventory = consolidatedInventory;
     }
 
-    public HashMap<String, String> getCampos(){
-        HashMap<String, String> campos = new HashMap<>();
+    public HashMap<String, Object> getCampos(){
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.consolidatedInventory, consolidatedInventory +"");
         return campos;
     }

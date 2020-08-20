@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,9 +25,9 @@ public class CreateTransferRequest implements WebServiceRequest {
         this.products = products;
     }
 
-    public HashMap<String, String> getCampos(){
+    public HashMap<String, Object> getCampos(){
 
-        HashMap<String, String> campos = new HashMap<>();
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.transfer, this.getTransfer());
         campos.put(Constants.products, this.getProductosZonaHasTransfenrencias());
         return campos;
@@ -35,25 +39,32 @@ public class CreateTransferRequest implements WebServiceRequest {
     }
 
 
-    private String getTransfer(){
-        JsonObject object = new JsonObject();
-        object.addProperty(Constants.shopSource, transfer.getShopSource().getId());
-        object.addProperty(Constants.shopDestination, transfer.getShopDestination().getId());
-        object.addProperty(Constants.message, transfer.getMessage());
-        return gson.toJson(object);
+    private JSONObject getTransfer(){
+       JSONObject object = new JSONObject();
+        try {
+            object.put(Constants.shopSource, transfer.getShopSource().getId());
+            object.put(Constants.shopDestination, transfer.getShopDestination().getId());
+            object.put(Constants.message, transfer.getMessage());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
     }
-    private String getProductosZonaHasTransfenrencias(){
-        Gson gson = new Gson();
-        JsonArray array = new JsonArray();
+    private JSONArray getProductosZonaHasTransfenrencias(){
+        JSONArray array = new JSONArray();
         for (TransfersHasZonesProduct aux: products
         ) {
-            JsonObject object = new JsonObject();
-            object.addProperty(Constants.state, false);
-            object.addProperty(Constants.product, aux.getProduct().getId());
-            array.add(object);
+            try {
+                JSONObject object = new JSONObject();
+                object.put(Constants.state, false);
+                object.put(Constants.product, aux.getProduct().getId());
+                array.put(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
-        return gson.toJson(array);
+        return array;
     }
 
 }

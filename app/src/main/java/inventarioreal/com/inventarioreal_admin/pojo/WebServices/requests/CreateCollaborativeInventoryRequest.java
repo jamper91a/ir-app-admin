@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,9 +27,9 @@ public class CreateCollaborativeInventoryRequest implements WebServiceRequest {
         this.products = products;
     }
 
-    public HashMap<String, String> getCampos(){
+    public HashMap<String, Object> getCampos(){
 
-        HashMap<String, String> campos = new HashMap<>();
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.inventory, this.getInventario());
         campos.put(Constants.products, this.getInventarioProductos());
         return campos;
@@ -37,30 +41,38 @@ public class CreateCollaborativeInventoryRequest implements WebServiceRequest {
     }
 
 
-    private String getInventario(){
+    private JSONObject getInventario(){
         Gson gson = new Gson();
-        JsonObject object = new JsonObject();
-        object.addProperty(Constants.parcial, true);
-        object.addProperty(Constants.collaborative, true);
-        object.addProperty(Constants.zone, this.inventory.getZone().getId());
-        object.addProperty(Constants.consolidatedInventory  , 1);
-        object.addProperty(Constants.message, this.inventory.getMessage());
-        return gson.toJson(object);
+       JSONObject object = new JSONObject();
+
+        try {
+            object.put(Constants.parcial, true);
+            object.put(Constants.collaborative, true);
+            object.put(Constants.zone, this.inventory.getZone().getId());
+            object.put(Constants.consolidatedInventory  , 1);
+            object.put(Constants.message, this.inventory.getMessage());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 
-    private String getInventarioProductos(){
-        Gson gson = new Gson();
-        JsonArray array = new JsonArray();
+    private JSONArray getInventarioProductos(){
+        JSONArray array = new JSONArray();
         for (InventoryHasProduct iv: products
         ) {
-            JsonObject object = new JsonObject();
-            object.addProperty(Constants.zone, iv.getZone().getId());
-            object.addProperty(Constants.product, iv.getProduct().getId());
-            object.addProperty(Constants.epc, iv.getEpc().getId());
-            array.add(object);
+            try {
+                JSONObject object = new JSONObject();
+                object.put(Constants.zone, iv.getZone().getId());
+                object.put(Constants.product, iv.getProduct().getId());
+                object.put(Constants.epc, iv.getEpc().getId());
+                array.put(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
-        return gson.toJson(array);
+        return array;
     }
 
 }

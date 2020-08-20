@@ -4,12 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Sell;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
 public class CreateSellRequest implements WebServiceRequest {
@@ -22,9 +25,9 @@ public class CreateSellRequest implements WebServiceRequest {
         this.products = products;
     }
 
-    public HashMap<String, String> getCampos(){
+    public HashMap<String, Object> getCampos(){
 
-        HashMap<String, String> campos = new HashMap<>();
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.sell, this.getSell());
         campos.put(Constants.products, this.getProducts());
         return campos;
@@ -36,23 +39,30 @@ public class CreateSellRequest implements WebServiceRequest {
     }
 
 
-    private String getSell(){
-        JsonObject object = new JsonObject();
-        object.addProperty(Constants.user, sell.getUser().getId());
-        return gson.toJson(object);
+    private JSONObject getSell(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put(Constants.user, sell.getUser().getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
     }
-    private String getProducts(){
-        Gson gson = new Gson();
-        JsonArray array = new JsonArray();
+    private JSONArray getProducts(){
+        JSONArray array = new JSONArray();
         for (ProductHasZone product: products
         ) {
-            JsonObject object = new JsonObject();
-            object.addProperty(Constants.id, product.getId());
-            object.addProperty(Constants.column_product, product.getProduct().getId());
-            array.add(object);
+            try {
+                JSONObject object = new JSONObject();
+                object.put(Constants.id, product.getId());
+                object.put(Constants.column_product, product.getProduct().getId());
+                array.put(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
-        return gson.toJson(array);
+        return array;
     }
 
 }

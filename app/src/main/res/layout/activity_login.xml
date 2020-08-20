@@ -49,8 +49,7 @@
                 style="@style/edit"
                 android:ems="10"
                 android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:text="jamper91" />
+                android:inputType="textEmailAddress" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -68,8 +67,7 @@
                 style="@style/edit"
                 android:ems="10"
                 android:hint="@string/email"
-                android:inputType="textPassword"
-                android:text="12345" />
+                android:inputType="textPassword" />
         </RelativeLayout>
 
 

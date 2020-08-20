@@ -4,15 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ReportsHasProductsZone;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
 public class HomologateUnitsRequest  implements WebServiceRequest{
@@ -27,9 +26,9 @@ public class HomologateUnitsRequest  implements WebServiceRequest{
         this.products = products;
     }
 
-    public HashMap<String, String> getCampos(){
+    public HashMap<String, Object> getCampos(){
 
-        HashMap<String, String> campos = new HashMap<>();
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.products, this.getProducts());
         return campos;
     }
@@ -39,15 +38,19 @@ public class HomologateUnitsRequest  implements WebServiceRequest{
         return false;
     }
 
-    private String getProducts(){
-        JsonArray array = new JsonArray();
+    private JSONArray getProducts(){
+        JSONArray array = new JSONArray();
         for (ReportsHasProductsZone product: products) {
-            JsonObject object = new JsonObject();
-            object.addProperty(Constants.id, product.getId());
-            array.add(object);
+            try {
+                JSONObject object = new JSONObject();
+                object.put(Constants.id, product.getId());
+                array.put(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
-        return gson.toJson(array);
+        return array;
 
 
     }

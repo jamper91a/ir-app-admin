@@ -11,8 +11,8 @@ public class GetProductsByInventoryRequest implements WebServiceRequest {
         this.inventory = inventory;
     }
 
-    public HashMap<String, String> getCampos(){
-        HashMap<String, String> campos = new HashMap<>();
+    public HashMap<String, Object> getCampos(){
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.inventory, inventory+"");
         return campos;
     }

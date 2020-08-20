@@ -6,6 +6,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
@@ -28,8 +32,8 @@ public class SaveReportRequest implements WebServiceRequest {
 
 
 
-    public HashMap<String, String> getCampos(){
-        HashMap<String, String> campos = new HashMap<>();
+    public HashMap<String, Object> getCampos(){
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.report, getReport());
         campos.put(Constants.products, getProducts());
         return campos;
@@ -40,38 +44,43 @@ public class SaveReportRequest implements WebServiceRequest {
         return false;
     }
 
-    private String getProducts(){
-        Gson gson = new Gson();
-        JsonArray array = new JsonArray();
+    private JSONArray getProducts(){
+        JSONArray array = new JSONArray();
         for (ProductHasZone product: products
         ) {
-            JsonObject object = new JsonObject();
-            object.addProperty(Constants.product, product.getId());
-            array.add(object);
+            try {
+                JSONObject object = new JSONObject();
+                object.put(Constants.product, product.getId());
+                array.put(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
-        return gson.toJson(array);
+        return array;
     }
-    private String getReport(){
-        Gson gson = new GsonBuilder()
-                .serializeNulls()
-                .create();
-        JsonObject newReport = new JsonObject();
-        if(report.getFirstInventory()!=null)
-            newReport.addProperty(Constants.firstInventory, report.getFirstInventory().getId());
-        else
-            newReport.add(Constants.firstInventory, JsonNull.INSTANCE);
-        if(report.getSecondInventory()!=null)
-            newReport.addProperty(Constants.secondInventory, report.getSecondInventory().getId());
-        else
-            newReport.add(Constants.secondInventory, JsonNull.INSTANCE);
-        newReport.addProperty(Constants.type, report.getType());
-        newReport.addProperty(Constants.column_amount, report.getAmount());
-        newReport.addProperty(Constants.column_unitsSell, report.getUnitsSell());
-        newReport.addProperty(Constants.column_unitsReturned, report.getUnitsReturned());
-        newReport.addProperty(Constants.firstDate, report.getFirstDate());
-        newReport.addProperty(Constants.secondDate, report.getSecondDate());
-        return gson.toJson(newReport);
+    private JSONObject getReport(){
+        JSONObject newReport = null;
+        try {
+            newReport = new JSONObject();
+            if(report.getFirstInventory()!=null)
+                newReport.put(Constants.firstInventory, report.getFirstInventory().getId());
+            else
+                newReport.put(Constants.firstInventory, JSONObject.NULL);
+            if(report.getSecondInventory()!=null)
+                newReport.put(Constants.secondInventory, report.getSecondInventory().getId());
+            else
+                newReport.put(Constants.secondInventory, JSONObject.NULL);
+            newReport.put(Constants.type, report.getType());
+            newReport.put(Constants.column_amount, report.getAmount());
+            newReport.put(Constants.column_unitsSell, report.getUnitsSell());
+            newReport.put(Constants.column_unitsReturned, report.getUnitsReturned());
+            newReport.put(Constants.firstDate, report.getFirstDate());
+            newReport.put(Constants.secondDate, report.getSecondDate());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return newReport;
     }
 
 

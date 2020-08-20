@@ -1,15 +1,8 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests;
 
-import android.content.Context;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 import java.util.HashMap;
 
-import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
-import jamper91.com.easyway.Util.Administrador;
 
 public class ChangeStateUserRequest implements WebServiceRequest {
     private String username = "";
@@ -34,8 +27,8 @@ public class ChangeStateUserRequest implements WebServiceRequest {
         this.active = active;
     }
 
-    public HashMap<String, String> getCampos(){
-        HashMap<String, String> campos = new HashMap<>();
+    public HashMap<String, Object> getCampos(){
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.username, this.getUsername());
         campos.put(Constants.active, this.getActive()? "1": "0");
         return campos;

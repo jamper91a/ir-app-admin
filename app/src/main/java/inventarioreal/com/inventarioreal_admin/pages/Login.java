@@ -42,6 +42,10 @@ public class Login extends CicloActivity {
     @Override
     public void getData() {
         getElemento(R.id.txtVersion).setText(getCurrentVersion());
+        if(BuildConfig.ENV == "Debug") {
+            getElemento(R.id.edtEmail).setText("cajero@ir.com");
+            getElemento(R.id.edtPass).setText("12345");
+        }
     }
 
     @Override

@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,9 +21,9 @@ public class FinishTransferRequet implements WebServiceRequest {
         this.products = products;
     }
 
-    public HashMap<String, String> getCampos(){
+    public HashMap<String, Object> getCampos(){
 
-        HashMap<String, String> campos = new HashMap<>();
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.products, this.getProductosZonaHasTransfenrencias());
         return campos;
     }
@@ -30,23 +34,26 @@ public class FinishTransferRequet implements WebServiceRequest {
     }
 
 
-    private String getProductosZonaHasTransfenrencias(){
-        Gson gson = new Gson();
-        JsonArray array = new JsonArray();
+    private JSONArray getProductosZonaHasTransfenrencias(){
+        JSONArray array = new JSONArray();
         for (TransfersHasZonesProduct aux: products
         ) {
             if(aux.getState())
             {
-                JsonObject object = new JsonObject();
-                object.addProperty(Constants.id, aux.getId());
-                object.addProperty(Constants.transfer, aux.getTransfer().getId());
-                object.addProperty(Constants.product, aux.getProduct().getId());
-                array.add(object);
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put(Constants.id, aux.getId());
+                    object.put(Constants.transfer, aux.getTransfer().getId());
+                    object.put(Constants.product, aux.getProduct().getId());
+                    array.put(object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
 
         }
-        return gson.toJson(array);
+        return array;
     }
 
 }

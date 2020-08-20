@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -392,6 +393,7 @@ public class AddCommodity extends CicloActivity {
     }
 
     private Epc createEpc(String epc){
+        Log.d("epc", epc);
         Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
         if(epcDb!=null){
             if(epcDb.getState()==1)

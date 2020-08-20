@@ -13,8 +13,8 @@ public class ListInventoriesRequest implements WebServiceRequest {
         this.collaborative = collaborative;
     }
 
-    public HashMap<String, String> getCampos(){
-        HashMap<String, String> campos = new HashMap<>();
+    public HashMap<String, Object> getCampos(){
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.type, type);
         campos.put(Constants.collaborative, collaborative ? "1" : "0");
         return campos;

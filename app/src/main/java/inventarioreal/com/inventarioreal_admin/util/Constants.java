@@ -86,7 +86,6 @@ public class Constants {
 
     //endregion
 
-
     public static final String url = BuildConfig.API_URL;
 //    public static final String url = "http://192.168.1.70:1337/";
     public static final String user = "user";
@@ -98,44 +97,44 @@ public class Constants {
 
     public static final String employee = "employee";
     //region Web services
-    public static final String ws_attachInventory ="inventarios/adjuntar";
-    public static final String ws_consolidateInventory ="inventarios/consolidar";
-    public static final String ws_createInventory = "inventarios/crear";
-    public static final String ws_listInventories = "inventarios/listarInventarios";
-    public static final String ws_listProductsByInventory ="inventarios/listarProductosInventario";
-    public static final String ws_listConsolidatedInventories ="inventariosConsolidados/listar";
-    public static final String ws_listAllConsolidatedInventories ="inventariosConsolidados/listarTodos";
-    public static final String ws_listProductByConsolidatedInventory ="inventariosConsolidados/listarProductos";
-    public static final String ws_listLastConsolidatedInventory ="inventariosConsolidados/ultimoInventario";
-    public static final String ws_addCommodity = "productos/addMercancia";
-    public static final String ws_findProductByEanPlu = "productos/findOne";
-    public static final String ws_findProductByEpc = "productos/findOneByEpc";
-    public static final String ws_findProductInShopByEanPlu ="productos/findProductInLocalByEanPlu";
-    public static final String ws_findProductInShopByEpc ="productos/findProductInLocalByEpc";
-    public static final String ws_diferenceBetweenInventories="reportes/diferenceBetweenInventories";
-    public static final String ws_createTransfer ="transferencias/crear";
-    public static final String ws_finishTransfer ="transferencias/finishTransfer";
-    public static final String ws_findTransfersByShop ="transferencias/listTransfersByShop";
-    public static final String ws_findTransfersByType ="transferencias/listTransfersByType";
-    public static final String ws_returnProduct ="devoluciones/devolverProductos";
-    public static final String ws_saveReport="reportes/guardarReporte";
-    public static final String ws_login = "login";
-    public static final String ws_sync = "sync";
-    public static final String ws_sellCommodity= "sells/create";
-    public static final String ws_getReportsByType ="reportes/getReportsByType";
-    public static final String ws_getReportById = "reportes/getReportById";
-    public static final String ws_homologateUnits = "reportes/homologateUnits";
-    public static final String ws_saleUnits="reportes/saleUnits";
-    public static final String ws_rotationUnits="reportes/rotationUnits";
-    public static final String ws_devolutionsByType="reportes/devolutionsByType";
-    public static final String ws_rotationProyected="reportes/rotationProyectedByEanPlu";
-    public static final String ws_diferenceInventoryErp="reportes/diferenceWithInventoryErp";
-    public static final String ws_createUser="users";
-    public static final String ws_findEmployeeByUsername = "users/findEmployeeByUsername";
-    public static final String ws_modifyUser = "users/modifyEmployeeByUsername";
-    public static final String ws_changeStateUser="users/changeEmployeeState";
-    public static final String ws_getEmployeesByCompany = "users/listEmployeesByCompany";
-    public static final String ws_createPdf="pdf/create";
+    public static final String ws_attachInventory ="inventory/attach";
+    public static final String ws_consolidateInventory ="inventory/consolidate";
+    public static final String ws_createInventory = "inventory/create";
+    public static final String ws_listInventories = "inventory/list";
+    public static final String ws_listProductsByInventory ="inventory/list-products-by-inventory";
+    public static final String ws_listConsolidatedInventories ="ci/listByCollaborative";
+    public static final String ws_listAllConsolidatedInventories ="ci/listAll";
+    public static final String ws_listProductByConsolidatedInventory ="ci/listProducts";
+    public static final String ws_listLastConsolidatedInventory ="ci/lastInventory";
+    public static final String ws_addCommodity = "product/add-commodity";
+    public static final String ws_findProductByEanPlu = "product/find-one";
+    public static final String ws_findProductByEpc = "product/find-by-epc";
+    public static final String ws_findProductInShopByEanPlu ="product/find-products-in-local-by-id";
+    public static final String ws_findProductInShopByEpc ="product/find-products-in-local-by-epc";
+    public static final String ws_diferenceBetweenInventories="report/difference-between-inventories";
+    public static final String ws_createTransfer ="transfer/create-transfer";
+    public static final String ws_finishTransfer ="transfer/finish-transfer";
+    public static final String ws_findTransfersByShop ="transfer/get-transfers-by-shop";
+    public static final String ws_findTransfersByType ="transfer/get-transfers-by-type";
+    public static final String ws_returnProduct ="devolution/returnProducts";
+    public static final String ws_saveReport="report/save-report";
+    public static final String ws_login = "user/login";
+    public static final String ws_sync = "user/sync";
+    public static final String ws_sellCommodity= "sells/create-sell";
+    public static final String ws_getReportsByType ="report/get-reports-by-type";
+    public static final String ws_getReportById = "report/get-reports-by-id";
+    public static final String ws_homologateUnits = "report/homologate-units";
+    public static final String ws_saleUnits="report/sale-units";
+    public static final String ws_rotationUnits="report/rotation-units";
+    public static final String ws_devolutionsByType="report/devolutions-by-type";
+    public static final String ws_rotationProyected="report/rotation-proyected-by-ean-plu";
+    public static final String ws_diferenceInventoryErp="report/difference-with-inventory-erp";
+    public static final String ws_createUser="user/create-employee";
+    public static final String ws_findEmployeeByUsername = "user/find-employee-by-username";
+    public static final String ws_modifyUser = "user/modify-employee-by-username";
+    public static final String ws_changeStateUser="user/change-employee-state";
+    public static final String ws_getEmployeesByCompany = "user/list-employees-by-company";
+    public static final String ws_createPdf="pdf/createPdf";
     //endregion
 
 

@@ -1,13 +1,15 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests;
 
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 
 public class CreatePdfRequest implements WebServiceRequest  {
@@ -16,7 +18,7 @@ public class CreatePdfRequest implements WebServiceRequest  {
     private String logo="";
     private String header="";
     private String to="";
-    private JsonArray rows;
+    private JSONArray rows;
 
     public CreatePdfRequest() {
     }
@@ -61,23 +63,27 @@ public class CreatePdfRequest implements WebServiceRequest  {
         this.to = to;
     }
 
-    public JsonArray getRows() {
+    public JSONArray getRows() {
         return rows;
     }
 
-    public void setRows(JsonArray rows) {
+    public void setRows(JSONArray rows) {
         this.rows = rows;
     }
 
-    public JsonObject getData(){
-        JsonObject data = new JsonObject();
-        data.addProperty(Constants.title, getTitle());
-        data.add(Constants.rows, getRows());
+    public JSONObject getData(){
+        JSONObject data = new JSONObject();
+        try {
+            data.put(Constants.title, getTitle());
+            data.put(Constants.rows, getRows());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return data;
     }
 
     @Override
-    public HashMap<String, String> getCampos() {
+    public HashMap<String, Object> getCampos() {
         return null;
     }
 

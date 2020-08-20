@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,9 +23,9 @@ public class AddCommodityRequest implements WebServiceRequest {
         this.products = productosZonas;
     }
 
-    public HashMap<String, String> getCampos(){
-        HashMap<String, String> campos = new HashMap<>();
-        campos.put(Constants.product, product +"");
+    public HashMap<String, Object> getCampos(){
+        HashMap<String, Object> campos = new HashMap<>();
+        campos.put(Constants.product, product);
         campos.put(Constants.products, this.getProductosZona());
         return campos;
     }
@@ -35,21 +39,25 @@ public class AddCommodityRequest implements WebServiceRequest {
      * Se encarga de convertir los productos zonas al formato requerido por el servicio web
      * @return
      */
-    private String getProductosZona(){
+    private JSONArray getProductosZona(){
         Gson gson = new Gson();
-        JsonArray array = new JsonArray();
+        JSONArray array = new JSONArray();
         for (ProductHasZone pz: products
              ) {
-            JsonObject object = new JsonObject();
-            object.addProperty(Constants.zone, pz.getZone().getId());
-            object.addProperty(Constants.product, pz.getProduct().getId());
-            object.addProperty(Constants.epc, pz.getEpc().getEpc());
-            object.addProperty(Constants.devolution,1);
-            object.addProperty(Constants.sell,1);
-            array.add(object);
+            JSONObject object = new JSONObject();
+            try {
+                object.put(Constants.zone, pz.getZone().getId());
+                object.put(Constants.product, pz.getProduct().getId());
+                object.put(Constants.epc, pz.getEpc().getEpc());
+                object.put(Constants.devolution,1);
+                object.put(Constants.sell,1);
+                array.put(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
-        return gson.toJson(array);
+        return array;
     }
 
 

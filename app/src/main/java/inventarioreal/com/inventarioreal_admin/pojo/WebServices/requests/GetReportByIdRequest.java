@@ -14,9 +14,9 @@ public class GetReportByIdRequest implements WebServiceRequest {
         this.id = id;
     }
 
-    public HashMap<String, String> getCampos(){
+    public HashMap<String, Object> getCampos(){
 
-        HashMap<String, String> campos = new HashMap<>();
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.id, this.id+"");
         return campos;
     }

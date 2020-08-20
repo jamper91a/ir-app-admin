@@ -6,6 +6,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -25,32 +29,44 @@ public class CreatePdfTotalnventoryRequest extends CreatePdfRequest implements W
     }
 
     public void addRows(LinkedList<ProductHasZone> products){
-        JsonArray rows = new JsonArray();
+        JSONArray rows = new JSONArray();
         //Add header of columns
 
-        JsonObject headers = new JsonObject();
-        headers.addProperty(Constants.total, activity.getString(R.string.total));
-        headers.addProperty(Constants.column_ean, activity.getString(R.string.eanPlu));
-        headers.addProperty(Constants.column_description, activity.getString(R.string.description));
-        rows.add(headers);
+        JSONObject headers = new JSONObject();
+        try {
+            headers.put(Constants.total, activity.getString(R.string.total));
+            headers.put(Constants.column_ean, activity.getString(R.string.eanPlu));
+            headers.put(Constants.column_description, activity.getString(R.string.description));
+            rows.put(headers);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         for (ProductHasZone product : products) {
-            JsonObject object = new JsonObject();
-            object.addProperty(Constants.total, product.getTotal());
-            object.addProperty(Constants.column_ean, product.getProduct().getEan());
-            object.addProperty(Constants.column_description, product.getProduct().getDescription());
-            rows.add(object);
+           JSONObject object = new JSONObject();
+            try {
+                object.put(Constants.total, product.getTotal());
+                object.put(Constants.column_ean, product.getProduct().getEan());
+                object.put(Constants.column_description, product.getProduct().getDescription());
+                rows.put(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         super.setRows(rows);
     }
 
 
-    public HashMap<String, String> getCampos(){
+    public HashMap<String, Object> getCampos(){
         Gson gson = new Gson();
         //Get the jsob Data and attach the shop
-        JsonObject data = this.getData();
-        data.addProperty(Constants.shop, this.getShop());
+        JSONObject data = this.getData();
+        try {
+            data.put(Constants.shop, this.getShop());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        HashMap<String, String> campos = new HashMap<>();
+        HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.templateId, this.getTemplateId());
         campos.put(Constants.data, gson.toJson(data));
         if(!this.getTo().isEmpty()) campos.put(Constants.to, this.getTo());

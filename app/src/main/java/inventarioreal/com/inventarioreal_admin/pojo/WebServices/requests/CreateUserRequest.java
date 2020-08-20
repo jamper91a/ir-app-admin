@@ -83,8 +83,8 @@ public class CreateUserRequest implements WebServiceRequest {
         this.type = type;
     }
 
-    public HashMap<String, String> getCampos(){
-        HashMap<String, String> campos = new HashMap<>();
+    public HashMap<String, Object> getCampos(){
+        HashMap<String, Object> campos = new HashMap<>();
         Gson gson = new Gson();
         JsonObject user = new JsonObject();
         user.addProperty(Constants.name, this.getName());
