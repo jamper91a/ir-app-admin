@@ -61,7 +61,7 @@ public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHo
         final Epc item = items.get(position);
         holder.getTxt1().setText(item.getEpc());
         if(item.isError()){
-            holder.getLnl1().setBackgroundColor(activity.getResources().getColor(R.color.colorError));
+            holder.getLnl2().setBackground(activity.getResources().getDrawable(R.drawable.back_list_item_error));
         }
         holder.bind(item);
 
@@ -148,6 +148,7 @@ public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHo
 
     class ViewHolder extends  RecyclerView.ViewHolder{
         LinearLayout lnl1;
+        LinearLayout lnl2;
         TextView txt1;
         TextView txt2;
         TextView txt3;
@@ -156,6 +157,7 @@ public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHo
         public ViewHolder(View view) {
             super(view);
             this.lnl1 = (LinearLayout)view.findViewById(R.id.lnl1);
+            this.lnl2 = (LinearLayout)view.findViewById(R.id.lnl2);
             this.txt1 = (TextView)view.findViewById(R.id.txt1);
             this.txt2 = (TextView)view.findViewById(R.id.txt2);
             this.txt3 = (TextView)view.findViewById(R.id.txt3);
@@ -166,6 +168,10 @@ public class ListAdapterEpcs extends RecyclerView.Adapter<ListAdapterEpcs.ViewHo
 
         public LinearLayout getLnl1() {
             return lnl1;
+        }
+
+        public LinearLayout getLnl2() {
+            return lnl2;
         }
 
         public TextView getTxt1() {

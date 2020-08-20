@@ -393,7 +393,6 @@ public class AddCommodity extends CicloActivity {
     }
 
     private Epc createEpc(String epc){
-        Log.d("epc", epc);
         Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
         if(epcDb!=null){
             if(epcDb.getState()==1)

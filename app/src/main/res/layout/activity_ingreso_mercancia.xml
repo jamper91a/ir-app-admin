@@ -44,10 +44,10 @@
         android:id="@+id/lnl1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:layout_weight="1"
+        android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/lblDes1"
@@ -141,7 +141,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -150,29 +150,25 @@
 
             <Button
                 android:id="@+id/btnCan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/button_blue_light"
                 android:layout_weight="1"
                 android:text="@string/cancelar" />
 
             <Button
                 android:id="@+id/btnEmp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/button_blue_light"
                 android:layout_weight="1"
                 android:text="@string/leer" />
 
             <Button
                 android:id="@+id/btnGua"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/button_blue_light"
                 android:layout_weight="1"
                 android:text="@string/guardar" />
 
             <Button
                 android:id="@+id/btnBor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/button_blue_light"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:enabled="true"
@@ -187,8 +183,12 @@
 
         <TextView
             android:id="@+id/txtTags"
+            style="@style/text_blue_dark"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:background="@drawable/border_top_blue_dark"
             android:text="@string/tag_leidos" />
     </LinearLayout>
 
