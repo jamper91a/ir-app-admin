@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluFragment">
 
 
@@ -15,33 +16,71 @@
 
 
         <LinearLayout
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <TextView-->
+<!--                    style="@style/text_blue_dark"-->
+<!--                    android:id="@+id/txtZone"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/zona" />-->
+
+<!--                <TextView-->
+<!--                    style="@style/text_blue_dark"-->
+<!--                    android:id="@+id/txtDate"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/fecha" />-->
+<!--            </LinearLayout>-->
+
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:id="@+id/containerVisual"
+                style="@style/button_white_black_border_container"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/txtZone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/zona" />
+                <ImageView
+                    android:id="@+id/icnVisual"
+                    style="@style/button_white_black_border_icn"
+                    app:srcCompat="@drawable/icn_eye" />
 
-                <TextView
-                    android:id="@+id/txtDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fecha" />
+                <Button
+                    android:id="@+id/btnVisual"
+                    android:text="@string/visual"
+                    style="@style/button_white_black_border_button"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/containerList"
+                style="@style/button_blue_dark_container"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/icnVisualDark"
+                    style="@style/button_white_black_border_icn"
+                    app:srcCompat="@drawable/icn_eye_white" />
+
+                <Button
+                    android:id="@+id/btnVisualDark"
+                    android:text="@string/list"
+                    style="@style/button_blue_dark_button"/>
             </LinearLayout>
 
             <Switch
                 android:id="@+id/swtVisual"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
                 android:layout_gravity="right"
                 android:text="@string/visual" />
 
@@ -51,8 +90,36 @@
         <android.support.v7.widget.RecyclerView
 
             android:id="@+id/lst1"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <LinearLayout
+
+            android:layout_gravity="bottom"
+            android:id="@+id/timeContainer"
+            style="@style/timeContainer"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent">
+
+            <TextView
+                style="@style/text_white"
+                android:textAlignment="center"
+                android:id="@+id/txtZone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="DD/MM/AA" />
+
+            <TextView
+                style="@style/text_white"
+                android:textAlignment="center"
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="HH:MM:SS" />
+        </LinearLayout>
 
     </LinearLayout>
 

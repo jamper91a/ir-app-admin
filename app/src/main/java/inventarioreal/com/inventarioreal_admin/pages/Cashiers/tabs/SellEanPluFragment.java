@@ -49,7 +49,7 @@ public class SellEanPluFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.ean_plu_fragment, container, false);
         this.elementos = new LinkedHashMap<>();
-        addElemento(v.findViewById(R.id.swtVisual));
+//        addElemento(v.findViewById(R.id.swtVisual));
         addElemento(v.findViewById(R.id.lnl2));
         addElemento(v.findViewById(R.id.lst1));
         addElemento(v.findViewById(R.id.txtZone));

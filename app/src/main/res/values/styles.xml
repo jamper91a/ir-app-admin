@@ -61,6 +61,8 @@
         <item name="android:layout_marginTop">13dp</item>
     </style>
 
+
+
     <style name="edit">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:layout_marginStart">30dp</item>
@@ -90,6 +92,50 @@
         <item name="android:layout_height">50dp</item>
         <item name="android:textColor">@color/blue_light</item>
         <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="button_white_black_border_container">
+        <item name="android:background">@drawable/back_button_white_black_border</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingRight">30dp</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+
+        <item name="android:textColor">@color/blue_dark</item>
+    </style>
+
+    <style name="button_white_black_border_icn">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingBottom">8dp</item>
+
+    </style>
+
+    <style name="button_white_black_border_button">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="button_blue_dark_container">
+        <item name="android:background">@drawable/back_button_blue_dark_2</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingRight">30dp</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+
+        <item name="android:textColor">@color/blue_dark</item>
+    </style>
+
+    <style name="button_blue_dark_button">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="button_blue_light">

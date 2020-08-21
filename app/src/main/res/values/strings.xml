@@ -211,4 +211,5 @@
     <string name="forgot_password">Olvide la contrasena</string>
     <string name="ingreso_mercancia">Ingreso Mercancia</string>
     <string name="no_buscar_otro">No, buscar otro</string>
+    <string name="list">List</string>
 </resources>
