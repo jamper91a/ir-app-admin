@@ -208,4 +208,6 @@
     <string name="email_sent">Email enviado</string>
     <string name="signUp">Registrate</string>
     <string name="forgot_password">Olvide la contrasena</string>
+    <string name="ingreso_mercancia">Ingreso Mercancia</string>
+    <string name="no_buscar_otro">No, buscar otro</string>
 </resources>

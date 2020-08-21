@@ -33,6 +33,13 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_marginTop">10dp</item>
     </style>
+    <style name="listHeaderContainer">
+        <item name="android:background">@color/blue_dark</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
 
     <style name="icn">
         <item name="android:layout_width">20dp</item>
@@ -129,6 +136,23 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/blue_dark</item>
+    </style>
+    <style name="text_white">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="title_text_blue_dark">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/blue_dark</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+    <style name="title_icn">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_margin">10dp</item>
     </style>
 
     <style name="spinnerContainer">

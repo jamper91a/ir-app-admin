@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.util;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
@@ -12,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.android.volley.Header;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnAcceptCancelListener;
@@ -84,5 +87,18 @@ public class Util {
         });
 
         builder.show();
+    }
+
+    public static HashMap<String, String>  findErrorInWebService(List<Header> headers){
+        HashMap<String, String> exit = new HashMap<>();
+        for (Header header : headers) {
+            if (header.getName().equals("x-exit")) {
+                exit.put("exit", header.getValue());
+            }
+            if (header.getName().equals("x-exit-description")) {
+                exit.put("description", header.getValue());
+            }
+        }
+        return exit;
     }
 }

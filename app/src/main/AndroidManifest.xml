@@ -50,7 +50,7 @@
         <activity android:name=".pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step1.VisualizarInventarioPorZonaStep1" />
         <activity android:name=".pages.Login" />
         <activity android:name=".pages.Home" />
-        <activity android:name=".pages.Commodity.AddCommodity" />
+        <activity android:name=".pages.Commodity.AddCommodity"  android:windowSoftInputMode="adjustResize"  />
         <activity android:name=".pages.Inventories.ParcialInventories.InventarioParcialHome" />
         <activity android:name=".pages.Inventories.ParcialInventories.Create.Step1.CrearInventarioStep1" />
         <activity android:name=".pages.Inventories.ParcialInventories.Create.Step2.CrearInventarioStep2" />

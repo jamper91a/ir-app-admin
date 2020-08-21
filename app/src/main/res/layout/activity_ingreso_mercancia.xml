@@ -15,6 +15,26 @@
         android:orientation="vertical">
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/titleIcn"
+                style="@style/title_icn"
+                app:srcCompat="@drawable/icn_commodity_blue" />
+
+            <TextView
+                android:id="@+id/titleTxt"
+                style="@style/title_text_blue_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ingreso_mercancia" />
+        </LinearLayout>
+
         <RelativeLayout
             style="@style/editContainer"
             android:gravity="center_vertical"
@@ -47,7 +67,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/lblDes1"
@@ -71,7 +91,9 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:contentDescription="@string/imagen_del_producto"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:src="@drawable/imagennoencontrada"
+            tools:src="@drawable/imagennoencontrada"
+            tools:srcCompat="@drawable/imagennoencontrada" />
 
         <LinearLayout
             android:id="@+id/lnl1a"
@@ -126,7 +148,7 @@
                 <Button
                     android:id="@+id/btnNo"
                     style="@style/button_blue_dark"
-                    android:text="@string/no" />
+                    android:text="@string/no_buscar_otro" />
             </LinearLayout>
 
         </LinearLayout>
@@ -135,13 +157,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:id="@+id/lnl2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -175,21 +198,48 @@
                 android:text="@string/borrar" />
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/lst1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@drawable/border_top_blue_dark"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/listHeaderContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtEpcTitle"
+                    style="@style/text_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/epc"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+
+                android:id="@+id/lst1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/txtTags"
             style="@style/text_blue_dark"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:textStyle="bold"
-            android:textSize="18dp"
             android:background="@drawable/border_top_blue_dark"
-            android:text="@string/tag_leidos" />
+            android:text="@string/tag_leidos"
+            android:textSize="18dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

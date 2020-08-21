@@ -47,9 +47,9 @@ public class AddCommodity extends CicloActivity {
     private String TAG="IngresoMercancia";
     //private UhfManager uhfManager;
     public ListAdapterEpcs adapter1;
-    private LinkedList<Epc> epcs = new LinkedList<>();
-    private LinkedList<Epc> epcsBanned = new LinkedList<>();
-    private LinkedList<ProductHasZone> products = new LinkedList<>();
+    private LinkedList<Epc> epcs = new LinkedList<Epc>();
+    private LinkedList<Epc> epcsBanned = new LinkedList<Epc>();
+    private LinkedList<ProductHasZone> products = new LinkedList<ProductHasZone>();
     final DataBase db = DataBase.getInstance(this);
 
     private Zone zonas_id;
@@ -132,9 +132,12 @@ public class AddCommodity extends CicloActivity {
     }
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtEanPlu),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.icn2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBus),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.lblDes1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes3),Techniques.FadeInLeft));
@@ -187,7 +190,7 @@ public class AddCommodity extends CicloActivity {
             public void onClick(View v) {
                 if(getElemento(R.id.edtEanPlu).getElemento().isEnabled()){
                     getElemento(R.id.edtEanPlu).getElemento().setEnabled(false);
-                    getElemento(R.id.btnBus).setText(getString(R.string.buscar_otro));
+
                     WebServices.getProductByEanPlu(
                             getElemento(R.id.edtEanPlu).getText(),
                             AddCommodity.this,
@@ -197,14 +200,22 @@ public class AddCommodity extends CicloActivity {
                                 public void ok(ResultWebServiceOk ok) {
                                     Product productoConsultado = (Product) ok.getData();
                                     mostrarInformacionProducto(productoConsultado);
+                                    getElemento(R.id.btnBus).setText(getString(R.string.buscar_otro));
+                                    getElemento(R.id.btnBus).getElemento().setVisibility(View.GONE);
                                 }
 
                                 @Override
                                 public void fail(ResultWebServiceFail fail) {
-                                    if(fail.getError().equals("error_G06")){
-                                        admin.toast(getString(R.string.error_G06));
+                                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                                    int stringId = admin.getStringResourceIdByName(fail.getError());
+                                    if(stringId >0) {
+                                        admin.toast((getString(stringId)));
+                                    } else {
+                                        admin.toast(fail.getError());
                                     }
+                                    getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
                                     getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+                                    getElemento(R.id.lnl2).getElemento().setVisibility(View.GONE);
                                 }
                             });
                 }else{
@@ -234,7 +245,8 @@ public class AddCommodity extends CicloActivity {
             @Override
             public void onClick(View v) {
                 if(productos_id!=null){
-
+                    //Hide search icon
+                    getElemento(R.id.icn2).getElemento().setVisibility(View.GONE);
                     getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
 
@@ -246,7 +258,10 @@ public class AddCommodity extends CicloActivity {
         add_on_click(R.id.btnNo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Administrador.callIntent(Home.class, null);
+                getElemento(R.id.btnBus).getElemento().setVisibility(View.VISIBLE);
+                getElemento(R.id.btnBus).setText(getString(R.string.buscar));
+                getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                ocultarInformacionProducto();
             }
         });
         add_on_click(R.id.btnEmp, new View.OnClickListener() {
@@ -314,7 +329,9 @@ public class AddCommodity extends CicloActivity {
                 (NetworkImageView)getElemento(R.id.img1).getElemento(),
                 R.drawable.imagennoencontrada,
                 R.drawable.imagennoencontrada);
+        getElemento(R.id.icn2).getElemento().setVisibility(View.GONE);
         getElemento(R.id.img1).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1).getElemento().setVisibility(View.VISIBLE);
         getElemento(R.id.lnl1a).getElemento().setVisibility(View.VISIBLE);
     }
 
@@ -323,8 +340,10 @@ public class AddCommodity extends CicloActivity {
         getElemento(R.id.lblDes1).setText("");
         getElemento(R.id.lblDes2).setText("");
         getElemento(R.id.lblDes3).setText("");
-        getElemento(R.id.img1).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.icn2).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
         getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.lnl2).getElemento().setVisibility(View.GONE);
     }
 
     @Override

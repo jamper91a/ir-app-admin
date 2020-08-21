@@ -3,6 +3,8 @@ package inventarioreal.com.inventarioreal_admin.util.WebServices;
 import android.app.Activity;
 import android.util.Log;
 
+import com.android.volley.Header;
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -75,6 +77,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SaveRep
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import inventarioreal.com.inventarioreal_admin.util.Util;
 import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.CallWebServiceJson;
 import jamper91.com.easyway.Util.ResponseListener;
@@ -98,12 +101,14 @@ public class WebServices {
         return  headers;
     }
 
-    private static void errorWebService(String s, ResultWebServiceInterface result){
+    private static void errorWebService(VolleyError volleyError, ResultWebServiceInterface result){
         try {
-            JSONObject error = new JSONObject(s);
-            result.fail(new ResultWebServiceFail(error));
-        } catch (JSONException e) {
-            result.fail(new ResultWebServiceFail(s));
+            String exit = volleyError.networkResponse.headers.get("X-Exit");
+            String description = volleyError.networkResponse.headers.get("X-Exit-Description");
+            result.fail(new ResultWebServiceFail(exit));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.fail(new ResultWebServiceFail(e.getMessage()));
         }
     }
 
@@ -171,8 +176,8 @@ public class WebServices {
              * instancio con el string
              */
             @Override
-            public void onErrorResponse(String s) {
-                errorWebService(s, result);
+            public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -213,8 +218,8 @@ public class WebServices {
                         }
 
                         @Override
-                        public void onErrorResponse(String s) {
-                            errorWebService(s, result);
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                            errorWebService(volleyError, result);
                         }
                     }
             );
@@ -254,8 +259,8 @@ public class WebServices {
                         }
 
                         @Override
-                        public void onErrorResponse(String s) {
-                            errorWebService(s, result);
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                            errorWebService(volleyError, result);
                         }
                     }
             );
@@ -296,8 +301,8 @@ public class WebServices {
                     }
 
                     @Override
-                    public void onErrorResponse(String s) {
-                        result.fail(new ResultWebServiceFail(s));
+                    public void onErrorResponse(String s, VolleyError volleyError) {
+                        errorWebService(volleyError, result);
                     }
                 }
         );
@@ -388,8 +393,8 @@ public class WebServices {
                         }
 
                         @Override
-                        public void onErrorResponse(String s) {
-                            result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                            errorWebService(volleyError, result);
                         }
                     }
             );
@@ -424,8 +429,8 @@ public class WebServices {
                         }
 
                         @Override
-                        public void onErrorResponse(String s) {
-                            result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                            errorWebService(volleyError, result);
                         }
                     }
             );
@@ -467,8 +472,8 @@ public class WebServices {
                     }
 
                     @Override
-                    public void onErrorResponse(String s) {
-                        result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                        errorWebService(volleyError, result);
                     }
                 },
                 admin
@@ -503,8 +508,8 @@ public class WebServices {
                         }
 
                         @Override
-                        public void onErrorResponse(String s) {
-                            result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                            errorWebService(volleyError, result);
                         }
                     }
             );
@@ -540,8 +545,8 @@ public class WebServices {
                     }
 
                     @Override
-                    public void onErrorResponse(String s) {
-                        result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                        errorWebService(volleyError, result);
                     }
                 },
                 admin
@@ -609,8 +614,8 @@ public class WebServices {
                     }
 
                     @Override
-                    public void onErrorResponse(String s) {
-                        result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                        errorWebService(volleyError, result);
                     }
                 }
         );
@@ -658,7 +663,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -704,7 +709,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -725,8 +730,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
 
@@ -754,8 +759,8 @@ public class WebServices {
                 }
 
                 @Override
-                public void onErrorResponse(String s) {
-                    result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                    errorWebService(volleyError, result);
                 }
             });
         } catch (Exception e) {
@@ -785,8 +790,8 @@ public class WebServices {
                 }
 
                 @Override
-                public void onErrorResponse(String s) {
-                    result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                    errorWebService(volleyError, result);
                 }
             });
         } catch (Exception e) {
@@ -825,8 +830,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -859,8 +864,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -897,8 +902,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -923,8 +928,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -953,8 +958,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -985,8 +990,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -1017,8 +1022,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -1064,7 +1069,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -1085,8 +1090,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -1129,7 +1134,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -1175,7 +1180,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -1219,7 +1224,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -1263,7 +1268,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -1314,7 +1319,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -1360,7 +1365,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -1406,7 +1411,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -1450,7 +1455,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -1493,7 +1498,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -1513,8 +1518,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -1540,8 +1545,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -1561,8 +1566,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -1581,8 +1586,8 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
-                result.fail(new ResultWebServiceFail(s));
+                        public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
@@ -1627,7 +1632,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
@@ -1652,7 +1657,7 @@ public class WebServices {
             }
 
             @Override
-            public void onErrorResponse(String s) {
+                        public void onErrorResponse(String s, VolleyError volleyError) {
 
             }
         });
