@@ -32,11 +32,12 @@ public class InventarioParcialHome extends CicloActivity {
     }
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCre),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCon),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnVisPorZon),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnVisCon),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.btnRet),Techniques.FadeInLeft));
     }
 
     @Override
@@ -70,12 +71,6 @@ public class InventarioParcialHome extends CicloActivity {
             @Override
             public void onClick(View v) {
                 admin.callIntent(VisualizarInventariosConsolidados.class, null);
-            }
-        });
-        add_on_click(R.id.btnRet, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                admin.callIntent(Home.class, null);
             }
         });
     }

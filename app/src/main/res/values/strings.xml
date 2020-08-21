@@ -25,8 +25,8 @@
     <string name="buscar">Buscar</string>
     <string name="ingresar_mercancia">Ingresar Mercancia</string>
     <string name="tag_leidos">Tag Leidos</string>
-    <string name="create_inventory">Crear Inv Parcial</string>
-    <string name="consolidate_inventories">Consolidar Inv Parciales</string>
+    <string name="create_inventory">Crear \nInventario Parcial</string>
+    <string name="consolidate_inventories">Consolidar \nInventarios Parciales</string>
     <string name="view_inventories_by_zone">Visualizar inventarios parciales por zona</string>
     <string name="view_consolidated_inventories">Visualizar inventarios parciales consolidados</string>
     <string name="local">Local</string>
