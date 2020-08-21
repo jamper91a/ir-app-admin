@@ -33,10 +33,13 @@ public class TotalFragment extends Fragment {
         this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.txt1));
         addElemento(v.findViewById(R.id.txt2));
-        addElemento(v.findViewById(R.id.txt3));
-        addElemento(v.findViewById(R.id.txt4));
+//        addElemento(v.findViewById(R.id.txt3));
+//        addElemento(v.findViewById(R.id.txt4));
         addElemento(v.findViewById(R.id.txt5));
         addElemento(v.findViewById(R.id.txt6));
+        addElemento(v.findViewById(R.id.timeContainer));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtHora));
         return v;
     }
 
@@ -54,19 +57,25 @@ public class TotalFragment extends Fragment {
         mViewModel.getInventory().observe(this, new Observer<Inventory>() {
             @Override
             public void onChanged(@Nullable Inventory inventory) {
-                TextView txtFecha = (TextView) getElemento(R.id.txt4);
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
                 TextView txtZona = (TextView) getElemento(R.id.txt6);
-                txtFecha.setText(inventory.getDate().replace("T", " - "));
+                String[] date = inventory.getDate().split(" ");
+                txtFecha.setText(date[0]);
+                txtHora.setText(date[1]);
                 txtZona.setText(inventory.getZone().getName());
             }
         });
         mViewModel.getTransfer().observe(this, new Observer<Transfer>() {
             @Override
             public void onChanged(@Nullable Transfer transfer) {
-                TextView txtFecha = (TextView) getElemento(R.id.txt4);
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
                 TextView lblLocDes = (TextView) getElemento(R.id.txt5);
                 TextView txtLocDes = (TextView) getElemento(R.id.txt6);
-                txtFecha.setText(transfer.getCreatedAt().replace("T", " - "));
+                String[] date = transfer.getCreatedAt().split(" ");
+                txtFecha.setText(date[0]);
+                txtHora.setText(date[1]);
                 lblLocDes.setText(R.string.local_destino+": ");
                 txtLocDes.setText(transfer.getShopDestination().getName());
             }

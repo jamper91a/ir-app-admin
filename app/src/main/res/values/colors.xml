@@ -5,8 +5,10 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorError">#A9E64336</color>
     <color name="blue_light">#5891cb</color>
+    <color name="blue_light_shadow">#A35891CB</color>
     <color name="blue_light_2">#bed0e1</color>
     <color name="blue_dark">#093b57</color>
+    <color name="blue_dark_shadow">#79093B57</color>
     <color name="gray">#e3e4e4</color>
     <color name="gray_2">#e4e4e4</color>
     <color name="gray_border_button">#a3a3a3</color>

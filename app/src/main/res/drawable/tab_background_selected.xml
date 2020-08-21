@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- Bottom 2dp Shadow -->
+    <item
+        android:left="@dimen/tab_spacing_half"
+        android:right="@dimen/tab_spacing_half"
+        android:top="@dimen/tab_spacing_half"
+        android:bottom="@dimen/tab_spacing_half">
+        <shape  android:shape="rectangle">
+
+            <solid android:color="@color/blue_dark_shadow" />
+            <corners android:radius="7dp" />
+
+        </shape>
+    </item>
+
+    <item
+        android:left="@dimen/tab_spacing_half"
+        android:right="@dimen/tab_spacing_half"
+        android:top="@dimen/tab_spacing_half"
+        android:bottom="@dimen/tab_spacing_half2">
+
+        <shape
+            android:shape="rectangle">
+            <corners
+                android:radius="@dimen/border_radius_small">
+            </corners>
+            <stroke
+                android:width="@dimen/divider_height_thin"
+                android:color="@color/blue_dark">
+            </stroke>
+            <solid
+                android:color="@color/blue_dark"></solid>
+
+        </shape>
+
+    </item>
+
+</layer-list>

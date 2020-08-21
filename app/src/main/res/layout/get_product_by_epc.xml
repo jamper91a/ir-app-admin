@@ -6,39 +6,52 @@
     android:orientation="vertical"
     >
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/titleIcn"
+            style="@style/title_icn"
+            app:srcCompat="@drawable/icn_inventory_create_blue_dark" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/total" />
+        <TextView
+            android:id="@+id/titleTxt"
+            style="@style/title_text_blue_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_inventory_2" />
+    </LinearLayout>
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabItem2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/eanPlu" />
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabItem3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/epc" />
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        style="@style/MyCustomTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tabItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tabItem2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/eanPlu" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tabItem3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/epc" />
 
 
-        </android.support.design.widget.TabLayout>
-    </android.support.design.widget.AppBarLayout>
-
+    </android.support.design.widget.TabLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -61,29 +74,25 @@
 
             <Button
                 android:id="@+id/btnCan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/button_blue_small"
                 android:layout_weight="1"
                 android:text="@string/cancelar" />
 
             <Button
                 android:id="@+id/btnLee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/button_blue_small"
                 android:layout_weight="1"
                 android:text="@string/leer" />
 
             <Button
                 android:id="@+id/btnFin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/button_blue_small"
                 android:layout_weight="1"
                 android:text="@string/finalizar" />
 
             <Button
                 android:id="@+id/btnBor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/button_blue_small"
                 android:layout_weight="1"
                 android:text="@string/borrar" />
         </LinearLayout>

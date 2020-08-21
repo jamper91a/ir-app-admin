@@ -125,6 +125,17 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textAllCaps">false</item>
     </style>
+    <style name="button_blue_small">
+        <item name="android:background">@drawable/back_button_blue</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
 
     <style name="text_link">
         <item name="android:background">@android:color/transparent</item>
@@ -196,10 +207,29 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <style name="timeContainer" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:background">@drawable/back_container_blue_light</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="Base.ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+
+        <!-- the color you want in selected tab -->
+        <item name="tabBackground">@drawable/tab_background</item>
+        <item name="height">35dp</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabIndicatorColor">@android:color/transparent</item>
+    </style>
 
 
 </resources>

@@ -97,13 +97,9 @@
 
     <LinearLayout
         android:id="@+id/timeContainer"
+        style="@style/timeContainer"
         android:layout_marginTop="10dp"
-        android:background="@drawable/back_container_blue_light"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:layout_width="match_parent">
 
         <TextView
             style="@style/text_white"

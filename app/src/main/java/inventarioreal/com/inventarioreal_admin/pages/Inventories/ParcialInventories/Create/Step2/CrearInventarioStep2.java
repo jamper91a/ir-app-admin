@@ -148,7 +148,8 @@ public class CrearInventarioStep2 extends CicloActivity {
     @Override
     public void initGui() {
 
-
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCan),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnLee),Techniques.FadeInLeft));
