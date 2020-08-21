@@ -20,6 +20,11 @@ public class Zone extends InventarioRealPojo {
         super(id);
     }
 
+    public Zone(long id, String name, Shop shop) {
+        super(id);
+        this.name = name;
+        this.shop = shop;
+    }
 
     @Override
     public void fromHashMap(Class myClass, HashMap<String, String> data) {
