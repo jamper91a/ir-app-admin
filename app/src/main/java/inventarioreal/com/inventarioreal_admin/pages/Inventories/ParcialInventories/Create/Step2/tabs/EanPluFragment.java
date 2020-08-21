@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -139,28 +140,29 @@ public class EanPluFragment extends Fragment {
     }
 
     private void onClick(){
-        final LinearLayout btnVisual = (LinearLayout) getElemento(R.id.containerVisual);
-        final LinearLayout btnList = (LinearLayout) getElemento(R.id.containerList);
-        btnVisual.setOnClickListener(new View.OnClickListener() {
+        final LinearLayout containerVisual = (LinearLayout) getElemento(R.id.containerVisual);
+        final LinearLayout containerList = (LinearLayout) getElemento(R.id.containerList);
+
+        containerVisual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1);
                 lst1.setLayoutManager(new GridLayoutManager(getContext(), 3));
                 lst1.setAdapter(adapterVisual);
-                btnVisual.setVisibility(View.GONE);
-                btnList.setVisibility(View.VISIBLE);
+                containerVisual.setVisibility(View.GONE);
+                containerList.setVisibility(View.VISIBLE);
             }
         });
 
 
-        btnList.setOnClickListener(new View.OnClickListener() {
+        containerList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1);
                 lst1.setLayoutManager(new LinearLayoutManager(getContext()));
                 lst1.setAdapter(adapter1);
-                btnVisual.setVisibility(View.VISIBLE);
-                btnList.setVisibility(View.GONE);
+                containerVisual.setVisibility(View.VISIBLE);
+                containerList.setVisibility(View.GONE);
             }
         });
     }

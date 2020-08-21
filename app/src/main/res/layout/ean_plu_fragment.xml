@@ -8,6 +8,7 @@
 
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:id="@+id/lnl2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,28 +22,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    style="@style/text_blue_dark"-->
-<!--                    android:id="@+id/txtZone"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/zona" />-->
-
-<!--                <TextView-->
-<!--                    style="@style/text_blue_dark"-->
-<!--                    android:id="@+id/txtDate"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/fecha" />-->
-<!--            </LinearLayout>-->
-
-
             <LinearLayout
                 android:id="@+id/containerVisual"
                 style="@style/button_white_black_border_container"
@@ -50,11 +29,13 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:clickable="false"
                     android:id="@+id/icnVisual"
                     style="@style/button_white_black_border_icn"
                     app:srcCompat="@drawable/icn_eye" />
 
                 <Button
+                    android:clickable="false"
                     android:id="@+id/btnVisual"
                     android:text="@string/visual"
                     style="@style/button_white_black_border_button"/>
@@ -67,11 +48,13 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:clickable="false"
                     android:id="@+id/icnVisualDark"
                     style="@style/button_white_black_border_icn"
                     app:srcCompat="@drawable/icn_eye_white" />
 
                 <Button
+                    android:clickable="false"
                     android:id="@+id/btnVisualDark"
                     android:text="@string/list"
                     style="@style/button_blue_dark_button"/>
@@ -88,7 +71,8 @@
 
 
         <android.support.v7.widget.RecyclerView
-
+            android:background="@drawable/border_top_bottom_blue_dark"
+            android:paddingTop="5dp"
             android:id="@+id/lst1"
             android:layout_weight="1"
             android:layout_width="match_parent"

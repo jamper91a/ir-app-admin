@@ -4,29 +4,36 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/listHeaderContainer"
         android:orientation="horizontal">
 
         <TextView
+            style="@style/text_white"
             android:id="@+id/txtTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/total"
+            android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
+        style="@style/text_white"
         android:id="@+id/txtEanPlu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/eanPlu"
+        android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
+        style="@style/text_white"
         android:id="@+id/txtDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/detalles"
+        android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 </LinearLayout>

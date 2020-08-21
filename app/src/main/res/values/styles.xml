@@ -100,7 +100,7 @@
         <item name="android:paddingRight">30dp</item>
         <item name="android:paddingLeft">30dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_height">50dp</item>
 
         <item name="android:textColor">@color/blue_dark</item>
     </style>
@@ -114,7 +114,7 @@
 
     <style name="button_white_black_border_button">
         <item name="android:layout_width">60dp</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_height">50dp</item>
         <item name="android:layout_marginBottom">5dp</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
@@ -125,14 +125,14 @@
         <item name="android:paddingRight">30dp</item>
         <item name="android:paddingLeft">30dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_height">50dp</item>
 
         <item name="android:textColor">@color/blue_dark</item>
     </style>
 
     <style name="button_blue_dark_button">
         <item name="android:layout_width">60dp</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_height">50dp</item>
         <item name="android:layout_marginBottom">5dp</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@color/white</item>
