@@ -12,7 +12,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZ
 public class EpcViewModel extends ViewModel {
 
     MutableLiveData<LinkedList<ProductHasZone>> allProductsZonasLiveData = null;
-    MutableLiveData<Inventory[]> inventario = null;
+    MutableLiveData<Inventory> inventario = null;
     private LinkedList<ProductHasZone> allProducts= null;
 
 
@@ -45,11 +45,13 @@ public class EpcViewModel extends ViewModel {
         return allProductsZonasLiveData;
     }
 
-    public LiveData<Inventory[]> getInventario() {
+    public LiveData<Inventory> getInventario() {
         return inventario;
     }
 
-    public void setInventario(Inventory[] inventario) {
+    public void setInventario(Inventory inventario) {
+        if(this.inventario == null)
+            this.inventario = new MutableLiveData<>();
         this.inventario.setValue(inventario);
     }
 
@@ -64,7 +66,7 @@ public class EpcViewModel extends ViewModel {
         }
         if(inventario!=null)
         {
-            inventario.setValue(new Inventory[0]);
+            inventario.setValue(new Inventory());
         }
     }
 

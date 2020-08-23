@@ -212,4 +212,5 @@
     <string name="ingreso_mercancia">Ingreso Mercancia</string>
     <string name="no_buscar_otro">No, buscar otro</string>
     <string name="list">List</string>
+    <string name="write_a_message">Write a message</string>
 </resources>

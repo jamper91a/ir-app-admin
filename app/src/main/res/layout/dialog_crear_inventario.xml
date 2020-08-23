@@ -2,31 +2,134 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back_signal_light"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/txtLocal"
+    <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/txtNum"
+        <ImageView
+            android:id="@+id/titleIcn"
+            style="@style/title_icn"
+            app:srcCompat="@drawable/icn_inventory_create_blue_dark" />
+
+        <TextView
+            android:id="@+id/titleTxt"
+            style="@style/title_text_blue_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_inventory_2" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            style="@style/labelContainer"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/txtLocal"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/txtNum"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            style="@style/labelContainer"
+            android:text="TextView" />
+
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:id="@+id/timeContainer"
+            style="@style/timeContainer"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent">
+
+            <TextView
+                style="@style/text_white"
+                android:textAlignment="center"
+                android:id="@+id/txtFecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="DD/MM/AA" />
+
+            <TextView
+                style="@style/text_white"
+                android:textAlignment="center"
+                android:id="@+id/txtTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="HH:MM:SS" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:paddingTop="6dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/border_top_bottom_blue_dark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="6dp"
+                style="@style/timeContainer"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    style="@style/edtTitle"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:id="@+id/edtTitle"
+                    android:text="@string/message" />
+
+                <EditText
+                    style="@style/text_white"
+                    android:textAlignment="center"
+                    android:id="@+id/edtMensaje"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:hint="@string/write_a_message" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:orientation="horizontal">
+        <Button
+            style="@style/button_blue_dark"
+            android:id="@+id/btnGuardar"
+            android:text="@string/guardar" />
+        <Button
+            style="@style/button_blue_dark"
+            android:id="@+id/btnCancelar"
+            android:text="@string/cancelar" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/txtTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
 
-    <EditText
-        android:id="@+id/edtMensaje"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/message"
-        android:inputType="textMultiLine" />
+
+
 </LinearLayout>

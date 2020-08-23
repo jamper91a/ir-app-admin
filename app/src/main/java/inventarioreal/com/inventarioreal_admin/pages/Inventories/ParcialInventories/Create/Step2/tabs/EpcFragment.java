@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -19,6 +20,7 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterTotalReportEpcDetails;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.tabs.InvTotalEpcViewModel;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import jamper91.com.easyway.Util.Administrador;
 
@@ -89,6 +91,14 @@ public class EpcFragment extends Fragment {
                     adapter1.setData(productosZonas);
                     adapter1.notifyDataSetChanged();
                 }
+            }
+        });
+
+        mViewModel.getInventario().observe(this, new Observer<Inventory>() {
+            @Override
+            public void onChanged(@Nullable Inventory inventory) {
+                ((TextView)getElemento(R.id.txtZone)).setText(inventory.getZone().getName());
+                ((TextView)getElemento(R.id.txtDate)).setText(inventory.getDate());
             }
         });
 

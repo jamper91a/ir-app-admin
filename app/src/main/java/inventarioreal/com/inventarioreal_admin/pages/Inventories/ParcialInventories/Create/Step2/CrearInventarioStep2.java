@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -171,6 +172,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         inventory.setZone(requestInventariorCrear2.getZone());
         eanPluVieModel.setInventory(inventory);
         totalViewModel.setInventory(inventory);
+        epcVieModel.setInventario(inventory);
     }
 
     @Override
@@ -382,27 +384,32 @@ public class CrearInventarioStep2 extends CicloActivity {
     //endregion
 
     private void showDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.crear_inventario_parcial);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
+//        builder.setTitle(R.string.crear_inventario_parcial);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
         final TextView txtLocal = dialogView.findViewById(R.id.txtLocal);
         final TextView txtZona = dialogView.findViewById(R.id.txtNum);
+        final TextView txtFecha = dialogView.findViewById(R.id.txtFecha);
         final TextView txtTime = dialogView.findViewById(R.id.txtTime);
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
+        final Button btnGuardar = dialogView.findViewById(R.id.btnGuardar);
+        final Button btnCancelar = dialogView.findViewById(R.id.btnCancelar);
 
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         txtLocal.setText(getString(R.string.local) +": "+empleado.getEmployee().getShop().getName());
         txtZona.setText(getString(R.string.zona) + ": "+requestInventariorCrear2.getZone().getName());
+        txtFecha.setText(requestInventariorCrear2.getDate().split(" ")[0]);
+        txtTime.setText(requestInventariorCrear2.getDate().split(" ")[1]);
         builder.setView(dialogView);
 
+        final AlertDialog show = builder.show();
 
-// Set up the buttons
-        builder.setPositiveButton(R.string.guardar, new DialogInterface.OnClickListener() {
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View view) {
                 WebServices.createInventory(
                         requestInventariorCrear2.getZone().getId(),
                         edtMensaje.getText().toString(),
@@ -425,14 +432,29 @@ public class CrearInventarioStep2 extends CicloActivity {
                 );
             }
         });
-        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+            public void onClick(View view) {
+                show.dismiss();
             }
         });
 
-        builder.show();
+// Set up the buttons
+//        builder.setPositiveButton(R.string.guardar, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//            }
+//        });
+//        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+
+
     }
     @Override
     public void onBackPressed() {
