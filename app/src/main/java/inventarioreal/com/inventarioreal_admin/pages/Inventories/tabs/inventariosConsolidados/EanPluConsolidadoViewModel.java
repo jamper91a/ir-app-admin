@@ -6,12 +6,13 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.LinkedList;
 
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 
 public class EanPluConsolidadoViewModel extends ViewModel {
     MutableLiveData<LinkedList<ProductHasZone>> productosZonasLiveData = null;
-    MutableLiveData<Inventory[]> inventario = null;
+    MutableLiveData<ConsolidatedInventory> inventario = null;
     private LinkedList<ProductHasZone> productosZona = null;
 
 
@@ -46,11 +47,15 @@ public class EanPluConsolidadoViewModel extends ViewModel {
         return productosZonasLiveData;
     }
 
-    public LiveData<Inventory[]> getInventario() {
+    public LiveData<ConsolidatedInventory> getInventario() {
+        if(this.inventario == null)
+            this.inventario = new MutableLiveData<>();
         return inventario;
     }
 
-    public void setInventario(Inventory[] inventario) {
+    public void setInventario(ConsolidatedInventory inventario) {
+        if(this.inventario == null)
+            this.inventario = new MutableLiveData<>();
         this.inventario.setValue(inventario);
     }
 }

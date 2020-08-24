@@ -13,7 +13,7 @@ public class ListConsolidatedInventoriesRequest implements WebServiceRequest {
 
     public HashMap<String, Object> getCampos(){
         HashMap<String, Object> campos = new HashMap<>();
-        campos.put(Constants.password, collaborative ? "1" : "0");
+        campos.put(Constants.collaborative, collaborative ? "1" : "0");
         return campos;
     }
 

@@ -10,7 +10,7 @@ public class TotalConsolidadoViewModel extends ViewModel {
 
     private MutableLiveData<ConsolidatedInventory> amount= new MutableLiveData<>();
 
-    public void stInventario(ConsolidatedInventory a) {
+    public void setInventario(ConsolidatedInventory a) {
         amount.setValue(a);
     }
 

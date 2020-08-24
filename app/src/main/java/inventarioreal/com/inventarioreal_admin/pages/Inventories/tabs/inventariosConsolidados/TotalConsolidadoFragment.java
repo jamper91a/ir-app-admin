@@ -32,12 +32,15 @@ public class TotalConsolidadoFragment extends Fragment {
         this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.txt1));
         addElemento(v.findViewById(R.id.txt2));
-        addElemento(v.findViewById(R.id.txt3));
-        addElemento(v.findViewById(R.id.txt4));
+//        addElemento(v.findViewById(R.id.txt3));
+//        addElemento(v.findViewById(R.id.txt4));
         addElemento(v.findViewById(R.id.txt5));
         addElemento(v.findViewById(R.id.txt6));
-        addElemento(v.findViewById(R.id.txt7));
-        addElemento(v.findViewById(R.id.txt8));
+//        addElemento(v.findViewById(R.id.txt7));
+//        addElemento(v.findViewById(R.id.txt8));
+        addElemento(v.findViewById(R.id.timeContainer));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtHora));
         return v;
     }
 
@@ -48,14 +51,22 @@ public class TotalConsolidadoFragment extends Fragment {
         mViewModel.getInventario().observe(this, new Observer<ConsolidatedInventory>() {
             @Override
             public void onChanged(@Nullable ConsolidatedInventory inventory) {
-                TextView txtCant = (TextView) getElemento(R.id.txt2);
-                TextView txtFecha = (TextView) getElemento(R.id.txt4);
+                TextView txtAmount = (TextView) getElemento(R.id.txt2);
+//                TextView txtFecha = (TextView) getElemento(R.id.txt4);
                 TextView txtZona = (TextView) getElemento(R.id.txt6);
-                TextView txtMessage= (TextView) getElemento(R.id.txt8);
-                txtMessage.setVisibility(View.GONE);
-                txtFecha.setText(inventory.getCreatedAt().replace("T", " - "));
+//                TextView txtMessage= (TextView) getElemento(R.id.txt8);
+                txtAmount.setText(inventory.getTotal_products()+"");
+//                txtMessage.setVisibility(View.GONE);
+
+
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
+                String auxDate = inventory.getCreatedAt().replace('Z', ' ');
+                String[] date = auxDate.split("T");
+
+                txtFecha.setText(date[0]);
+                txtHora.setText(date[1]);
                 txtZona.setText(inventory.getName());
-                txtCant.setText(inventory.getTotal_products()+"");
 
             }
         });

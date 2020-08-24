@@ -30,6 +30,8 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventariosConsolidados.EanPluConsolidadoFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventariosConsolidados.EanPluConsolidadoViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventariosConsolidados.EpcConsolidadoFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventariosConsolidados.EpcConsolidadoViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventariosConsolidados.TotalConsolidadoFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventariosConsolidados.TotalConsolidadoViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
@@ -139,7 +141,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
         if(inventarioConsolidado!=null){
             totalConsolidadoViewModel = ViewModelProviders.of(this).get(TotalConsolidadoViewModel.class);
             eanPluConsolidadoVieModel = ViewModelProviders.of(this).get(EanPluConsolidadoViewModel.class);
-            epcVieModel = ViewModelProviders.of(this).get(EpcViewModel.class);
+            epcConsolidadoVieModel = ViewModelProviders.of(this).get(EpcConsolidadoViewModel.class);
             WebServices.getProductsByConsolidatedInventory(inventarioConsolidado.getId(), this, admin, new ResultWebServiceInterface() {
                 @Override
                 public void ok(ResultWebServiceOk ok) {
@@ -153,7 +155,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                     }
 
                     //Actualizo la cantidad
-                    totalConsolidadoViewModel.stInventario(aux.getConsolidatedInventories());
+                    totalConsolidadoViewModel.setInventario(aux.getConsolidatedInventories());
                     for (ProductHasZone pz: aux.getProductosZonas()){
                         //Busco el epc del producto
                         Epc epc = (Epc) db.findById(
@@ -165,8 +167,10 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                             pz.setEpc(epc);
 
                         eanPluConsolidadoVieModel.addProductoZona(pz);
-                        epcVieModel.addProductoZona(pz);
+                        epcConsolidadoVieModel.addProductoZona(pz);
                     }
+                    eanPluConsolidadoVieModel.setInventario(aux.getConsolidatedInventories());
+                    epcConsolidadoVieModel.setInventario(aux.getConsolidatedInventories());
 
 
                 }
@@ -217,6 +221,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
 
     TotalConsolidadoViewModel totalConsolidadoViewModel;
     EanPluConsolidadoViewModel eanPluConsolidadoVieModel;
+    EpcConsolidadoViewModel epcConsolidadoVieModel;
     //endregion
 
     //region Tabs configuration
@@ -266,8 +271,13 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                         return eanPlu;
                     }
                 case 2:
-                    EpcFragment epcFragment = EpcFragment.newInstance();
-                    return epcFragment;
+                    if(inventario!=null){
+                        EpcFragment epcFragment = EpcFragment.newInstance();
+                        return epcFragment;
+                    } else{
+                        EpcConsolidadoFragment epcFragment = EpcConsolidadoFragment.newInstance();
+                        return epcFragment;
+                    }
                 default:
                     return null;
 

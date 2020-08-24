@@ -154,7 +154,7 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
                     }
 
                     //Actualizo la cantidad
-                    totalConsolidadoViewModel.stInventario(aux.getConsolidatedInventories());
+                    totalConsolidadoViewModel.setInventario(aux.getConsolidatedInventories());
                     for (ProductHasZone pz: aux.getProductosZonas()){
                         Epc epc = (Epc) db.findById(
                                 Constants.table_epcs,
