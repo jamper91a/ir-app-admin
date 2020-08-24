@@ -81,7 +81,12 @@ public class ConsolidarInventarioStep1 extends CicloActivity {
 
                                 @Override
                                 public void fail(ResultWebServiceFail fail) {
-
+                                    int stringId = admin.getStringResourceIdByName(fail.getError());
+                                    if(stringId >0) {
+                                        admin.toast((getString(stringId)));
+                                    } else {
+                                        admin.toast(fail.getError());
+                                    }
                                 }
                             });
                 } catch (Exception e) {

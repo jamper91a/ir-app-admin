@@ -46,6 +46,8 @@ public class EpcViewModel extends ViewModel {
     }
 
     public LiveData<Inventory> getInventario() {
+        if(this.inventario == null)
+            this.inventario = new MutableLiveData<>();
         return inventario;
     }
 

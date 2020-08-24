@@ -125,12 +125,13 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
                         epcVieModel.addProductoZona(pz);
                     }
                     eanPluVieModel.setInventario(inventario);
+                    epcVieModel.setInventario(inventario);
 
                 }
 
                 @Override
                 public void fail(ResultWebServiceFail fail) {
-                    admin.toast(fail.getError());
+                    admin.callIntent(VisualizarInventarioPorZonaStep1.class, null);
                 }
             });
         }
