@@ -3,26 +3,79 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".pages.Transfers.ManifiestoElectronico.ManifiestoElectronicoHome">
 
-    <TextView
-        android:id="@+id/txtLoc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        style="@style/appHeaderContainer"
         android:gravity="center"
-        android:text="TextView" />
-
-    <Button
-        android:id="@+id/btnSal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/salidas" />
-
-    <Button
-        android:id="@+id/btnIng"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/logo2" />
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/ingresos" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/titleIcn"
+                style="@style/title_icn"
+                app:srcCompat="@drawable/ic_manifiesto_blue_dark" />
+
+            <TextView
+                android:id="@+id/titleTxt"
+                style="@style/title_text_blue_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/manifiesto_electronico" />
+        </LinearLayout>
+
+        <TextView
+            android:padding="10dp"
+            style="@style/edtTitle"
+            android:id="@+id/txtLoc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="TextView" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnIng"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_ingresos_r"
+                android:text="@string/ingresos" />
+
+            <Button
+                android:id="@+id/btnSal"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_salidas_r"
+                android:text="@string/salidas" />
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 </LinearLayout>
