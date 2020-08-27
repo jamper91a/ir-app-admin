@@ -19,9 +19,9 @@ import java.util.LinkedList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterTotalReportEpcDetails;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.tabs.InvTotalEpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 import jamper91.com.easyway.Util.Administrador;
 
 public class EpcFragment extends Fragment {
@@ -47,8 +47,8 @@ public class EpcFragment extends Fragment {
         this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.lnl2));
         addElemento(v.findViewById(R.id.lst1));
-        addElemento(v.findViewById(R.id.txtZone));
-        addElemento(v.findViewById(R.id.txtDate));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtHora));
 
         return v;
     }
@@ -57,7 +57,6 @@ public class EpcFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getData();
-
         adapter1 = new ListAdapterTotalReportEpcDetails(getActivity(), admin, mViewModel.getAllProducts().getValue(), new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
@@ -97,8 +96,26 @@ public class EpcFragment extends Fragment {
         mViewModel.getInventario().observe(this, new Observer<Inventory>() {
             @Override
             public void onChanged(@Nullable Inventory inventory) {
-                ((TextView)getElemento(R.id.txtZone)).setText(inventory.getZone().getName());
-                ((TextView)getElemento(R.id.txtDate)).setText(inventory.getDate());
+                ((TextView)getElemento(R.id.txtFecha)).setText(inventory.getZone().getName());
+                ((TextView)getElemento(R.id.txtHora)).setText(inventory.getDate());
+            }
+        });
+
+        mViewModel.getDate().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
+                String[] date = s.split(" ");
+                txtFecha.setText(date[0]);
+                txtHora.setText(date[1]);
+            }
+        });
+        mViewModel.getTransfer().observe(this, new Observer<Transfer>() {
+            @Override
+            public void onChanged(@Nullable Transfer transfer) {
+                ((TextView)getElemento(R.id.txtFecha)).setText(transfer.getShopDestination().getName());
+                ((TextView)getElemento(R.id.txtHora)).setText(transfer.getCreatedAt());
             }
         });
 

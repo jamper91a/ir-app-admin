@@ -244,12 +244,12 @@
     </style>
 
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
-        <item name="android:textColor">@color/gray_2</item>
+        <item name="android:textColor">@color/gray_border_button</item>
         <item name="android:textAlignment">center</item>
     </style>
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
-        <item name="android:textColor">@color/gray_2</item>
+        <item name="android:textColor">@color/blue_light</item>
         <item name="android:textAlignment">center</item>
     </style>
 

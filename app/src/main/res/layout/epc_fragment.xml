@@ -35,7 +35,7 @@
             <TextView
                 style="@style/text_white"
                 android:textAlignment="center"
-                android:id="@+id/txtZone"
+                android:id="@+id/txtFecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -44,7 +44,7 @@
             <TextView
                 style="@style/text_white"
                 android:textAlignment="center"
-                android:id="@+id/txtDate"
+                android:id="@+id/txtHora"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

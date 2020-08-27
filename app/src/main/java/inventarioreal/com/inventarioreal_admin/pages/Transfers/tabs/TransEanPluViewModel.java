@@ -11,6 +11,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHa
 public class TransEanPluViewModel extends ViewModel {
     MutableLiveData<LinkedList<TransfersHasZonesProduct>> productosZonasHasTransferenciasLiveData = null;
     private LinkedList<TransfersHasZonesProduct> productosZonaHasTransferencias = null;
+    private MutableLiveData<String> date= new MutableLiveData<>();
 
 
 
@@ -18,16 +19,6 @@ public class TransEanPluViewModel extends ViewModel {
         //Valido si ya se ha agregado el producto
         int count=0;
         if(productosZonasHasTransferencia.getProduct().getProduct()!=null){
-//            for (ProductosZonasHasTransferencias pzt: productosZonaHasTransferencias
-//                 ) {
-//                if(pzt.getProduct().getProduct().getId() == productosZonasHasTransferencia.getProduct().getProduct().getId()){
-//                    pzt.getProduct().setTotal(pzt.getProduct().getTotal()+1);
-//                    productosZonaHasTransferencias.set(count,pzt);
-//                    transferenciaLiveData.setValue(productosZonaHasTransferencias);
-//                    return;
-//                }
-//                count+=1;
-//            }
             productosZonaHasTransferencias.add(productosZonasHasTransferencia);
             productosZonasHasTransferenciasLiveData.setValue(productosZonaHasTransferencias);
         }
@@ -46,4 +37,8 @@ public class TransEanPluViewModel extends ViewModel {
         productosZonaHasTransferencias = new LinkedList<>();
         productosZonasHasTransferenciasLiveData.setValue(productosZonaHasTransferencias);
     }
+
+    public void setDate(String date) { this.date.setValue(date);}
+
+    public LiveData<String> getDate(){ return this.date;}
 }

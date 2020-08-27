@@ -36,6 +36,8 @@ public class HomeTransferencia extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnIng), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSal), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnMan), Techniques.FadeInLeft));

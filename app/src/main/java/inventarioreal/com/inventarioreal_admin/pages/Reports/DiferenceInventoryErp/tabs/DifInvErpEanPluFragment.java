@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -22,10 +23,7 @@ import java.util.LinkedList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterDiferenceInventoryErp;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterDiferenceInventoryErpVisual;
-import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonas;
-import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasVisual;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.DiferenceInventoryErp;
 import jamper91.com.easyway.Util.Administrador;
 
@@ -51,10 +49,16 @@ public class DifInvErpEanPluFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.ean_plu_fragment, container, false);
         this.elementos = new LinkedHashMap<>();
-        addElemento(v.findViewById(R.id.swtVisual));
+        addElemento(v.findViewById(R.id.containerVisual));
+        addElemento(v.findViewById(R.id.icnVisual));
+        addElemento(v.findViewById(R.id.btnVisual));
+        addElemento(v.findViewById(R.id.containerList));
+        addElemento(v.findViewById(R.id.icnVisualDark));
+        addElemento(v.findViewById(R.id.btnVisualDark));
         addElemento(v.findViewById(R.id.lnl2));
         addElemento(v.findViewById(R.id.lst1));
-        addElemento(v.findViewById(R.id.txtDate));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtHora));
 
         return v;
     }
@@ -102,7 +106,7 @@ public class DifInvErpEanPluFragment extends Fragment {
     }
 
     private void getData(){
-        ((TextView)getElemento(R.id.txtDate)).setText(admin.getCurrentDateAndTime());
+        ((TextView)getElemento(R.id.txtHora)).setText(admin.getCurrentDateAndTime());
         mViewModel = ViewModelProviders.of(getActivity()).get(DifInvErpEanPluViewModel.class);
         mViewModel.getProducts().observe(this, new Observer<LinkedList<DiferenceInventoryErp>>() {
             @Override
@@ -121,19 +125,29 @@ public class DifInvErpEanPluFragment extends Fragment {
 
 
     private void onClick(){
-        Switch swtVisual = (Switch)getElemento(R.id.swtVisual);
-        swtVisual.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        final LinearLayout containerVisual = (LinearLayout) getElemento(R.id.containerVisual);
+        final LinearLayout containerList = (LinearLayout) getElemento(R.id.containerList);
+
+        containerVisual.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1);
-                    lst1.setLayoutManager(new GridLayoutManager(getContext(), 3));
-                    lst1.setAdapter(adapterVisual);
-                }else{
-                    RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1);
-                    lst1.setLayoutManager(new LinearLayoutManager(getContext()));
-                    lst1.setAdapter(adapter1);
-                }
+            public void onClick(View view) {
+                RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1);
+                lst1.setLayoutManager(new GridLayoutManager(getContext(), 3));
+                lst1.setAdapter(adapterVisual);
+                containerVisual.setVisibility(View.GONE);
+                containerList.setVisibility(View.VISIBLE);
+            }
+        });
+
+
+        containerList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecyclerView lst1 = (RecyclerView)getElemento(R.id.lst1);
+                lst1.setLayoutManager(new LinearLayoutManager(getContext()));
+                lst1.setAdapter(adapter1);
+                containerVisual.setVisibility(View.VISIBLE);
+                containerList.setVisibility(View.GONE);
             }
         });
     }

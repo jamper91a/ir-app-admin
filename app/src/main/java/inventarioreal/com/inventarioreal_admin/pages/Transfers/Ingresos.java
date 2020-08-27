@@ -2,9 +2,11 @@ package inventarioreal.com.inventarioreal_admin.pages.Transfers;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -124,13 +127,17 @@ public class Ingresos extends CicloActivity {
     @Override
     public void initGui() {
 
-
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCan),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnLee),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnFin),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBor),Techniques.FadeInLeft));
 
+        getElemento(R.id.titleTxt).setText(getString(R.string.ingresos));
+        ImageView img = (ImageView) getElemento(R.id.titleIcn).getElemento();
+        img.setImageDrawable(getDrawable(R.drawable.ic_ingresos_blue_dark));
 
     }
 
@@ -142,6 +149,8 @@ public class Ingresos extends CicloActivity {
         epcViewModel = ViewModelProviders.of(this).get(EpcViewModel.class);
         getTransferencias();
         totalViewModel.setDate(admin.getCurrentDateAndTime());
+        eanPluVieModel.setDate(admin.getCurrentDateAndTime());
+        epcViewModel.setDate(admin.getCurrentDateAndTime());
     }
 
     public void getTransferencias(){

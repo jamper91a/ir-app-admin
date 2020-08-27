@@ -138,12 +138,16 @@ public class RFDIReader {
         threadSmall.start();
     }
     private void stopSmallReader(){
-        if(threadSmall!=null)
-            threadSmall.interrupt();
-        if (managerSmall != null) {
-            managerSmall.stopInventoryMulti();
-            managerSmall.close();
-            managerSmall = null;
+        try {
+            if(threadSmall!=null)
+                threadSmall.interrupt();
+            if (managerSmall != null) {
+                managerSmall.stopInventoryMulti();
+                managerSmall.close();
+                managerSmall = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     class InventoryThread extends Thread {

@@ -214,4 +214,5 @@
     <string name="list">List</string>
     <string name="write_a_message">Write a message</string>
     <string name="inventario_parcial">Inventario Parcial</string>
+    <string name="create_transfer">Crear transferencia</string>
 </resources>

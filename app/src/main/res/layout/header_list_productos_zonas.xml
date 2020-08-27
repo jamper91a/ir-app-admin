@@ -14,8 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/total"
-            android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:textStyle="bold" />
 
     <TextView
         style="@style/text_white"
@@ -24,8 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/eanPlu"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textStyle="bold" />
 
     <TextView
         style="@style/text_white"
@@ -34,6 +32,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/detalles"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textStyle="bold"/>
 </LinearLayout>

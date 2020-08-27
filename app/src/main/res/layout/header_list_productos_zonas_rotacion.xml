@@ -4,44 +4,50 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/listHeaderContainer"
         android:orientation="horizontal">
 
         <TextView
+            style="@style/text_white"
+            android:textStyle="bold"
             android:id="@+id/txtTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/total"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="@string/total" />
     <TextView
+        style="@style/text_white"
+        android:textStyle="bold"
         android:id="@+id/txtVendidas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/vendidas"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:text="@string/vendidas" />
 
     <TextView
+        style="@style/text_white"
+        android:textStyle="bold"
         android:id="@+id/txtDiferencia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/diferencia"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:text="@string/diferencia" />
 
     <TextView
+        style="@style/text_white"
+        android:textStyle="bold"
         android:id="@+id/txtEanPlu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/eanPlu"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:text="@string/eanPlu" />
 
     <TextView
+        style="@style/text_white"
+        android:textStyle="bold"
         android:id="@+id/txtDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/detalles"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:text="@string/detalles" />
 </LinearLayout>

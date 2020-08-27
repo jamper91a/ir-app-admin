@@ -6,9 +6,11 @@
     android:layout_height="wrap_content"
     android:baselineAligned="false"
     android:clickable="true"
+
     android:orientation="horizontal">
 
     <LinearLayout
+        style="@style/listItemContainer"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_weight="1"
@@ -17,6 +19,7 @@
         android:orientation="horizontal">
 
         <TextView
+            style="@style/text_blue_dark"
             android:id="@+id/txt1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,6 +32,7 @@
             tools:ignore="NestedWeights" />
 
         <TextView
+            style="@style/text_blue_dark"
             android:id="@+id/txt2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,6 +46,7 @@
             tools:ignore="NestedWeights" />
 
         <TextView
+            style="@style/text_blue_dark"
             android:id="@+id/txt3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,6 +60,7 @@
             tools:ignore="NestedWeights" />
 
         <TextView
+            style="@style/text_blue_dark"
             android:id="@+id/txt4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

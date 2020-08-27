@@ -12,9 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.LinkedHashMap;
@@ -25,7 +23,6 @@ import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZona
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterProductosZonasVisual;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import jamper91.com.easyway.Util.Administrador;
 
@@ -59,8 +56,8 @@ public class EanPluConsolidadoFragment extends Fragment {
         addElemento(v.findViewById(R.id.btnVisualDark));
         addElemento(v.findViewById(R.id.lnl2));
         addElemento(v.findViewById(R.id.lst1));
-        addElemento(v.findViewById(R.id.txtZone));
-        addElemento(v.findViewById(R.id.txtDate));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtHora));
 
         return v;
     }
@@ -123,8 +120,8 @@ public class EanPluConsolidadoFragment extends Fragment {
         mViewModel.getInventario().observe(this, new Observer<ConsolidatedInventory>() {
             @Override
             public void onChanged(@Nullable ConsolidatedInventory inventory) {
-                TextView txtZone = (TextView) getElemento(R.id.txtZone);
-                TextView txtHora = (TextView) getElemento(R.id.txtDate);
+                TextView txtZone = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
                 String auxDate = inventory.getCreatedAt().replace('Z', ' ');
                 String[] date = auxDate.split("T");
 

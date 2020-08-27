@@ -30,7 +30,10 @@ public class TransTotalFragment extends Fragment {
         View v =  inflater.inflate(R.layout.total_fragment, container, false);
         this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.txt2));
-        addElemento(v.findViewById(R.id.txt4));
+//        addElemento(v.findViewById(R.id.txt4));
+        addElemento(v.findViewById(R.id.timeContainer));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtHora));
         return v;
     }
 
@@ -48,9 +51,11 @@ public class TransTotalFragment extends Fragment {
         mViewModel.getDate().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                TextView txtDate = (TextView)getElemento(R.id.txt4);
-                txtDate.setText(s);
-                txtDate.setVisibility(View.VISIBLE);
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
+                String[] date = s.split(" ");
+                txtFecha.setText(date[0]);
+                txtHora.setText(date[1]);
             }
         });
     }

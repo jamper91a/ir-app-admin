@@ -149,6 +149,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         eanPluVieModel = ViewModelProviders.of(this).get(EanPluViewModel.class);
         epcViewModel = ViewModelProviders.of(this).get(EpcViewModel.class);
         eanPluVieModel.setTransfer(this.request);
+        epcViewModel.setTransfer(this.request);
         totalViewModel.setTransfer(this.request);
     }
 

@@ -10,13 +10,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.LinkedHashMap;
@@ -63,8 +59,8 @@ public class EanPluFragment extends Fragment {
         addElemento(v.findViewById(R.id.btnVisualDark));
         addElemento(v.findViewById(R.id.lnl2));
         addElemento(v.findViewById(R.id.lst1));
-        addElemento(v.findViewById(R.id.txtZone));
-        addElemento(v.findViewById(R.id.txtDate));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtHora));
 
         return v;
     }
@@ -125,15 +121,15 @@ public class EanPluFragment extends Fragment {
         mViewModel.getInventario().observe(this, new Observer<Inventory>() {
             @Override
             public void onChanged(@Nullable Inventory inventory) {
-                ((TextView)getElemento(R.id.txtZone)).setText(inventory.getZone().getName());
-                ((TextView)getElemento(R.id.txtDate)).setText(inventory.getDate());
+                ((TextView)getElemento(R.id.txtFecha)).setText(inventory.getZone().getName());
+                ((TextView)getElemento(R.id.txtHora)).setText(inventory.getDate());
             }
         });
         mViewModel.getTransfer().observe(this, new Observer<Transfer>() {
             @Override
             public void onChanged(@Nullable Transfer transfer) {
-                ((TextView)getElemento(R.id.txtZone)).setText(transfer.getShopDestination().getName());
-                ((TextView)getElemento(R.id.txtDate)).setText(transfer.getCreatedAt());
+                ((TextView)getElemento(R.id.txtFecha)).setText(transfer.getShopDestination().getName());
+                ((TextView)getElemento(R.id.txtHora)).setText(transfer.getCreatedAt());
             }
         });
 

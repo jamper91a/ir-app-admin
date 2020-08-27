@@ -2,38 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    style="@style/listHeaderContainer"
     android:orientation="horizontal">
 
     <TextView
+        style="@style/text_white"
+        android:textStyle="bold"
         android:id="@+id/txtEnv"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:text="@string/enviados"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+         />
 
     <TextView
+        style="@style/text_white"
+        android:textStyle="bold"
         android:id="@+id/txtRec"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:text="@string/recibidos"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+         />
 
     <TextView
+        style="@style/text_white"
+        android:textStyle="bold"
         android:id="@+id/txtEan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/eanPlu"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+         />
 
     <TextView
-        android:id="@+id/txtDet"
+        style="@style/text_white"
+        android:textStyle="bold"
+        android:id="@+id/txt4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/detalles"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+         />
 
 </LinearLayout>

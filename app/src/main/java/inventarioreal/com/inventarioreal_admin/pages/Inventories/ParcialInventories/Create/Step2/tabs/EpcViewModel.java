@@ -8,12 +8,15 @@ import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 
 public class EpcViewModel extends ViewModel {
 
     MutableLiveData<LinkedList<ProductHasZone>> allProductsZonasLiveData = null;
     MutableLiveData<Inventory> inventario = null;
+    MutableLiveData<Transfer> transfer = null;
     private LinkedList<ProductHasZone> allProducts= null;
+    private MutableLiveData<String> date= new MutableLiveData<>();
 
 
 
@@ -70,6 +73,22 @@ public class EpcViewModel extends ViewModel {
         {
             inventario.setValue(new Inventory());
         }
+    }
+
+    public void setDate(String date) { this.date.setValue(date);}
+
+    public LiveData<String> getDate(){ return this.date;}
+
+    public MutableLiveData<Transfer> getTransfer() {
+        if(this.transfer == null)
+            this.transfer= new MutableLiveData<>();
+        return transfer;
+    }
+
+    public void setTransfer(Transfer transfer) {
+        if(this.transfer == null)
+            this.transfer= new MutableLiveData<>();
+        this.transfer.setValue(transfer);
     }
 
 }

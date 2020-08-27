@@ -42,13 +42,15 @@ public class CrearTransferenciaStep1 extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txtLocOri), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txt2), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.spnLocalDestino), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txt3), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.spnPodLec), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.timeContainer), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txtFecha), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txtHora), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnIni), Techniques.FadeInLeft));
     }
 
@@ -57,8 +59,6 @@ public class CrearTransferenciaStep1 extends CicloActivity {
         try {
             //Obtener Zonas
             getShops();
-            //Obtener poder de lecura
-            getPoderLectura();
             //Obtener date actual
             getFecha();
         } catch (Exception e) {
@@ -111,31 +111,12 @@ public class CrearTransferenciaStep1 extends CicloActivity {
 
     }
 
-    private void getPoderLectura() {
-        final String[] poderLectura = new String[]{"100", "500", "1000"};
-
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, poderLectura);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        ((Spinner) getElemento(R.id.spnPodLec).getElemento()).setAdapter(adapter);
-        ((Spinner) getElemento(R.id.spnPodLec).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                request.setPower(poderLectura[position]);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-    }
 
     private void getFecha() {
         request.setCreatedAt(admin.getCurrentDateAndTime());
-        getElemento(R.id.txtFecha).setText(request.getCreatedAt());
+        String[] date = request.getCreatedAt().split(" ");
+        getElemento(R.id.txtFecha).setText(date[0]);
+        getElemento(R.id.txtHora).setText(date[1]);
     }
 
     @Override

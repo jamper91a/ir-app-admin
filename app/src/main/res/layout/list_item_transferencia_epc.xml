@@ -27,7 +27,7 @@
             android:clickable="false"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text=""
+            android:text="1"
             android:visibility="gone"
             tools:ignore="NestedWeights" />
 
@@ -41,7 +41,7 @@
             android:clickable="false"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text=""
+            android:text="2"
             android:visibility="visible"
             tools:ignore="NestedWeights" />
 
@@ -55,7 +55,7 @@
             android:clickable="false"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text=""
+            android:text="3"
             android:visibility="visible"
             tools:ignore="NestedWeights" />
 
@@ -69,7 +69,7 @@
             android:clickable="false"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text=""
+            android:text="4"
             android:visibility="visible"
             tools:ignore="NestedWeights" />
 

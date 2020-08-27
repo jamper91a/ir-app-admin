@@ -10,7 +10,7 @@
         android:id="@+id/txtId"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".10"
+        android:layout_weight="1"
         android:text="@string/id"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="gone" />
@@ -18,30 +18,30 @@
     <TextView
         style="@style/text_white"
         android:textStyle="bold"
-        android:id="@+id/txtEpc"
+        android:id="@+id/txt2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".40"
+        android:layout_weight="1"
         android:text="@string/epc"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         style="@style/text_white"
         android:textStyle="bold"
-        android:id="@+id/txtRecibido"
+        android:id="@+id/txt3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".10"
+        android:layout_weight="1"
         android:text="@string/estado"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         style="@style/text_white"
         android:textStyle="bold"
-        android:id="@+id/txtDet"
+        android:id="@+id/txt4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".40"
+        android:layout_weight="1"
         android:text="@string/detalles"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

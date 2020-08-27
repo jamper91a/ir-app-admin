@@ -3,79 +3,120 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".pages.Transfers.CrearTransferencia.CrearTransferenciaStep1">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txt1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/local_origen" />
+        <ImageView
+            android:id="@+id/titleIcn"
+            style="@style/title_icn"
+            app:srcCompat="@drawable/ic_transfer_blue_dark" />
 
         <TextView
-            android:id="@+id/txtLocOri"
-            android:layout_width="match_parent"
+            android:id="@+id/titleTxt"
+            style="@style/title_text_blue_dark"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@string/create_transfer" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txt2"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/local_destino" />
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/spnLocalDestino"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            <TextView
+                android:id="@+id/txt1"
+                style="@style/text_link"
+                android:text="@string/local_origen" />
+
+            <TextView
+                android:id="@+id/txtLocOri"
+                style="@style/labelContainer"
+                android:hint="@string/description" />
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txt3"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/poder_lectura" />
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/spnPodLec"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            <TextView
+                android:id="@+id/txt2"
+                style="@style/text_link"
+                android:text="@string/local_destino" />
+
+            <RelativeLayout style="@style/spinnerContainer">
+
+                <Spinner
+                    android:id="@+id/spnLocalDestino"
+                    style="@style/spinnerItem" />
+
+                <ImageView
+                    style="@style/spinnerIcon"
+                    android:src="@drawable/ic_arrow_down" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/txtFecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="DD/MM/AA - HH:MM:SS" />
+
+    <LinearLayout
+        android:id="@+id/timeContainer"
+        style="@style/timeContainer"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent">
+
+        <TextView
+            style="@style/text_white"
+            android:textAlignment="center"
+            android:id="@+id/txtFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DD/MM/AA" />
+
+        <TextView
+            style="@style/text_white"
+            android:textAlignment="center"
+            android:id="@+id/txtHora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="HH:MM:SS" />
+    </LinearLayout>
 
     <Button
+        android:layout_marginTop="10dp"
+        style="@style/button_blue_dark"
         android:id="@+id/btnIni"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

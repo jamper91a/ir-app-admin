@@ -133,7 +133,7 @@ public class ListAdapterTransferEpcDetails extends RecyclerView.Adapter<ListAdap
                 this.txtEnv = (TextView)view.findViewById(R.id.txtEnv);
                 this.txtRec= (TextView)view.findViewById(R.id.txtRec);
                 this.txtEan= (TextView)view.findViewById(R.id.txtEan);
-                this.txtDet= (TextView)view.findViewById(R.id.txtDet);
+                this.txtDet= (TextView)view.findViewById(R.id.txt4);
 
             }
             this.viewType = viewType;

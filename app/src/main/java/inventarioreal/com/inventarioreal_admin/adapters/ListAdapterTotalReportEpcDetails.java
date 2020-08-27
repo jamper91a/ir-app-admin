@@ -13,8 +13,6 @@ import java.util.LinkedList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.TransferenciaDetails;
 import jamper91.com.easyway.Util.Administrador;
 
 
@@ -74,12 +72,15 @@ public class ListAdapterTotalReportEpcDetails extends RecyclerView.Adapter<ListA
         switch (holder.viewType){
             case TYPE_HEADER:
 //                holder.bind(item);
+                holder.getTxtId().setVisibility(View.VISIBLE);
+                holder.getTxt3().setVisibility(View.GONE);
                 break;
             case TYPE_ITEM:
                 final ProductHasZone item = data.get(position-1);
                 holder.getTxt1().setText(item.getId()+"");
+                holder.getTxt1().setVisibility(View.VISIBLE);
                 holder.getTxt2().setText(item.getEpc().getEpc());
-//                holder.getTxt3().setText(item.getState()+"");
+                holder.getTxt3().setVisibility(View.GONE);
                 holder.getTxt4().setText(item.getProduct().getDescription());
                 holder.bind(item);
                 break;
@@ -117,7 +118,7 @@ public class ListAdapterTotalReportEpcDetails extends RecyclerView.Adapter<ListA
         int viewType;
 
         //region Header items
-        TextView txtEnv, txtRec, txtEan, txtDet;
+        TextView txtId, txtRec, txtEan, txtDet;
 
         //endregion
 
@@ -133,10 +134,10 @@ public class ListAdapterTotalReportEpcDetails extends RecyclerView.Adapter<ListA
                 this.txt4 = (TextView)view.findViewById(R.id.txt4);
             }
             else{
-                this.txtEnv = (TextView)view.findViewById(R.id.txtEnv);
-                this.txtRec= (TextView)view.findViewById(R.id.txtRec);
-                this.txtEan= (TextView)view.findViewById(R.id.txtEan);
-                this.txtDet= (TextView)view.findViewById(R.id.txtDet);
+                this.txtId = (TextView)view.findViewById(R.id.txtId);
+                this.txt2= (TextView)view.findViewById(R.id.txt2);
+                this.txt3= (TextView)view.findViewById(R.id.txt3);
+                this.txt4= (TextView)view.findViewById(R.id.txt4);
 
             }
             this.viewType = viewType;
@@ -191,12 +192,12 @@ public class ListAdapterTotalReportEpcDetails extends RecyclerView.Adapter<ListA
             this.viewType = viewType;
         }
 
-        public TextView getTxtEnv() {
-            return txtEnv;
+        public TextView getTxtId() {
+            return txtId;
         }
 
-        public void setTxtEnv(TextView txtEnv) {
-            this.txtEnv = txtEnv;
+        public void setTxtId(TextView txtId) {
+            this.txtId = txtId;
         }
 
         public TextView getTxtRec() {

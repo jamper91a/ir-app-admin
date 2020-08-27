@@ -19,9 +19,7 @@ import java.util.LinkedList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterTotalReportEpcDetails;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import jamper91.com.easyway.Util.Administrador;
 
@@ -48,8 +46,8 @@ public class EpcConsolidadoFragment extends Fragment {
         this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.lnl2));
         addElemento(v.findViewById(R.id.lst1));
-        addElemento(v.findViewById(R.id.txtZone));
-        addElemento(v.findViewById(R.id.txtDate));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtHora));
 
         return v;
     }
@@ -98,8 +96,8 @@ public class EpcConsolidadoFragment extends Fragment {
         mViewModel.getInventario().observe(this, new Observer<ConsolidatedInventory>() {
             @Override
             public void onChanged(@Nullable ConsolidatedInventory inventory) {
-                TextView txtZone = (TextView) getElemento(R.id.txtZone);
-                TextView txtHora = (TextView) getElemento(R.id.txtDate);
+                TextView txtZone = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
                 String auxDate = inventory.getCreatedAt().replace('Z', ' ');
                 String[] date = auxDate.split("T");
 

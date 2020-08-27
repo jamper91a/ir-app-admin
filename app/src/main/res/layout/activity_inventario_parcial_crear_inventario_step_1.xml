@@ -39,9 +39,9 @@
             android:text="@string/local" />
 
         <TextView
-            android:gravity="center"
             android:id="@+id/txtLocal"
             style="@style/labelContainer"
+            android:gravity="center"
             android:hint="@string/local" />
     </LinearLayout>
 
@@ -132,7 +132,6 @@
             android:id="@+id/btnIni"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/iniciar" />
     </LinearLayout>
 </LinearLayout>

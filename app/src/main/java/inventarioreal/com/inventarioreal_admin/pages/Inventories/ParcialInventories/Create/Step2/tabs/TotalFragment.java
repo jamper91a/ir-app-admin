@@ -76,7 +76,7 @@ public class TotalFragment extends Fragment {
                 String[] date = transfer.getCreatedAt().split(" ");
                 txtFecha.setText(date[0]);
                 txtHora.setText(date[1]);
-                lblLocDes.setText(R.string.local_destino+": ");
+                lblLocDes.setText(getString(R.string.local_destino)+": ");
                 txtLocDes.setText(transfer.getShopDestination().getName());
             }
         });

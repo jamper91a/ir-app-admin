@@ -1,7 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.adapters;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -171,7 +170,7 @@ public class ListAdapterInventarioEanPlu extends RecyclerView.Adapter<ListAdapte
             super(view);
             this.lnl1 = (LinearLayout)view.findViewById(R.id.lnl1);
             this.txtId = (TextView)view.findViewById(R.id.txtId);
-            this.txEpc = (TextView)view.findViewById(R.id.txtEpc);
+            this.txEpc = (TextView)view.findViewById(R.id.txt2);
             this.txtZona = (TextView)view.findViewById(R.id.txtZona);
 
             this.viewType = viewType;
