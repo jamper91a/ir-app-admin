@@ -37,14 +37,17 @@ public class TransDetailsTotalFragment extends Fragment {
         addElemento(v.findViewById(R.id.txtRec));
         addElemento(v.findViewById(R.id.txt2));
         addElemento(v.findViewById(R.id.txtFal));
-        addElemento(v.findViewById(R.id.txt3));
-        addElemento(v.findViewById(R.id.txtFec));
-        addElemento(v.findViewById(R.id.txt4));
-        addElemento(v.findViewById(R.id.txtLocDes));
+//        addElemento(v.findViewById(R.id.txt3));
+//        addElemento(v.findViewById(R.id.txtFec));
+//        addElemento(v.findViewById(R.id.txt4));
+//        addElemento(v.findViewById(R.id.txtLocDes));
         addElemento(v.findViewById(R.id.txt5));
         addElemento(v.findViewById(R.id.txtGen));
         addElemento(v.findViewById(R.id.txt6));
         addElemento(v.findViewById(R.id.txtMen));
+        addElemento(v.findViewById(R.id.timeContainer));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtLocDes));
         return v;
     }
 
@@ -63,10 +66,11 @@ public class TransDetailsTotalFragment extends Fragment {
                         txtRec.setText(transferenciaDetails.getRecibidos()+"");
                         TextView txtFal =(TextView) getElemento(R.id.txtFal);
                         txtFal.setText(transferenciaDetails.getFaltantes()+"");
-                        TextView txtFec =(TextView) getElemento(R.id.txtFec);
-                        txtFec.setText(transferenciaDetails.getFecha()+"");
+                        TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                        String date = transferenciaDetails.getFecha().replace("T", " ");
+                        txtFecha.setText(date);
                         TextView txtLocDes =(TextView) getElemento(R.id.txtLocDes);
-                        txtLocDes.setText(transferenciaDetails.getDestino().getName());
+                        txtLocDes.setText(getString(R.string.local_destino) + " " + transferenciaDetails.getDestino().getName());
                         TextView txtGen =(TextView) getElemento(R.id.txtGen);
                         txtGen.setText(transferenciaDetails.getGenerador().getUser().getUsername());
                         TextView txtMen =(TextView) getElemento(R.id.txtMen);

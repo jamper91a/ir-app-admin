@@ -54,7 +54,7 @@ public class DIFStep2 extends CicloActivity {
         String message = intent.getStringExtra(Constants.parameters);
         Gson gson = new Gson();
         this.request = gson.fromJson(message, RequestDIFStep2.class);
-        init(this,this, R.layout.activity_inventario_parcial_visualizar_por_zona_step_2);
+        init(this,this, R.layout.activity_tabs_container);
         this.tabsInit();
         getSupportActionBar().setTitle(R.string.diferencias_inventarios_fisicos);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

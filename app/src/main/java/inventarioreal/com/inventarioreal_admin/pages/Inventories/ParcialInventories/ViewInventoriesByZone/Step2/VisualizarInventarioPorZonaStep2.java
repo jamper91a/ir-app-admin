@@ -76,7 +76,7 @@ public class VisualizarInventarioPorZonaStep2 extends CicloActivity {
             Log.e(TAG, e.getMessage());
         }
 
-        init(this,this,R.layout.activity_inventario_parcial_visualizar_por_zona_step_2);
+        init(this,this,R.layout.activity_tabs_container);
         this.tabsInit();
         //endregion
         // toolbar

@@ -71,12 +71,14 @@ public class ListAdapterTransferEpcDetails extends RecyclerView.Adapter<ListAdap
         switch (holder.viewType){
             case TYPE_HEADER:
 //                holder.bind(item);
+                holder.getTxt2().setVisibility(View.GONE);
                 break;
             case TYPE_ITEM:
                 final TransfersHasZonesProduct item = data.getTransfer().getProducts()[position-1];
                 holder.getTxt1().setText(item.getProduct().getProduct().getId()+"");
                 holder.getTxt2().setText(item.getProduct().getEpc().getEpc());
                 holder.getTxt3().setText(item.getState()+"");
+                holder.getTxt3().setVisibility(View.GONE);
                 holder.getTxt4().setText(item.getProduct().getProduct().getDescription());
                 holder.bind(item);
                 break;
@@ -114,7 +116,7 @@ public class ListAdapterTransferEpcDetails extends RecyclerView.Adapter<ListAdap
         int viewType;
 
         //region Header items
-        TextView txtEnv, txtRec, txtEan, txtDet;
+        TextView txtId;
 
         //endregion
 
@@ -130,10 +132,10 @@ public class ListAdapterTransferEpcDetails extends RecyclerView.Adapter<ListAdap
                 this.txt4 = (TextView)view.findViewById(R.id.txt4);
             }
             else{
-                this.txtEnv = (TextView)view.findViewById(R.id.txtEnv);
-                this.txtRec= (TextView)view.findViewById(R.id.txtRec);
-                this.txtEan= (TextView)view.findViewById(R.id.txtEan);
-                this.txtDet= (TextView)view.findViewById(R.id.txt4);
+                this.txtId = (TextView)view.findViewById(R.id.txtId);
+                this.txt2= (TextView)view.findViewById(R.id.txt2);
+                this.txt3= (TextView)view.findViewById(R.id.txt3);
+                this.txt4= (TextView)view.findViewById(R.id.txt4);
 
             }
             this.viewType = viewType;
@@ -188,37 +190,15 @@ public class ListAdapterTransferEpcDetails extends RecyclerView.Adapter<ListAdap
             this.viewType = viewType;
         }
 
-        public TextView getTxtEnv() {
-            return txtEnv;
+        public TextView getTxtId() {
+            return txtId;
         }
 
-        public void setTxtEnv(TextView txtEnv) {
-            this.txtEnv = txtEnv;
+        public void setTxtId(TextView txtId) {
+            this.txtId = txtId;
         }
 
-        public TextView getTxtRec() {
-            return txtRec;
-        }
 
-        public void setTxtRec(TextView txtRec) {
-            this.txtRec = txtRec;
-        }
-
-        public TextView getTxtEan() {
-            return txtEan;
-        }
-
-        public void setTxtEan(TextView txtEan) {
-            this.txtEan = txtEan;
-        }
-
-        public TextView getTxtDet() {
-            return txtDet;
-        }
-
-        public void setTxtDet(TextView txtDet) {
-            this.txtDet = txtDet;
-        }
 
         public void bind(final TransfersHasZonesProduct item) {
             itemView.setOnClickListener(new View.OnClickListener() {

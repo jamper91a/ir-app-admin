@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
@@ -40,7 +41,7 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
         Gson gson = new Gson();
         this.data = gson.fromJson(aux, TransferenciaDetails.class);
 
-        init(this,this, R.layout.activity_manifiesto_electronico_detalles);
+        init(this,this, R.layout.activity_tabs_container);
         //region Obtener parametros
 
 
@@ -56,9 +57,15 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSal),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
+
+        getElemento(R.id.titleTxt).setText(this.data.getType());
+        ImageView img = (ImageView) getElemento(R.id.titleIcn).getElemento();
+        img.setImageDrawable(getDrawable(R.drawable.ic_manifiesto_blue_dark));
     }
 
     @Override

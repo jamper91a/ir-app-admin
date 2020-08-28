@@ -17,6 +17,7 @@ public class TransferenciaDetails {
     private String manifiestoElectronico;
     private ProductosTransferenciaDetail[] productos;
     private Transfer transfer;
+    private String type;
 
     public TransferenciaDetails() {
     }
@@ -110,5 +111,13 @@ public class TransferenciaDetails {
 
     public void setProductos(ProductosTransferenciaDetail[] productos) {
         this.productos = productos;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

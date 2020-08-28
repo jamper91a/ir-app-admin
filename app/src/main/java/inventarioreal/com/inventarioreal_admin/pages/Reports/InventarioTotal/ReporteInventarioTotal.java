@@ -1,15 +1,12 @@
 package inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +31,6 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreatePdfRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreatePdfTotalnventoryRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -56,7 +52,7 @@ public class ReporteInventarioTotal extends CicloActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(this,this,R.layout.activity_inventario_parcial_visualizar_por_zona_step_2);
+        init(this,this,R.layout.activity_tabs_container);
         this.tabsInit();
         //toolbar
         getSupportActionBar().setTitle(R.string.reporte_inventario_total);

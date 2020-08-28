@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import java.util.LinkedHashMap;
 
@@ -122,6 +123,16 @@ public class TransDetailsEanPluFragment extends Fragment {
                     adapter1.notifyDataSetChanged();
                     adapterVisual.setData(transferencia.getProductos());
                     adapterVisual.notifyDataSetChanged();
+
+
+                }
+
+                if(transferencia!=null) {
+                    TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                    String date = transferencia.getFecha().replace("T", " ");
+                    txtFecha.setText(date);
+                    TextView txtLocDes =(TextView) getElemento(R.id.txtHora);
+                    txtLocDes.setText(getString(R.string.local_destino) + " " + transferencia.getDestino().getName());
                 }
 
             }

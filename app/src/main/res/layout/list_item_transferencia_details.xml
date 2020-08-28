@@ -9,6 +9,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
+        style="@style/listItemContainer"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_weight="1"
@@ -17,50 +18,51 @@
         android:orientation="horizontal">
 
         <TextView
+            style="@style/text_blue_dark"
             android:id="@+id/txt1"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:clickable="false"
             android:ems="10"
-            android:gravity="bottom"
-            android:inputType="textPersonName"
-            android:text=""
+            android:textAlignment="center"
+            android:text="1"
             tools:ignore="NestedWeights" />
 
         <TextView
+            style="@style/text_blue_dark"
             android:id="@+id/txt2"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:clickable="false"
             android:ems="10"
-            android:gravity="bottom"
+            android:textAlignment="center"
             android:inputType="textPersonName"
-            android:text=""
+            android:text="2"
             android:visibility="visible"
             tools:ignore="NestedWeights" />
 
         <TextView
+            style="@style/text_blue_dark"
             android:id="@+id/txt3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="false"
             android:ems="10"
-            android:gravity="bottom"
-            android:inputType="textPersonName"
-            android:text=""
+            android:textAlignment="center"
+            android:text="3"
             android:visibility="visible"
             tools:ignore="NestedWeights" />
         <TextView
+            style="@style/text_blue_dark"
             android:id="@+id/txt4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="false"
             android:ems="10"
-            android:gravity="bottom"
-            android:inputType="textPersonName"
-            android:text=""
+            android:textAlignment="center"
+            android:text="4"
             android:visibility="visible"
             tools:ignore="NestedWeights" />
 

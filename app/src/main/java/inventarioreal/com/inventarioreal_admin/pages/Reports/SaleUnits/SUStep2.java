@@ -21,7 +21,6 @@ import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pages.Reports.DiferenciaInventariosFisicos.DIFStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.SaleUnits.tabs.SUEanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.SaleUnits.tabs.SUEanPluViewModel;
@@ -55,7 +54,7 @@ public class SUStep2 extends CicloActivity {
         String message = intent.getStringExtra(Constants.parameters);
         Gson gson = new Gson();
         this.request = gson.fromJson(message, RequestSUStep2.class);
-        init(this,this, R.layout.activity_inventario_parcial_visualizar_por_zona_step_2);
+        init(this,this, R.layout.activity_tabs_container);
         this.tabsInit();
         getSupportActionBar().setTitle(R.string.reporte_unidades_vendidas);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

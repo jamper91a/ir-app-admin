@@ -87,27 +87,13 @@ public class ManifiestoElectronicoSalidas extends CicloActivity {
 //                        productosUnicos++;
                         //Como el producto no existe lo creo y lo agrego a la lista
                         try {
-                            ProductHasZone productosZonas =
-                                    (ProductHasZone) db.findById(
-                                            Constants.table_productsHasZones,
-                                            pzt.getProduct().getId()+"",
-                                            ProductHasZone.class);
-                            if(productosZonas!=null){
-
-                                Product producto =
-                                        (Product) db.findById(
-                                                Constants.table_products,
-                                                productosZonas.getProduct().getId()+"",
-                                                Product.class
-                                        );
-                                if(producto!=null){
+                            if(pzt.getProduct().getProduct()!=null){
                                     ProductosTransferenciaDetail aux = new ProductosTransferenciaDetail();
                                     aux.setEnviados(1);
                                     if(pzt.state)
                                         aux.setRecibidos(1);
-                                    aux.setProducto(producto);
+                                    aux.setProducto(pzt.getProduct().getProduct());
                                     productos.add(aux);
-                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -125,6 +111,7 @@ public class ManifiestoElectronicoSalidas extends CicloActivity {
                 ProductosTransferenciaDetail [] auxProd = productos.toArray(new ProductosTransferenciaDetail[productos.size()]);
                 transferenciaDetails.setProductos(auxProd);
                 transferenciaDetails.setTransfer(transferencia);
+                transferenciaDetails.setType(getString(R.string.manifiesto_electronico_salidas));
 
                 admin.callIntent(ManifiestoElectronicoDetalles.class, transferenciaDetails, TransferenciaDetails.class);
 
@@ -146,6 +133,11 @@ public class ManifiestoElectronicoSalidas extends CicloActivity {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 transferencias = (ArrayList<Transfer>) ok.getData();
+
+                if(transferencias.isEmpty()) {
+                    admin.toast(getString(R.string.error_minimo_un_producto));
+                    onBackPressed();
+                }
                 //Debo obtener el id del productoZona de cada producto
                 for(Transfer tran :transferencias){
                     for(TransfersHasZonesProduct pzht:tran.getProducts()){
@@ -171,7 +163,8 @@ public class ManifiestoElectronicoSalidas extends CicloActivity {
 
             @Override
             public void fail(ResultWebServiceFail fail) {
-
+                admin.toast(fail.getError());
+                onBackPressed();
             }
         });
 

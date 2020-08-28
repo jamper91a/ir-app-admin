@@ -12,4 +12,6 @@
     <color name="gray">#e3e4e4</color>
     <color name="gray_2">#e4e4e4</color>
     <color name="gray_border_button">#a3a3a3</color>
+    <color name="red">#fb1111</color>
+    <color name="yellow">#fbc711</color>
 </resources>

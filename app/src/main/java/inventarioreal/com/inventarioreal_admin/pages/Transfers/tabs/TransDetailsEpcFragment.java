@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.LinkedHashMap;
 
@@ -93,6 +94,14 @@ public class TransDetailsEpcFragment extends Fragment {
                 if(transferencia !=null && transferencia.getProductos()!= null){
                     adapter1.setData(transferencia);
                     adapter1.notifyDataSetChanged();
+                }
+
+                if(transferencia!=null) {
+                    TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                    String date = transferencia.getFecha().replace("T", " ");
+                    txtFecha.setText(date);
+                    TextView txtLocDes =(TextView) getElemento(R.id.txtHora);
+                    txtLocDes.setText(getString(R.string.local_destino) + " " + transferencia.getDestino().getName());
                 }
             }
         });

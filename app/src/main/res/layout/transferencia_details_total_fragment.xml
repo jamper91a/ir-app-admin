@@ -8,136 +8,163 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/txt0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/enviados"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/txtEnv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/txt1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/recibidos"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/txtRec"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/txt2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/faltantes"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/txtFal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textAlignment="center" />
-
         <LinearLayout
+            android:layout_gravity="center"
+            android:background="@drawable/back_total_fragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                style="@style/title_text_blue_dark"
+                android:id="@+id/txt0"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:text="@string/enviados"
+                android:textAlignment="center" />
 
-                <TextView
-                    android:id="@+id/txt3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/fecha_de_transferencia" />
-
-                <TextView
-                    android:id="@+id/txtFec"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text=" DD /MM /YYYY" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/txtEnv"
+                style="@style/title_text_blue_dark"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:text="000000000000000"
+                android:textAlignment="center"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/txt4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/local_destino" />
-
-                <TextView
-                    android:id="@+id/txtLocDes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text=" Cll 100" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                style="@style/title_text_blue_dark"
+                android:id="@+id/txt1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:text="@string/recibidos"
+                android:textAlignment="center" />
 
-                <TextView
-                    android:id="@+id/txt5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/generado_por" />
+            <TextView
+                android:id="@+id/txtRec"
+                android:textStyle="bold"
+                style="@style/title_text_blue_dark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="000000000000000"
+                android:textColor="@color/yellow"
+                android:textAlignment="center" />
 
-                <TextView
-                    android:id="@+id/txtGen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text=" Administrador" />
-            </LinearLayout>
+            <TextView
+                style="@style/title_text_blue_dark"
+                android:id="@+id/txt2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/faltantes"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/txtFal"
+                style="@style/title_text_blue_dark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="000000000000000"
+                android:textColor="@color/red"
+                android:textAlignment="center"
+                android:textStyle="bold" />
 
             <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:paddingTop="6dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/border_top_bottom_blue_dark"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/txt6"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="6dp"
+                    style="@style/timeContainer"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/message" />
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/txtMen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text=" Mensaje" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/text_white"
+                            android:id="@+id/txt5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/generado_por" />
+
+                        <TextView
+                            style="@style/text_white"
+                            android:id="@+id/txtGen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text=" Administrador" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/text_white"
+                            android:id="@+id/txt6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/message" />
+
+                        <TextView
+                            style="@style/text_white"
+                            android:id="@+id/txtMen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text=" Mensaje" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+
+            android:layout_gravity="bottom"
+            android:id="@+id/timeContainer"
+            style="@style/timeContainer"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent">
+
+            <TextView
+                style="@style/text_white"
+                android:textAlignment="center"
+                android:id="@+id/txtFecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="DD/MM/AA" />
+
+            <TextView
+                android:id="@+id/txtLocDes"
+                style="@style/text_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Local Destino"
+                android:textAlignment="center" />
         </LinearLayout>
     </LinearLayout>
+
 
 </FrameLayout>
