@@ -16,22 +16,37 @@ import android.widget.ImageView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 
+import java.util.LinkedList;
+
 import inventarioreal.com.inventarioreal_admin.R;
+import inventarioreal.com.inventarioreal_admin.listener.OnAcceptCancelListener;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
+import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.ReporteInventarioTotal;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsEanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsEanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsEpcFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsTotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsTotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.TransferenciaDetails;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreatePdfElectronicManifestRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreatePdfRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreatePdfTotalnventoryRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import inventarioreal.com.inventarioreal_admin.util.Util;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class ManifiestoElectronicoDetalles extends CicloActivity {
 
     private TransferenciaDetails data;
+    private CreatePdfElectronicManifestRequest request;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +85,7 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
 
     @Override
     public void getData() {
+        request = new CreatePdfElectronicManifestRequest(this);
         totalViewModel = ViewModelProviders.of(this).get(TransDetailsTotalViewModel.class);
         eanPluVieModel = ViewModelProviders.of(this).get(TransDetailsEanPluViewModel.class);
         totalViewModel.setTransferencia(this.data);
@@ -83,6 +99,53 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
             @Override
             public void onClick(View view) {
                 admin.callIntent(ManifiestoElectronicoHome.class, null);
+            }
+        });
+        add_on_click(R.id.btnEnv, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Util.context = ManifiestoElectronicoDetalles.this;
+                Util.askForEmail(new OnAcceptCancelListener() {
+                    @Override
+                    public void onAccept(Object item) {
+                        Gson gson = new Gson();
+                        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+                        request.setTitle(data.getType());
+                        request.addHeaders(
+                                getString(R.string.enviados),
+                                getString(R.string.recibidos),
+                                getString(R.string.eanPlu),
+                                getString(R.string.description)
+                        );
+                        request.addRows(data.getProductos());
+                        request.setAmountSent(data.getEnviados());
+                        request.setAmountReceived(data.getRecibidos());
+                        request.setAmountMissing(data.getFaltantes());
+                        request.setDestination(data.getDestino().getName());
+                        request.setSource(empleado.getEmployee().getShop().getName());
+                        request.setTo((String) item);
+
+                        WebServices.createPdf(ManifiestoElectronicoDetalles.this, request, admin, new ResultWebServiceInterface() {
+                            @Override
+                            public void ok(ResultWebServiceOk ok) {
+                                admin.toast(getString(R.string.email_sent));
+                            }
+
+                            @Override
+                            public void fail(ResultWebServiceFail fail) {
+
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onCancel(Object item) {
+
+                    }
+                });
+
+
             }
         });
     }

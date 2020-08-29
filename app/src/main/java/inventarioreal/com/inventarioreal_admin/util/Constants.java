@@ -195,4 +195,23 @@ public class Constants {
     public static final String total = "total";
     public static final String to = "to";
     public static final String page = "page";
+    public static final String header = "header";
+    public static String col1 = "col1";
+    public static String col2 = "col2";
+    public static String col3 = "col3";
+    public static String col4 = "col4";
+    public static String amountSentTitle = "amountSentTitle";
+    public static String amountSent = "amountSent";
+    public static String amountReceivedTitle = "amountReceivedTitle";
+    public static String amountReceived = "amountReceived";
+    public static String missingTitle = "missingTitle";
+    public static String amountMissing = "amountMissing";
+    public static String destinationTitle = "destinationTitle";
+    public static String destination = "destination";
+    public static String source = "source";
+    public static  String sent = "sent";
+    public static  String received = "received";
+    public static  String ean = "ean";
+    public static  String description = "description";
+
 }
