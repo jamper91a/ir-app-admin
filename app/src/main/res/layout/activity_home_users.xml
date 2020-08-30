@@ -7,28 +7,82 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".pages.Transfers.HomeTransferencia">
-
-    <Button
-        android:id="@+id/btn1"
+    <LinearLayout
+        style="@style/appHeaderContainer"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/crear_nuevo_usuario" />
-
-    <Button
-        android:id="@+id/btn2"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/logo2" />
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/modificar_usuario" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/activar_desactivar_usuario" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btn4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/listado_usuarios" />
+            <ImageView
+                android:id="@+id/titleIcn"
+                style="@style/title_icn"
+                app:srcCompat="@drawable/ic_transfer_blue_dark" />
+
+            <TextView
+                android:id="@+id/titleTxt"
+                style="@style/title_text_blue_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/usuarios" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn1"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_ingresos_r"
+                android:text="@string/crear_nuevo_usuario" />
+
+            <Button
+                android:id="@+id/btn2"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_salidas_r"
+                android:text="@string/modificar_usuario" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn3"
+                style="@style/button_blue"
+                android:drawableTop="@drawable/icn_manifiestos_r"
+                android:text="@string/activar_desactivar_usuario" />
+            <Button
+                android:id="@+id/btn4"
+                style="@style/button_blue"
+                android:drawableTop="@drawable/icn_manifiestos_r"
+                android:text="@string/listado_usuarios" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </LinearLayout>

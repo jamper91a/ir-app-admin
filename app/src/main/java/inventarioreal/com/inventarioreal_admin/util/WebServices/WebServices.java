@@ -103,6 +103,10 @@ public class WebServices {
 
     private static void errorWebService(VolleyError volleyError, ResultWebServiceInterface result){
         try {
+            if(volleyError.networkResponse.statusCode == 403) {
+                result.fail(new ResultWebServiceFail("Not allowed"));
+                return;
+            }
             String exit = volleyError.networkResponse.headers.get("X-Exit");
             String description = volleyError.networkResponse.headers.get("X-Exit-Description");
             result.fail(new ResultWebServiceFail(exit));

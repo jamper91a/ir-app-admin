@@ -68,7 +68,7 @@ public class CreatePdfTotalnventoryRequest extends CreatePdfRequest implements W
 
         HashMap<String, Object> campos = new HashMap<>();
         campos.put(Constants.templateId, this.getTemplateId());
-        campos.put(Constants.data, gson.toJson(data));
+        campos.put(Constants.data, data);
         if(!this.getTo().isEmpty()) campos.put(Constants.to, this.getTo());
         return campos;
     }

@@ -39,6 +39,8 @@ public class HomeUsers extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btn1), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btn2), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btn3), Techniques.FadeInLeft));

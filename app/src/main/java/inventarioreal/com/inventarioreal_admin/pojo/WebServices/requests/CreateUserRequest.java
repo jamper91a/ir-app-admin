@@ -5,6 +5,9 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.R;
@@ -84,22 +87,27 @@ public class CreateUserRequest implements WebServiceRequest {
     }
 
     public HashMap<String, Object> getCampos(){
-        HashMap<String, Object> campos = new HashMap<>();
-        Gson gson = new Gson();
-        JsonObject user = new JsonObject();
-        user.addProperty(Constants.name, this.getName());
-        user.addProperty(Constants.username, this.getUsername());
-        user.addProperty(Constants.password, this.getPassword());
-        user.addProperty(Constants.group, this.getType());
+        HashMap<String, Object> campos = null;
+        try {
+            campos = new HashMap<>();
+            JSONObject user = new JSONObject();
+            user.put(Constants.name, this.getName());
+            user.put(Constants.username, this.getUsername());
+            user.put(Constants.password, this.getPassword());
+            user.put(Constants.group, this.getType());
 
-        JsonObject employee = new JsonObject();
-        employee.addProperty(Constants.company,  this.getCompany());
-        employee.addProperty(Constants.shop, this.getShop());
+            JSONObject employee = new JSONObject();
+            employee.put(Constants.company,  this.getCompany());
+            employee.put(Constants.shop, this.getShop());
 
 
-        campos.put(Constants.user, gson.toJson(user));
-        campos.put(Constants.employee, gson.toJson(employee));
-        return campos;
+            campos.put(Constants.user, user);
+            campos.put(Constants.employee,employee);
+            return campos;
+        } catch (JSONException e) {
+            return null;
+        }
+
     }
 
     public boolean validar() throws Error{
