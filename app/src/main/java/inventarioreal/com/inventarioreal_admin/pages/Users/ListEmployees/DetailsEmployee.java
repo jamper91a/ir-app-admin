@@ -36,15 +36,27 @@ public class DetailsEmployee extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtLocalContainer), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtLocal), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txt2), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.edtName), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txt3), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.edtEmail), Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.txt4), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtTypeContainer), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtType), Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.txt3), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtEmailContainer), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtEmail), Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.txt2), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtNameContainer), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtName), Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.txt5), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtStateContainer), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtState), Techniques.FadeInLeft));
     }
 
