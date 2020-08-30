@@ -214,4 +214,5 @@ public class Constants {
     public static  String ean = "ean";
     public static  String description = "description";
 
+    public static String rpassword= "rpassword";
 }

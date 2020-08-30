@@ -94,6 +94,7 @@ public class CreateUserRequest implements WebServiceRequest {
             user.put(Constants.name, this.getName());
             user.put(Constants.username, this.getUsername());
             user.put(Constants.password, this.getPassword());
+            user.put(Constants.rpassword, this.getRpassword());
             user.put(Constants.group, this.getType());
 
             JSONObject employee = new JSONObject();

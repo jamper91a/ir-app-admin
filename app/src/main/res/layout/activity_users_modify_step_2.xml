@@ -2,132 +2,149 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/titleIcn"
+            style="@style/title_icn"
+            app:srcCompat="@drawable/ic_transfer_blue_dark" />
+
+        <TextView
+            android:id="@+id/titleTxt"
+            style="@style/title_text_blue_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/usuarios" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:gravity="center"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/txt1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            style="@style/label_input_hor"
             android:text="@string/local" />
-
-        <Spinner
-            android:id="@+id/spnLocal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+        <RelativeLayout
+            android:id="@+id/spnLocalContainer"
+            style="@style/spinnerContainer">
+            <Spinner
+                android:id="@+id/spnLocal"
+                style="@style/spinnerItem" />
+            <ImageView
+                style="@style/spinnerIcon"
+                android:src="@drawable/ic_arrow_down" />
+        </RelativeLayout>
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:gravity="center"
+        android:orientation="vertical">
         <TextView
-            android:id="@+id/txt2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/name" />
-
-        <EditText
-            android:id="@+id/edtName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:enabled="true"
-            android:inputType="text" />
+            android:id="@+id/txt6"
+            style="@style/label_input_hor"
+            android:text="@string/tipo_usuario" />
+        <RelativeLayout
+            android:id="@+id/spnTypeContainer"
+            style="@style/spinnerContainer">
+            <Spinner
+                android:id="@+id/spnType"
+                style="@style/spinnerItem" />
+            <ImageView
+                style="@style/spinnerIcon"
+                android:src="@drawable/ic_arrow_down" />
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        style="@style/container_input_hor">
 
         <TextView
             android:id="@+id/txt3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            style="@style/label_input_hor"
             android:text="@string/email" />
 
-        <EditText
-            android:id="@+id/edtEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:enabled="false"
-            android:inputType="textEmailAddress" />
+        <RelativeLayout
+            android:id="@+id/edtEmailContainer"
+            style="@style/input_hor_container"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtEmail"
+                style="@style/edit"
+                android:enabled="false"
+                android:inputType="textEmailAddress"
+                android:hint="@string/email" />
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        style="@style/container_input_hor">
         <TextView
             android:id="@+id/txt4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            style="@style/label_input_hor"
             android:text="@string/contrasena" />
+        <RelativeLayout
+            android:id="@+id/edtPasswordContainer"
+            style="@style/input_hor_container"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/edtPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPassword" />
+            <EditText
+                android:id="@+id/edtPassword"
+                style="@style/edit"
+                android:inputType="textPassword"
+                android:hint="@string/contrasena" />
+
+        </RelativeLayout>
+
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        style="@style/container_input_hor">
         <TextView
             android:id="@+id/txt5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            style="@style/label_input_hor"
             android:text="@string/repetir_contrasena" />
-
-        <EditText
-            android:id="@+id/edtRPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPassword" />
+        <RelativeLayout
+            android:id="@+id/edtRPasswordContainer"
+            style="@style/input_hor_container"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/edtRPassword"
+                style="@style/edit"
+                android:inputType="textPassword"
+                android:hint="@string/repetir_contrasena" />
+        </RelativeLayout>
     </LinearLayout>
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        style="@style/container_input_hor">
         <TextView
-            android:id="@+id/txt6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/tipo_usuario" />
-
-        <Spinner
-            android:id="@+id/spnType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:id="@+id/txt2"
+            style="@style/label_input_hor"
+            android:text="@string/nombre" />
+        <RelativeLayout
+            android:id="@+id/edtNameContainer"
+            style="@style/input_hor_container"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/edtName"
+                style="@style/edit"
+                android:inputType="textPersonName"
+                android:hint="@string/nombre" />
+        </RelativeLayout>
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -135,16 +152,14 @@
         android:orientation="horizontal">
 
         <Button
+            style="@style/button_blue_dark"
             android:id="@+id/btn1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/borrar" />
 
         <Button
+            style="@style/button_blue_dark"
             android:id="@+id/btn2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/modificar_usuario" />
     </LinearLayout>

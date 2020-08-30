@@ -46,7 +46,10 @@ public class ModifyUserStep1 extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtEmailContainer), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtEmail), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btn1), Techniques.FadeInLeft));
     }

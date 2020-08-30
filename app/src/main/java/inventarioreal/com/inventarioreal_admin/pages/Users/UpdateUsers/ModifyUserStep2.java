@@ -47,18 +47,33 @@ public class ModifyUserStep2 extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.spnLocalContainer), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.spnLocal), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txt2), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.edtName), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txt3), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.edtEmail), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txt4), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.edtPassword), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txt5), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.edtRPassword), Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.spnTypeContainer), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txt6), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.spnType), Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.txt3), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtEmailContainer), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtEmail), Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.txt4), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtPasswordContainer), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtPassword), Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.txt5), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtRPasswordContainer), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtRPassword), Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.txt2), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtNameContainer), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.edtName), Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.btn1), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btn2), Techniques.FadeInLeft));
     }

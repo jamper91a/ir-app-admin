@@ -44,9 +44,11 @@ public class CreateUser extends CicloActivity {
     public void initGui() {
         addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.spnLocalContainer), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.spnLocal), Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.spnTypeContainer), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txt6), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.spnType), Techniques.FadeInLeft));

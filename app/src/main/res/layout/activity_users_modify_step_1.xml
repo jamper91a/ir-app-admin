@@ -2,45 +2,60 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txt1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/email" />
+        <ImageView
+            android:id="@+id/titleIcn"
+            style="@style/title_icn"
+            app:srcCompat="@drawable/ic_transfer_blue_dark" />
 
-        <EditText
-            android:id="@+id/edtEmail"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/titleTxt"
+            style="@style/title_text_blue_dark"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:text="@string/usuarios" />
     </LinearLayout>
 
     <LinearLayout
+        style="@style/container_input_hor">
+
+        <TextView
+            android:id="@+id/txt1"
+            style="@style/label_input_hor"
+            android:text="@string/email" />
+
+        <RelativeLayout
+            android:id="@+id/edtEmailContainer"
+            style="@style/input_hor_container"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtEmail"
+                style="@style/edit"
+                android:inputType="textEmailAddress"
+                android:hint="@string/email" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
+            style="@style/button_blue_dark"
             android:id="@+id/btn1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/siguiente" />
     </LinearLayout>
 
