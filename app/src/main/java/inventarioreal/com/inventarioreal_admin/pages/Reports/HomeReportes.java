@@ -44,6 +44,8 @@ public class HomeReportes extends CicloActivity {
     }
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnInvTot),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnInvEanPlu),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnDifInvFis),Techniques.FadeInLeft));

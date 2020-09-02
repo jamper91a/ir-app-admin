@@ -2,76 +2,157 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnInvTot"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/inventario_total" />
 
-    <Button
-        android:id="@+id/btnInvEanPlu"
+    <LinearLayout
+        style="@style/appHeaderContainer"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="@string/inventario_eanplu" />
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/logo2" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnDifInvFis"
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="@string/diferencias_inventarios_fisicos" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnDifInvFisYErp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="@string/diferencias_inventarios_fisicos_inventarios_erp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnHomDifInvFis"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="@string/homologar_diferencias_inventario_fisico" />
+            <ImageView
+                android:id="@+id/titleIcn"
+                style="@style/title_icn"
+                app:srcCompat="@drawable/ic_transfer_blue_dark" />
 
-    <Button
-        android:id="@+id/btnUniVen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="@string/unidades_vendidas" />
+            <TextView
+                android:id="@+id/titleTxt"
+                style="@style/title_text_blue_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reportes" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btnRotInv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="@string/rotacion_inventario" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnInvTot"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_ingresos_r"
+                android:text="@string/inventario_total" />
 
-    <Button
-        android:id="@+id/btnDevCli"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="@string/devoluciones_clientes" />
+            <Button
+                android:id="@+id/btnInvEanPlu"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_salidas_r"
+                android:text="@string/inventario_eanplu" />
 
-    <Button
-        android:id="@+id/btnDevPro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="@string/devoluciones_proveedores" />
 
-    <Button
-        android:id="@+id/btnRotPro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:text="@string/rotacion_proyectada" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnDifInvFis"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_ingresos_r"
+                android:text="@string/diferencias_inventarios_fisicos" />
+
+            <Button
+                android:id="@+id/btnDifInvFisYErp"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_salidas_r"
+                android:text="@string/diferencias_inventarios_fisicos_inventarios_erp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnHomDifInvFis"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_ingresos_r"
+                android:text="@string/homologar_diferencia" />
+
+            <Button
+                android:id="@+id/btnUniVen"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_salidas_r"
+                android:text="@string/unidades_vendidas" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnRotInv"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_ingresos_r"
+                android:text="@string/rotacion_inventario" />
+
+            <Button
+                android:id="@+id/btnDevCli"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_salidas_r"
+                android:text="@string/devoluciones_clientes" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnDevPro"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_ingresos_r"
+                android:text="@string/devoluciones_proveedores" />
+
+            <Button
+                android:id="@+id/btnRotPro"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_salidas_r"
+                android:text="@string/rotacion_proyectada" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
 
 </LinearLayout>
