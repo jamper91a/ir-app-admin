@@ -38,6 +38,9 @@ public class SUTotalFragment extends Fragment {
         ((TextView)getElemento(R.id.txt1)).setText(R.string.unidades_vendidas);
         ((TextView)getElemento(R.id.txt3)).setText(R.string.unidades_devueltas);
         ((TextView)getElemento(R.id.txt5)).setText(R.string.fecha);
+        addElemento(v.findViewById(R.id.timeContainer));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtHora));
         return v;
     }
 

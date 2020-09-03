@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.LinkedList;
 
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.UltimoInventarioResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 
@@ -13,9 +14,9 @@ public class InvTotalEanPluViewModel extends ViewModel {
 
     MutableLiveData<LinkedList<ProductHasZone>> productsZonasLiveData = null;
     MutableLiveData<LinkedList<ProductHasZone>> allProductsZonasLiveData = null;
-    MutableLiveData<Inventory[]> inventario = null;
     private LinkedList<ProductHasZone> products = null;
     private LinkedList<ProductHasZone> allProducts= null;
+    private MutableLiveData<UltimoInventarioResponse> inventario= new MutableLiveData<>();
 
 
 
@@ -68,20 +69,19 @@ public class InvTotalEanPluViewModel extends ViewModel {
         return allProductsZonasLiveData;
     }
 
-    public LiveData<Inventory[]> getInventario() {
-        return inventario;
-    }
-
-    public void setInventario(Inventory[] inventario) {
-        this.inventario.setValue(inventario);
-    }
-
     public LinkedList<ProductHasZone> getStaticProducts(){
         return this.products;
     }
 
     public LinkedList<ProductHasZone> getStaticAllProducts(){
         return this.allProducts;
+    }
+
+    public LiveData<UltimoInventarioResponse> getInventario(){
+        return this.inventario;
+    }
+    public void setInventario(UltimoInventarioResponse a) {
+        this.inventario.setValue(a);
     }
 
 }

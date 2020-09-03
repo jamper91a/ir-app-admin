@@ -62,10 +62,13 @@ public class ReporteInventarioTotal extends CicloActivity {
 
     @Override
     public void initGui() {
-
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSal),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
+
+        getElemento(R.id.titleTxt).setText(getString(R.string.reporte_inventario_total));
 
     }
 
@@ -104,6 +107,8 @@ public class ReporteInventarioTotal extends CicloActivity {
 
                     //Actualizo la cantidad
                     totalConsolidadoViewModel.setInventario(inventarioConsolidado);
+                    eanPluConsolidadoVieModel.setInventario(inventarioConsolidado);
+                    epcConsolidadoVieModel.setInventario(inventarioConsolidado);
                 }
             }
 

@@ -30,6 +30,9 @@ public class SellTotalFragment extends Fragment {
         View v =  inflater.inflate(R.layout.total_fragment, container, false);
         this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.txt2));
+        addElemento(v.findViewById(R.id.timeContainer));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtHora));
         return v;
     }
 

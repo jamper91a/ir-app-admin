@@ -33,10 +33,11 @@ public class InvTotTotalFragment extends Fragment {
         this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.txt1));
         addElemento(v.findViewById(R.id.txt2));
-        addElemento(v.findViewById(R.id.txt3));
-        addElemento(v.findViewById(R.id.txt4));
         addElemento(v.findViewById(R.id.txt5));
         addElemento(v.findViewById(R.id.txt6));
+        addElemento(v.findViewById(R.id.timeContainer));
+        addElemento(v.findViewById(R.id.txtFecha));
+        addElemento(v.findViewById(R.id.txtHora));
         return v;
     }
 
@@ -48,12 +49,14 @@ public class InvTotTotalFragment extends Fragment {
             @Override
             public void onChanged(@Nullable UltimoInventarioResponse inventarios) {
                 TextView txtCant = (TextView) getElemento(R.id.txt2);
-                TextView txtFecha = (TextView) getElemento(R.id.txt4);
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
                 TextView txtZona = (TextView) getElemento(R.id.txt6);
-                txtFecha.setText(inventarios.getCreatedAt().replace("T", " - "));
+                String date[] = inventarios.getCreatedAt().replace("Z", "").split("T");
+                txtFecha.setText(date[0]);
+                txtHora.setText(date[1]);
                 txtZona.setText(inventarios.getName());
                 txtCant.setText(inventarios.getTotal_products()+"");
-
             }
         });
     }

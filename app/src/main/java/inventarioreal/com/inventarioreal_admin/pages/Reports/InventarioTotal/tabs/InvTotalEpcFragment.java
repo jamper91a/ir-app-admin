@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ import java.util.LinkedList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterTotalReportEpcDetails;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.UltimoInventarioResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import jamper91.com.easyway.Util.Administrador;
 
@@ -44,6 +46,7 @@ public class InvTotalEpcFragment extends Fragment {
         this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.lnl2));
         addElemento(v.findViewById(R.id.lst1));
+        addElemento(v.findViewById(R.id.timeContainer));
         addElemento(v.findViewById(R.id.txtFecha));
         addElemento(v.findViewById(R.id.txtHora));
 
@@ -88,6 +91,16 @@ public class InvTotalEpcFragment extends Fragment {
                     adapter1.setData(productosZonas);
                     adapter1.notifyDataSetChanged();
                 }
+            }
+        });
+        mViewModel.getInventario().observe(this, new Observer<UltimoInventarioResponse>() {
+            @Override
+            public void onChanged(@Nullable UltimoInventarioResponse inventarios) {
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
+                String date[] =  inventarios.getCreatedAt().replace("Z", "").split("T");
+                txtFecha.setText(date[0]);
+                txtHora.setText(date[1]);
             }
         });
 
