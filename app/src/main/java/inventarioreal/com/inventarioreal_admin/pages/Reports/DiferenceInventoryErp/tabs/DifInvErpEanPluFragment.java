@@ -106,7 +106,9 @@ public class DifInvErpEanPluFragment extends Fragment {
     }
 
     private void getData(){
-        ((TextView)getElemento(R.id.txtHora)).setText(admin.getCurrentDateAndTime());
+        String date[] = admin.getCurrentDateAndTime().split(" ");
+        ((TextView)getElemento(R.id.txtFecha)).setText(date[0]);
+        ((TextView)getElemento(R.id.txtHora)).setText(date[1]);
         mViewModel = ViewModelProviders.of(getActivity()).get(DifInvErpEanPluViewModel.class);
         mViewModel.getProducts().observe(this, new Observer<LinkedList<DiferenceInventoryErp>>() {
             @Override

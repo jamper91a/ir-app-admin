@@ -11,6 +11,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZ
 public class RepDifInvEanPluViewModel extends ViewModel {
     MutableLiveData<LinkedList<ProductHasZone>> productosZonasLiveData = null;
     private LinkedList<ProductHasZone> productosZona = null;
+    private MutableLiveData<String> date= new MutableLiveData<>();
 
 
 
@@ -74,5 +75,12 @@ public class RepDifInvEanPluViewModel extends ViewModel {
         }
         productosZona = new LinkedList<>();
         productosZonasLiveData.setValue(productosZona);
+    }
+
+    public void setDate(String a) {
+        date.setValue(a);
+    }
+    public LiveData<String> getDate(){
+        return this.date;
     }
 }

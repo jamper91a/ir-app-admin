@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -47,6 +48,7 @@ public class RepDifInvEanPluFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.ean_plu_fragment, container, false);
+        this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.containerVisual));
         addElemento(v.findViewById(R.id.icnVisual));
         addElemento(v.findViewById(R.id.btnVisual));
@@ -114,6 +116,16 @@ public class RepDifInvEanPluFragment extends Fragment {
                     adapterVisual.setItems(productosZonas);
                     adapterVisual.notifyDataSetChanged();
                 }
+            }
+        });
+        mViewModel.getDate().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String fecha) {
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
+                String date[] = fecha.split(" ");
+                txtFecha.setText(date[0]);
+                txtHora.setText(date[1]);
             }
         });
 

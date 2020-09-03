@@ -64,11 +64,14 @@ public class DIFStep2 extends CicloActivity {
 
     @Override
     public void initGui() {
-
+        addElemento(new Animacion(findViewById(R.id.titleIcn), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSal),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnGua),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
+
+        getElemento(R.id.titleTxt).setText(getString(R.string.diferencias_inventarios_fisicos));
 
     }
 
@@ -84,7 +87,7 @@ public class DIFStep2 extends CicloActivity {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 productosZona = (ArrayList<ProductHasZone>) ok.getData();
-                if(productosZona!=null){
+                if(productosZona!=null && !productosZona.isEmpty()){
                     totalConsolidadoViewModel = ViewModelProviders.of(DIFStep2.this).get(RepDifInvTotalViewModel.class);
                     eanPluConsolidadoVieModel = ViewModelProviders.of(DIFStep2.this).get(RepDifInvEanPluViewModel.class);
                     epcViewModel = ViewModelProviders.of(DIFStep2.this).get(EpcViewModel.class);
@@ -111,14 +114,20 @@ public class DIFStep2 extends CicloActivity {
                     //Actualizo la cantidad
                     totalConsolidadoViewModel.setAmount(productosZona.size());
                     totalConsolidadoViewModel.setDate(admin.getCurrentDateAndTime());
+                    epcViewModel.setDate(admin.getCurrentDateAndTime());
+                    eanPluConsolidadoVieModel.setDate(admin.getCurrentDateAndTime());
 
 
+                } else{
+                    admin.toast(getString(R.string.no_diference));
+                    onBackPressed();
                 }
             }
 
             @Override
             public void fail(ResultWebServiceFail fail) {
-
+                admin.toast(getString(R.string.no_diference));
+                onBackPressed();
             }
         }
         );

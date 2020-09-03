@@ -218,4 +218,5 @@
     <string name="env">E</string>
     <string name="rec">R</string>
     <string name="homologar_diferencia">Homologar diferencias</string>
+    <string name="no_diference">No se encontro diferencia</string>
 </resources>

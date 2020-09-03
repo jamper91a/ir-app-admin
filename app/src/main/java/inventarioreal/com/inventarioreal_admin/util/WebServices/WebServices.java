@@ -1073,8 +1073,8 @@ public class WebServices {
             }
 
             @Override
-                        public void onErrorResponse(String s, VolleyError volleyError) {
-
+            public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }
