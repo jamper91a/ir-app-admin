@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterInventarioEanPlu;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
+import inventarioreal.com.inventarioreal_admin.pages.Commodity.AddCommodity;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
@@ -45,18 +46,23 @@ public class InventarioEanPlu extends CicloActivity {
     }
     @Override
     public void initGui() {
-        addElemento(new Animacion(findViewById(R.id.lbl1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtEanPlu),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.icn2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBus),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.lblDes1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes3),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.img1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lnl1a),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.lbl2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSi),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnNo),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft,null, false));
+        addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnVerOtro),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txtTags),Techniques.FadeInLeft));
 
@@ -106,6 +112,9 @@ public class InventarioEanPlu extends CicloActivity {
         add_on_click(R.id.btnBus, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            if(getElemento(R.id.edtEanPlu).getElemento().isEnabled()){
+                getElemento(R.id.edtEanPlu).getElemento().setEnabled(false);
+
                 WebServices.getProductByEanPlu(
                         getElemento(R.id.edtEanPlu).getText(),
                         InventarioEanPlu.this,
@@ -115,13 +124,30 @@ public class InventarioEanPlu extends CicloActivity {
                             public void ok(ResultWebServiceOk ok) {
                                 Product productoConsultado = (Product) ok.getData();
                                 mostrarInformacionProducto(productoConsultado);
+                                getElemento(R.id.btnBus).setText(getString(R.string.buscar_otro));
+                                getElemento(R.id.btnBus).getElemento().setVisibility(View.GONE);
                             }
 
                             @Override
                             public void fail(ResultWebServiceFail fail) {
-                                admin.toast(fail.getError());
+                                getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                                int stringId = admin.getStringResourceIdByName(fail.getError());
+                                if(stringId >0) {
+                                    admin.toast((getString(stringId)));
+                                } else {
+                                    admin.toast(fail.getError());
+                                }
+                                getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+                                getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+                                getElemento(R.id.lnl2).getElemento().setVisibility(View.GONE);
                             }
                         });
+            }else{
+                getElemento(R.id.btnBus).setText(getString(R.string.buscar));
+                getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                ocultarInformacionProducto();
+
+            }
             }
         });
 
@@ -129,14 +155,30 @@ public class InventarioEanPlu extends CicloActivity {
             @Override
             public void onClick(View v) {
                 if(productos_id!=null){
-
+                    //Hide search icon
+                    getElemento(R.id.icn2).getElemento().setVisibility(View.GONE);
                     getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
-                    findProductosByEanPlu();
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
+                    findProductosByEanPlu();
 
                 }else{
                     admin.toast(R.string.se_debe_buscar_un_producto);
                 }
+            }
+        });
+        add_on_click(R.id.btnNo, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getElemento(R.id.btnBus).getElemento().setVisibility(View.VISIBLE);
+                getElemento(R.id.btnBus).setText(getString(R.string.buscar));
+                getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                ocultarInformacionProducto();
+            }
+        });
+        add_on_click(R.id.btnVerOtro, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.callIntent(InventarioEanPlu.class, null);
             }
         });
 
@@ -150,8 +192,23 @@ public class InventarioEanPlu extends CicloActivity {
         admin.loadImageFromInternet(
                 p.getImagen(),
                 (NetworkImageView)getElemento(R.id.img1).getElemento(),
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background);
+                R.drawable.imagennoencontrada,
+                R.drawable.imagennoencontrada);
+        getElemento(R.id.icn2).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.img1).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1a).getElemento().setVisibility(View.VISIBLE);
+    }
+
+    private void ocultarInformacionProducto(){
+        this.productos_id = null;
+        getElemento(R.id.lblDes1).setText("");
+        getElemento(R.id.lblDes2).setText("");
+        getElemento(R.id.lblDes3).setText("");
+        getElemento(R.id.icn2).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.lnl2).getElemento().setVisibility(View.GONE);
     }
 
     @Override
