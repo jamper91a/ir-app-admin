@@ -35,11 +35,15 @@ public class RUStep1 extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn), Techniques.SlideInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.txt1), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.edt1), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.txt2), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.edt2), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.btn1), Techniques.SlideInLeft));
+
+        getElemento(R.id.titleTxt).setText(getString(R.string.reporte_rotacion_unidades));
 
     }
 

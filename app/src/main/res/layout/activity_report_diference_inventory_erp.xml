@@ -64,6 +64,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:layout_marginBottom="10dp"
                 style="@style/button_blue_small"
                 android:id="@+id/btnEnv"
                 android:text="@string/enviar_email" />

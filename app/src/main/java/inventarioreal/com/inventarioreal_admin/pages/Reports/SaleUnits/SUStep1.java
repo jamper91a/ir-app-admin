@@ -55,6 +55,8 @@ public class SUStep1 extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.edt2), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.btn1), Techniques.SlideInLeft));
 
+        getElemento(R.id.titleTxt).setText(getString(R.string.reporte_unidades_vendidas));
+
     }
 
     @Override

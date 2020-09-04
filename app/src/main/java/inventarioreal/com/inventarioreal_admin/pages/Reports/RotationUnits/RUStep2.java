@@ -111,6 +111,7 @@ public class RUStep2 extends CicloActivity {
 
 
                 }else{
+                    admin.toast(R.string.error_sin_informacion);
                     onBackPressed();
                 }
             }
