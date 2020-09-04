@@ -62,9 +62,15 @@ public class REStep2 extends CicloActivity {
 
     @Override
     public void initGui() {
-
+        addElemento(new Animacion(findViewById(R.id.titleIcn), Techniques.SlideInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
+
+        if(this.request.getType() == 1)
+            getElemento(R.id.titleTxt).setText(getString(R.string.reporte_devolucion_clientes));
+        else
+            getElemento(R.id.titleTxt).setText(getString(R.string.reporte_devolucion_proveedores));
 
     }
 
