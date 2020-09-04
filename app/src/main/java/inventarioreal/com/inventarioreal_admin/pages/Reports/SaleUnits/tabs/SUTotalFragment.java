@@ -65,8 +65,11 @@ public class SUTotalFragment extends Fragment {
         mViewModel.getDate().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String fecha) {
-                TextView txtFecha = (TextView) getElemento(R.id.txt6);
-                txtFecha.setText(fecha);
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
+                String date[] = fecha.split(" ");
+                txtFecha.setText(date[0]);
+                txtHora.setText(date[1]);
             }
         });
 

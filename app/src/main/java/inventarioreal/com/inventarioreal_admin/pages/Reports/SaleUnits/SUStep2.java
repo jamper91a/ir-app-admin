@@ -64,11 +64,14 @@ public class SUStep2 extends CicloActivity {
 
     @Override
     public void initGui() {
-
+        addElemento(new Animacion(findViewById(R.id.titleIcn), Techniques.SlideInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSal),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnGua),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
+
+        getElemento(R.id.titleTxt).setText(getString(R.string.reporte_unidades_vendidas));
 
     }
 
@@ -116,6 +119,8 @@ public class SUStep2 extends CicloActivity {
                     totalViewModel.setAmountReturned(response.getArrayReturnedUnits().size());
                     reportToSave.setUnitsReturned(response.getArrayReturnedUnits().size());
                     totalViewModel.setDate(admin.getCurrentDateAndTime());
+                    epcViewModel.setDate(admin.getCurrentDateAndTime());
+                    eanPluViewModel.setDate(admin.getCurrentDateAndTime());
 
 
                 }else{

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -115,6 +116,19 @@ public class SUEanPluFragment extends Fragment {
                     adapterVisual.setItems(productosZonas);
                     adapterVisual.notifyDataSetChanged();
                 }
+            }
+        });
+
+
+
+        mViewModel.getDate().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String fecha) {
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
+                String date[] = fecha.split(" ");
+                txtFecha.setText(date[0]);
+                txtHora.setText(date[1]);
             }
         });
 

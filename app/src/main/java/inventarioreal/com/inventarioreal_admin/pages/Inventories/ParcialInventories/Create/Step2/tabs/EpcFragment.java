@@ -47,6 +47,7 @@ public class EpcFragment extends Fragment {
         this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.lnl2));
         addElemento(v.findViewById(R.id.lst1));
+        addElemento(v.findViewById(R.id.timeContainer));
         addElemento(v.findViewById(R.id.txtFecha));
         addElemento(v.findViewById(R.id.txtHora));
 
@@ -118,6 +119,7 @@ public class EpcFragment extends Fragment {
                 ((TextView)getElemento(R.id.txtHora)).setText(transfer.getCreatedAt());
             }
         });
+
 
     }
 

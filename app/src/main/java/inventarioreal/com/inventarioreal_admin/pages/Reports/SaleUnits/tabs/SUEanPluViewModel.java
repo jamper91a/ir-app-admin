@@ -11,7 +11,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZ
 public class SUEanPluViewModel extends ViewModel {
     MutableLiveData<LinkedList<ProductHasZone>> productosZonasLiveData = null;
     private LinkedList<ProductHasZone> productosZona = null;
-
+    private MutableLiveData<String> date= new MutableLiveData<>();
 
 
     public void addProductoZona(ProductHasZone productosZonas){
@@ -66,6 +66,13 @@ public class SUEanPluViewModel extends ViewModel {
             productosZonasLiveData.setValue(productosZona);
         }
         return productosZonasLiveData;
+    }
+
+    public LiveData<String> getDate(){
+        return this.date;
+    }
+    public void setDate(String a) {
+        date.setValue(a);
     }
 
     public void clean(){
