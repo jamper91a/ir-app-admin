@@ -26,6 +26,7 @@ import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Home;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
+import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioEanPlu.InventarioEanPlu;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.AddCommodityResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
@@ -57,13 +58,15 @@ public class ReportRotationProyectedStep1 extends CicloActivity {
     }
     @Override
     public void initGui() {
-        addElemento(new Animacion(findViewById(R.id.lbl0),Techniques.FadeInLeft));
-//        addElemento(new Animacion(findViewById(R.id.num1),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.edt1),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.lbl1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleIcn), Techniques.SlideInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt), Techniques.SlideInLeft));
         addElemento(new Animacion(findViewById(R.id.edtEanPlu),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.icn2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBus),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.edt1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.btnGenerateReport),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.lblDes1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes3),Techniques.FadeInLeft));
@@ -72,6 +75,8 @@ public class ReportRotationProyectedStep1 extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.lbl2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSi),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnNo),Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft, null, false));
 
     }
 
@@ -85,25 +90,42 @@ public class ReportRotationProyectedStep1 extends CicloActivity {
         add_on_click(R.id.btnBus, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebServices.getProductByEanPlu(
-                        getElemento(R.id.edtEanPlu).getText(),
-                        ReportRotationProyectedStep1.this,
-                        admin,
-                        new ResultWebServiceInterface() {
-                            @Override
-                            public void ok(ResultWebServiceOk ok) {
-                                Product productoConsultado = (Product) ok.getData();
-                                mostrarInformacionProducto(productoConsultado);
-                            }
 
-                            @Override
-                            public void fail(ResultWebServiceFail fail) {
-                                if(fail.getError().equals("error_G06")){
-                                    admin.toast(R.string.error_G06);
+                if(getElemento(R.id.edtEanPlu).getElemento().isEnabled()){
+                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(false);
+
+                    WebServices.getProductByEanPlu(
+                            getElemento(R.id.edtEanPlu).getText(),
+                            ReportRotationProyectedStep1.this,
+                            admin,
+                            new ResultWebServiceInterface() {
+                                @Override
+                                public void ok(ResultWebServiceOk ok) {
+                                    Product productoConsultado = (Product) ok.getData();
+                                    mostrarInformacionProducto(productoConsultado);
+                                    getElemento(R.id.btnBus).setText(getString(R.string.buscar_otro));
+                                    getElemento(R.id.btnBus).getElemento().setVisibility(View.GONE);
                                 }
-                                getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
-                            }
-                        });
+
+                                @Override
+                                public void fail(ResultWebServiceFail fail) {
+                                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                                    int stringId = admin.getStringResourceIdByName(fail.getError());
+                                    if(stringId >0) {
+                                        admin.toast((getString(stringId)));
+                                    } else {
+                                        admin.toast(fail.getError());
+                                    }
+                                    getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+                                    getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+                                }
+                            });
+                }else{
+                    getElemento(R.id.btnBus).setText(getString(R.string.buscar));
+                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                    ocultarInformacionProducto();
+
+                }
             }
         });
 
@@ -111,6 +133,16 @@ public class ReportRotationProyectedStep1 extends CicloActivity {
 
 
         add_on_click(R.id.btnSi, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+                getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+                getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        add_on_click(R.id.btnGenerateReport, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -131,7 +163,10 @@ public class ReportRotationProyectedStep1 extends CicloActivity {
         add_on_click(R.id.btnNo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(HomeReportes.class, null);
+                getElemento(R.id.btnBus).getElemento().setVisibility(View.VISIBLE);
+                getElemento(R.id.btnBus).setText(getString(R.string.buscar));
+                getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                ocultarInformacionProducto();
             }
         });
     }
@@ -146,7 +181,24 @@ public class ReportRotationProyectedStep1 extends CicloActivity {
                 (NetworkImageView)getElemento(R.id.img1).getElemento(),
                 R.drawable.imagennoencontrada,
                 R.drawable.imagennoencontrada);
+//        getElemento(R.id.step2).getElemento().setVisibility(View.VISIBLE);
+//        getElemento(R.id.lnl1a).getElemento().setVisibility(View.VISIBLE);
+
+        getElemento(R.id.icn2).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.img1).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1).getElemento().setVisibility(View.VISIBLE);
         getElemento(R.id.lnl1a).getElemento().setVisibility(View.VISIBLE);
+    }
+
+    private void ocultarInformacionProducto(){
+        this.request.setProduct(null);
+        getElemento(R.id.lblDes1).setText("");
+        getElemento(R.id.lblDes2).setText("");
+        getElemento(R.id.lblDes3).setText("");
+        getElemento(R.id.icn2).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.lnl2).getElemento().setVisibility(View.GONE);
     }
 
     private void getRotationProyected(){

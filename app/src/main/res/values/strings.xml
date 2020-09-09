@@ -219,4 +219,5 @@
     <string name="rec">R</string>
     <string name="homologar_diferencia">Homologar diferencias</string>
     <string name="no_diference">No se encontro diferencia</string>
+    <string name="generate_report">Generar Reporte</string>
 </resources>
