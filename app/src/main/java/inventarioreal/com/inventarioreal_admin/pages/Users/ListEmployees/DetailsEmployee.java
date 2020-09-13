@@ -1,10 +1,12 @@
 package inventarioreal.com.inventarioreal_admin.pages.Users.ListEmployees;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
@@ -58,6 +60,10 @@ public class DetailsEmployee extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.txt5), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtStateContainer), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtState), Techniques.FadeInLeft));
+
+        ((ImageView)getElemento(R.id.titleIcn).getElemento()).setImageDrawable(getDrawable(R.drawable.icn_users_list_white));
+        ((ImageView)getElemento(R.id.titleIcn).getElemento()).setImageTintList(ColorStateList.valueOf(getColor(R.color.blue_dark)));
+        getElemento(R.id.titleTxt).setText(getString(R.string.usuario));
     }
 
     @Override

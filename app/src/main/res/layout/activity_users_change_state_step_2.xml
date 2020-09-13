@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/titleIcn"
             style="@style/title_icn"
-            app:srcCompat="@drawable/ic_transfer_blue_dark" />
+            app:srcCompat="@drawable/icn_transfer_blue" />
 
         <TextView
             android:id="@+id/titleTxt"

@@ -1,11 +1,13 @@
 package inventarioreal.com.inventarioreal_admin.pages.Users.UpdateUsers;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -52,6 +54,10 @@ public class ModifyUserStep1 extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.edtEmailContainer), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtEmail), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btn1), Techniques.FadeInLeft));
+
+        ((ImageView)getElemento(R.id.titleIcn).getElemento()).setImageDrawable(getDrawable(R.drawable.icn_users_edit_white));
+        ((ImageView)getElemento(R.id.titleIcn).getElemento()).setImageTintList(ColorStateList.valueOf(getColor(R.color.blue_dark)));
+        getElemento(R.id.titleIcn).setText(getString(R.string.modificar_usuario));
     }
 
     @Override

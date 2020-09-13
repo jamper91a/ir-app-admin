@@ -15,14 +15,14 @@
         <ImageView
             android:id="@+id/titleIcn"
             style="@style/title_icn"
-            app:srcCompat="@drawable/ic_transfer_blue_dark" />
+            app:srcCompat="@drawable/icn_users_create_blue" />
 
         <TextView
             android:id="@+id/titleTxt"
             style="@style/title_text_blue_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/usuarios" />
+            android:text="@string/modificar_usuario" />
     </LinearLayout>
 
     <LinearLayout

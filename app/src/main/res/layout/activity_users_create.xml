@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,14 +17,14 @@
         <ImageView
             android:id="@+id/titleIcn"
             style="@style/title_icn"
-            app:srcCompat="@drawable/ic_transfer_blue_dark" />
+            app:srcCompat="@drawable/icn_users_create_blue" />
 
         <TextView
             android:id="@+id/titleTxt"
             style="@style/title_text_blue_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/usuarios" />
+            android:text="@string/crear_nuevo_usuario" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

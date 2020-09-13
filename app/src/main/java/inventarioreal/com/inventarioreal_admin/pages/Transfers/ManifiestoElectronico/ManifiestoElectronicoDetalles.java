@@ -16,23 +16,17 @@ import android.widget.ImageView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 
-import java.util.LinkedList;
-
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.OnAcceptCancelListener;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pages.Reports.InventarioTotal.ReporteInventarioTotal;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsEanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsEanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsEpcFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsTotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransDetailsTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.TransferenciaDetails;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreatePdfElectronicManifestRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreatePdfRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreatePdfTotalnventoryRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.Util;
@@ -80,7 +74,7 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
 
         getElemento(R.id.titleTxt).setText(this.data.getType());
         ImageView img = (ImageView) getElemento(R.id.titleIcn).getElemento();
-        img.setImageDrawable(getDrawable(R.drawable.ic_manifiesto_blue_dark));
+        img.setImageDrawable(getDrawable(R.drawable.icn_manifiesto_blue_dark));
     }
 
     @Override

@@ -53,6 +53,7 @@ public class ListEmployees extends CicloActivity {
 
         //Cambiar los textos a mostrar
         getElemento(R.id.txt1).setText(getString(R.string.seleccione_usuario_visualizar));
+
     }
 
     @Override

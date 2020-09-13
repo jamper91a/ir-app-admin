@@ -204,7 +204,7 @@
     </style>
     <style name="label_input_hor">
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">center_vertical|left</item>
         <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:textColor">@color/blue_dark</item>
@@ -244,7 +244,7 @@
 
     <style name="spinnerContainer">
         <item name="android:background">@drawable/back_label</item>
-        <item name="android:layout_width">400dp</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>

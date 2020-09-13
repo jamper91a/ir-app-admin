@@ -2,11 +2,9 @@ package inventarioreal.com.inventarioreal_admin.pages.Transfers;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -137,7 +135,7 @@ public class Ingresos extends CicloActivity {
 
         getElemento(R.id.titleTxt).setText(getString(R.string.ingresos));
         ImageView img = (ImageView) getElemento(R.id.titleIcn).getElemento();
-        img.setImageDrawable(getDrawable(R.drawable.ic_ingresos_blue_dark));
+        img.setImageDrawable(getDrawable(R.drawable.icn_ingresos_blue_dark));
 
     }
 

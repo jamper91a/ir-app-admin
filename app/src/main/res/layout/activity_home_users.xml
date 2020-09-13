@@ -34,7 +34,7 @@
             <ImageView
                 android:id="@+id/titleIcn"
                 style="@style/title_icn"
-                app:srcCompat="@drawable/ic_transfer_blue_dark" />
+                app:srcCompat="@drawable/icn_users_blue" />
 
             <TextView
                 android:id="@+id/titleTxt"
@@ -45,40 +45,41 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
                 android:id="@+id/btn1"
                 style="@style/button_blue"
-                android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_users_create_white_r"
                 android:text="@string/crear_nuevo_usuario" />
 
             <Button
                 android:id="@+id/btn2"
                 style="@style/button_blue"
-                android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_salidas_r"
+                android:drawableTop="@drawable/icn_users_edit_white_r"
                 android:text="@string/modificar_usuario" />
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
             <Button
                 android:id="@+id/btn3"
                 style="@style/button_blue"
-                android:drawableTop="@drawable/icn_manifiestos_r"
+                android:drawableTop="@drawable/icn_users_enable_white_r"
                 android:text="@string/activar_desactivar_usuario" />
             <Button
                 android:id="@+id/btn4"
                 style="@style/button_blue"
-                android:drawableTop="@drawable/icn_manifiestos_r"
+                android:drawableTop="@drawable/icn_users_list_white_r"
                 android:text="@string/listado_usuarios" />
         </LinearLayout>
 

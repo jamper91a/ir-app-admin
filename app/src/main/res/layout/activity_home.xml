@@ -72,7 +72,7 @@
             android:id="@+id/btnInvCoo"
             style="@style/button_blue"
             android:layout_marginLeft="10dp"
-            android:drawableTop="@drawable/icn_co_inventory_r"
+            android:drawableTop="@drawable/icn_co_inventory_r_white"
             android:text="@string/inventario_cooperativo" />
     </LinearLayout>
 

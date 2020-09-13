@@ -1,12 +1,14 @@
 package inventarioreal.com.inventarioreal_admin.pages.Users.ChangeState;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -71,6 +73,10 @@ public class ChangeStateUserStep2 extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.edtState), Techniques.FadeInLeft));
 
         addElemento(new Animacion(findViewById(R.id.btn1), Techniques.FadeInLeft));
+
+        ((ImageView)getElemento(R.id.titleIcn).getElemento()).setImageDrawable(getDrawable(R.drawable.icn_users_enable_white));
+        ((ImageView)getElemento(R.id.titleIcn).getElemento()).setImageTintList(ColorStateList.valueOf(getColor(R.color.blue_dark)));
+        getElemento(R.id.titleTxt).setText(getString(R.string.activar_desactivar_usuario));
     }
 
     @Override

@@ -4,6 +4,6 @@
     <item
         android:width="30dp"
         android:height="40dp"
-        android:drawable="@drawable/ic_ingresos_white" />
+        android:drawable="@drawable/icn_ingresos_white" />
 
 </layer-list>

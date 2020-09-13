@@ -4,6 +4,6 @@
     <item
         android:width="30dp"
         android:height="40dp"
-        android:drawable="@drawable/ic_manifiesto_white" />
+        android:drawable="@drawable/icn_manifiesto_white" />
 
 </layer-list>
