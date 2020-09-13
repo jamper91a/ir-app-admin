@@ -68,7 +68,7 @@ public class SearchEpcSonar extends CicloActivity {
                     if(barChart != null) {
                         BarChartModel barChartModel = new BarChartModel();
                         barChartModel.setBarValue(total);
-                        barChartModel.setBarColor(Color.parseColor("#9C27B0"));
+                        barChartModel.setBarColor(getColor(R.color.blue_dark));
                         barChartModel.setBarTag(null); //You can set your own tag to bar model
                         barChartModel.setBarText(total+"");
 
@@ -332,7 +332,6 @@ public class SearchEpcSonar extends CicloActivity {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 allProducts = (ArrayList<ProductHasZone>) ok.getData();
-                timerObj.schedule(timerTaskObj, 0, 2000);
 
             }
 
@@ -402,6 +401,15 @@ public class SearchEpcSonar extends CicloActivity {
 
     private void changedStateLecture(boolean state){
         if(state){
+            timerObj = new Timer();
+            timerTaskObj = new TimerTask() {
+                public void run() {
+                    Message msg = new Message();
+                    msg.what = 4;
+                    handler.sendMessage(msg);
+                }
+            };
+            timerObj.schedule(timerTaskObj, 0, 2000);
             rfdiReader.startReader();
             getElemento(R.id.btnLee).setText(getString(R.string.detener));
         }else{
