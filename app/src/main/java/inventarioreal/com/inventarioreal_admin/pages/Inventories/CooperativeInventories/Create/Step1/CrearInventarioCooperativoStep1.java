@@ -48,10 +48,16 @@ public class CrearInventarioCooperativoStep1 extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lblLocal),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txtLocal), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lblZona), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.spnZona), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.spnPodLec), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txtLocDes), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.timeContainer), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txtFecha), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txtHora), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnIni), Techniques.FadeInLeft));
     }
 
@@ -145,7 +151,9 @@ public class CrearInventarioCooperativoStep1 extends CicloActivity {
 
     private void getFecha() {
         request.setDate(admin.getCurrentDateAndTime());
-        getElemento(R.id.txtLocDes).setText(request.getDate());
+        String[] date = request.getDate().split(" ");
+        getElemento(R.id.txtFecha).setText(date[0]);
+        getElemento(R.id.txtHora).setText(date[1]);
     }
 
     @Override
