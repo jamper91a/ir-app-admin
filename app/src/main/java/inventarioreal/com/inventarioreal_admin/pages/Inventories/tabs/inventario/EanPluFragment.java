@@ -120,8 +120,10 @@ public class EanPluFragment extends Fragment {
         mViewModel.getInventario().observe(this, new Observer<Inventory>() {
             @Override
             public void onChanged(@Nullable Inventory inventory) {
-                ((TextView)getElemento(R.id.txtFecha)).setText(inventory.getZone().getName());
-                ((TextView)getElemento(R.id.txtHora)).setText(inventory.getDate());
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
+                txtFecha.setText(inventory.getZone().getName());
+                txtHora.setText(inventory.getDate().replace("T", " - ").replace('Z', ' ').replace(".000", ""));
             }
         });
 

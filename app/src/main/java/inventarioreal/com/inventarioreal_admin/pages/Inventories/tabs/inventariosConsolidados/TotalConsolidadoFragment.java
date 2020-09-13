@@ -32,12 +32,8 @@ public class TotalConsolidadoFragment extends Fragment {
         this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.txt1));
         addElemento(v.findViewById(R.id.txt2));
-//        addElemento(v.findViewById(R.id.txt3));
-//        addElemento(v.findViewById(R.id.txt4));
         addElemento(v.findViewById(R.id.txt5));
         addElemento(v.findViewById(R.id.txt6));
-//        addElemento(v.findViewById(R.id.txt7));
-//        addElemento(v.findViewById(R.id.txt8));
         addElemento(v.findViewById(R.id.timeContainer));
         addElemento(v.findViewById(R.id.txtFecha));
         addElemento(v.findViewById(R.id.txtHora));
@@ -62,6 +58,7 @@ public class TotalConsolidadoFragment extends Fragment {
                 TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
                 TextView txtHora = (TextView) getElemento(R.id.txtHora);
                 String auxDate = inventory.getCreatedAt().replace('Z', ' ');
+                auxDate = auxDate.replace(".000", "");
                 String[] date = auxDate.split("T");
 
                 txtFecha.setText(date[0]);

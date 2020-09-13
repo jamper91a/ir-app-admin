@@ -32,10 +32,6 @@ public class TotalFragment extends Fragment {
         this.elementos = new LinkedHashMap<>();
         addElemento(v.findViewById(R.id.txt1));
         addElemento(v.findViewById(R.id.txt2));
-//        addElemento(v.findViewById(R.id.txt3));
-//        addElemento(v.findViewById(R.id.txt4));
-//        addElemento(v.findViewById(R.id.txt5));
-//        addElemento(v.findViewById(R.id.txt6));
         addElemento(v.findViewById(R.id.txt7));
         addElemento(v.findViewById(R.id.txt8));
         addElemento(v.findViewById(R.id.timeContainer));
@@ -52,21 +48,15 @@ public class TotalFragment extends Fragment {
             @Override
             public void onChanged(@Nullable Inventory inventarios) {
                 TextView txtAmount = (TextView) getElemento(R.id.txt2);
-//                TextView txtDate = (TextView) getElemento(R.id.txt4);
-//                TextView txtZone = (TextView) getElemento(R.id.txt6);
                 TextView txtMessage= (TextView) getElemento(R.id.txt8);
                 txtAmount.setText(inventarios.getProducts().length+"");
-//                txtDate.setText();
-//                txtZone.setText(inventarios.getZone().getName());
                 txtMessage.setText(inventarios.getMessage());
 
                 TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
                 TextView txtHora = (TextView) getElemento(R.id.txtHora);
-//                TextView txtZona = (TextView) getElemento(R.id.txt6);
                 String[] date = inventarios.getDate().split("T");
                 txtFecha.setText(inventarios.getZone().getName());
-                txtHora.setText(inventarios.getDate().replace("T", " - ").replace('Z', ' '));
-//                txtZona.setText(inventarios.getZone().getName());
+                txtHora.setText(inventarios.getDate().replace("T", " - ").replace('Z', ' ').replace(".000", ""));
 
             }
         });

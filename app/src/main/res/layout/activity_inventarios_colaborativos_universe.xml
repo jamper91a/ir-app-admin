@@ -7,10 +7,15 @@
     tools:context=".pages.Inventories.ParcialInventories.Consolidate.ConsolidarInventarioStep1">
 
     <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        style="@style/text_blue_dark"
+        android:textStyle="bold"
+        android:textSize="18dp"
         android:id="@+id/txt1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/seleccione_inventario_a_consolidar" />
+        android:text="@string/seleccione_inventario_unirse" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lst1"
@@ -18,6 +23,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-    </android.support.v7.widget.RecyclerView>
+    </android.support.v7.widget.RecyclerView>>
 
 </LinearLayout>

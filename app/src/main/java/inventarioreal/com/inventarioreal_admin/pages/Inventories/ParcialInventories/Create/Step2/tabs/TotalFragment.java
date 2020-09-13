@@ -60,9 +60,17 @@ public class TotalFragment extends Fragment {
                 TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
                 TextView txtHora = (TextView) getElemento(R.id.txtHora);
                 TextView txtZona = (TextView) getElemento(R.id.txt6);
-                String[] date = inventory.getDate().split(" ");
-                txtFecha.setText(date[0]);
-                txtHora.setText(date[1]);
+                String[] date = null;
+                if( inventory.getDate().contains("T")) {
+                    date = inventory.getDate().split("T");
+                } else {
+                    date = inventory.getDate().split(" ");
+                }
+                if(date != null) {
+                    txtFecha.setText(date[0]);
+                    txtHora.setText(date[1]);
+                }
+
                 txtZona.setText(inventory.getZone().getName());
             }
         });
@@ -73,9 +81,16 @@ public class TotalFragment extends Fragment {
                 TextView txtHora = (TextView) getElemento(R.id.txtHora);
                 TextView lblLocDes = (TextView) getElemento(R.id.txt5);
                 TextView txtLocDes = (TextView) getElemento(R.id.txt6);
-                String[] date = transfer.getCreatedAt().split(" ");
-                txtFecha.setText(date[0]);
-                txtHora.setText(date[1]);
+                String[] date = null;
+                if( transfer.getCreatedAt().contains("T")) {
+                    date = transfer.getCreatedAt().split("T");
+                } else {
+                    date = transfer.getCreatedAt().split(" ");
+                }
+                if(date != null) {
+                    txtFecha.setText(date[0]);
+                    txtHora.setText(date[1]);
+                }
                 lblLocDes.setText(getString(R.string.local_destino)+": ");
                 txtLocDes.setText(transfer.getShopDestination().getName());
             }

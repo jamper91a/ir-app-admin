@@ -126,6 +126,8 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
                         eanPluVieModel.addProductoZona(pz);
                         epcVieModel.addProductoZona(pz);
                     }
+                    eanPluVieModel.setInventario(inventario);
+                    epcVieModel.setInventario(inventario);
 
                 }
 
@@ -166,6 +168,9 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
                         epcVieModel.addProductoZona(pz);
                         eanPluConsolidadoVieModel.addProductoZona(pz);
                     }
+
+                    eanPluConsolidadoVieModel.setInventario(aux.getConsolidatedInventories());
+                    epcVieModel.setDate(aux.getConsolidatedInventories().getCreatedAt());
 
 
                 }

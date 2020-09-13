@@ -97,8 +97,10 @@ public class EpcFragment extends Fragment {
         mViewModel.getInventario().observe(this, new Observer<Inventory>() {
             @Override
             public void onChanged(@Nullable Inventory inventory) {
-                ((TextView)getElemento(R.id.txtFecha)).setText(inventory.getZone().getName());
-                ((TextView)getElemento(R.id.txtHora)).setText(inventory.getDate());
+                TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
+                TextView txtHora = (TextView) getElemento(R.id.txtHora);
+                txtFecha.setText(inventory.getZone().getName());
+                txtHora.setText(inventory.getDate().replace("T", " - ").replace('Z', ' ').replace(".000", ""));
             }
         });
 
@@ -107,9 +109,17 @@ public class EpcFragment extends Fragment {
             public void onChanged(@Nullable String s) {
                 TextView txtFecha = (TextView) getElemento(R.id.txtFecha);
                 TextView txtHora = (TextView) getElemento(R.id.txtHora);
-                String[] date = s.split(" ");
-                txtFecha.setText(date[0]);
-                txtHora.setText(date[1]);
+                String[] date = null;
+                if(s.contains("T")) {
+                    date = s.split("T");
+                } else if (s.contains(" ")) {
+                    date = s.split(" ");
+                }
+                if(date != null) {
+                    txtFecha.setText(date[0]);
+                    txtHora.setText(date[1]);
+                }
+
             }
         });
         mViewModel.getTransfer().observe(this, new Observer<Transfer>() {
