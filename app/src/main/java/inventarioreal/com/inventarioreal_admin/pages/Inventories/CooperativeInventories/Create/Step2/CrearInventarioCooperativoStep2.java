@@ -166,6 +166,7 @@ public class CrearInventarioCooperativoStep2 extends CicloActivity {
         inventory.setDate(this.request.getDate());
         eanPluVieModel.setInventory(inventory);
         totalViewModel.setInventory(inventory);
+        epcViewModel.setInventario(inventory);
     }
 
     @Override
