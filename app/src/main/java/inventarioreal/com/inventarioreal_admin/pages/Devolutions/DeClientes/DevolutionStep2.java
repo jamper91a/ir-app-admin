@@ -146,12 +146,15 @@ public class DevolutionStep2 extends CicloActivity {
     @Override
     public void initGui() {
 
-
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCan),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnLee),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnFin),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBor),Techniques.FadeInLeft));
+
+        getElemento(R.id.titleTxt).setText(getString(R.string.devoluciones));
 
 
     }
@@ -169,6 +172,7 @@ public class DevolutionStep2 extends CicloActivity {
 //        epcViewModel.setT(inventory);
         eanPluVieModel.setInventory(inventory);
         totalViewModel.setInventory(inventory);
+        epcViewModel.setInventario(inventory);
     }
 
     @Override

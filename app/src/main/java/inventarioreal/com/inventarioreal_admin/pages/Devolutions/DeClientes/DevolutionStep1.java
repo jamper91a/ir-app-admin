@@ -43,13 +43,16 @@ public class DevolutionStep1 extends CicloActivity {
 
     @Override
     public void initGui() {
-        addElemento(new Animacion(findViewById(R.id.txt1), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txtLoc), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txt2), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lblLocal), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txtLocal), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.lblZona), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.spnZonaDestino), Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txt3), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.spnPodLec), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.timeContainer), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txtFecha), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.txtHora), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnIni), Techniques.FadeInLeft));
     }
 
@@ -104,7 +107,7 @@ public class DevolutionStep1 extends CicloActivity {
             }
         });
 
-        getElemento(R.id.txtLoc).setText(empleado.getEmployee().getShop().getName());
+        getElemento(R.id.txtLocal).setText(empleado.getEmployee().getShop().getName());
     }
 
     private void getPoderLectura() {
@@ -131,7 +134,9 @@ public class DevolutionStep1 extends CicloActivity {
 
     private void getFecha() {
         request.setCreatedAt(admin.getCurrentDateAndTime());
-        getElemento(R.id.txtFecha).setText(request.getCreatedAt());
+        String[] date = request.getCreatedAt().split(" ");
+        getElemento(R.id.txtFecha).setText(date[0]);
+        getElemento(R.id.txtHora).setText(date[1]);
     }
 
     @Override

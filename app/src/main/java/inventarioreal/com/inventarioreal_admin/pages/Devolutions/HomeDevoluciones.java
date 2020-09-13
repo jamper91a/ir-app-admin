@@ -35,6 +35,8 @@ public class HomeDevoluciones extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCust), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnProv), Techniques.FadeInLeft));
     }
