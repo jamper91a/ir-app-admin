@@ -1,6 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.pages.Cashiers.tabs;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
@@ -14,7 +15,7 @@ public class SellEpcViewModel extends ViewModel {
     MutableLiveData<LinkedList<ProductHasZone>> allProductsZonasLiveData = null;
     MutableLiveData<Inventory[]> inventario = null;
     private LinkedList<ProductHasZone> allProducts= null;
-
+    private MutableLiveData<String> date= new MutableLiveData<>();
 
 
     public void addAllProductoZona(ProductHasZone product){
@@ -35,6 +36,9 @@ public class SellEpcViewModel extends ViewModel {
     }
 
     public LiveData<Inventory[]> getInventario() {
+        if(inventario == null) {
+            inventario = new MediatorLiveData<>();
+        }
         return inventario;
     }
 
@@ -42,6 +46,12 @@ public class SellEpcViewModel extends ViewModel {
         this.inventario.setValue(inventario);
     }
 
+    public LiveData<String> getDate(){
+        return this.date;
+    }
+    public void setDate(String a) {
+        date.setValue(a);
+    }
     public void clean(){
         if(allProductsZonasLiveData ==null){
             allProductsZonasLiveData = new MutableLiveData<>();

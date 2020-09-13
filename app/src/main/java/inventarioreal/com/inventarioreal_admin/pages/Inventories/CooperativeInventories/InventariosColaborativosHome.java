@@ -35,6 +35,8 @@ public class InventariosColaborativosHome extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCre), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnUni), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCon),Techniques.FadeInLeft));

@@ -33,8 +33,9 @@ public class HomeCashier extends CicloActivity {
     }
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnIni),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.btnSal),Techniques.FadeInLeft));
     }
 
     @Override
@@ -53,13 +54,6 @@ public class HomeCashier extends CicloActivity {
             }
         });
 
-
-        add_on_click(R.id.btnSal, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                admin.callIntent(Home.class, null);
-            }
-        });
     }
 
     @Override

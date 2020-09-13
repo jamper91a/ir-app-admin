@@ -2,37 +2,99 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
-
-    <Button
-        android:id="@+id/btnCre"
+    <LinearLayout
+        style="@style/appHeaderContainer"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/create_cooperative_inventory" />
-
-    <Button
-        android:id="@+id/btnUni"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/logo2" />
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/join_cooperative_inventory" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnCon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/consolidate_cooperative_inventories" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnVisPorZon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/view_cooperative_inventories_by_zone" />
+            <ImageView
+                android:id="@+id/titleIcn"
+                style="@style/title_icn"
+                app:srcCompat="@drawable/ic_transfer_blue_dark" />
 
-    <Button
-        android:id="@+id/btnVisCon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/view_cooperative_inventories_consolidated" />
+            <TextView
+                android:id="@+id/titleTxt"
+                style="@style/title_text_blue_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventario_cooperativo" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnCre"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_ingresos_r"
+                android:text="@string/crear_inventario_cooperativo" />
+            <Button
+                android:id="@+id/btnUni"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_ingresos_r"
+                android:text="@string/unirse_inventario_cooperativo" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnCon"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_ingresos_r"
+                android:text="@string/consolidate_cooperative_inventories" />
+            <Button
+                android:id="@+id/btnVisPorZon"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_ingresos_r"
+                android:text="@string/view_cooperative_inventories_by_zone" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnVisCon"
+                style="@style/button_blue"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/icn_ingresos_r"
+                android:text="@string/view_cooperative_inventories_consolidated" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

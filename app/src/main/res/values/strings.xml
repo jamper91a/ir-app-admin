@@ -114,7 +114,7 @@
     <string name="inventarios_consolidados_exito">Inventarios consolidados con exito</string>
     <string name="crear_inventario_cooperativo">Crear Inv Cooperativo</string>
     <string name="revisar_los_datos">Revisa los datos</string>
-    <string name="unirse_inventario_cooperativo">Unirse Inventario Cooperativo</string>
+    <string name="unirse_inventario_cooperativo">Unirse Inv Cooperativo</string>
     <string name="error_minimo_un_producto">Debes leer al menos 1 producto</string>
     <string name="modificar_inventario_cooperativo">Modificar inventario cooperativo</string>
     <string name="seleccione_inventario_unirse">Selecciones el inventario a unirse</string>

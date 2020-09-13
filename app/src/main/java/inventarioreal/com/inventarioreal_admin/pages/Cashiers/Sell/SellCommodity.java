@@ -11,8 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,7 +35,6 @@ import inventarioreal.com.inventarioreal_admin.pages.Cashiers.tabs.SellEpcViewMo
 import inventarioreal.com.inventarioreal_admin.pages.Cashiers.tabs.SellTotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Cashiers.tabs.SellTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.pages.Transfers.HomeTransferencia;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
@@ -137,9 +134,15 @@ public class SellCommodity extends CicloActivity {
     @Override
     public void getData() {
         epcs = new ArrayList<>();
+        String date = admin.getCurrentDateAndTime();
+
         totalViewModel = ViewModelProviders.of(this).get(SellTotalViewModel.class);
-        eanPluVieModel = ViewModelProviders.of(this).get(SellEanPluViewModel.class);
+        eanPluViewModel = ViewModelProviders.of(this).get(SellEanPluViewModel.class);
         epcViewModel = ViewModelProviders.of(this).get(SellEpcViewModel.class);
+
+        totalViewModel.setDate(admin.getCurrentDateAndTime());
+        eanPluViewModel.setDate(admin.getCurrentDateAndTime());
+        epcViewModel.setDate(admin.getCurrentDateAndTime());
     }
 
 
@@ -230,7 +233,7 @@ public class SellCommodity extends CicloActivity {
                     proZon.setError(true);
                 }
                 products.add(proZon);
-                eanPluVieModel.addProductoZonaHasTransferencia(proZon);
+                eanPluViewModel.addProductoZonaHasTransferencia(proZon);
                 epcViewModel.addAllProductoZona(proZon);
 
                 //Informacion requeria por el servicio web de crear inventory
@@ -263,7 +266,7 @@ public class SellCommodity extends CicloActivity {
     //region Tab Total
     private ViewPager mViewPager;
     SellTotalViewModel totalViewModel;
-    SellEanPluViewModel eanPluVieModel;
+    SellEanPluViewModel eanPluViewModel;
     SellEpcViewModel epcViewModel;
     //endregion
 
@@ -406,7 +409,7 @@ public class SellCommodity extends CicloActivity {
         rfdiReader.cleanEpcs();
         epcs.clear();
         products.clear();
-        eanPluVieModel.clean();
+        eanPluViewModel.clean();
         epcViewModel.clean();
         totalViewModel.setAmount(0);
     }
