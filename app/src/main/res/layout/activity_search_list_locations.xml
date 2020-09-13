@@ -3,74 +3,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal">
 
+        <ImageView
+            android:id="@+id/titleIcn"
+            style="@style/title_icn"
+            app:srcCompat="@drawable/icn_commodity_blue" />
+
         <TextView
-            android:id="@+id/lbl1"
+            android:id="@+id/titleTxt"
+            style="@style/title_text_blue_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/ean_plu" />
+            android:text="@string/busqueda_items_ean_plu_listado" />
+    </LinearLayout>
+
+    <RelativeLayout
+        style="@style/editContainer"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/edtEanPlu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/codigo"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:targetApi="o" />
+            style="@style/edit"
+            android:hint="@string/ean_plu" />
 
-        <TextView
-            android:id="@+id/txtEanPlu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/codigo"
-            android:visibility="gone"
-            tools:targetApi="o" />
+        <ImageView
+            android:id="@+id/icn2"
+            style="@style/icnRight"
+            app:srcCompat="@drawable/icn_search" />
+    </RelativeLayout>
 
-        <Button
-            android:id="@+id/btnBus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/buscar" />
+    <Button
+        android:id="@+id/btnBus"
+        style="@style/button_blue_dark"
+        android:layout_marginTop="10dp"
+        android:text="@string/buscar" />
 
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/lnl1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone">
 
         <TextView
             android:id="@+id/lblDes1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            style="@style/labelContainer" />
 
         <TextView
             android:id="@+id/lblDes2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            style="@style/labelContainer" />
 
         <TextView
             android:id="@+id/lblDes3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            style="@style/labelContainer" />
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/img1"
@@ -90,28 +89,25 @@
 
             <TextView
                 android:id="@+id/lbl2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/text_link"
                 android:text="@string/desea_continuar" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnSi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/button_blue_dark"
                     android:text="@string/si" />
 
                 <Button
                     android:id="@+id/btnNo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/no" />
+                    style="@style/button_blue_dark"
+                    android:text="@string/no_buscar_otro" />
             </LinearLayout>
 
         </LinearLayout>
@@ -120,12 +116,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:id="@+id/lnl2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -134,30 +132,44 @@
 
             <Button
                 android:id="@+id/btnEnv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/button_blue_light"
                 android:layout_weight="1"
                 android:text="@string/enviar_email" />
 
             <Button
                 android:id="@+id/btnVerOtro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/button_blue_light"
                 android:layout_weight="1"
                 android:text="@string/ver_otro" />
+
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/lst1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@drawable/border_top_blue_dark"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.RecyclerView
+
+                android:id="@+id/lst1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/txtTags"
+            style="@style/text_blue_dark"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/unidades" />
+            android:layout_height="100dp"
+            android:background="@drawable/border_top_blue_dark"
+            android:text="@string/tag_leidos"
+            android:textSize="18dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

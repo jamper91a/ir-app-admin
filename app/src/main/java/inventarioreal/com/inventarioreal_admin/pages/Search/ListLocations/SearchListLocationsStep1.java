@@ -16,6 +16,7 @@ import java.util.List;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterInventarioEanPlu;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
+import inventarioreal.com.inventarioreal_admin.pages.Commodity.AddCommodity;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.RotationProyected.ReportRotationProyectedStep2;
@@ -46,24 +47,28 @@ public class SearchListLocationsStep1 extends CicloActivity {
     }
     @Override
     public void initGui() {
-        addElemento(new Animacion(findViewById(R.id.lbl1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtEanPlu),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txtEanPlu),Techniques.FadeInLeft, null, false));
+        addElemento(new Animacion(findViewById(R.id.icn2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBus),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.lblDes1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes3),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.img1),Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.lnl1a),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.lbl2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSi),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnNo),Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft,null, false));
-        addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnVerOtro),Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txtTags),Techniques.FadeInLeft));
 
         adapter = new ListAdapterInventarioEanPlu(this, admin, products, new OnItemClickListener() {
@@ -94,25 +99,42 @@ public class SearchListLocationsStep1 extends CicloActivity {
         add_on_click(R.id.btnBus, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebServices.getProductByEanPlu(
-                        getElemento(R.id.edtEanPlu).getText(),
-                        SearchListLocationsStep1.this,
-                        admin,
-                        new ResultWebServiceInterface() {
-                            @Override
-                            public void ok(ResultWebServiceOk ok) {
-                                Product productoConsultado = (Product) ok.getData();
-                                mostrarInformacionProducto(productoConsultado);
-                            }
+                if(getElemento(R.id.edtEanPlu).getElemento().isEnabled()){
+                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(false);
 
-                            @Override
-                            public void fail(ResultWebServiceFail fail) {
-                                if(fail.getError().equals("error_G06")){
-                                    admin.toast(R.string.error_G06);
+                    WebServices.getProductByEanPlu(
+                            getElemento(R.id.edtEanPlu).getText(),
+                            SearchListLocationsStep1.this,
+                            admin,
+                            new ResultWebServiceInterface() {
+                                @Override
+                                public void ok(ResultWebServiceOk ok) {
+                                    Product productoConsultado = (Product) ok.getData();
+                                    mostrarInformacionProducto(productoConsultado);
+                                    getElemento(R.id.btnBus).setText(getString(R.string.buscar_otro));
+                                    getElemento(R.id.btnBus).getElemento().setVisibility(View.GONE);
                                 }
-                                getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
-                            }
-                        });
+
+                                @Override
+                                public void fail(ResultWebServiceFail fail) {
+                                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                                    int stringId = admin.getStringResourceIdByName(fail.getError());
+                                    if(stringId >0) {
+                                        admin.toast((getString(stringId)));
+                                    } else {
+                                        admin.toast(fail.getError());
+                                    }
+                                    getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+                                    getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+                                    getElemento(R.id.lnl2).getElemento().setVisibility(View.GONE);
+                                }
+                            });
+                }else{
+                    getElemento(R.id.btnBus).setText(getString(R.string.buscar));
+                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                    ocultarInformacionProducto();
+
+                }
             }
         });
 
@@ -123,15 +145,14 @@ public class SearchListLocationsStep1 extends CicloActivity {
             @Override
             public void onClick(View v) {
                 if(product!=null){
-                    getElemento((R.id.edtEanPlu)).getElemento().setVisibility(View.GONE);
-                    getElemento((R.id.btnBus)).getElemento().setVisibility(View.GONE);
-                    getElemento((R.id.txtEanPlu)).setText(product.getEan());
-                    getElemento((R.id.txtEanPlu)).getElemento().setVisibility(View.VISIBLE);
+                    //Hide search icon
+                    getElemento(R.id.icn2).getElemento().setVisibility(View.GONE);
                     getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
-                    findProductosByEanPlu();
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
+                    findProductosByEanPlu();
+
                 }else{
-                    admin.toast(R.string.error_minimo_un_producto);
+                    admin.toast(R.string.se_debe_buscar_un_producto);
                 }
 
             }
@@ -139,7 +160,10 @@ public class SearchListLocationsStep1 extends CicloActivity {
         add_on_click(R.id.btnNo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(HomeReportes.class, null);
+                getElemento(R.id.btnBus).getElemento().setVisibility(View.VISIBLE);
+                getElemento(R.id.btnBus).setText(getString(R.string.buscar));
+                getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                ocultarInformacionProducto();
             }
         });
         add_on_click(R.id.btnVerOtro, new View.OnClickListener() {
@@ -151,6 +175,7 @@ public class SearchListLocationsStep1 extends CicloActivity {
     }
 
     private void mostrarInformacionProducto(Product p){
+
         this.product = p;
         getElemento(R.id.lblDes1).setText(p.getDescription());
         getElemento(R.id.lblDes2).setText(p.getBranch());
@@ -160,7 +185,21 @@ public class SearchListLocationsStep1 extends CicloActivity {
                 (NetworkImageView)getElemento(R.id.img1).getElemento(),
                 R.drawable.imagennoencontrada,
                 R.drawable.imagennoencontrada);
+        getElemento(R.id.icn2).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.img1).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1).getElemento().setVisibility(View.VISIBLE);
         getElemento(R.id.lnl1a).getElemento().setVisibility(View.VISIBLE);
+    }
+
+    private void ocultarInformacionProducto(){
+        this.product = null;
+        getElemento(R.id.lblDes1).setText("");
+        getElemento(R.id.lblDes2).setText("");
+        getElemento(R.id.lblDes3).setText("");
+        getElemento(R.id.icn2).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.lnl2).getElemento().setVisibility(View.GONE);
     }
 
     public void findProductosByEanPlu(){
