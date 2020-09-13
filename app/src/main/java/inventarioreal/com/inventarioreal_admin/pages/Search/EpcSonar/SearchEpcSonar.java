@@ -1,5 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.pages.Search.EpcSonar;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,11 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.androidanimations.library.Techniques;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterInventarioEanPlu;
@@ -21,6 +25,7 @@ import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pages.Search.HomeSearch;
+import inventarioreal.com.inventarioreal_admin.pages.Search.ListLocations.SearchListLocationsStep1;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
@@ -32,13 +37,15 @@ import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebService
 import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
+import me.ithebk.barchart.BarChart;
+import me.ithebk.barchart.BarChartModel;
 
 public class SearchEpcSonar extends CicloActivity {
     private Product product = null;
     private ArrayList<ProductHasZone> allProducts = new ArrayList<>();
     private ArrayList<ProductHasZone> productsFound = new ArrayList<>();
     private ListAdapterInventarioEanPlu adapter = null;
-
+    BarChart barChart = null;
     RFDIReader rfdiReader =  null;
     private Handler handler = new Handler(){
         @Override
@@ -56,9 +63,27 @@ public class SearchEpcSonar extends CicloActivity {
                     boolean state = msg.getData().getBoolean("state");
                     changedStateLecture(state);
                     break ;
+
+                case 4:
+                    if(barChart != null) {
+                        BarChartModel barChartModel = new BarChartModel();
+                        barChartModel.setBarValue(total);
+                        barChartModel.setBarColor(Color.parseColor("#9C27B0"));
+                        barChartModel.setBarTag(null); //You can set your own tag to bar model
+                        barChartModel.setBarText(total+"");
+
+                        barChart.addBar(barChartModel);
+                        if(barChart.getBar().size() == 10) {
+                            barChart.removeBar(0);
+                        }
+                    }
+//                    admin.toast("Total: "+total);
+                    total = 0;
+                    break;
             }
         }
     } ;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,27 +132,38 @@ public class SearchEpcSonar extends CicloActivity {
     }
     @Override
     public void initGui() {
-        addElemento(new Animacion(findViewById(R.id.lbl1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtEanPlu),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txtEanPlu),Techniques.FadeInLeft, null, false));
+        addElemento(new Animacion(findViewById(R.id.icn2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBus),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.lblDes1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes3),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.img1),Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.lnl1a),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.lbl2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSi),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnNo),Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft,null, false));
-        addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnLee),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBor),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnVerOtro),Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.bar_chart_vertical),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txtTags),Techniques.FadeInLeft));
 
+        barChart = (BarChart) findViewById(R.id.bar_chart_vertical);
+        barChart.setBarMaxValue(30);
+
+
+        getElemento(R.id.titleTxt).setText(getString(R.string.busqueda_items_ean_plu_sonar));
+        ((EditText)getElemento(R.id.edtEanPlu).getElemento()).setHint(getString(R.string.epc));
         adapter = new ListAdapterInventarioEanPlu(this, admin, productsFound, new OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
@@ -146,9 +182,18 @@ public class SearchEpcSonar extends CicloActivity {
         lst1.setAdapter(adapter);
 
     }
-
+    int total = 0;
+    Timer timerObj = new Timer();
+    TimerTask timerTaskObj = null;
     @Override
     public void getData() {
+        timerTaskObj = new TimerTask() {
+            public void run() {
+                Message msg = new Message();
+                msg.what = 4;
+                handler.sendMessage(msg);
+            }
+        };
     }
 
     @Override
@@ -156,25 +201,42 @@ public class SearchEpcSonar extends CicloActivity {
         add_on_click(R.id.btnBus, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebServices.getProductByEanPlu(
-                        getElemento(R.id.edtEanPlu).getText(),
-                        SearchEpcSonar.this,
-                        admin,
-                        new ResultWebServiceInterface() {
-                            @Override
-                            public void ok(ResultWebServiceOk ok) {
-                                Product productoConsultado = (Product) ok.getData();
-                                mostrarInformacionProducto(productoConsultado);
-                            }
+                if(getElemento(R.id.edtEanPlu).getElemento().isEnabled()){
+                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(false);
 
-                            @Override
-                            public void fail(ResultWebServiceFail fail) {
-                                if(fail.getError().equals("error_G06")){
-                                    admin.toast(R.string.error_G06);
+                    WebServices.getProductByEpc(
+                            getElemento(R.id.edtEanPlu).getText(),
+                            SearchEpcSonar.this,
+                            admin,
+                            new ResultWebServiceInterface() {
+                                @Override
+                                public void ok(ResultWebServiceOk ok) {
+                                    Product productoConsultado = (Product) ok.getData();
+                                    mostrarInformacionProducto(productoConsultado);
+                                    getElemento(R.id.btnBus).setText(getString(R.string.buscar_otro));
+                                    getElemento(R.id.btnBus).getElemento().setVisibility(View.GONE);
                                 }
-                                getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
-                            }
-                        });
+
+                                @Override
+                                public void fail(ResultWebServiceFail fail) {
+                                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                                    int stringId = admin.getStringResourceIdByName(fail.getError());
+                                    if(stringId >0) {
+                                        admin.toast((getString(stringId)));
+                                    } else {
+                                        admin.toast(fail.getError());
+                                    }
+                                    getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+                                    getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+                                    getElemento(R.id.lnl2).getElemento().setVisibility(View.GONE);
+                                }
+                            });
+                }else{
+                    getElemento(R.id.btnBus).setText(getString(R.string.buscar));
+                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                    ocultarInformacionProducto();
+
+                }
             }
         });
 
@@ -190,15 +252,14 @@ public class SearchEpcSonar extends CicloActivity {
             @Override
             public void onClick(View v) {
                 if(product!=null){
-                    getElemento((R.id.edtEanPlu)).getElemento().setVisibility(View.GONE);
-                    getElemento((R.id.btnBus)).getElemento().setVisibility(View.GONE);
-                    getElemento((R.id.txtEanPlu)).setText(product.getEan());
-                    getElemento((R.id.txtEanPlu)).getElemento().setVisibility(View.VISIBLE);
+                    //Hide search icon
+                    getElemento(R.id.icn2).getElemento().setVisibility(View.GONE);
                     getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
-                    findProductosByEanPlu();
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
+                    findProductosByEanPlu();
+
                 }else{
-                    admin.toast(R.string.error_minimo_un_producto);
+                    admin.toast(R.string.se_debe_buscar_un_producto);
                 }
 
             }
@@ -206,7 +267,10 @@ public class SearchEpcSonar extends CicloActivity {
         add_on_click(R.id.btnNo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(HomeReportes.class, null);
+                getElemento(R.id.btnBus).getElemento().setVisibility(View.VISIBLE);
+                getElemento(R.id.btnBus).setText(getString(R.string.buscar));
+                getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                ocultarInformacionProducto();
             }
         });
         add_on_click(R.id.btnVerOtro, new View.OnClickListener() {
@@ -234,13 +298,28 @@ public class SearchEpcSonar extends CicloActivity {
                 (NetworkImageView)getElemento(R.id.img1).getElemento(),
                 R.drawable.imagennoencontrada,
                 R.drawable.imagennoencontrada);
+        getElemento(R.id.icn2).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.img1).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1).getElemento().setVisibility(View.VISIBLE);
         getElemento(R.id.lnl1a).getElemento().setVisibility(View.VISIBLE);
+    }
+
+    private void ocultarInformacionProducto(){
+        this.product = null;
+        getElemento(R.id.lblDes1).setText("");
+        getElemento(R.id.lblDes2).setText("");
+        getElemento(R.id.lblDes3).setText("");
+        getElemento(R.id.icn2).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.lnl2).getElemento().setVisibility(View.GONE);
     }
 
     private void checkEpc(String epc){
         if(allProducts!=null && allProducts.size()>0){
             for (ProductHasZone phz : allProducts) {
                 if(phz.getEpc().getEpc().equals(epc)){
+                    total++;
                     Util.play(1,0);
                 }
 
@@ -253,6 +332,7 @@ public class SearchEpcSonar extends CicloActivity {
             @Override
             public void ok(ResultWebServiceOk ok) {
                 allProducts = (ArrayList<ProductHasZone>) ok.getData();
+                timerObj.schedule(timerTaskObj, 0, 2000);
 
             }
 
@@ -326,6 +406,8 @@ public class SearchEpcSonar extends CicloActivity {
             getElemento(R.id.btnLee).setText(getString(R.string.detener));
         }else{
             rfdiReader.stopReader();
+            timerTaskObj.cancel();
+            timerObj.cancel();
             getElemento(R.id.btnLee).setText(getString(R.string.leer));
         }
     }
@@ -338,4 +420,10 @@ public class SearchEpcSonar extends CicloActivity {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    protected void onDestroy() {
+        timerTaskObj.cancel();
+        timerObj.cancel();
+        super.onDestroy();
+    }
 }

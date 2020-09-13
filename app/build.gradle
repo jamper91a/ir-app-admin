@@ -64,4 +64,5 @@ dependencies {
     implementation project(':EasyWay')
     implementation files('libs/serialPort.jar')
     implementation 'com.michaelmuenzer.android:ScrollableNumberPicker:0.2.2'
+    implementation 'me.ithebk:barchart:0.9'
 }
