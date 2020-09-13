@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.androidanimations.library.Techniques;
@@ -17,6 +18,7 @@ import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterInventarioEan
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
+import inventarioreal.com.inventarioreal_admin.pages.Search.EpcSonar.SearchEpcSonar;
 import inventarioreal.com.inventarioreal_admin.pages.Search.HomeSearch;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
@@ -43,25 +45,31 @@ public class SearchEpcLastLocation extends CicloActivity {
     }
     @Override
     public void initGui() {
-        addElemento(new Animacion(findViewById(R.id.lbl1),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.edtEanPlu),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.txtEanPlu),Techniques.FadeInLeft, null, false));
+        addElemento(new Animacion(findViewById(R.id.icn2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBus),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.lblDes1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes3),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.img1),Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.lnl1a),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.lbl2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSi),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnNo),Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft,null, false));
-        addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
-        addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnVerOtro),Techniques.FadeInLeft));
+
+        addElemento(new Animacion(findViewById(R.id.lst1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.txtTags),Techniques.FadeInLeft));
+
+        getElemento(R.id.titleTxt).setText(getString(R.string.busqueda_items_epc_ultima_ubicacion));
 
         adapter = new ListAdapterInventarioEanPlu(this, admin, products, new OnItemClickListener() {
             @Override
@@ -84,7 +92,8 @@ public class SearchEpcLastLocation extends CicloActivity {
 
     @Override
     public void getData() {
-        getElemento(R.id.lbl1).setText(getString(R.string.epc));
+        ((EditText)getElemento(R.id.edtEanPlu).getElemento()).setHint(R.string.epc);
+//        getElemento(R.id.edtEanPlu).setText(getString(R.string.epc));
     }
 
     @Override
@@ -92,25 +101,42 @@ public class SearchEpcLastLocation extends CicloActivity {
         add_on_click(R.id.btnBus, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebServices.getProductByEpc(
-                        getElemento(R.id.edtEanPlu).getText(),
-                        SearchEpcLastLocation.this,
-                        admin,
-                        new ResultWebServiceInterface() {
-                            @Override
-                            public void ok(ResultWebServiceOk ok) {
-                                Product productoConsultado = (Product) ok.getData();
-                                mostrarInformacionProducto(productoConsultado);
-                            }
+                if(getElemento(R.id.edtEanPlu).getElemento().isEnabled()){
+                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(false);
 
-                            @Override
-                            public void fail(ResultWebServiceFail fail) {
-                                if(fail.getError().equals("error_E01")){
-                                    admin.toast(R.string.error_epc_no_encontrado);
+                    WebServices.getProductByEpc(
+                            getElemento(R.id.edtEanPlu).getText(),
+                            SearchEpcLastLocation.this,
+                            admin,
+                            new ResultWebServiceInterface() {
+                                @Override
+                                public void ok(ResultWebServiceOk ok) {
+                                    Product productoConsultado = (Product) ok.getData();
+                                    mostrarInformacionProducto(productoConsultado);
+                                    getElemento(R.id.btnBus).setText(getString(R.string.buscar_otro));
+                                    getElemento(R.id.btnBus).getElemento().setVisibility(View.GONE);
                                 }
-                                getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
-                            }
-                        });
+
+                                @Override
+                                public void fail(ResultWebServiceFail fail) {
+                                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                                    int stringId = admin.getStringResourceIdByName(fail.getError());
+                                    if(stringId >0) {
+                                        admin.toast((getString(stringId)));
+                                    } else {
+                                        admin.toast(fail.getError());
+                                    }
+                                    getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+                                    getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+                                    getElemento(R.id.lnl2).getElemento().setVisibility(View.GONE);
+                                }
+                            });
+                }else{
+                    getElemento(R.id.btnBus).setText(getString(R.string.buscar));
+                    getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                    ocultarInformacionProducto();
+
+                }
             }
         });
 
@@ -121,13 +147,12 @@ public class SearchEpcLastLocation extends CicloActivity {
             @Override
             public void onClick(View v) {
                 if(product!=null){
-                    getElemento((R.id.edtEanPlu)).getElemento().setVisibility(View.GONE);
-                    getElemento((R.id.btnBus)).getElemento().setVisibility(View.GONE);
-                    getElemento((R.id.txtEanPlu)).setText(product.getEan());
-                    getElemento((R.id.txtEanPlu)).getElemento().setVisibility(View.VISIBLE);
+                    //Hide search icon
+                    getElemento(R.id.icn2).getElemento().setVisibility(View.GONE);
                     getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
-                    findLastLocationByEpc();
                     getElemento(R.id.lnl2).getElemento().setVisibility(View.VISIBLE);
+                    findLastLocationByEpc();
+
                 }else{
                     admin.toast(R.string.error_minimo_un_epc);
                 }
@@ -137,7 +162,10 @@ public class SearchEpcLastLocation extends CicloActivity {
         add_on_click(R.id.btnNo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(HomeReportes.class, null);
+                getElemento(R.id.btnBus).getElemento().setVisibility(View.VISIBLE);
+                getElemento(R.id.btnBus).setText(getString(R.string.buscar));
+                getElemento(R.id.edtEanPlu).getElemento().setEnabled(true);
+                ocultarInformacionProducto();
             }
         });
         add_on_click(R.id.btnVerOtro, new View.OnClickListener() {
@@ -158,7 +186,21 @@ public class SearchEpcLastLocation extends CicloActivity {
                 (NetworkImageView)getElemento(R.id.img1).getElemento(),
                 R.drawable.imagennoencontrada,
                 R.drawable.imagennoencontrada);
+        getElemento(R.id.icn2).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.img1).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1).getElemento().setVisibility(View.VISIBLE);
         getElemento(R.id.lnl1a).getElemento().setVisibility(View.VISIBLE);
+    }
+
+    private void ocultarInformacionProducto(){
+        this.product = null;
+        getElemento(R.id.lblDes1).setText("");
+        getElemento(R.id.lblDes2).setText("");
+        getElemento(R.id.lblDes3).setText("");
+        getElemento(R.id.icn2).getElemento().setVisibility(View.VISIBLE);
+        getElemento(R.id.lnl1).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.lnl1a).getElemento().setVisibility(View.GONE);
+        getElemento(R.id.lnl2).getElemento().setVisibility(View.GONE);
     }
 
     public void findLastLocationByEpc(){
