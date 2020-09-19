@@ -65,4 +65,9 @@ dependencies {
     implementation files('libs/serialPort.jar')
     implementation 'com.michaelmuenzer.android:ScrollableNumberPicker:0.2.2'
     implementation 'me.ithebk:barchart:0.9'
+//    implementation 'com.github.nkzawa:socket.io-client:0.6.0'
+    //Socket.io
+    implementation('io.socket:socket.io-client:1.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 }
