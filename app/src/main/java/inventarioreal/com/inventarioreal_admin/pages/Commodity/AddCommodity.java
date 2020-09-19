@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
@@ -58,7 +59,6 @@ public class AddCommodity extends CicloActivity {
     private LinkedList<Epc> epcs = new LinkedList<Epc>();
     private LinkedList<Epc> epcsBanned = new LinkedList<Epc>();
     private LinkedList<ProductHasZone> products = new LinkedList<ProductHasZone>();
-    final DataBase db = DataBase.getInstance(this);
     Gson gson= new Gson();
     private Zone zonas_id;
     private Product productos_id=null;
@@ -142,120 +142,6 @@ public class AddCommodity extends CicloActivity {
 
         //Create socket Connection
         socketHelper = new SocketHelper(admin);
-        socketHelper.connect();
-
-        socketHelper.subs();
-
-        socketHelper.listenForEpcCode(new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                if(args[0] != null) {
-                    JSONObject response = (JSONObject) args[0];
-
-                    final Epc epcDb = gson.fromJson(response.toString(),Epc.class);
-                    //I must check with the server using a socket connection
-//                    Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
-                    if(epcDb!=null){
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(epcDb.getState()==1)
-                                    epcDb.setError(true);
-
-                                epcDb.setCount(1);
-                                epcDb.setEpc(epcDb.getEpc());
-                                epcDb.setCount(1);
-                                epcs.add(epcDb);
-                                adapter1.add(epcDb);
-                                //Creo el producto zona a enviar
-                                ProductHasZone productosZonas = new ProductHasZone();
-                                productosZonas.setZone(zonas_id);
-                                productosZonas.setProduct(productos_id);
-                                productosZonas.setEpc(epcDb);
-                                //Check the epc was not used before
-
-                                products.add(productosZonas);
-                                updatedAmountTags();
-                            }
-                        });
-
-                    }else{
-                    }
-                }
-            }
-        });
-//            socketHelper.addListener('');
-
-//        try {
-//            IO.Options options = new IO.Options();
-//            options.transports = new String[] { WebSocket.NAME};
-//            final Socket mSocket = IO.socket(Constants.url + "?__sails_io_sdk_version=1.0.0", options);
-//
-////            mSocket.io().on(Manager.EVENT_TRANSPORT, new Emitter.Listener() {
-////                @Override
-////                public void call(Object... args) {
-////                    Transport transport = (Transport)args[0];
-////
-////                    transport.on(Transport.EVENT_REQUEST_HEADERS, new Emitter.Listener() {
-////                        @Override
-////                        public void call(Object... args) {
-////                            @SuppressWarnings("unchecked")
-////                            Map<String, List<String>> headers = (Map<String, List<String>>)args[0];
-////                            // modify request headers
-//////                            headers.put("Cookie", Arrays.asList("foo=1;"));
-////                            headers.put(Constants.authorization, Arrays.asList("Bearer  "+admin.obtener_preferencia(Constants.token)));
-////                            System.out.println("HeY");
-////                        }
-////                    });
-////
-////                    transport.on(Transport.EVENT_RESPONSE_HEADERS, new Emitter.Listener() {
-////                        @Override
-////                        public void call(Object... args) {
-//////                            @SuppressWarnings("unchecked")
-//////                            Map<String, List<String>> headers = (Map<String, List<String>>)args[0];
-//////                            // access response headers
-//////                            String cookie = headers.get("Set-Cookie").get(0);
-////                        }
-////                    });
-////                }
-////            });
-//            //This address is the way you can connect to localhost with AVD(Android Virtual Device)
-////            final Socket  mSocket = IO.socket(Constants.url);
-//            mSocket.connect();
-//            //Register all the listener and callbacks here.
-//            mSocket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-//                @Override
-//                public void call(Object... args) {
-//                }
-//            });
-//
-//            JSONObject jsonObjectBody = new JSONObject();
-//            try {
-//                jsonObjectBody.put("myId", "11" );
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//
-//            JSONObject jsonObjectRequest = new JSONObject();
-//            try {
-//                jsonObjectRequest.put("url", "/sockets/subs?auth_token="+admin.obtener_preferencia(Constants.token));
-//                jsonObjectRequest.put("data", jsonObjectBody);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//            mSocket.emit("post", jsonObjectRequest, new Ack() {
-//                @Override
-//                public void call(Object... args) {
-//                    Log.e("SocketUtil", "User sent a message");
-//                }
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            Log.d("fail", "Failed to connect");
-//        }
 
 
     }
@@ -427,10 +313,10 @@ public class AddCommodity extends CicloActivity {
                                 public void ok(ResultWebServiceOk ok)
                                 {
                                     AddCommodityResponse response = (AddCommodityResponse) ok.getData();
-                                    //Update the local information
-                                    for(Epc epc: response.getEpcs()){
-                                        db.update(Constants.table_epcs, epc.getId()+"", epc.getContentValues());
-                                    }
+//                                    //Update the local information
+//                                    for(Epc epc: response.getEpcs()){
+//                                        db.update(Constants.table_epcs, epc.getId()+"", epc.getContentValues());
+//                                    }
                                     admin.toast(R.string.productos_agregados_exito);
                                     Administrador.callIntent(AddCommodity.class, null);
                                 }
@@ -481,37 +367,86 @@ public class AddCommodity extends CicloActivity {
     }
 
     private void getZonas(){
+        WebServices.getZonesByShopId(
+                AddCommodity.this,
+                admin,
+                new ResultWebServiceInterface() {
+                    @Override
+                    public void ok(ResultWebServiceOk ok)
+                    {
+                        Zone[] zones = (Zone[]) ok.getData();
+                        final LinkedList zonas = new LinkedList<> (Arrays.asList(zones));
+                        ArrayAdapter<Zone> adapter =
+                                new ArrayAdapter<>(getApplicationContext(), R.layout.simple_spinner_item, zonas);
+                        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+
+                        ((Spinner)getElemento(R.id.spnZona).getElemento()).setAdapter(adapter);
+
+                        ((Spinner)getElemento(R.id.spnZona).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                zonas_id = (Zone) zonas.get(position);
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void fail(ResultWebServiceFail fail) {
+                        admin.toast(fail.getError());
+                    }
+                }
+        );
         Gson gson = new Gson();
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
-        //Obtengo las zonas usando el local del employee
-//        LinkedList<HashMap<String, String>> zonas=db.getByColumn(Constants.table_zones,Constants.locales_id, employee.getEmployee().getShop().getId());
-        final LinkedList zonas=db.getByColumn(
-                Constants.table_zones,
-                Constants.column_shop,
-                empleado.getEmployee().getShop().getId()+"",
-                Zone.class);
-
-        ArrayAdapter<Zone> adapter =
-                new ArrayAdapter<>(getApplicationContext(), R.layout.simple_spinner_item, zonas);
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-
-        ((Spinner)getElemento(R.id.spnZona).getElemento()).setAdapter(adapter);
-
-        ((Spinner)getElemento(R.id.spnZona).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                zonas_id = (Zone) zonas.get(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     private void changedStateLecture(boolean state){
+        socketHelper.connect();
+        socketHelper.subs();
+        socketHelper.listenForEpcCode(new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                if(args[0] != null) {
+                    JSONObject response = (JSONObject) args[0];
+
+                    final Epc epcDb = gson.fromJson(response.toString(),Epc.class);
+//                    Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
+                    if(epcDb!=null){
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(epcDb.getState()==1)
+                                    epcDb.setError(true);
+
+                                epcDb.setCount(1);
+                                epcDb.setEpc(epcDb.getEpc());
+                                epcDb.setCount(1);
+                                epcs.add(epcDb);
+                                adapter1.add(epcDb);
+                                //Creo el producto zona a enviar
+                                ProductHasZone productosZonas = new ProductHasZone();
+                                productosZonas.setZone(zonas_id);
+                                productosZonas.setProduct(productos_id);
+                                productosZonas.setEpc(epcDb);
+                                //Check the epc was not used before
+
+                                products.add(productosZonas);
+                                updatedAmountTags();
+                            }
+                        });
+
+                    }else{
+                    }
+                }
+            }
+        });
         if(state){
             rfdiReader.startReader();
             getElemento(R.id.btnEmp).setText(getString(R.string.detener));
@@ -537,7 +472,7 @@ public class AddCommodity extends CicloActivity {
     @Override
     protected void onDestroy() {
         rfdiReader.onDestroy();
-//        socketHelper.disconnect();
+        socketHelper.disconnect();
         super.onDestroy();
     }
 

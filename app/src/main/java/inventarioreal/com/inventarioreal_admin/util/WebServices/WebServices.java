@@ -63,6 +63,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetRepo
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetReportsByTypeRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetTransfersByTypeRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetTransfersRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetZonesByShopRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.HomologateUnitsRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ListConsolidatedInventoriesRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ListInventoriesRequest;
@@ -133,6 +134,20 @@ public class WebServices {
                 campos,
                 getHeaders(admin),
                 jamper91.com.easyway.Util.Constants.REQUEST_POST,
+                result,
+                admin
+        );
+        callWebServiceJson.setMessage(activity.getString(mensaje));
+        callWebServiceJson.execute();
+    }
+
+    private static void get(final String url, final HashMap<String, Object> campos, final int mensaje, final Activity activity, final Administrador admin, final ResponseListener result){
+        CallWebServiceJson callWebServiceJson = new CallWebServiceJson(
+                activity,
+                url,
+                campos,
+                getHeaders(admin),
+                jamper91.com.easyway.Util.Constants.REQUEST_GET,
                 result,
                 admin
         );
@@ -1663,6 +1678,33 @@ public class WebServices {
             @Override
                         public void onErrorResponse(String s, VolleyError volleyError) {
 
+            }
+        });
+    }
+
+    public static void getZonesByShopId(final Activity activity, final Administrador admin, final ResultWebServiceInterface result) {
+        final String url=Constants.url+Constants.ws_getZonesByShop;
+        GetZonesByShopRequest request = new GetZonesByShopRequest();
+        get(url, request.getCampos(), R.string.obteniendo_informacion, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    Zone[] zones = gson.fromJson(jsonObject.getJSONArray("data").toString(), Zone[].class);
+                    result.ok(new ResultWebServiceOk(zones));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
             }
         });
     }

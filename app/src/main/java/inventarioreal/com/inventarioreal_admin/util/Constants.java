@@ -134,6 +134,7 @@ public class Constants {
     public static final String ws_modifyUser = "user/modify-employee-by-username";
     public static final String ws_changeStateUser="user/change-employee-state";
     public static final String ws_getEmployeesByCompany = "user/list-employees-by-company";
+    public static final String ws_getZonesByShop = "zone/list-zones-by-shop";
     public static final String ws_createPdf="pdf/createPdf";
     //endregion
 
