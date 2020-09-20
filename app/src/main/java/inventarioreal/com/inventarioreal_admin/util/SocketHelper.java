@@ -10,6 +10,12 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultSocketInterface;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultSocketOk;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
 import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -22,6 +28,7 @@ public class SocketHelper {
     private Administrador admin;
     private LoginResponse empleado;
     private HashMap<String,  Emitter.Listener >listeners = new HashMap<>();
+    Gson gson= new Gson();
     public SocketHelper() {
     }
 
@@ -76,7 +83,7 @@ public class SocketHelper {
         mSocket.connect();
     }
 
-    private void post(String url, JSONObject body){
+    private void post(String url, JSONObject body, final ResultSocketInterface result){
         /**
          * Example body
          * JSONObject jsonObjectBody = new JSONObject();
@@ -93,13 +100,18 @@ public class SocketHelper {
             mSocket.emit("post", jsonObjectRequest, new Ack() {
                 @Override
                 public void call(Object... args) {
-                    if(args[0]!= null) {
-                        JSONObject response = (JSONObject) args[0];
+                    try {
+                        if(args[0]!= null) {
+                            JSONObject response = (JSONObject) args[0];
+                            result.ok(new ResultSocketOk(response.get("body")));
+                        }
+                    } catch (Exception e) {
+                        result.fail(new ResultWebServiceFail(e.getMessage()));
                     }
                 }
             });
         } catch (JSONException e) {
-            e.printStackTrace();
+            result.fail(new ResultWebServiceFail(e.getMessage()));
         }
 
 
@@ -109,28 +121,43 @@ public class SocketHelper {
     }
 
     public void subs(){
-        post("/sockets/subs", new JSONObject());
+        post("/sockets/subs", new JSONObject(), new ResultSocketInterface() {
+            @Override
+            public void ok(ResultSocketOk ok) {
+
+            }
+
+            @Override
+            public void fail(ResultWebServiceFail fail) {
+
+            }
+        });
     }
 
     public void listenForEpcCode(Emitter.Listener listener) {
         mSocket.on("getEpcByEpc", listener);
         listeners.put("getEpcByEpc", listener);
     }
-    public void findEpcByEpcCode(String epcCode) {
+    public void findEpcByEpcCode(String epcCode, final ResultWebServiceInterface result) {
         JSONObject body = new JSONObject();
-
         try {
             body.put("epc", epcCode);
-            body.put("userId", empleado.getEmployee().getUser().getId());
-            mSocket.emit("getEpcByEpc", body, new Ack() {
+            this.post("/epc/getEpcByCode", body, new ResultSocketInterface() {
                 @Override
-                public void call(Object... args) {
-                    Log.d("Speaking", "Speaking ...");
+                public void ok(ResultSocketOk ok) {
+                    final Epc epc = gson.fromJson(ok.getBody().toString(),Epc.class);
+                    result.ok(new ResultWebServiceOk(epc));
+                }
+
+                @Override
+                public void fail(ResultWebServiceFail fail) {
+                    result.fail(new ResultWebServiceFail(fail.getError()));
                 }
             });
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
 
     }
     public void disconnect(){
