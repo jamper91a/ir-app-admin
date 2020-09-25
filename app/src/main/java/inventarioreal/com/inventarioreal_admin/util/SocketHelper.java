@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultSocketInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultSocketOk;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
@@ -134,10 +135,6 @@ public class SocketHelper {
         });
     }
 
-    public void listenForEpcCode(Emitter.Listener listener) {
-        mSocket.on("getEpcByEpc", listener);
-        listeners.put("getEpcByEpc", listener);
-    }
     public void findEpcByEpcCode(String epcCode, final ResultWebServiceInterface result) {
         JSONObject body = new JSONObject();
         try {
@@ -157,8 +154,27 @@ public class SocketHelper {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
+    public void findProductZoneByEpcCode(String epcCode, final ResultWebServiceInterface result) {
+        JSONObject body = new JSONObject();
+        try {
+            body.put("epc", epcCode);
+            this.post("/productHasZone/findByEpcCode", body, new ResultSocketInterface() {
+                @Override
+                public void ok(ResultSocketOk ok) {
+                    final ProductHasZone productHasZone = gson.fromJson(ok.getBody().toString(),ProductHasZone.class);
+                    result.ok(new ResultWebServiceOk(productHasZone));
+                }
 
+                @Override
+                public void fail(ResultWebServiceFail fail) {
+                    result.fail(new ResultWebServiceFail(fail.getError()));
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
     public void disconnect(){
         mSocket.disconnect();

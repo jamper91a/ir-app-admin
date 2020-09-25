@@ -285,44 +285,6 @@ public class AddCommodity extends CicloActivity {
                 if(productos_id!=null){
                     socketHelper.connect();
                     socketHelper.subs();
-//                    socketHelper.listenForEpcCode(new Emitter.Listener() {
-//                        @Override
-//                        public void call(Object... args) {
-//                            if(args[0] != null) {
-//                                JSONObject response = (JSONObject) args[0];
-//
-//                                final Epc epcDb = gson.fromJson(response.toString(),Epc.class);
-////                    Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
-//                                if(epcDb!=null){
-//
-//                                    runOnUiThread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            if(epcDb.getState()==1)
-//                                                epcDb.setError(true);
-//
-//                                            epcDb.setCount(1);
-//                                            epcDb.setEpc(epcDb.getEpc());
-//                                            epcDb.setCount(1);
-//                                            epcs.add(epcDb);
-//                                            adapter1.add(epcDb);
-//                                            //Creo el producto zona a enviar
-//                                            ProductHasZone productosZonas = new ProductHasZone();
-//                                            productosZonas.setZone(zonas_id);
-//                                            productosZonas.setProduct(productos_id);
-//                                            productosZonas.setEpc(epcDb);
-//                                            //Check the epc was not used before
-//
-//                                            products.add(productosZonas);
-//                                            updatedAmountTags();
-//                                        }
-//                                    });
-//
-//                                }else{
-//                                }
-//                            }
-//                        }
-//                    });
                     changedStateLecture(!rfdiReader.isStartReader());
 
                 }else{

@@ -45,6 +45,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
+import inventarioreal.com.inventarioreal_admin.util.SocketHelper;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -55,7 +56,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 public class SellCommodity extends CicloActivity {
 
     private String TAG="SellCommodity";
-    private DataBase db = DataBase.getInstance(this);
+//    private DataBase db = DataBase.getInstance(this);
     private Gson gson = new Gson();
     private LinkedList<ProductHasZone> products = new LinkedList<>();
     private Shop shop = null;
@@ -76,6 +77,8 @@ public class SellCommodity extends CicloActivity {
             }
         }
     } ;
+
+    private SocketHelper socketHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,6 +122,11 @@ public class SellCommodity extends CicloActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        //Create socket Connection
+        socketHelper = new SocketHelper(admin);
+        socketHelper.connect();
+        socketHelper.subs();
+
     }
 
 
@@ -143,6 +151,8 @@ public class SellCommodity extends CicloActivity {
         totalViewModel.setDate(admin.getCurrentDateAndTime());
         eanPluViewModel.setDate(admin.getCurrentDateAndTime());
         epcViewModel.setDate(admin.getCurrentDateAndTime());
+
+
     }
 
 
@@ -191,58 +201,98 @@ public class SellCommodity extends CicloActivity {
 
     }
 
-    private void createEpc(String epc){
-        //Busco el epc en la base de datos interna
-        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
-        if(epcDb!=null){
-            try {
-                //Busco el producto zonas al que pertenece este tag
-                ProductHasZone proZon=
-                        (ProductHasZone) db.findOneByColumn(
-                                Constants.table_productsHasZones,
-                                Constants.column_epc_id,
-                                epcDb.getId()+"",
-                                ProductHasZone.class);
-                //Busco el producto de este producto zona
-                Product producto= (Product) db.findById(
-                        Constants.table_products,
-                        proZon.getProduct().getId()+"",
-                        Product.class
-                        );
+    private void createEpc(final String epc){
 
-                //Busco la zona de este producto
-                Zone zone = (Zone) db.findById(Constants.table_zones, proZon.getZone().getId()+"", Zone.class);
+        socketHelper.findProductZoneByEpcCode(epc, new ResultWebServiceInterface() {
+            @Override
+            public void ok(ResultWebServiceOk ok) {
+                final ProductHasZone proZon = (ProductHasZone) ok.getData();
 
-                if (epcDb!=null) {
-                    proZon.setEpc(epcDb);
-                }
-                if(producto!=null){
-                    proZon.setProduct(producto);
-                }
-                if(zone!=null)
-                {
-                    proZon.setZone(zone);
-                }
+                if(proZon!=null){
 
-                //Determino si la zona del producto pertenece al shop del usuario
-                if(proZon.getZone().getShop().getId()!= shop.getId()){
-                    proZon.setError(true);
-                }
-                //Check if product was sell before
-                if(proZon.getSell().getId()>1){
-                    proZon.setError(true);
-                }
-                products.add(proZon);
-                eanPluViewModel.addProductoZonaHasTransferencia(proZon);
-                epcViewModel.addAllProductoZona(proZon);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Determino si la zona del producto pertenece al shop del usuario
+                            if(proZon.getZone().getShop().getId()!= shop.getId()){
+                                proZon.setError(true);
+                            }
+                            //Check if product was sell before
+                            if(proZon.getSell()!= null && proZon.getSell().getId()>1){
+                                proZon.setError(true);
+                            }
+                            products.add(proZon);
+                            eanPluViewModel.addProductoZonaHasTransferencia(proZon);
+                            epcViewModel.addAllProductoZona(proZon);
 
-                //Informacion requeria por el servicio web de crear inventory
-                totalViewModel.setAmount(products.size());
-            } catch (Exception e) {
-                e.printStackTrace();
+                            //Informacion requeria por el servicio web de crear inventory
+                            totalViewModel.setAmount(products.size());
+                        }
+                    });
+
+                }
+                epcs.add(epc);
+
             }
-            epcs.add(epc);
-        }
+
+            @Override
+            public void fail(ResultWebServiceFail fail) {
+                System.out.println("Fail");
+            }
+        });
+
+
+        //Busco el epc en la base de datos interna
+//        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
+//        if(epcDb!=null){
+//            try {
+//                //Busco el producto zonas al que pertenece este tag
+//                ProductHasZone proZon=
+//                        (ProductHasZone) db.findOneByColumn(
+//                                Constants.table_productsHasZones,
+//                                Constants.column_epc_id,
+//                                epcDb.getId()+"",
+//                                ProductHasZone.class);
+//                //Busco el producto de este producto zona
+//                Product producto= (Product) db.findById(
+//                        Constants.table_products,
+//                        proZon.getProduct().getId()+"",
+//                        Product.class
+//                        );
+//
+//                //Busco la zona de este producto
+//                Zone zone = (Zone) db.findById(Constants.table_zones, proZon.getZone().getId()+"", Zone.class);
+//
+//                if (epcDb!=null) {
+//                    proZon.setEpc(epcDb);
+//                }
+//                if(producto!=null){
+//                    proZon.setProduct(producto);
+//                }
+//                if(zone!=null)
+//                {
+//                    proZon.setZone(zone);
+//                }
+//
+//                //Determino si la zona del producto pertenece al shop del usuario
+//                if(proZon.getZone().getShop().getId()!= shop.getId()){
+//                    proZon.setError(true);
+//                }
+//                //Check if product was sell before
+//                if(proZon.getSell().getId()>1){
+//                    proZon.setError(true);
+//                }
+//                products.add(proZon);
+//                eanPluViewModel.addProductoZonaHasTransferencia(proZon);
+//                epcViewModel.addAllProductoZona(proZon);
+//
+//                //Informacion requeria por el servicio web de crear inventory
+//                totalViewModel.setAmount(products.size());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            epcs.add(epc);
+//        }
     }
 
 
@@ -351,19 +401,19 @@ public class SellCommodity extends CicloActivity {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
                                 admin.toast(getString(R.string.salida_mercancia_exitosa));
-                                ProductHasZone[] newProducts = (ProductHasZone[]) ok.getData();
-                                //Update local information
-                                for(ProductHasZone product: newProducts){
-                                    try {
-                                        db.update(
-                                                Constants.table_productsHasZones,
-                                                product.getId()+"",
-                                                product.getContentValues()
-                                                );
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
+//                                ProductHasZone[] newProducts = (ProductHasZone[]) ok.getData();
+//                                //Update local information
+//                                for(ProductHasZone product: newProducts){
+//                                    try {
+//                                        db.update(
+//                                                Constants.table_productsHasZones,
+//                                                product.getId()+"",
+//                                                product.getContentValues()
+//                                                );
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
                                 admin.callIntent(HomeCashier.class, null);
                             }
 
