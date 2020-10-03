@@ -48,6 +48,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
+import inventarioreal.com.inventarioreal_admin.util.SocketHelper;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -59,7 +60,7 @@ public class CrearInventarioStep2 extends CicloActivity {
 
     //private UhfManager uhfManager;
     private String TAG="CrearInventarioStep2";
-    private DataBase db = DataBase.getInstance(this);
+//    private DataBase db = DataBase.getInstance(this);
     private RequestCreateInventory2 requestInventariorCrear2;
     private LinkedList<InventoryHasProduct> products = new LinkedList<>();
     private Gson gson = new Gson();
@@ -84,7 +85,7 @@ public class CrearInventarioStep2 extends CicloActivity {
         }
     } ;
 
-
+    private SocketHelper socketHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -145,6 +146,11 @@ public class CrearInventarioStep2 extends CicloActivity {
         getSupportActionBar().setTitle(R.string.crear_inventario_parcial);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //Create socket Connection
+        socketHelper = new SocketHelper(admin);
+        socketHelper.connect();
+        socketHelper.subs();
     }
     @Override
     public void initGui() {
@@ -221,69 +227,111 @@ public class CrearInventarioStep2 extends CicloActivity {
         //startFlag=false;
     }
 
-    private void createEpc(String epc){
-        //Busco el epc en la base de datos interna
-        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
-        if(epcDb!=null){
-            //Busco el producto zonas al que pertenece este tag
-            try {
-                ProductHasZone proZon=
-                        (ProductHasZone) db.findOneByColumn(
-                                Constants.table_productsHasZones,
-                                Constants.column_epc_id,
-                                epcDb.getId()+"",
-                                ProductHasZone.class);
+    private void createEpc(final String epc){
+        socketHelper.findProductZoneByEpcCode(epc, new ResultWebServiceInterface() {
+            @Override
+            public void ok(ResultWebServiceOk ok) {
+                final ProductHasZone proZon = (ProductHasZone) ok.getData();
+
                 if(proZon!=null){
-                    //Valido que no se haya vendido el producto
-                    if(proZon.getSell().getId()==1){
-//Busco el producto de este producto zona
-                        Product producto= (Product) db.findById(
-                                Constants.table_products,
-                                proZon.getProduct().getId()+"",
-                                Product.class
-                        );
 
-                        //Busco la zona del producto zona
-                        Zone zona = (Zone) db.findById(
-                                Constants.table_zones,
-                                proZon.getZone().getId()+"",
-                                Zone.class
-                        );
-                        if (epcDb!=null) {
-                            proZon.setEpc(epcDb);
-                        }
-                        if(producto!=null){
-                            proZon.setProduct(producto);
-                        }
-                        if(zona!=null){
-                            proZon.setZone(zona);
-                        }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Check if product was sell before
+                            if(proZon.getSell()!= null && proZon.getSell().getId()==1){
+                                //Valido que este producto pertenezca al local del usuario logeado
+                                if(proZon.getZone()!=null && (proZon.getZone().getShop().getId() == empleado.getEmployee().getShop().getId())){
+                                    //Informacion requeria por el servicio web de crear inventory
+                                    InventoryHasProduct ip = new InventoryHasProduct();
+                                    ip.setZone(requestInventariorCrear2.getZone());
+                                    ip.setProduct(proZon);
+                                    ip.setEpc(proZon.getEpc());
 
-                        //Valido que este producto pertenezca al local del usuario logeado
-                        if(zona!=null && (zona.getShop().getId() == empleado.getEmployee().getShop().getId())){
-                            //Informacion requeria por el servicio web de crear inventory
-                            InventoryHasProduct ip = new InventoryHasProduct();
-                            ip.setZone(requestInventariorCrear2.getZone());
-                            ip.setProduct(proZon);
-                            ip.setEpc(epcDb);
-
-                            products.add(ip);
-                            eanPluVieModel.addProductoZona(proZon);
-                            epcVieModel.addProductoZona(proZon);
-                            totalViewModel.setAmount(products.size());
-                            epcs.add(epc);
+                                    products.add(ip);
+                                    eanPluVieModel.addProductoZona(proZon);
+                                    epcVieModel.addProductoZona(proZon);
+                                    totalViewModel.setAmount(products.size());
+                                    epcs.add(epc);
+                                }
+                            }
                         }
-                    }
+                    });
 
                 }
+                epcs.add(epc);
 
-
-            } catch (Exception e) {
-//                admin.toast(e.getMessage());
             }
-        }else{
-            admin.toast(getString(R.string.error_epc_no_encontrado)+": "+ epc);
-        }
+
+            @Override
+            public void fail(ResultWebServiceFail fail) {
+                System.out.println("Fail");
+            }
+        });
+
+
+        //Busco el epc en la base de datos interna
+//        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
+//        if(epcDb!=null){
+//            //Busco el producto zonas al que pertenece este tag
+//            try {
+//                ProductHasZone proZon=
+//                        (ProductHasZone) db.findOneByColumn(
+//                                Constants.table_productsHasZones,
+//                                Constants.column_epc_id,
+//                                epcDb.getId()+"",
+//                                ProductHasZone.class);
+//                if(proZon!=null){
+//                    //Valido que no se haya vendido el producto
+//                    if(proZon.getSell().getId()==1){
+////Busco el producto de este producto zona
+//                        Product producto= (Product) db.findById(
+//                                Constants.table_products,
+//                                proZon.getProduct().getId()+"",
+//                                Product.class
+//                        );
+//
+//                        //Busco la zona del producto zona
+//                        Zone zona = (Zone) db.findById(
+//                                Constants.table_zones,
+//                                proZon.getZone().getId()+"",
+//                                Zone.class
+//                        );
+//                        if (epcDb!=null) {
+//                            proZon.setEpc(epcDb);
+//                        }
+//                        if(producto!=null){
+//                            proZon.setProduct(producto);
+//                        }
+//                        if(zona!=null){
+//                            proZon.setZone(zona);
+//                        }
+//
+//                        //Valido que este producto pertenezca al local del usuario logeado
+//                        if(zona!=null && (zona.getShop().getId() == empleado.getEmployee().getShop().getId())){
+//                            //Informacion requeria por el servicio web de crear inventory
+//                            InventoryHasProduct ip = new InventoryHasProduct();
+//                            ip.setZone(requestInventariorCrear2.getZone());
+//                            ip.setProduct(proZon);
+//                            ip.setEpc(epcDb);
+//
+//                            products.add(ip);
+//                            eanPluVieModel.addProductoZona(proZon);
+//                            epcVieModel.addProductoZona(proZon);
+//                            totalViewModel.setAmount(products.size());
+//                            epcs.add(epc);
+//                        }
+//                    }
+//
+//                }
+//
+//
+//            } catch (Exception e) {
+////                admin.toast(e.getMessage());
+//            }
+//        }else{
+//            admin.toast(getString(R.string.error_epc_no_encontrado)+": "+ epc);
+//        }
     }
 
 
