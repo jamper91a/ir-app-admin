@@ -43,12 +43,14 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginRes
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devolution;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHasProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
+import inventarioreal.com.inventarioreal_admin.util.SocketHelper;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -60,7 +62,7 @@ public class DevolutionStep2 extends CicloActivity {
 
     private String TAG="DevolucionDeClientesStep2";
     private ProductHasZone request = new ProductHasZone();
-    private DataBase db = DataBase.getInstance(this);
+//    private DataBase db = DataBase.getInstance(this);
     private ProductHasZone product;
     private LinkedList<ProductHasZone> products = new LinkedList<>();
     private Gson gson = new Gson();
@@ -84,7 +86,7 @@ public class DevolutionStep2 extends CicloActivity {
         }
     } ;
 
-
+    private SocketHelper socketHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,6 +144,11 @@ public class DevolutionStep2 extends CicloActivity {
         getSupportActionBar().setTitle(R.string.devoluciones);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //Create socket Connection
+        socketHelper = new SocketHelper(admin);
+        socketHelper.connect();
+        socketHelper.subs();
     }
     @Override
     public void initGui() {
@@ -228,62 +235,105 @@ public class DevolutionStep2 extends CicloActivity {
     public void hasAllPermissions() {
     }
 
-    private void createEpc(String epc){
-        //Busco el epc en la base de datos interna
-        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
-        if(epcDb!=null){
-            //Busco el producto zonas al que pertenece este tag
-            LinkedList<ProductHasZone> proZons=
-                    db.getByColumn(
-                            Constants.table_productsHasZones,
-                            Constants.column_epc_id,
-                            epcDb.getId()+"",
-                            ProductHasZone.class);
-            if(proZons !=null && proZons.size()>0){
-                ProductHasZone proZon = proZons.get(0);
-                //Busco el producto de este producto zona
-                Product producto= (Product) db.findById(
-                        Constants.table_products,
-                        proZon.getProduct().getId()+"",
-                        Product.class
-                );
-                //Busco la zona del producto zona
-                Zone zona = (Zone) db.findById(
-                        Constants.table_zones,
-                        proZon.getZone().getId()+"",
-                        Zone.class
-                );
-                if (epcDb!=null) {
-                    proZon.setEpc(epcDb);
+    private void createEpc(final String epc){
+        socketHelper.findProductZoneByEpcCode(epc, new ResultWebServiceInterface() {
+            @Override
+            public void ok(ResultWebServiceOk ok) {
+                final ProductHasZone proZon = (ProductHasZone) ok.getData();
+
+                if(proZon!=null){
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Check if product was sell before
+                            if(proZon.getSell()!= null && proZon.getSell().getId()==1){
+                                //Valido que este producto pertenezca al local del usuario logeado
+                                if(proZon.getZone()!=null && (proZon.getZone().getShop().getId() == empleado.getEmployee().getShop().getId())){
+                                    //Check if product was sold, if was not sold, it can not be returned
+                                    if(proZon.getSell()!=null && proZon.getSell().getId()<=1){
+                                        proZon.setError(true);
+                                    }
+                                    //Check if product was returned before
+                                    if(proZon.getDevolution()!=null && proZon.getDevolution().getId()>1){
+                                        proZon.setError(true);
+                                    }
+                                    products.add(proZon);
+                                    eanPluVieModel.addProductoZona(proZon);
+                                    totalViewModel.setAmount(products.size());
+                                    epcViewModel.addProductoZona(proZon);
+                                    epcs.add(epc);
+                                }
+                            }
+                        }
+                    });
+
                 }
-                if(producto!=null){
-                    proZon.setProduct(producto);
-                }
-                if(zona!=null){
-                    proZon.setZone(zona);
-                }
-                //Valido que este producto pertenezca al local del usuario logeado
-                if (zona!=null && (zona.getShop().getId() == empleado.getEmployee().getShop().getId())) {
-                    //Check if product was sold, if was not sold, it can not be returned
-                    if(proZon.getSell().getId()<=1){
-                        proZon.setError(true);
-                    }
-                    //Check if product was returned before
-                    if(proZon.getDevolution().getId()>1){
-                        proZon.setError(true);
-                    }
-                    products.add(proZon);
-                    eanPluVieModel.addProductoZona(proZon);
-                    totalViewModel.setAmount(products.size());
-                    epcViewModel.addProductoZona(proZon);
-                    epcs.add(epc);
-                }
+                epcs.add(epc);
+
             }
 
+            @Override
+            public void fail(ResultWebServiceFail fail) {
+                System.out.println("Fail");
+            }
+        });
 
-        }else{
-            admin.toast(getString(R.string.error_epc_no_encontrado)+ ": " +epc);
-        }
+        //Busco el epc en la base de datos interna
+//        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
+//        if(epcDb!=null){
+//            //Busco el producto zonas al que pertenece este tag
+//            LinkedList<ProductHasZone> proZons=
+//                    db.getByColumn(
+//                            Constants.table_productsHasZones,
+//                            Constants.column_epc_id,
+//                            epcDb.getId()+"",
+//                            ProductHasZone.class);
+//            if(proZons !=null && proZons.size()>0){
+//                ProductHasZone proZon = proZons.get(0);
+//                //Busco el producto de este producto zona
+//                Product producto= (Product) db.findById(
+//                        Constants.table_products,
+//                        proZon.getProduct().getId()+"",
+//                        Product.class
+//                );
+//                //Busco la zona del producto zona
+//                Zone zona = (Zone) db.findById(
+//                        Constants.table_zones,
+//                        proZon.getZone().getId()+"",
+//                        Zone.class
+//                );
+//                if (epcDb!=null) {
+//                    proZon.setEpc(epcDb);
+//                }
+//                if(producto!=null){
+//                    proZon.setProduct(producto);
+//                }
+//                if(zona!=null){
+//                    proZon.setZone(zona);
+//                }
+//                //Valido que este producto pertenezca al local del usuario logeado
+//                if (zona!=null && (zona.getShop().getId() == empleado.getEmployee().getShop().getId())) {
+//                    //Check if product was sold, if was not sold, it can not be returned
+//                    if(proZon.getSell().getId()<=1){
+//                        proZon.setError(true);
+//                    }
+//                    //Check if product was returned before
+//                    if(proZon.getDevolution().getId()>1){
+//                        proZon.setError(true);
+//                    }
+//                    products.add(proZon);
+//                    eanPluVieModel.addProductoZona(proZon);
+//                    totalViewModel.setAmount(products.size());
+//                    epcViewModel.addProductoZona(proZon);
+//                    epcs.add(epc);
+//                }
+//            }
+//
+//
+//        }else{
+//            admin.toast(getString(R.string.error_epc_no_encontrado)+ ": " +epc);
+//        }
     }
 
 
@@ -385,9 +435,22 @@ public class DevolutionStep2 extends CicloActivity {
         txtZona.setText(getString(R.string.zona) + ": "+ product.getZone().getName());
         request.setCreatedAt(admin.getCurrentDateAndTime());
         txtTime.setText(request.getCreatedAt());
-        // inicio spnMotDev
-        final LinkedList devoluciones = db.getByColumn(
-                Constants.table_devolutions,"type",this.product.getDevolution().getType().toString(), Devolution.class);
+
+        final LinkedList devoluciones = new LinkedList();
+        if(this.product.getDevolution().getType() == 1) {
+            devoluciones.add(new Devolution(2, getString(R.string.garantia), this.product.getDevolution().getType()));
+            devoluciones.add(new Devolution(3, getString(R.string.talla_no_coincide), this.product.getDevolution().getType()));
+            devoluciones.add(new Devolution(4, getString(R.string.mal_estado_producto), this.product.getDevolution().getType()));
+        } else {
+            devoluciones.add(new Devolution(5, getString(R.string.garantia), this.product.getDevolution().getType()));
+            devoluciones.add(new Devolution(6, getString(R.string.talla_no_coincide), this.product.getDevolution().getType()));
+            devoluciones.add(new Devolution(7, getString(R.string.mal_estado_producto), this.product.getDevolution().getType()));
+        }
+
+
+//        // inicio spnMotDev
+//        final LinkedList devoluciones = db.getByColumn(
+//                Constants.table_devolutions,"type",this.product.getDevolution().getType().toString(), Devolution.class);
 
         ArrayAdapter<Zone> adapter =
                 new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, devoluciones);

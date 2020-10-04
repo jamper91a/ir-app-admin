@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
@@ -23,13 +24,17 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZ
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class DevolutionStep1 extends CicloActivity {
 
 
-    final DataBase db = DataBase.getInstance(this);
+//    final DataBase db = DataBase.getInstance(this);
     private ProductHasZone request = new ProductHasZone();
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,33 +84,44 @@ public class DevolutionStep1 extends CicloActivity {
 
 
     private void getZonas() {
+
+        WebServices.getZonesByShopId(
+                this,
+                admin,
+                new ResultWebServiceInterface() {
+                    @Override
+                    public void ok(ResultWebServiceOk ok)
+                    {
+                        Zone[] zones = (Zone[]) ok.getData();
+                        final LinkedList zonas = new LinkedList<> (Arrays.asList(zones));
+                        ArrayAdapter<Zone> adapter =
+                                new ArrayAdapter<>(getApplicationContext(), R.layout.simple_spinner_item, zonas);
+                        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+
+                        ((Spinner)getElemento(R.id.spnZonaDestino).getElemento()).setAdapter(adapter);
+
+                        ((Spinner)getElemento(R.id.spnZonaDestino).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                request.setZone((Zone) zonas.get(position));
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void fail(ResultWebServiceFail fail) {
+                        admin.toast(fail.getError());
+                    }
+                }
+        );
         Gson gson = new Gson();
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
-        //Obtengo las zonas usando el local del employee
-        final LinkedList zonas = db.getByColumn(
-                Constants.table_zones,
-                Constants.column_shop,
-                empleado.getEmployee().getShop().getId()+ "",
-                Zone.class);
-
-        ArrayAdapter<Zone> adapter =
-                new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, zonas);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        ((Spinner) getElemento(R.id.spnZonaDestino).getElemento()).setAdapter(adapter);
-
-        ((Spinner) getElemento(R.id.spnZonaDestino).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                request.setZone((Zone)zonas.get(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                request.setZone(null);
-            }
-        });
 
         getElemento(R.id.txtLocal).setText(empleado.getEmployee().getShop().getName());
     }

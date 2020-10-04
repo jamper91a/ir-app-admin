@@ -222,4 +222,7 @@
     <string name="generate_report">Generar Reporte</string>
     <string name="obteniendo_informacion">Obteninendo Informacion</string>
     <string name="vender">Vender</string>
+    <string name="garantia">Garantia</string>
+    <string name="talla_no_coincide">Talla no coincide</string>
+    <string name="mal_estado_producto">Mal estado del producto</string>
 </resources>

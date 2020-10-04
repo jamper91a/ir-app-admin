@@ -50,7 +50,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity {
 
-    final DataBase db = DataBase.getInstance(this);
+//    final DataBase db = DataBase.getInstance(this);
     private String TAG="VisualizarInventarioColaborativoPorZonaStep2";
     private LinkedList<InventoryHasProduct> inventariosProductos = new LinkedList<>();
     private Gson gson = new Gson();
@@ -107,22 +107,22 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
                 public void ok(ResultWebServiceOk ok) {
                     inventario = (Inventory) ok.getData();
                     //Busco la zona del inventory
-                    Zone zona = (Zone) db.findById(Constants.table_zones, inventario.getZone().getId()+"", Zone.class);
-                    if(zona!=null){
-                        inventario.setZone(zona);
-                    }
+//                    Zone zona = (Zone) db.findById(Constants.table_zones, inventario.getZone().getId()+"", Zone.class);
+//                    if(zona!=null){
+//                        inventario.setZone(zona);
+//                    }
                     //Actualizo la cantidad
                     totalViewModel.setInventario(inventario);
                     for (ProductHasZone pz: inventario.getProducts()
                     ) {
                         //Busco el epc del producto
-                        Epc epc = (Epc) db.findById(
-                                Constants.table_epcs,
-                                pz.getEpc().getId()+"",
-                                Epc.class
-                        );
-                        if(epc!=null)
-                            pz.setEpc(epc);
+//                        Epc epc = (Epc) db.findById(
+//                                Constants.table_epcs,
+//                                pz.getEpc().getId()+"",
+//                                Epc.class
+//                        );
+//                        if(epc!=null)
+//                            pz.setEpc(epc);
                         eanPluVieModel.addProductoZona(pz);
                         epcVieModel.addProductoZona(pz);
                     }
@@ -148,23 +148,23 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
                     GetProductsByConsolidatedInventoryResponse aux = (GetProductsByConsolidatedInventoryResponse) ok.getData();
                     //Busco la zona del inventory
                     for (ProductHasZone pz: aux.getProductosZonas()){
-                        Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
-                        if(zona!=null){
-                            pz.setZone(zona);
-                        }
+//                        Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
+//                        if(zona!=null){
+//                            pz.setZone(zona);
+//                        }
 
                     }
 
                     //Actualizo la cantidad
                     totalConsolidadoViewModel.setInventario(aux.getConsolidatedInventories());
                     for (ProductHasZone pz: aux.getProductosZonas()){
-                        Epc epc = (Epc) db.findById(
-                                Constants.table_epcs,
-                                pz.getEpc().getId()+"",
-                                Epc.class
-                        );
-                        if(epc!=null)
-                            pz.setEpc(epc);
+//                        Epc epc = (Epc) db.findById(
+//                                Constants.table_epcs,
+//                                pz.getEpc().getId()+"",
+//                                Epc.class
+//                        );
+//                        if(epc!=null)
+//                            pz.setEpc(epc);
                         epcVieModel.addProductoZona(pz);
                         eanPluConsolidadoVieModel.addProductoZona(pz);
                     }

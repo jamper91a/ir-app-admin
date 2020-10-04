@@ -19,6 +19,12 @@ public class Devolution extends InventarioRealPojo {
         super(id);
     }
 
+    public Devolution(long id, String name, Integer type) {
+        super(id);
+        this.name = name;
+        this.type = type;
+    }
+
     public String getName() {
         return name;
     }

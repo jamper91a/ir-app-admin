@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
@@ -33,7 +34,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class CrearInventarioCooperativoStep1 extends CicloActivity {
 
-    final DataBase db = DataBase.getInstance(this);
+//    final DataBase db = DataBase.getInstance(this);
     private RequestCreateInventory2 request = new RequestCreateInventory2();
 
     @Override
@@ -96,34 +97,68 @@ public class CrearInventarioCooperativoStep1 extends CicloActivity {
     }
 
     private void getZonas() {
-        Gson gson = new Gson();
-        //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
-        //Obtengo las zonas usando el local del employee
-//        LinkedList<HashMap<String, String>> zonas=db.getByColumn(Constants.table_zones,Constants.locales_id, employee.getEmployee().getShop().getId());
-        final LinkedList zonas = db.getByColumn(
-                Constants.table_zones,
-                Constants.column_shop,
-                empleado.getEmployee().getShop().getId() + "",
-                Zone.class);
+        WebServices.getZonesByShopId(
+                this,
+                admin,
+                new ResultWebServiceInterface() {
+                    @Override
+                    public void ok(ResultWebServiceOk ok)
+                    {
+                        Zone[] zones = (Zone[]) ok.getData();
+                        final LinkedList zonas = new LinkedList<> (Arrays.asList(zones));
+                        ArrayAdapter<Zone> adapter =
+                                new ArrayAdapter<>(getApplicationContext(), R.layout.simple_spinner_item, zonas);
+                        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
-        ArrayAdapter<Zone> adapter =
-                new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, zonas);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        ((Spinner)getElemento(R.id.spnZona).getElemento()).setAdapter(adapter);
 
-        ((Spinner) getElemento(R.id.spnZona).getElemento()).setAdapter(adapter);
+                        ((Spinner)getElemento(R.id.spnZona).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                request.setZone((Zone) zonas.get(position));
+                            }
 
-        ((Spinner) getElemento(R.id.spnZona).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                request.setZone((Zone) zonas.get(position));
-            }
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                            }
+                        });
+                    }
 
-            }
-        });
+                    @Override
+                    public void fail(ResultWebServiceFail fail) {
+                        admin.toast(fail.getError());
+                    }
+                }
+        );
+//        Gson gson = new Gson();
+//        //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
+//        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+//        //Obtengo las zonas usando el local del employee
+////        LinkedList<HashMap<String, String>> zonas=db.getByColumn(Constants.table_zones,Constants.locales_id, employee.getEmployee().getShop().getId());
+//        final LinkedList zonas = db.getByColumn(
+//                Constants.table_zones,
+//                Constants.column_shop,
+//                empleado.getEmployee().getShop().getId() + "",
+//                Zone.class);
+//
+//        ArrayAdapter<Zone> adapter =
+//                new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, zonas);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        ((Spinner) getElemento(R.id.spnZona).getElemento()).setAdapter(adapter);
+//
+//        ((Spinner) getElemento(R.id.spnZona).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                request.setZone((Zone) zonas.get(position));
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
     }
 
