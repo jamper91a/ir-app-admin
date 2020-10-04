@@ -147,13 +147,13 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
                 public void ok(ResultWebServiceOk ok) {
                     GetProductsByConsolidatedInventoryResponse aux = (GetProductsByConsolidatedInventoryResponse) ok.getData();
                     //Busco la zona del inventory
-                    for (ProductHasZone pz: aux.getProductosZonas()){
-//                        Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
-//                        if(zona!=null){
-//                            pz.setZone(zona);
-//                        }
-
-                    }
+//                    for (ProductHasZone pz: aux.getProductosZonas()){
+////                        Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
+////                        if(zona!=null){
+////                            pz.setZone(zona);
+////                        }
+//
+//                    }
 
                     //Actualizo la cantidad
                     totalConsolidadoViewModel.setInventario(aux.getConsolidatedInventories());
