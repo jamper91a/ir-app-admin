@@ -79,24 +79,12 @@ public class CrearInventarioStep1 extends CicloActivity {
     }
 
     private void sync() {
-
-        WebServices.sync(0,CrearInventarioStep1.this, admin, new ResultWebServiceInterface() {
-            @Override
-            public void ok(ResultWebServiceOk ok) {
-                //Obtener Zonas
-                getZonas();
-                //Obtener poder de lecura
-                getPoderLectura();
-                //Obtener date actual
-                getFecha();
-            }
-
-            @Override
-            public void fail(ResultWebServiceFail fail) {
-                admin.toast(fail.getError());
-
-            }
-        });
+        //Obtener Zonas
+        getZonas();
+        //Obtener poder de lecura
+        getPoderLectura();
+        //Obtener date actual
+        getFecha();
     }
 
     private void getZonas() {
@@ -210,8 +198,8 @@ public class CrearInventarioStep1 extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+                //DataBase db = DataBase.getInstance(this);
+                //db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

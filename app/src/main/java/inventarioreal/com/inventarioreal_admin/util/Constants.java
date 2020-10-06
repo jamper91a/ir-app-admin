@@ -120,7 +120,7 @@ public class Constants {
     public static final String ws_saveReport="report/save-report";
     public static final String ws_login = "user/login";
     public static final String ws_sync = "user/sync";
-    public static final String ws_sellCommodity= "sells/create-sell";
+    public static final String ws_sellCommodity= "sell/create-sell";
     public static final String ws_getReportsByType ="report/get-reports-by-type";
     public static final String ws_getReportById = "report/get-reports-by-id";
     public static final String ws_homologateUnits = "report/homologate-units";

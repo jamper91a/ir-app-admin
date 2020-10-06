@@ -46,6 +46,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
+import inventarioreal.com.inventarioreal_admin.util.SocketHelper;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -58,7 +59,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
     private Transfer request = null;
 
     private String TAG="CrearInventarioStep2";
-    private DataBase db = DataBase.getInstance(this);
+//    private DataBase db = DataBase.getInstance(this);
     private Gson gson = new Gson();
     private LinkedList<TransfersHasZonesProduct> products = new LinkedList<>();
     RFDIReader rfdiReader =  null;
@@ -78,6 +79,9 @@ public class CrearTransferenciaStep2 extends CicloActivity {
             }
         }
     } ;
+
+    private SocketHelper socketHelper;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,6 +134,11 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         getSupportActionBar().setTitle(R.string.crear_transferencia);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //Create socket Connection
+        socketHelper = new SocketHelper(admin);
+        socketHelper.connect();
+        socketHelper.subs();
     }
 
     @Override
@@ -192,59 +201,94 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
     }
 
-    private void createEpc(String epc){
-        //Busco el epc en la base de datos interna
-        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
-        if(epcDb!=null){
-            //Busco el producto zonas al que pertenece este tag
-            try {
-                ProductHasZone proZon=
-                        (ProductHasZone) db.getByColumn(
-                                Constants.table_productsHasZones,
-                                Constants.column_epc_id,
-                                epcDb.getId()+"",
-                                ProductHasZone.class).get(0);
-                //Busco el producto de este producto zona
-                Product producto= (Product) db.findById(
-                        Constants.table_products,
-                        proZon.getProduct().getId()+"",
-                        Product.class
-                );
+    private void createEpc(final String epc){
+        socketHelper.findProductZoneByEpcCode(epc, new ResultWebServiceInterface() {
+            @Override
+            public void ok(ResultWebServiceOk ok) {
+                final ProductHasZone proZon = (ProductHasZone) ok.getData();
 
-                //Busco la zona del producto zona
-                Zone zona = (Zone) db.findById(
-                        Constants.table_zones,
-                        proZon.getZone().getId()+"",
-                        Zone.class
-                );
+                if(proZon!=null){
 
-                if (epcDb!=null) {
-                    proZon.setEpc(epcDb);
-                }
-                if(producto!=null){
-                    proZon.setProduct(producto);
-                }
-                if(zona!=null){
-                    proZon.setZone(zona);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Valido que este producto pertenezca al local del usuario logeado
+                            if(proZon.getZone()!=null && (proZon.getZone().getShop().getId() == empleado.getEmployee().getShop().getId())){
+                                //Informacion requeria por el servicio web de crear inventory
+                                TransfersHasZonesProduct pzt = new TransfersHasZonesProduct();
+                                pzt.setProduct(proZon);
+                                products.add(pzt);
+                                eanPluVieModel.addProductoZona(proZon);
+                                epcViewModel.addProductoZona(proZon);
+                                totalViewModel.setAmount(products.size());
+                                epcs.add(epc);
+                            }
+                        }
+                    });
+
                 }
 
-                //Valido que este producto pertenezca al local del usuario logeado
-                if(zona!=null && (zona.getShop().getId() == empleado.getEmployee().getShop().getId())){
-                    //Informacion requeria por el servicio web de crear inventory
-                    TransfersHasZonesProduct pzt = new TransfersHasZonesProduct();
-                    pzt.setProduct(proZon);
-                    products.add(pzt);
-                    eanPluVieModel.addProductoZona(proZon);
-                    epcViewModel.addProductoZona(proZon);
-                    totalViewModel.setAmount(products.size());
-                    epcs.add(epc);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }else{
-//            admin.toast(getString(R.string.error_epc_no_encontrado)+": "+ epc);
-        }
+
+            @Override
+            public void fail(ResultWebServiceFail fail) {
+                System.out.println("Fail");
+            }
+        });
+
+
+        //Busco el epc en la base de datos interna
+//        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
+//        if(epcDb!=null){
+//            //Busco el producto zonas al que pertenece este tag
+//            try {
+//                ProductHasZone proZon=
+//                        (ProductHasZone) db.getByColumn(
+//                                Constants.table_productsHasZones,
+//                                Constants.column_epc_id,
+//                                epcDb.getId()+"",
+//                                ProductHasZone.class).get(0);
+//                //Busco el producto de este producto zona
+//                Product producto= (Product) db.findById(
+//                        Constants.table_products,
+//                        proZon.getProduct().getId()+"",
+//                        Product.class
+//                );
+//
+//                //Busco la zona del producto zona
+//                Zone zona = (Zone) db.findById(
+//                        Constants.table_zones,
+//                        proZon.getZone().getId()+"",
+//                        Zone.class
+//                );
+//
+//                if (epcDb!=null) {
+//                    proZon.setEpc(epcDb);
+//                }
+//                if(producto!=null){
+//                    proZon.setProduct(producto);
+//                }
+//                if(zona!=null){
+//                    proZon.setZone(zona);
+//                }
+//
+//                //Valido que este producto pertenezca al local del usuario logeado
+//                if(zona!=null && (zona.getShop().getId() == empleado.getEmployee().getShop().getId())){
+//                    //Informacion requeria por el servicio web de crear inventory
+//                    TransfersHasZonesProduct pzt = new TransfersHasZonesProduct();
+//                    pzt.setProduct(proZon);
+//                    products.add(pzt);
+//                    eanPluVieModel.addProductoZona(proZon);
+//                    epcViewModel.addProductoZona(proZon);
+//                    totalViewModel.setAmount(products.size());
+//                    epcs.add(epc);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }else{
+////            admin.toast(getString(R.string.error_epc_no_encontrado)+": "+ epc);
+//        }
     }
 
     private void changedStateLecture(boolean state){
@@ -446,8 +490,8 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+                //DataBase db = DataBase.getInstance(this);
+                //db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

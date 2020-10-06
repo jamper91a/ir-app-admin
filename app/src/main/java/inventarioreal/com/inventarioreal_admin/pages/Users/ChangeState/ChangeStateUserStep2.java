@@ -35,7 +35,7 @@ import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class ChangeStateUserStep2 extends CicloActivity {
-    final DataBase db = DataBase.getInstance(this);
+//    final DataBase db = DataBase.getInstance(this);
     private ChangeStateUserRequest request;
     private Employee employee;
     @Override
@@ -152,8 +152,8 @@ public class ChangeStateUserStep2 extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+                //DataBase db = DataBase.getInstance(this);
+                //db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

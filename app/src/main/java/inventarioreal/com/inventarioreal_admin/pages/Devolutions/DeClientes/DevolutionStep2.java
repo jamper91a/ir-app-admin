@@ -247,7 +247,7 @@ public class DevolutionStep2 extends CicloActivity {
                         @Override
                         public void run() {
                             //Check if product was sell before
-                            if(proZon.getSell()!= null && proZon.getSell().getId()==1){
+                            if(proZon.getSell()!= null && proZon.getSell().getId()>1){
                                 //Valido que este producto pertenezca al local del usuario logeado
                                 if(proZon.getZone()!=null && (proZon.getZone().getShop().getId() == empleado.getEmployee().getShop().getId())){
                                     //Check if product was sold, if was not sold, it can not be returned
@@ -565,8 +565,8 @@ public class DevolutionStep2 extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+                //DataBase db = DataBase.getInstance(this);
+                //db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

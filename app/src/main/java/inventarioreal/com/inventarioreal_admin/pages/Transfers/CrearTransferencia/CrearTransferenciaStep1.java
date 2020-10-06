@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
@@ -20,15 +21,20 @@ import inventarioreal.com.inventarioreal_admin.pages.Transfers.HomeTransferencia
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
+import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class CrearTransferenciaStep1 extends CicloActivity {
 
 
-    final DataBase db = DataBase.getInstance(this);
+//    final DataBase db = DataBase.getInstance(this);
     private Transfer request = new Transfer();
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,42 +77,45 @@ public class CrearTransferenciaStep1 extends CicloActivity {
     private void getShops() {
         Gson gson = new Gson();
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
-        LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
-        //Obtengo las zonas usando el local del employee
-        final LinkedList<Shop> shops = db.getByColumn(
-                Constants.table_shops,
-                Constants.column_company,
-                empleado.getEmployee().getCompany().getId()+ "",
-                Shop.class);
-
-        //Busco el local actual y lo eliminio de las opciones
-        for (int i = 0; i < shops.size(); i++) {
-            if(shops.get(i).getId() == empleado.getEmployee().getShop().getId()){
-                shops.remove(i);
-            }
-        }
-
-        ArrayAdapter<Shop> adapter =
-                new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, shops);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        ((Spinner) getElemento(R.id.spnLocalDestino).getElemento()).setAdapter(adapter);
-
-        ((Spinner) getElemento(R.id.spnLocalDestino).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        final LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        WebServices.getShopsByCompany(this, admin, new ResultWebServiceInterface() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                request.setShopDestination((Shop)shops.get(position));
+            public void ok(ResultWebServiceOk ok) {
+                Shop[] tiendas = (Shop[]) ok.getData();
+                final LinkedList<Shop> shops = new LinkedList<Shop> (Arrays.asList(tiendas));
+                //Busco el local actual y lo eliminio de las opciones
+                for (int i = 0; i < shops.size(); i++) {
+                    if(shops.get(i).getId() == empleado.getEmployee().getShop().getId()){
+                        shops.remove(i);
+                    }
+                }
+                ArrayAdapter<Shop> adapter =
+                        new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, shops);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                ((Spinner) getElemento(R.id.spnLocalDestino).getElemento()).setAdapter(adapter);
+
+                ((Spinner) getElemento(R.id.spnLocalDestino).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        request.setShopDestination((Shop)shops.get(position));
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        request.setShopDestination(null);
+                    }
+                });
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                request.setShopDestination(null);
+            public void fail(ResultWebServiceFail fail) {
+
             }
         });
 
         //Set Local origen
         request.setShopSource(empleado.getEmployee().getShop());
-        Log.d("lOCAL", request.getShopSource().getName());
         getElemento(R.id.txtLocOri).setText(request.getShopSource().getName());
 
     }
@@ -157,8 +166,8 @@ public class CrearTransferenciaStep1 extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+                //DataBase db = DataBase.getInstance(this);
+                //db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

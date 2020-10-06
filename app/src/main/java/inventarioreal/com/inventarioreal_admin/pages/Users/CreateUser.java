@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
@@ -31,7 +32,7 @@ import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
 public class CreateUser extends CicloActivity {
-    final DataBase db = DataBase.getInstance(this);
+//    final DataBase db = DataBase.getInstance(this);
     private CreateUserRequest request;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,36 +90,45 @@ public class CreateUser extends CicloActivity {
     }
 
     private void getShops() {
+
         Gson gson = new Gson();
         //Obtengo el usuario almacenado desdes el login para usar el local al cual el usuario es asignado
-        LoginResponse employee = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
-        //Obtengo las zonas usando el local del employee
-        final LinkedList<Shop> shops = db.getByColumn(
-                Constants.table_shops,
-                Constants.column_company,
-                employee.getEmployee().getCompany().getId()+ "",
-                Shop.class);
-
-
-        ArrayAdapter<Shop> adapter =
-                new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, shops);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        ((Spinner) getElemento(R.id.spnLocal).getElemento()).setAdapter(adapter);
-
-        ((Spinner) getElemento(R.id.spnLocal).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        final LoginResponse employee = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
+        WebServices.getShopsByCompany(this, admin, new ResultWebServiceInterface() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                request.setShop((shops.get(position)).getId());
+            public void ok(ResultWebServiceOk ok) {
+                Shop[] tiendas = (Shop[]) ok.getData();
+                final LinkedList<Shop> shops = new LinkedList<Shop> (Arrays.asList(tiendas));
+
+                ArrayAdapter<Shop> adapter =
+                        new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, shops);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                ((Spinner) getElemento(R.id.spnLocal).getElemento()).setAdapter(adapter);
+
+                ((Spinner) getElemento(R.id.spnLocal).getElemento()).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        request.setShop((shops.get(position)).getId());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        request.setShop(0);
+                    }
+                });
+
+                request.setCompany(employee.getEmployee().getCompany().getId());
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                request.setShop(0);
+            public void fail(ResultWebServiceFail fail) {
+
             }
         });
 
-        request.setCompany(employee.getEmployee().getCompany().getId());
+
+
 
 
     }
@@ -214,8 +224,8 @@ public class CreateUser extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+//                DataBase db = DataBase.getInstance(this);
+//                db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

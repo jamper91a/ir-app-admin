@@ -44,7 +44,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class ReporteInventarioTotal extends CicloActivity {
 
-    final DataBase db = DataBase.getInstance(this);
+//    final DataBase db = DataBase.getInstance(this);
     private String TAG="ReporteInventarioTotal";
     private UltimoInventarioResponse inventarioConsolidado=null;
     private int tabSelected = 0;
@@ -86,19 +86,19 @@ public class ReporteInventarioTotal extends CicloActivity {
                     //Busco la zona del inventory
                     for(Inventory inv: inventarioConsolidado.getInventories()){
                         for (ProductHasZone pz: inv.getProducts()){
-                            Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
-                            if(zona!=null){
-                                pz.setZone(zona);
-                            }
-                            Product producto = (Product) db.findById(Constants.table_products, pz.getProduct().getId()+"", Product.class);
-                            if(producto!=null){
-                                pz.setProduct(producto);
-                            }
-                            //Busco el epc
-                            Epc epc = (Epc) db.findById(Constants.table_epcs, pz.getEpc().getId()+"", Epc.class);
-                            if(epc!=null){
-                                pz.setEpc(epc);
-                            }
+//                            Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
+//                            if(zona!=null){
+//                                pz.setZone(zona);
+//                            }
+//                            Product producto = (Product) db.findById(Constants.table_products, pz.getProduct().getId()+"", Product.class);
+//                            if(producto!=null){
+//                                pz.setProduct(producto);
+//                            }
+//                            //Busco el epc
+//                            Epc epc = (Epc) db.findById(Constants.table_epcs, pz.getEpc().getId()+"", Epc.class);
+//                            if(epc!=null){
+//                                pz.setEpc(epc);
+//                            }
                             eanPluConsolidadoVieModel.addProductoZona(pz);
                             epcConsolidadoVieModel.addAllProductoZona(pz);
                         }
@@ -279,8 +279,8 @@ public class ReporteInventarioTotal extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+                //DataBase db = DataBase.getInstance(this);
+                //db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

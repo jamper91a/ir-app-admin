@@ -37,7 +37,7 @@ public class ManifiestoElectronicoSalidas extends CicloActivity {
     private RecyclerAdapterTransferencias adapter;
     private ArrayList<Transfer> transferencias= new ArrayList<>();
     private RecyclerView recyclerView = null;
-    private final DataBase db = DataBase.getInstance(this);
+//    private final DataBase db = DataBase.getInstance(this);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -139,23 +139,23 @@ public class ManifiestoElectronicoSalidas extends CicloActivity {
                     onBackPressed();
                 }
                 //Debo obtener el id del productoZona de cada producto
-                for(Transfer tran :transferencias){
-                    for(TransfersHasZonesProduct pzht:tran.getProducts()){
-                        //Buso el producto
-                        Product productos =
-                                (Product) db.findById(
-                                        Constants.table_products,
-                                        pzht.getProduct().getProduct().getId()+"",
-                                        Product.class);
-                        Zone zonas =
-                                (Zone) db.findById(
-                                        Constants.table_zones,
-                                        pzht.getProduct().getZone().getId()+"",
-                                        Zone.class);
-                        pzht.getProduct().setProduct(productos);
-                        pzht.getProduct().setZone(zonas);
-                    }
-                }
+//                for(Transfer tran :transferencias){
+//                    for(TransfersHasZonesProduct pzht:tran.getProducts()){
+//                        //Buso el producto
+//                        Product productos =
+//                                (Product) db.findById(
+//                                        Constants.table_products,
+//                                        pzht.getProduct().getProduct().getId()+"",
+//                                        Product.class);
+//                        Zone zonas =
+//                                (Zone) db.findById(
+//                                        Constants.table_zones,
+//                                        pzht.getProduct().getZone().getId()+"",
+//                                        Zone.class);
+//                        pzht.getProduct().setProduct(productos);
+//                        pzht.getProduct().setZone(zonas);
+//                    }
+//                }
                 adapter.setTransferencias(transferencias);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -213,8 +213,8 @@ public class ManifiestoElectronicoSalidas extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+                //DataBase db = DataBase.getInstance(this);
+                //db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

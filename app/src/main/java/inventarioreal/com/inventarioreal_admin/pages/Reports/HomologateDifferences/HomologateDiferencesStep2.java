@@ -40,6 +40,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ReportsHasP
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
+import inventarioreal.com.inventarioreal_admin.util.SocketHelper;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -53,7 +54,7 @@ public class HomologateDiferencesStep2 extends CicloActivity {
     private LinkedList<ReportsHasProductsZone> newData = new LinkedList<>();
     private Report report=null;
     private List<String> epcs;
-    private DataBase db = DataBase.getInstance(this);
+//    private DataBase db = DataBase.getInstance(this);
 
     RFDIReader rfdiReader =  null;
 
@@ -73,6 +74,8 @@ public class HomologateDiferencesStep2 extends CicloActivity {
             }
         }
     } ;
+
+    private SocketHelper socketHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,6 +129,11 @@ public class HomologateDiferencesStep2 extends CicloActivity {
         rfdiReader.initSDK();
 //        rfdiReader.startReader();
         //endregion
+
+        //Create socket Connection
+        socketHelper = new SocketHelper(admin);
+        socketHelper.connect();
+        socketHelper.subs();
     }
 
     @Override
@@ -325,8 +333,8 @@ public class HomologateDiferencesStep2 extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+                //DataBase db = DataBase.getInstance(this);
+                //db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }
@@ -382,31 +390,71 @@ public class HomologateDiferencesStep2 extends CicloActivity {
                 removeEpc(epc);
         }
     }
-    private void removeEpc(String epc){
-        //Busco el epc en la base de datos interna
-        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
-        if(epcDb!=null){
-            //Find the epc in the list of products, if exists I will remove it
-            for (ProductHasZone product: productosZona){
-                if(product.getEpc().getId() == epcDb.getId()){
-                    productosZona.remove(product);
-                    eanPluConsolidadoVieModel.removeProductoZona(product);
-                    totalConsolidadoViewModel.setAmount(productosZona.size());
-                    epcViewModel.removeProductoZona(product);
-                    epcs.add(epc);
-                    //Agrego a la lista el id en la transferencia
-                    for (ReportsHasProductsZone reportsHasProductsZone :
-                            report.getProducts()) {
-                        if(reportsHasProductsZone.getProduct().getId() == product.getId()){
-                            newData.add(reportsHasProductsZone);
-                        }
+    private void removeEpc(final String epc){
+        socketHelper.findProductZoneByEpcCode(epc, new ResultWebServiceInterface() {
+            @Override
+            public void ok(ResultWebServiceOk ok) {
+                final ProductHasZone proZon = (ProductHasZone) ok.getData();
+                if(proZon!=null){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Find the epc in the list of products, if exists I will remove it
+                            for (ProductHasZone product: productosZona){
+                                if(product.getEpc().getId() == proZon.getEpc().getId()){
+                                    productosZona.remove(product);
+                                    eanPluConsolidadoVieModel.removeProductoZona(product);
+                                    totalConsolidadoViewModel.setAmount(productosZona.size());
+                                    epcViewModel.removeProductoZona(product);
+                                    epcs.add(epc);
+                                    //Agrego a la lista el id en la transferencia
+                                    for (ReportsHasProductsZone reportsHasProductsZone :
+                                            report.getProducts()) {
+                                        if(reportsHasProductsZone.getProduct().getId() == product.getId()){
+                                            newData.add(reportsHasProductsZone);
+                                        }
 
-                    }
+                                    }
+
+                                }
+                            }
+                        }
+                    });
 
                 }
+
             }
 
-        }
+            @Override
+            public void fail(ResultWebServiceFail fail) {
+                System.out.println("Fail");
+            }
+        });
+
+        //Busco el epc en la base de datos interna
+//        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.epc, "'"+epc+"'", Epc.class);
+//        if(epcDb!=null){
+//            //Find the epc in the list of products, if exists I will remove it
+//            for (ProductHasZone product: productosZona){
+//                if(product.getEpc().getId() == epcDb.getId()){
+//                    productosZona.remove(product);
+//                    eanPluConsolidadoVieModel.removeProductoZona(product);
+//                    totalConsolidadoViewModel.setAmount(productosZona.size());
+//                    epcViewModel.removeProductoZona(product);
+//                    epcs.add(epc);
+//                    //Agrego a la lista el id en la transferencia
+//                    for (ReportsHasProductsZone reportsHasProductsZone :
+//                            report.getProducts()) {
+//                        if(reportsHasProductsZone.getProduct().getId() == product.getId()){
+//                            newData.add(reportsHasProductsZone);
+//                        }
+//
+//                    }
+//
+//                }
+//            }
+//
+//        }
     }
 
     private boolean wasRead(String epc){

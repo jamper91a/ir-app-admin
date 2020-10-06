@@ -77,21 +77,7 @@ public class HomeTransferencia extends CicloActivity {
     }
 
     private void sync() {
-
-        WebServices.sync(0,HomeTransferencia.this, admin, new ResultWebServiceInterface() {
-            @Override
-            public void ok(ResultWebServiceOk ok) {
-                admin.callIntent(destino, null);
-            }
-
-            @Override
-            public void fail(ResultWebServiceFail fail) {
-                admin.toast(fail.getError());
-                admin.callIntent(destino, null);
-
-
-            }
-        });
+        admin.callIntent(destino, null);
     }
 
     @Override
@@ -117,8 +103,8 @@ public class HomeTransferencia extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+                //DataBase db = DataBase.getInstance(this);
+                //db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

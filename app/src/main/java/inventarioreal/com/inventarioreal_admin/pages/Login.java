@@ -64,20 +64,7 @@ public class Login extends CicloActivity {
                                 Gson gson=new Gson();
                                 LoginResponse data = (LoginResponse)ok.getData();
                                 admin.escribir_preferencia(Constants.employee, gson.toJson(data, LoginResponse.class));
-                                //Llamo a servicio web de sincronizacion
-                                WebServices.sync(0,Login.this, admin, new ResultWebServiceInterface() {
-                                    @Override
-                                    public void ok(ResultWebServiceOk ok) {
-                                        SyncResponse data = (SyncResponse)ok.getData();
-                                        admin.callIntent(Home.class, null);
-                                    }
-
-                                    @Override
-                                    public void fail(ResultWebServiceFail fail) {
-                                        admin.toast(fail.getError());
-
-                                    }
-                                }) ;
+                                admin.callIntent(Home.class, null);
 
                             }
 

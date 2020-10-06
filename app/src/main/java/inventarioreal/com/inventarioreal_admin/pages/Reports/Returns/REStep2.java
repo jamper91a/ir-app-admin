@@ -39,7 +39,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class REStep2 extends CicloActivity {
 
-    final DataBase db = DataBase.getInstance(this);
+//    final DataBase db = DataBase.getInstance(this);
     private ArrayList<ProductHasZone> productosZona = new ArrayList<>();
     private RequestREStep2 request=null;
     @Override
@@ -92,14 +92,14 @@ public class REStep2 extends CicloActivity {
                     eanPluViewModel = ViewModelProviders.of(REStep2.this).get(REEanPluViewModel.class);
                     //Busco la zona del inventory
                     for(ProductHasZone pz: productosZona){
-                        Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
-                        if(zona!=null){
-                            pz.setZone(zona);
-                        }
-                        Epc epc = (Epc) db.findById(Constants.table_epcs, pz.getEpc().getId()+"", Epc.class);
-                        if(epc!=null){
-                            pz.setEpc(epc);
-                        }
+//                        Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
+//                        if(zona!=null){
+//                            pz.setZone(zona);
+//                        }
+//                        Epc epc = (Epc) db.findById(Constants.table_epcs, pz.getEpc().getId()+"", Epc.class);
+//                        if(epc!=null){
+//                            pz.setEpc(epc);
+//                        }
                         eanPluViewModel.addProductoZona(pz);
                     }
 
@@ -218,8 +218,8 @@ public class REStep2 extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+                //DataBase db = DataBase.getInstance(this);
+                //db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

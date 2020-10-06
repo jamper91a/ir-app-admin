@@ -45,6 +45,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
+import inventarioreal.com.inventarioreal_admin.util.SocketHelper;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
@@ -56,7 +57,7 @@ public class Ingresos extends CicloActivity {
 
 //    private UhfManager uhfManager;
     private String TAG="Ingresos";
-    private DataBase db = DataBase.getInstance(this);
+//    private DataBase db = DataBase.getInstance(this);
     private Gson gson = new Gson();
     private Transfer[] transferencias = null;
     private LinkedList<TransfersHasZonesProduct> productosZonasHasTransferencias= new LinkedList<>();
@@ -79,6 +80,8 @@ public class Ingresos extends CicloActivity {
             }
         }
     } ;
+
+    private SocketHelper socketHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,6 +124,11 @@ public class Ingresos extends CicloActivity {
         getSupportActionBar().setTitle(R.string.ingresos);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //Create socket Connection
+        socketHelper = new SocketHelper(admin);
+        socketHelper.connect();
+        socketHelper.subs();
     }
     @Override
     public void initGui() {
@@ -225,75 +233,139 @@ public class Ingresos extends CicloActivity {
     }
     //region UHD Sdk
     private void createEpc(String epc){
-        //Busco el epc en la base de datos interna
-        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
-        if(epcDb!=null){
-            try {
-                //Busco el producto zonas al que pertenece este tag
-                ProductHasZone proZon=
-                        (ProductHasZone) db.findOneByColumn(
-                                Constants.table_productsHasZones,
-                                Constants.column_epc_id,
-                                epcDb.getId()+"",
-                                ProductHasZone.class);
-                //Busco el producto de este producto zona
-                Product producto= (Product) db.findById(
-                        Constants.table_products,
-                        proZon.getProduct().getId()+"",
-                        Product.class
-                        );
 
-                if (epcDb!=null) {
-                    proZon.setEpc(epcDb);
-                }
-                if(producto!=null){
-                    proZon.setProduct(producto);
-                }
-                //Determino si el productozona de este tag esta en la lista de transferencia
-                for (Transfer transferencia :
-                        transferencias) {
-                    if(transferencia.getShopDestination().getId()==local.getId()){
-                        for(TransfersHasZonesProduct pzt: transferencia.getProducts()){
+        socketHelper.findProductZoneByEpcCode(epc, new ResultWebServiceInterface() {
+            @Override
+            public void ok(ResultWebServiceOk ok) {
+                final ProductHasZone proZon = (ProductHasZone) ok.getData();
 
-                            if(pzt.getProduct().getId() == proZon.getId()){
-                                //Product was transfered before
-                                if(pzt.getState()==true)
-                                    pzt.setState(false);
-                                else{
-                                    //Check if the pzt belongs to the current local
-                                    try {
+                if(proZon!=null){
 
-                                        if(transferencia.getShopDestination().getId() == local.getId())
-                                            pzt.setState(true);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Determino si el productozona de este tag esta en la lista de transferencia
+                            for (Transfer transferencia :
+                                    transferencias) {
+                                if(transferencia.getShopDestination().getId()==local.getId()){
+                                    for(TransfersHasZonesProduct pzt: transferencia.getProducts()){
 
-                                    } catch (Exception e) {
-                                        pzt.setState(false);
+                                        if(pzt.getProduct().getId() == proZon.getId()){
+                                            //Product was transfered before
+                                            if(pzt.getState()==true)
+                                                pzt.setState(false);
+                                            else{
+                                                //Check if the pzt belongs to the current local
+                                                try {
+
+                                                    if(transferencia.getShopDestination().getId() == local.getId())
+                                                        pzt.setState(true);
+
+                                                } catch (Exception e) {
+                                                    pzt.setState(false);
+                                                }
+
+
+                                            }
+                                            pzt.setProduct(proZon);
+                                            pzt.setTransfer(transferencia);
+                                            productosZonasHasTransferencias.add(pzt);
+                                            epcViewModel.addProductoZona(proZon);
+                                            eanPluVieModel.addProductoZonaHasTransferencia(pzt);
+
+
+
+                                        }
+
                                     }
-
-
                                 }
-                                pzt.setProduct(proZon);
-                                pzt.setTransfer(transferencia);
-                                productosZonasHasTransferencias.add(pzt);
-                                epcViewModel.addProductoZona(proZon);
-                                eanPluVieModel.addProductoZonaHasTransferencia(pzt);
-
-
-
                             }
 
+
+                            //Informacion requeria por el servicio web de crear inventory
+                            totalViewModel.setAmount(productosZonasHasTransferencias.size());
                         }
-                    }
+                    });
+
                 }
 
-
-                //Informacion requeria por el servicio web de crear inventory
-                totalViewModel.setAmount(productosZonasHasTransferencias.size());
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-            epcs.add(epc);
-        }
+
+            @Override
+            public void fail(ResultWebServiceFail fail) {
+                System.out.println("Fail");
+            }
+        });
+
+        //Busco el epc en la base de datos interna
+//        Epc epcDb= (Epc) db.findOneByColumn(Constants.table_epcs, Constants.column_epc, "'"+epc+"'", Epc.class);
+//        if(epcDb!=null){
+//            try {
+//                //Busco el producto zonas al que pertenece este tag
+//                ProductHasZone proZon=
+//                        (ProductHasZone) db.findOneByColumn(
+//                                Constants.table_productsHasZones,
+//                                Constants.column_epc_id,
+//                                epcDb.getId()+"",
+//                                ProductHasZone.class);
+//                //Busco el producto de este producto zona
+//                Product producto= (Product) db.findById(
+//                        Constants.table_products,
+//                        proZon.getProduct().getId()+"",
+//                        Product.class
+//                        );
+//
+//                if (epcDb!=null) {
+//                    proZon.setEpc(epcDb);
+//                }
+//                if(producto!=null){
+//                    proZon.setProduct(producto);
+//                }
+//                //Determino si el productozona de este tag esta en la lista de transferencia
+//                for (Transfer transferencia :
+//                        transferencias) {
+//                    if(transferencia.getShopDestination().getId()==local.getId()){
+//                        for(TransfersHasZonesProduct pzt: transferencia.getProducts()){
+//
+//                            if(pzt.getProduct().getId() == proZon.getId()){
+//                                //Product was transfered before
+//                                if(pzt.getState()==true)
+//                                    pzt.setState(false);
+//                                else{
+//                                    //Check if the pzt belongs to the current local
+//                                    try {
+//
+//                                        if(transferencia.getShopDestination().getId() == local.getId())
+//                                            pzt.setState(true);
+//
+//                                    } catch (Exception e) {
+//                                        pzt.setState(false);
+//                                    }
+//
+//
+//                                }
+//                                pzt.setProduct(proZon);
+//                                pzt.setTransfer(transferencia);
+//                                productosZonasHasTransferencias.add(pzt);
+//                                epcViewModel.addProductoZona(proZon);
+//                                eanPluVieModel.addProductoZonaHasTransferencia(pzt);
+//
+//
+//
+//                            }
+//
+//                        }
+//                    }
+//                }
+//
+//
+//                //Informacion requeria por el servicio web de crear inventory
+//                totalViewModel.setAmount(productosZonasHasTransferencias.size());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            epcs.add(epc);
+//        }
     }
 
 
@@ -421,16 +493,16 @@ public class Ingresos extends CicloActivity {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
                                 ProductHasZone[] pzhs = (ProductHasZone[]) ok.getData();
-                                //Update local pzh
-                                for (ProductHasZone productHasZone: pzhs
-                                     ) {
-                                    db.update(
-                                            Constants.table_productsHasZones,
-                                            productHasZone.getId()+"",
-                                            productHasZone.getContentValues()
-                                    );
-
-                                }
+//                                //Update local pzh
+//                                for (ProductHasZone productHasZone: pzhs
+//                                     ) {
+//                                    db.update(
+//                                            Constants.table_productsHasZones,
+//                                            productHasZone.getId()+"",
+//                                            productHasZone.getContentValues()
+//                                    );
+//
+//                                }
                                 admin.toast(R.string.transferencia_exito);
                                 admin.callIntent(HomeTransferencia.class, null);
                             }
@@ -500,8 +572,8 @@ public class Ingresos extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+                //DataBase db = DataBase.getInstance(this);
+                //db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

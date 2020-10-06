@@ -42,7 +42,7 @@ import jamper91.com.easyway.Util.CicloActivity;
 
 public class DIFStep2 extends CicloActivity {
 
-    final DataBase db = DataBase.getInstance(this);
+//    final DataBase db = DataBase.getInstance(this);
     private String TAG="ReporteInventarioTotal";
     private ArrayList<ProductHasZone> productosZona = new ArrayList<>();
     private RequestDIFStep2 request=null;
@@ -93,18 +93,18 @@ public class DIFStep2 extends CicloActivity {
                     epcViewModel = ViewModelProviders.of(DIFStep2.this).get(EpcViewModel.class);
                     //Busco la zona del inventory
                     for(ProductHasZone pz: productosZona){
-                        Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
-                        if(zona!=null){
-                            pz.setZone(zona);
-                        }
-                        Product producto = (Product) db.findById(Constants.table_products, pz.getProduct().getId()+"", Product.class);
-                        if(producto!=null){
-                            pz.setProduct(producto);
-                        }
-                        Epc epc = (Epc) db.findById(Constants.table_epcs, pz.getEpc().getId()+"", Epc.class);
-                        if(epc!=null){
-                            pz.setEpc(epc);
-                        }
+//                        Zone zona = (Zone) db.findById(Constants.table_zones, pz.getZone().getId()+"", Zone.class);
+//                        if(zona!=null){
+//                            pz.setZone(zona);
+//                        }
+//                        Product producto = (Product) db.findById(Constants.table_products, pz.getProduct().getId()+"", Product.class);
+//                        if(producto!=null){
+//                            pz.setProduct(producto);
+//                        }
+//                        Epc epc = (Epc) db.findById(Constants.table_epcs, pz.getEpc().getId()+"", Epc.class);
+//                        if(epc!=null){
+//                            pz.setEpc(epc);
+//                        }
                         eanPluConsolidadoVieModel.addProductoZona(pz);
                         epcViewModel.addProductoZona(pz);
 
@@ -277,8 +277,8 @@ public class DIFStep2 extends CicloActivity {
         }
         if(item.getTitle()!= null){
             if(item.getTitle().equals(getString(R.string.log_out))){
-                DataBase db = DataBase.getInstance(this);
-                db.deleteAllData();
+                //DataBase db = DataBase.getInstance(this);
+                //db.deleteAllData();
                 admin.log_out(Login.class);
             }
         }

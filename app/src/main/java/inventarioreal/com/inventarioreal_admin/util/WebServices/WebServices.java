@@ -61,6 +61,7 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProd
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductsByInventoryRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetReportByIdRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetReportsByTypeRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetShopsByCompanyRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetTransfersByTypeRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetTransfersRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetZonesByShopRequest;
@@ -326,101 +327,101 @@ public class WebServices {
                 }
         );
     }
-
-    public static void sync(final int page ,final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
-        Log.d("Inventario real", page + " number of page");
-        final DataBase db = DataBase.getInstance(activity);
-        try {
-            final String url=Constants.url+Constants.ws_sync;
-            String last_update= admin.obtener_preferencia(Constants.last_updated);
-            if(last_update.isEmpty()) {
-                admin.escribir_preferencia(Constants.last_updated,admin.getCurrentDateAndTime());
-            }
-            SyncRequest request= new SyncRequest(last_update, page);
-            post(
-                    url,
-                    request.getCampos(),
-                    R.string.consultando,
-                    activity,
-                    admin,
-                    new ResponseListener() {
-                        @Override
-                        public void onResponse(String s) {
-
-                        }
-
-                        @Override
-                        public void onResponse(JSONObject jsonObject) {
-                            try {
-                                SyncResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),SyncResponse.class);
-                                boolean thereIsMore = false;
-
-                                try {
-                                    if (response.getEpcs()!=null && response.getEpcs().length>0) {
-                                        thereIsMore = true;
-                                        for (Epc epc: response.getEpcs()) {
-                                            db.insert(Constants.table_epcs, epc.getContentValues());
-                                        }
-                                    }
-                                    if (response.getProducts()!=null && response.getProducts().length>0) {
-                                        thereIsMore = true;
-                                        for (Product pro: response.getProducts()) {
-                                            db.insert(Constants.table_products, pro.getContentValues());
-                                        }
-                                    }
-                                    if (response.getProductsHasZones()!=null && response.getProductsHasZones().length>0) {
-                                        thereIsMore = true;
-                                        for (ProductHasZone productosZona: response.getProductsHasZones()) {
-                                            db.insert(Constants.table_productsHasZones, productosZona.getContentValues());
-                                        }
-                                    }
-                                    if (response.getZones()!=null && response.getZones().length>0) {
-                                        thereIsMore = true;
-                                        for (Zone zona: response.getZones()) {
-                                            db.insert(Constants.table_zones, zona.getContentValues());
-                                        }
-                                    }
-                                    if (response.getShops()!=null && response.getShops().length>0) {
-                                        thereIsMore = true;
-                                        for (Shop local: response.getShops()) {
-                                            db.insert(Constants.table_shops, local.getContentValues());
-                                        }
-                                    }
-
-                                    if (response.getDevolutions()!=null && response.getDevolutions().length>0) {
-                                        thereIsMore = true;
-                                        for (Devolution devoluciones: response.getDevolutions()) {
-                                            db.insert(Constants.table_devolutions, devoluciones.getContentValues());
-                                        }
-                                    }
-                                    if(thereIsMore) {
-                                        sync(page + 1, activity, admin, result);
-                                    } else {
-                                        result.ok(new ResultWebServiceOk(response));
-                                    }
-
-                                } catch (Exception e) {
-                                    admin.toast(e.getMessage());
-                                    result.fail(new ResultWebServiceFail(e.getMessage()));
-                                }
-
-                            } catch (JSONException e) {
-                                result.fail(new ResultWebServiceFail(e));
-                            } catch (Exception e) {
-                                result.fail(new ResultWebServiceFail(e.getMessage()));
-                            }
-                        }
-
-                        @Override
-                        public void onErrorResponse(String s, VolleyError volleyError) {
-                            errorWebService(volleyError, result);
-                        }
-                    }
-            );
-        } catch (Exception e){
-            result.fail(new ResultWebServiceFail(e.getMessage()));
-        }
-    }
+//
+//    public static void sync(final int page ,final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
+//        Log.d("Inventario real", page + " number of page");
+//        final DataBase db = DataBase.getInstance(activity);
+//        try {
+//            final String url=Constants.url+Constants.ws_sync;
+//            String last_update= admin.obtener_preferencia(Constants.last_updated);
+//            if(last_update.isEmpty()) {
+//                admin.escribir_preferencia(Constants.last_updated,admin.getCurrentDateAndTime());
+//            }
+//            SyncRequest request= new SyncRequest(last_update, page);
+//            post(
+//                    url,
+//                    request.getCampos(),
+//                    R.string.consultando,
+//                    activity,
+//                    admin,
+//                    new ResponseListener() {
+//                        @Override
+//                        public void onResponse(String s) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onResponse(JSONObject jsonObject) {
+//                            try {
+//                                SyncResponse response = gson.fromJson(jsonObject.getJSONObject("data").toString(),SyncResponse.class);
+//                                boolean thereIsMore = false;
+//
+//                                try {
+//                                    if (response.getEpcs()!=null && response.getEpcs().length>0) {
+//                                        thereIsMore = true;
+//                                        for (Epc epc: response.getEpcs()) {
+//                                            db.insert(Constants.table_epcs, epc.getContentValues());
+//                                        }
+//                                    }
+//                                    if (response.getProducts()!=null && response.getProducts().length>0) {
+//                                        thereIsMore = true;
+//                                        for (Product pro: response.getProducts()) {
+//                                            db.insert(Constants.table_products, pro.getContentValues());
+//                                        }
+//                                    }
+//                                    if (response.getProductsHasZones()!=null && response.getProductsHasZones().length>0) {
+//                                        thereIsMore = true;
+//                                        for (ProductHasZone productosZona: response.getProductsHasZones()) {
+//                                            db.insert(Constants.table_productsHasZones, productosZona.getContentValues());
+//                                        }
+//                                    }
+//                                    if (response.getZones()!=null && response.getZones().length>0) {
+//                                        thereIsMore = true;
+//                                        for (Zone zona: response.getZones()) {
+//                                            db.insert(Constants.table_zones, zona.getContentValues());
+//                                        }
+//                                    }
+//                                    if (response.getShops()!=null && response.getShops().length>0) {
+//                                        thereIsMore = true;
+//                                        for (Shop local: response.getShops()) {
+//                                            db.insert(Constants.table_shops, local.getContentValues());
+//                                        }
+//                                    }
+//
+//                                    if (response.getDevolutions()!=null && response.getDevolutions().length>0) {
+//                                        thereIsMore = true;
+//                                        for (Devolution devoluciones: response.getDevolutions()) {
+//                                            db.insert(Constants.table_devolutions, devoluciones.getContentValues());
+//                                        }
+//                                    }
+//                                    if(thereIsMore) {
+//                                        sync(page + 1, activity, admin, result);
+//                                    } else {
+//                                        result.ok(new ResultWebServiceOk(response));
+//                                    }
+//
+//                                } catch (Exception e) {
+//                                    admin.toast(e.getMessage());
+//                                    result.fail(new ResultWebServiceFail(e.getMessage()));
+//                                }
+//
+//                            } catch (JSONException e) {
+//                                result.fail(new ResultWebServiceFail(e));
+//                            } catch (Exception e) {
+//                                result.fail(new ResultWebServiceFail(e.getMessage()));
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onErrorResponse(String s, VolleyError volleyError) {
+//                            errorWebService(volleyError, result);
+//                        }
+//                    }
+//            );
+//        } catch (Exception e){
+//            result.fail(new ResultWebServiceFail(e.getMessage()));
+//        }
+//    }
 
     public static void createInventory(long zone, String message, List<InventoryHasProduct> products, final Activity activity, final Administrador admin, final ResultWebServiceInterface result){
         try {
@@ -1154,7 +1155,7 @@ public class WebServices {
 
             @Override
                         public void onErrorResponse(String s, VolleyError volleyError) {
-
+                result.fail(new ResultWebServiceFail(s));
             }
         });
     }
@@ -1696,6 +1697,33 @@ public class WebServices {
                 try {
                     Zone[] zones = gson.fromJson(jsonObject.getJSONArray("data").toString(), Zone[].class);
                     result.ok(new ResultWebServiceOk(zones));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onErrorResponse(String s, VolleyError volleyError) {
+                errorWebService(volleyError, result);
+            }
+        });
+    }
+
+    public static void getShopsByCompany(final Activity activity, final Administrador admin, final ResultWebServiceInterface result) {
+        final String url=Constants.url+Constants.ws_getZonesByShop;
+        GetShopsByCompanyRequest request = new GetShopsByCompanyRequest();
+        get(url, request.getCampos(), R.string.obteniendo_informacion, activity, admin, new ResponseListener() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    Shop[] shops = gson.fromJson(jsonObject.getJSONArray("data").toString(), Shop[].class);
+                    result.ok(new ResultWebServiceOk(shops));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
