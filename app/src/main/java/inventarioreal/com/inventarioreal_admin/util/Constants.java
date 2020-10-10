@@ -135,6 +135,7 @@ public class Constants {
     public static final String ws_changeStateUser="user/change-employee-state";
     public static final String ws_getEmployeesByCompany = "user/list-employees-by-company";
     public static final String ws_getZonesByShop = "zone/list-zones-by-shop";
+    public static final String ws_getShopsByCompany = "shop/find-shops-by-company";
     public static final String ws_createPdf="pdf/createPdf";
     //endregion
 
@@ -197,23 +198,36 @@ public class Constants {
     public static final String to = "to";
     public static final String page = "page";
     public static final String header = "header";
-    public static String col1 = "col1";
-    public static String col2 = "col2";
-    public static String col3 = "col3";
-    public static String col4 = "col4";
-    public static String amountSentTitle = "amountSentTitle";
-    public static String amountSent = "amountSent";
-    public static String amountReceivedTitle = "amountReceivedTitle";
-    public static String amountReceived = "amountReceived";
-    public static String missingTitle = "missingTitle";
-    public static String amountMissing = "amountMissing";
-    public static String destinationTitle = "destinationTitle";
-    public static String destination = "destination";
-    public static String source = "source";
-    public static  String sent = "sent";
-    public static  String received = "received";
-    public static  String ean = "ean";
-    public static  String description = "description";
+    public static final String col1 = "col1";
+    public static final String col2 = "col2";
+    public static final String col3 = "col3";
+    public static final String col4 = "col4";
+    public static final String amountSentTitle = "amountSentTitle";
+    public static final String amountSent = "amountSent";
+    public static final String amountReceivedTitle = "amountReceivedTitle";
+    public static final String amountReceived = "amountReceived";
+    public static final String missingTitle = "missingTitle";
+    public static final String amountMissing = "amountMissing";
+    public static final String destinationTitle = "destinationTitle";
+    public static final String destination = "destination";
+    public static final String source = "source";
+    public static final  String sent = "sent";
+    public static final  String received = "received";
+    public static final  String ean = "ean";
+    public static final  String description = "description";
 
-    public static String rpassword= "rpassword";
+    public static final String rpassword= "rpassword";
+
+    public enum DEVOLUTIONS {
+        CLIENT (1),
+        PROVEEDOR(2);
+        private final int CODE;
+
+        DEVOLUTIONS(int code) {
+            this.CODE = code;
+        }
+        public int getCODE() {
+            return this.CODE;
+        }
+    }
 }

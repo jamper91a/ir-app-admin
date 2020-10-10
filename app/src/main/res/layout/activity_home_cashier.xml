@@ -50,7 +50,7 @@
                 android:id="@+id/btnIni"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_ingresos_white_r"
                 android:text="@string/vender" />
 
 

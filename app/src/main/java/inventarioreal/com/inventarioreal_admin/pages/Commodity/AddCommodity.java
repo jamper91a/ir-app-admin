@@ -14,11 +14,7 @@ import android.widget.Spinner;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.androidanimations.library.Techniques;
-//import com.github.nkzawa.socketio.client.IO;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -36,17 +32,17 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
-import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
 import inventarioreal.com.inventarioreal_admin.util.SocketHelper;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
-import io.socket.emitter.Emitter;
 import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
+
+//import com.github.nkzawa.socketio.client.IO;
 
 
 public class AddCommodity extends CicloActivity {
@@ -59,12 +55,13 @@ public class AddCommodity extends CicloActivity {
     private LinkedList<Epc> epcs = new LinkedList<Epc>();
     private LinkedList<Epc> epcsBanned = new LinkedList<Epc>();
     private LinkedList<ProductHasZone> products = new LinkedList<ProductHasZone>();
-    Gson gson= new Gson();
     private Zone zonas_id;
     private Product productos_id=null;
     RFDIReader rfdiReader =  null;
 
     private SocketHelper socketHelper;
+    //Var to know if is the first time starting to read
+    private boolean startReading = false;
 
     private Handler handler = new Handler(){
         @Override
@@ -78,10 +75,6 @@ public class AddCommodity extends CicloActivity {
                 case 3:
                     boolean state = msg.getData().getBoolean("state");
                     changedStateLecture(state);
-                    break ;
-                case 4:
-                    String key = msg.getData().getString("key");
-                    admin.toast(key);
                     break ;
             }
         }
@@ -283,8 +276,7 @@ public class AddCommodity extends CicloActivity {
             @Override
             public void onClick(View v) {
                 if(productos_id!=null){
-                    socketHelper.connect();
-                    socketHelper.subs();
+
                     changedStateLecture(!rfdiReader.isStartReader());
 
                 }else{
@@ -413,6 +405,11 @@ public class AddCommodity extends CicloActivity {
         if(state){
             rfdiReader.startReader();
             getElemento(R.id.btnEmp).setText(getString(R.string.detener));
+            if(startReading == false) {
+                startReading = true;
+                socketHelper.connect();
+                socketHelper.subs();
+            }
         }else{
             rfdiReader.stopReader();
             getElemento(R.id.btnEmp).setText(getString(R.string.leer));

@@ -35,7 +35,7 @@
             <ImageView
                 android:id="@+id/titleIcn"
                 style="@style/title_icn"
-                app:srcCompat="@drawable/icn_manifiesto_blue_dark" />
+                app:srcCompat="@drawable/icn_manifiesto_blue" />
 
             <TextView
                 android:id="@+id/titleTxt"
@@ -62,7 +62,7 @@
                 android:id="@+id/btnIng"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_ingresos_white_r"
                 android:text="@string/ingresos" />
 
             <Button

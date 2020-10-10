@@ -50,13 +50,13 @@
                 android:id="@+id/btnCre"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_co_inventory_create_white_r"
                 android:text="@string/crear_inventario_cooperativo" />
             <Button
                 android:id="@+id/btnUni"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_inventory_join_white_r"
                 android:text="@string/unirse_inventario_cooperativo" />
 
 
@@ -69,13 +69,13 @@
                 android:id="@+id/btnCon"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_consolidate_inventory_white_r"
                 android:text="@string/consolidate_cooperative_inventories" />
             <Button
                 android:id="@+id/btnVisPorZon"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_inventory_view_by_zone_white_r"
                 android:text="@string/view_cooperative_inventories_by_zone" />
 
         </LinearLayout>
@@ -87,7 +87,7 @@
                 android:id="@+id/btnVisCon"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_inventory_view_consolidate_white_r"
                 android:text="@string/view_cooperative_inventories_consolidated" />
 
         </LinearLayout>

@@ -6,16 +6,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.pages.Home;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Consolidate.ConsolidarInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step1.CrearInventarioStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewIntentoriesConsolidated.Step1.VisualizarInventariosConsolidados;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewInventoriesByZone.Step1.VisualizarInventarioPorZonaStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Consolidate.ConsolidateInventoryStep1;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.CreateInventoryStep1;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
-import inventarioreal.com.inventarioreal_admin.util.DataBase;
+import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -50,27 +47,27 @@ public class InventarioParcialHome extends CicloActivity {
         add_on_click(R.id.btnCre, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(CrearInventarioStep1.class, null);
+                Administrador.callIntent(CreateInventoryStep1.class, null);
             }
         });
 
         add_on_click(R.id.btnCon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(ConsolidarInventarioStep1.class, null);
+                Administrador.callIntent(ConsolidateInventoryStep1.class, null);
             }
         });
 
         add_on_click(R.id.btnVisPorZon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(VisualizarInventarioPorZonaStep1.class, null);
+                Administrador.callIntent(inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewByZone.ViewByZone.class, null);
             }
         });
         add_on_click(R.id.btnVisCon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(VisualizarInventariosConsolidados.class, null);
+                Administrador.callIntent(inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.ViewConsolidatedInventories.ViewConsolidatedInventories.class, null);
             }
         });
     }
@@ -82,7 +79,7 @@ public class InventarioParcialHome extends CicloActivity {
 
     @Override
     public void onBackPressed() {
-        admin.callIntent(Home.class, null);
+        Administrador.callIntent(Home.class, null);
     }
 
     //region Menu

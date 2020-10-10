@@ -15,15 +15,14 @@ import java.util.ArrayList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.ListAdapterInventarioEanPlu;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pages.Commodity.AddCommodity;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
-import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
+import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -51,6 +50,7 @@ public class InventarioEanPlu extends CicloActivity {
         addElemento(new Animacion(findViewById(R.id.edtEanPlu),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.icn2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBus),Techniques.FadeInLeft));
+
         addElemento(new Animacion(findViewById(R.id.lnl1),Techniques.FadeInLeft, null, false));
         addElemento(new Animacion(findViewById(R.id.lblDes1),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lblDes2),Techniques.FadeInLeft));
@@ -178,7 +178,7 @@ public class InventarioEanPlu extends CicloActivity {
         add_on_click(R.id.btnVerOtro, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(InventarioEanPlu.class, null);
+                Administrador.callIntent(InventarioEanPlu.class, null);
             }
         });
 

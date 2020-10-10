@@ -1,9 +1,7 @@
 package inventarioreal.com.inventarioreal_admin.util.WebServices;
 
 import android.app.Activity;
-import android.util.Log;
 
-import com.android.volley.Header;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -23,23 +21,19 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProdu
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetReportByIdResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SaleUnitsResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SyncResponse;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.UltimoInventarioResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Devolution;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Employee;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Employee;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHasProduct;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Report;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ReportsHasProductsZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Sell;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.User;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.DiferenceInventoryErp;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.AddCommodityRequest;
@@ -54,7 +48,9 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateT
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreateUserRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.DevolutionsByTypeReportRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FindUserByEmailRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FinishTransferRequet;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetDiferenceBetweenInventoriesRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductByEanPluRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductInShopByEanPluRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductInShopByEpcRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductsByConsolidatedInventoryRequest;
@@ -68,18 +64,14 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetZone
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.HomologateUnitsRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ListConsolidatedInventoriesRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ListInventoriesRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ReturnProductRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.FinishTransferRequet;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.GetProductByEanPluRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.LoginRequest;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.ReturnProductRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.RotationProyectedReportRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.RotationUnitsReportRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SaleUnitsReportRequest;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SaveReportRequest;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.SyncRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
 import inventarioreal.com.inventarioreal_admin.util.DataBase;
-import inventarioreal.com.inventarioreal_admin.util.Util;
 import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.CallWebServiceJson;
 import jamper91.com.easyway.Util.ResponseListener;
@@ -1711,7 +1703,7 @@ public class WebServices {
     }
 
     public static void getShopsByCompany(final Activity activity, final Administrador admin, final ResultWebServiceInterface result) {
-        final String url=Constants.url+Constants.ws_getZonesByShop;
+        final String url=Constants.url+Constants.ws_getShopsByCompany;
         GetShopsByCompanyRequest request = new GetShopsByCompanyRequest();
         get(url, request.getCampos(), R.string.obteniendo_informacion, activity, admin, new ResponseListener() {
             @Override

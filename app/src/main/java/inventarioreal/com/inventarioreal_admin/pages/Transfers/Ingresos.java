@@ -1,7 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.pages.Transfers;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,28 +28,26 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.tabs.EpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransEanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransEanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransTotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Transfers.tabs.TransTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
-import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
 import inventarioreal.com.inventarioreal_admin.util.SocketHelper;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
+import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -118,7 +116,7 @@ public class Ingresos extends CicloActivity {
         }, this);
         rfdiReader.initSDK();
         init(this,this,R.layout.get_product_by_epc);
-        local = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class)).getEmployee().getShop();
+        local = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class).getEmployee().getShop();
         this.tabsInit();
         //toolbar
         getSupportActionBar().setTitle(R.string.ingresos);
@@ -143,7 +141,7 @@ public class Ingresos extends CicloActivity {
 
         getElemento(R.id.titleTxt).setText(getString(R.string.ingresos));
         ImageView img = (ImageView) getElemento(R.id.titleIcn).getElemento();
-        img.setImageDrawable(getDrawable(R.drawable.icn_ingresos_blue_dark));
+        img.setImageDrawable(getDrawable(R.drawable.icn_ingresos_blue));
 
     }
 
@@ -212,7 +210,7 @@ public class Ingresos extends CicloActivity {
         add_on_click(R.id.btnCan, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(HomeTransferencia.class, null);
+                Administrador.callIntent(HomeTransferencia.class, null);
             }
         });
     }
@@ -414,10 +412,10 @@ public class Ingresos extends CicloActivity {
         mSectionsPagerAdapter = new Ingresos.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -470,20 +468,32 @@ public class Ingresos extends CicloActivity {
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
+        final TextView titleTxt =dialogView.findViewById(R.id.titleTxt);
+        final ImageView titleIcn =dialogView.findViewById(R.id.titleIcn);
         final TextView txtLocal = dialogView.findViewById(R.id.txtLocal);
+        final TextView txtNum = dialogView.findViewById(R.id.txtNum);
+        final TextView txtFecha = dialogView.findViewById(R.id.txtFecha);
         final TextView txtTime = dialogView.findViewById(R.id.txtTime);
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
+        final Button btnGuardar = dialogView.findViewById(R.id.btnGuardar);
+        final Button btnCancelar = dialogView.findViewById(R.id.btnCancelar);
 
-
+        String date = admin.getCurrentDateAndTime();
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         txtLocal.setText(getString(R.string.local) +": "+empleado.getEmployee().getShop().getName());
+        txtFecha.setText(date.split(" ")[0]);
+        txtTime.setText(date.split(" ")[1]);
+        txtNum.setVisibility(View.GONE);
         builder.setView(dialogView);
 
 
-// Set up the buttons
-        builder.setPositiveButton(R.string.guardar, new DialogInterface.OnClickListener() {
+        titleTxt.setText(R.string.ingresos);
+        titleIcn.setImageDrawable(getDrawable(R.drawable.icn_transfer_blue));
+        final AlertDialog show = builder.show();
+
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View view) {
                 WebServices.finishTransfer(
                         productosZonasHasTransferencias,
                         edtMensaje.getText().toString(),
@@ -492,19 +502,8 @@ public class Ingresos extends CicloActivity {
                         new ResultWebServiceInterface() {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
-                                ProductHasZone[] pzhs = (ProductHasZone[]) ok.getData();
-//                                //Update local pzh
-//                                for (ProductHasZone productHasZone: pzhs
-//                                     ) {
-//                                    db.update(
-//                                            Constants.table_productsHasZones,
-//                                            productHasZone.getId()+"",
-//                                            productHasZone.getContentValues()
-//                                    );
-//
-//                                }
                                 admin.toast(R.string.transferencia_exito);
-                                admin.callIntent(HomeTransferencia.class, null);
+                                Administrador.callIntent(HomeTransferencia.class, null);
                             }
 
                             @Override
@@ -516,14 +515,14 @@ public class Ingresos extends CicloActivity {
                 );
             }
         });
-        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+            public void onClick(View view) {
+                show.dismiss();
             }
         });
 
-        builder.show();
     }
 
     @Override

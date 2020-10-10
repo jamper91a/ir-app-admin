@@ -22,7 +22,7 @@
             <ImageView
                 android:id="@+id/titleIcn"
                 style="@style/title_icn"
-                app:srcCompat="@drawable/icn_inventory_create_blue_dark" />
+                app:srcCompat="@drawable/icn_inventory_create_blue" />
 
             <TextView
                 android:id="@+id/titleTxt"

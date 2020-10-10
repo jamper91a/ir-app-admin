@@ -28,12 +28,12 @@ import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginRes
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.added.TransferenciaDetails;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests.CreatePdfElectronicManifestRequest;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
-import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.Util;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
+import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -74,7 +74,7 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
 
         getElemento(R.id.titleTxt).setText(this.data.getType());
         ImageView img = (ImageView) getElemento(R.id.titleIcn).getElemento();
-        img.setImageDrawable(getDrawable(R.drawable.icn_manifiesto_blue_dark));
+        img.setImageDrawable(getDrawable(R.drawable.icn_manifiesto_blue));
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
         add_on_click(R.id.btnSal, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                admin.callIntent(ManifiestoElectronicoHome.class, null);
+                Administrador.callIntent(ManifiestoElectronicoHome.class, null);
             }
         });
         add_on_click(R.id.btnEnv, new View.OnClickListener() {
@@ -165,10 +165,10 @@ public class ManifiestoElectronicoDetalles extends CicloActivity {
         mSectionsPagerAdapter = new ManifiestoElectronicoDetalles.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));

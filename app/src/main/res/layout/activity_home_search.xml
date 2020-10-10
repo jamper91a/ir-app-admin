@@ -52,13 +52,13 @@
                 android:id="@+id/btn1"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_ingresos_white_r"
                 android:text="@string/busqueda_items_listar_ubicaciones" />
             <Button
                 android:id="@+id/btn2"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_ingresos_white_r"
                 android:text="@string/buscar_sonar_ean" />
 
 
@@ -72,13 +72,13 @@
                 android:id="@+id/btn3"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_ingresos_white_r"
                 android:text="@string/buscar_sonar_epc" />
             <Button
                 android:id="@+id/btn4"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_ingresos_white_r"
                 android:text="@string/buscar_epc_ultima_ubicacion" />
         </LinearLayout>
     </LinearLayout>

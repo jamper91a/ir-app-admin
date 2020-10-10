@@ -139,6 +139,7 @@ public class SocketHelper {
         JSONObject body = new JSONObject();
         try {
             body.put("epc", epcCode);
+            Log.d("Epc", "Searching for "+ epcCode);
             this.post("/epc/getEpcByCode", body, new ResultSocketInterface() {
                 @Override
                 public void ok(ResultSocketOk ok) {

@@ -65,8 +65,8 @@
     <string name="homologar_diferencias_inventario_fisico">Homologar Diferencia de inventarios fisicos</string>
     <string name="unidades_vendidas">Unidades vendidas</string>
     <string name="rotacion_inventario">Rotacion inventario</string>
-    <string name="devoluciones_clientes">Devoluciones clientes</string>
-    <string name="devoluciones_proveedores">Devoluciones Proveedores</string>
+    <string name="devoluciones_clientes">De clientes</string>
+    <string name="devoluciones_proveedores">De Proveedores</string>
     <string name="rotacion_proyectada">Rotacion Proyectada</string>
     <string name="view_cooperative_inventories_by_zone">Visualizar inventarios cooperativos por zona</string>
     <string name="view_cooperative_inventories_consolidated">Visualizar inventarios cooperativos consolidados</string>
@@ -125,7 +125,7 @@
     <string name="crear_inventario_parcial">Crear Inv Parcial</string>
     <string name="inventario_creado_exito">Inventario Creado con exito</string>
     <string name="inventario_creado_error">Error creando inventario</string>
-    <string name="visualizar_inventarios_parciales_consolidados">Visualizar Inventarios Consolidados</string>
+    <string name="visualizar_inventarios_consolidados">Visualizar Inventarios Consolidados</string>
     <string name="visualizar_inventarios_parciales_por_zonas">Visualizar inventario parciales por zonas</string>
     <string name="inventarios">Inventarios</string>
     <string name="reporte_diferencia_inventario_erp">Reporte Diferencia Inventario Erp</string>

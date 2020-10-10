@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".pages.Devolutions.DeClientes.DevolutionStep1">
+    tools:context=".pages.Devolutions.DevolutionStep1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/titleIcn"
             style="@style/title_icn"
-            app:srcCompat="@drawable/icn_inventory_create_blue_dark" />
+            app:srcCompat="@drawable/icn_inventory_create_blue" />
 
         <TextView
             android:id="@+id/titleTxt"

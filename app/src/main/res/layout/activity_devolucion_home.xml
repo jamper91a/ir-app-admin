@@ -35,14 +35,14 @@
             <ImageView
                 android:id="@+id/titleIcn"
                 style="@style/title_icn"
-                app:srcCompat="@drawable/icn_transfer_blue" />
+                app:srcCompat="@drawable/icn_returns_blue" />
 
             <TextView
                 android:id="@+id/titleTxt"
                 style="@style/title_text_blue_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/inventario_cooperativo" />
+                android:text="@string/devoluciones" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,13 +53,13 @@
                 android:id="@+id/btnCust"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_returns_client_white_r"
                 android:text="@string/devoluciones_clientes" />
             <Button
                 android:id="@+id/btnProv"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_returns_providers_white_r"
                 android:text="@string/devoluciones_proveedores" />
 
 

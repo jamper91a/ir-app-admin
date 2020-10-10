@@ -45,14 +45,14 @@
             android:id="@+id/btnIng"
             style="@style/button_blue"
             android:layout_marginRight="10dp"
-            android:drawableTop="@drawable/icn_commodity_r"
+            android:drawableTop="@drawable/icn_commodity_white_r"
             android:text="@string/ingresar_mercancia" />
 
         <Button
             android:id="@+id/btnSalMer"
             style="@style/button_blue"
             android:layout_marginLeft="10dp"
-            android:drawableTop="@drawable/icn_commodity_r"
+            android:drawableTop="@drawable/icn_commodity_white_r"
             android:text="@string/salida_mercancia" />
     </LinearLayout>
 
@@ -65,14 +65,14 @@
             android:id="@+id/btnInv"
             style="@style/button_blue"
             android:layout_marginRight="10dp"
-            android:drawableTop="@drawable/icn_inventory_r"
+            android:drawableTop="@drawable/icn_inventory_white_r"
             android:text="@string/inventory" />
 
         <Button
             android:id="@+id/btnInvCoo"
             style="@style/button_blue"
             android:layout_marginLeft="10dp"
-            android:drawableTop="@drawable/icn_co_inventory_r_white"
+            android:drawableTop="@drawable/icn_co_inventory_white_r"
             android:text="@string/inventario_cooperativo" />
     </LinearLayout>
 
@@ -127,14 +127,14 @@
             android:id="@+id/btnRep"
             style="@style/button_blue"
             android:layout_marginRight="10dp"
-            android:drawableTop="@drawable/icn_reports_r"
+            android:drawableTop="@drawable/icn_reports_white_r"
             android:text="@string/reportes" />
 
         <Button
             android:id="@+id/btnSal"
             style="@style/button_blue"
             android:layout_marginLeft="10dp"
-            android:drawableTop="@drawable/icn_reports_r"
+            android:drawableTop="@drawable/icn_reports_white_r"
             android:text="@string/salir" />
     </LinearLayout>
 

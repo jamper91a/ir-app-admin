@@ -18,8 +18,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.tabs.EpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.HomeReportes;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.SaleUnits.tabs.SUEanPluFragment;
@@ -27,17 +27,14 @@ import inventarioreal.com.inventarioreal_admin.pages.Reports.SaleUnits.tabs.SUEa
 import inventarioreal.com.inventarioreal_admin.pages.Reports.SaleUnits.tabs.SUTotalFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Reports.SaleUnits.tabs.SUTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.SaleUnitsResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Report;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
-import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
+import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -144,7 +141,7 @@ public class SUStep2 extends CicloActivity {
         add_on_click(R.id.btnSal, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(HomeReportes.class, null);
+                Administrador.callIntent(HomeReportes.class, null);
             }
         });
 
@@ -163,7 +160,7 @@ public class SUStep2 extends CicloActivity {
                     @Override
                     public void ok(ResultWebServiceOk ok) {
                         admin.toast(R.string.reporte_creado_exito);
-                        admin.callIntent(HomeReportes.class, null);
+                        Administrador.callIntent(HomeReportes.class, null);
                     }
 
                     @Override
@@ -207,10 +204,10 @@ public class SUStep2 extends CicloActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -256,7 +253,7 @@ public class SUStep2 extends CicloActivity {
 
     @Override
     public void onBackPressed() {
-        admin.callIntent(SUStep1.class, null);
+        Administrador.callIntent(SUStep1.class, null);
     }
 
     //region Menu

@@ -32,7 +32,7 @@
             <ImageView
                 android:id="@+id/titleIcn"
                 style="@style/title_icn"
-                app:srcCompat="@drawable/icn_inventory_blue_dark" />
+                app:srcCompat="@drawable/icn_inventory_blue" />
 
             <TextView
                 android:id="@+id/titleTxt"
@@ -51,14 +51,14 @@
                 android:id="@+id/btnCre"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_inventory_create_r"
+                android:drawableTop="@drawable/icn_inventory_create_white_r"
                 android:text="@string/create_inventory" />
 
             <Button
                 android:id="@+id/btnCon"
                 style="@style/button_blue"
                 android:layout_marginLeft="10dp"
-                android:drawableTop="@drawable/icn_consolidate_parcial_inventory_r"
+                android:drawableTop="@drawable/icn_consolidate_inventory_white_r"
                 android:text="@string/consolidate_inventories" />
         </LinearLayout>
 
@@ -71,14 +71,14 @@
                 android:id="@+id/btnVisPorZon"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_view_inventories_by_zone_r"
+                android:drawableTop="@drawable/icn_inventory_view_by_zone_white_r"
                 android:text="@string/view_inventories_by_zone" />
 
             <Button
                 android:id="@+id/btnVisCon"
                 style="@style/button_blue"
                 android:layout_marginLeft="10dp"
-                android:drawableTop="@drawable/icn_view_consolidated_inventories_r"
+                android:drawableTop="@drawable/icn_inventory_view_consolidate_white_r"
                 android:text="@string/view_consolidated_inventories" />
         </LinearLayout>
     </LinearLayout>

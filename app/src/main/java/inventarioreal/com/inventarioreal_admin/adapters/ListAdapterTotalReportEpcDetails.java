@@ -2,6 +2,7 @@ package inventarioreal.com.inventarioreal_admin.adapters;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +81,8 @@ public class ListAdapterTotalReportEpcDetails extends RecyclerView.Adapter<ListA
                 holder.getTxt1().setText(item.getId()+"");
                 holder.getTxt1().setVisibility(View.VISIBLE);
                 holder.getTxt2().setText(item.getEpc().getEpc());
+                holder.getTxt2().setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                holder.getTxt2().setSingleLine(false);
                 holder.getTxt3().setVisibility(View.GONE);
                 holder.getTxt4().setText(item.getProduct().getDescription());
                 holder.bind(item);
@@ -127,17 +130,17 @@ public class ListAdapterTotalReportEpcDetails extends RecyclerView.Adapter<ListA
             super(view);
             if(viewType==TYPE_ITEM)
             {
-                this.lnl1 = (LinearLayout)view.findViewById(R.id.lnl1);
-                this.txt1 = (TextView)view.findViewById(R.id.txt1);
-                this.txt2 = (TextView)view.findViewById(R.id.txt2);
-                this.txt3 = (TextView)view.findViewById(R.id.txt3);
-                this.txt4 = (TextView)view.findViewById(R.id.txt4);
+                this.lnl1 = view.findViewById(R.id.lnl1);
+                this.txt1 = view.findViewById(R.id.txt1);
+                this.txt2 = view.findViewById(R.id.txt2);
+                this.txt3 = view.findViewById(R.id.txt3);
+                this.txt4 = view.findViewById(R.id.txt4);
             }
             else{
-                this.txtId = (TextView)view.findViewById(R.id.txtId);
-                this.txt2= (TextView)view.findViewById(R.id.txt2);
-                this.txt3= (TextView)view.findViewById(R.id.txt3);
-                this.txt4= (TextView)view.findViewById(R.id.txt4);
+                this.txtId = view.findViewById(R.id.txtId);
+                this.txt2= view.findViewById(R.id.txt2);
+                this.txt3= view.findViewById(R.id.txt3);
+                this.txt4= view.findViewById(R.id.txt4);
 
             }
             this.viewType = viewType;

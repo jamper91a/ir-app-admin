@@ -41,6 +41,7 @@
             android:orientation="horizontal">
 
             <EditText
+                android:singleLine="true"
                 android:id="@+id/edtEanPlu"
                 style="@style/edit"
                 android:hint="@string/ean_plu" />

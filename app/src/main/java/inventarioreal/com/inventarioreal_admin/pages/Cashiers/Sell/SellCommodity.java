@@ -1,7 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.pages.Cashiers.Sell;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -36,20 +37,17 @@ import inventarioreal.com.inventarioreal_admin.pages.Cashiers.tabs.SellTotalFrag
 import inventarioreal.com.inventarioreal_admin.pages.Cashiers.tabs.SellTotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Sell;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Shop;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
-import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
 import inventarioreal.com.inventarioreal_admin.util.SocketHelper;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
+import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -115,7 +113,7 @@ public class SellCommodity extends CicloActivity {
         }, this);
         rfdiReader.initSDK();
         init(this,this,R.layout.get_product_by_epc);
-        shop = ((LoginResponse) gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class)).getEmployee().getShop();
+        shop = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class).getEmployee().getShop();
         this.tabsInit();
         // toolbar
         getSupportActionBar().setTitle(getString(R.string.salida_mercancia));
@@ -132,11 +130,17 @@ public class SellCommodity extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleTxt),Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleIcn),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCan),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnLee),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnFin),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBor),Techniques.FadeInLeft));
+
+        getElemento(R.id.titleTxt).setText(getString(R.string.vender));
+        ImageView titleIcn = (ImageView)getElemento(R.id.titleIcn).getElemento();
+        titleIcn.setImageDrawable(getDrawable(R.drawable.icn_commodity_blue));
     }
 
     @Override
@@ -184,7 +188,7 @@ public class SellCommodity extends CicloActivity {
         add_on_click(R.id.btnCan, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(HomeCashier.class, null);
+                Administrador.callIntent(HomeCashier.class, null);
             }
         });
 
@@ -326,10 +330,10 @@ public class SellCommodity extends CicloActivity {
         mSectionsPagerAdapter = new SellCommodity.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -376,22 +380,36 @@ public class SellCommodity extends CicloActivity {
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
+        final TextView titleTxt =dialogView.findViewById(R.id.titleTxt);
+        final ImageView titleIcn =dialogView.findViewById(R.id.titleIcn);
         final TextView txtLocal = dialogView.findViewById(R.id.txtLocal);
+        final TextView txtNum = dialogView.findViewById(R.id.txtNum);
+        final TextView txtFecha = dialogView.findViewById(R.id.txtFecha);
         final TextView txtTime = dialogView.findViewById(R.id.txtTime);
-        final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
+        final LinearLayout messageContainer = dialogView.findViewById(R.id.messageContainer);
+        final Button btnGuardar = dialogView.findViewById(R.id.btnGuardar);
+        final Button btnCancelar = dialogView.findViewById(R.id.btnCancelar);
 
+        String date = admin.getCurrentDateAndTime();
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         txtLocal.setText(getString(R.string.local) +": "+empleado.getEmployee().getShop().getName());
+        titleTxt.setText(R.string.sacar_producto);
+        titleIcn.setImageDrawable(getDrawable(R.drawable.icn_commodity_blue));
+        txtFecha.setText(date.split(" ")[0]);
+        txtTime.setText(date.split(" ")[1]);
+        txtNum.setVisibility(View.GONE);
+        messageContainer.setVisibility(View.GONE);
         builder.setView(dialogView);
 
         final Sell newSell = new Sell();
         newSell.setUser(empleado.getEmployee().getUser());
 
-// Set up the buttons
-        builder.setPositiveButton(getString(R.string.guardar), new DialogInterface.OnClickListener() {
+        final AlertDialog show = builder.show();
+
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View view) {
                 WebServices.createSell(
                         newSell,
                         products,
@@ -414,7 +432,7 @@ public class SellCommodity extends CicloActivity {
 //                                        e.printStackTrace();
 //                                    }
 //                                }
-                                admin.callIntent(HomeCashier.class, null);
+                                Administrador.callIntent(HomeCashier.class, null);
                             }
 
                             @Override
@@ -426,14 +444,13 @@ public class SellCommodity extends CicloActivity {
                 );
             }
         });
-        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+            public void onClick(View view) {
+                show.dismiss();
             }
         });
-
-        builder.show();
     }
 
     @Override

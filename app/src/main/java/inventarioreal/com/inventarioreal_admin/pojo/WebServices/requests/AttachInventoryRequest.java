@@ -1,9 +1,5 @@
 package inventarioreal.com.inventarioreal_admin.pojo.WebServices.requests;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,9 +36,19 @@ public class AttachInventoryRequest implements WebServiceRequest {
     }
 
 
-    private String getInventario(){
-        Gson gson = new Gson();
-        return gson.toJson(inventory);
+    private JSONObject getInventario(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put(Constants.id, inventory.getId());
+            object.put(Constants.parcial, inventory.getParcial());
+            object.put(Constants.collaborative, inventory.getCollaborative());
+            object.put(Constants.zone, inventory.getZone().getId());
+            object.put(Constants.consolidatedInventory, inventory.getConsolidatedInventory().getId());
+            object.put(Constants.message, inventory.getMessage());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 
     private JSONArray getInventarioProductos(){

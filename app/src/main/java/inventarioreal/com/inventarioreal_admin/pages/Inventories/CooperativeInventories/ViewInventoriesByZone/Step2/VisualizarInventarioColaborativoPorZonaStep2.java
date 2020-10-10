@@ -19,10 +19,10 @@ import com.google.gson.Gson;
 import java.util.LinkedList;
 
 import inventarioreal.com.inventarioreal_admin.R;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestInventoryZoneStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.ViewInventoriesByZone.Step1.VisualizarInventarioCooperativoPorZonaStep1;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestInventoryZoneStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.tabs.EpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.tabs.EpcViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario.EanPluFragment;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario.EanPluViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario.TotalFragment;
@@ -33,18 +33,16 @@ import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventario
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.tabs.inventariosConsolidados.TotalConsolidadoViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.GetProductsByConsolidatedInventoryResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ConsolidatedInventory;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.InventoryHasProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
-import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
+import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -88,9 +86,17 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
     @Override
     public void initGui() {
 
+        addElemento(new Animacion(findViewById(R.id.titleTxt), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleIcn), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnSal),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnEnv),Techniques.FadeInLeft));
+
+        if(this.requestInventarioPorZonaStep2.getInventory()!=null) {
+            getElemento(R.id.titleTxt).setText(getString(R.string.visualizar_inventario_cooperativo_por_zonas));
+        }else {
+            getElemento(R.id.titleTxt).setText(getString(R.string.visualizar_inventario_cooperativo_consolidado));
+        }
 
     }
 
@@ -189,7 +195,7 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         add_on_click(R.id.btnSal, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(VisualizarInventarioCooperativoPorZonaStep1.class, null);
+                Administrador.callIntent(VisualizarInventarioCooperativoPorZonaStep1.class, null);
             }
         });
 
@@ -226,10 +232,10 @@ public class VisualizarInventarioColaborativoPorZonaStep2 extends CicloActivity 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));

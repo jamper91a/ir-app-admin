@@ -1,7 +1,6 @@
 package inventarioreal.com.inventarioreal_admin.pages.Transfers.CrearTransferencia;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +15,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -28,29 +29,25 @@ import java.util.List;
 
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.listener.RFDIListener;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EanPluViewModel;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.EpcViewModel;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalFragment;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.Step2.tabs.TotalViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.tabs.EanPluFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.tabs.EanPluViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.tabs.EpcFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.tabs.EpcViewModel;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.tabs.TotalFragment;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.ParcialInventories.Create.tabs.TotalViewModel;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.answers.LoginResponse;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Epc;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Product;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.ProductHasZone;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Transfer;
-import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Zone;
+import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.TransfersHasZonesProduct;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
-import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.RFDIReader;
 import inventarioreal.com.inventarioreal_admin.util.SocketHelper;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
+import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -104,7 +101,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
             @Override
             public void onEpcRepeated(String epc) {
                 Message msg = new Message();
-                msg.what = 1;
+                msg.what = 2;
                 Bundle b = new Bundle();
                 b.putString("epc", "onEpcRepeated:"+epc);
                 msg.setData(b);
@@ -143,11 +140,17 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
     @Override
     public void initGui() {
+        addElemento(new Animacion(findViewById(R.id.titleTxt), Techniques.FadeInLeft));
+        addElemento(new Animacion(findViewById(R.id.titleIcn), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.lnl2), Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnCan),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnLee),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnFin),Techniques.FadeInLeft));
         addElemento(new Animacion(findViewById(R.id.btnBor),Techniques.FadeInLeft));
+
+        getElemento(R.id.titleTxt).setText(getString(R.string.crear_transferencia));
+        ImageView img = (ImageView) getElemento(R.id.titleIcn).getElemento();
+        img.setImageDrawable(getDrawable(R.drawable.icn_transfer_blue));
     }
 
     @Override
@@ -185,7 +188,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         add_on_click(R.id.btnCan, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                admin.callIntent(CrearTransferenciaStep1.class, null);
+                Administrador.callIntent(CrearTransferenciaStep1.class, null);
             }
         });
         add_on_click(R.id.btnBor, new View.OnClickListener() {
@@ -337,10 +340,10 @@ public class CrearTransferenciaStep2 extends CicloActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -385,27 +388,36 @@ public class CrearTransferenciaStep2 extends CicloActivity {
     //endregion
 
     private void showDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.crear_transferencia);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_crear_inventario, null);
+        final TextView titleTxt =dialogView.findViewById(R.id.titleTxt);
+        final ImageView titleIcn =dialogView.findViewById(R.id.titleIcn);
         final TextView txtLocal = dialogView.findViewById(R.id.txtLocal);
         final TextView txtNum = dialogView.findViewById(R.id.txtNum);
+        final TextView txtFecha = dialogView.findViewById(R.id.txtFecha);
         final TextView txtTime = dialogView.findViewById(R.id.txtTime);
         final EditText edtMensaje = dialogView.findViewById(R.id.edtMensaje);
-
+        final Button btnGuardar = dialogView.findViewById(R.id.btnGuardar);
+        final Button btnCancelar = dialogView.findViewById(R.id.btnCancelar);
 
         LoginResponse empleado = gson.fromJson(admin.obtener_preferencia(Constants.employee), LoginResponse.class);
         txtLocal.setText(getString(R.string.local_origen)+": "+empleado.getEmployee().getShop().getName());
         txtNum.setText(getString(R.string.local_destino) + ": "+request.getShopDestination().getName());
+        txtFecha.setText(request.getCreatedAt().split(" ")[0]);
+        txtTime.setText(request.getCreatedAt().split(" ")[1]);
         builder.setView(dialogView);
 
+        final AlertDialog show = builder.show();
 
-// Set up the buttons
-        builder.setPositiveButton(R.string.guardar, new DialogInterface.OnClickListener() {
+        titleTxt.setText(R.string.crear_transferencia);
+        titleIcn.setImageDrawable(getDrawable(R.drawable.icn_transfer_blue));
+
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View view) {
                 admin.toast(edtMensaje.getText().toString());
                 request.setMessage(edtMensaje.getText().toString());
                 WebServices.createTransfer(
@@ -417,7 +429,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                             @Override
                             public void ok(ResultWebServiceOk ok) {
                                 admin.toast(R.string.transferencia_exito);
-                                admin.callIntent(CrearTransferenciaStep1.class, null);
+                                Administrador.callIntent(CrearTransferenciaStep1.class, null);
                             }
 
                             @Override
@@ -429,14 +441,14 @@ public class CrearTransferenciaStep2 extends CicloActivity {
                 );
             }
         });
-        builder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+            public void onClick(View view) {
+                show.dismiss();
             }
         });
 
-        builder.show();
     }
 
     @Override
@@ -460,7 +472,7 @@ public class CrearTransferenciaStep2 extends CicloActivity {
 
     @Override
     public void onBackPressed() {
-        admin.callIntent(CrearTransferenciaStep1.class, null);
+        Administrador.callIntent(CrearTransferenciaStep1.class, null);
     }
 
     private void clean(){

@@ -13,17 +13,17 @@ import java.util.ArrayList;
 import inventarioreal.com.inventarioreal_admin.R;
 import inventarioreal.com.inventarioreal_admin.adapters.RecyclerAdapterInventarios;
 import inventarioreal.com.inventarioreal_admin.listener.OnItemClickListener;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestCreateInventory2;
-import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.Create.Step2.CrearInventarioCooperativoStep2;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.CreateOrJoinCooperativeInventoryStep2;
 import inventarioreal.com.inventarioreal_admin.pages.Inventories.CooperativeInventories.InventariosColaborativosHome;
+import inventarioreal.com.inventarioreal_admin.pages.Inventories.Intents.RequestCreateInventory2;
 import inventarioreal.com.inventarioreal_admin.pages.Login;
 import inventarioreal.com.inventarioreal_admin.pojo.WebServices.pojo.Inventory;
 import inventarioreal.com.inventarioreal_admin.util.Constants;
-import inventarioreal.com.inventarioreal_admin.util.DataBase;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceFail;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceInterface;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.ResultWebServiceOk;
 import inventarioreal.com.inventarioreal_admin.util.WebServices.WebServices;
+import jamper91.com.easyway.Util.Administrador;
 import jamper91.com.easyway.Util.Animacion;
 import jamper91.com.easyway.Util.CicloActivity;
 
@@ -80,7 +80,7 @@ public class UnirseInventariosCooperativo extends CicloActivity {
                 //Busco la zonaz
                 RequestCreateInventory2 requestInventariorCrear2 = new RequestCreateInventory2(inv);
                 requestInventariorCrear2.setUnion(true);
-                admin.callIntent(CrearInventarioCooperativoStep2.class, requestInventariorCrear2, RequestCreateInventory2.class);
+                Administrador.callIntent(CreateOrJoinCooperativeInventoryStep2.class, requestInventariorCrear2, RequestCreateInventory2.class);
             }
 
             @Override
@@ -112,7 +112,7 @@ public class UnirseInventariosCooperativo extends CicloActivity {
     }
     @Override
     public void onBackPressed() {
-        admin.callIntent(InventariosColaborativosHome.class, null);
+        Administrador.callIntent(InventariosColaborativosHome.class, null);
     }
 
     //region Menu

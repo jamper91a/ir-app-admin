@@ -53,7 +53,7 @@
                 android:id="@+id/btnInvTot"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_ingresos_white_r"
                 android:text="@string/inventario_total" />
 
             <Button
@@ -74,7 +74,7 @@
                 android:id="@+id/btnDifInvFis"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_ingresos_white_r"
                 android:text="@string/diferencias_inventarios_fisicos" />
 
             <Button
@@ -95,7 +95,7 @@
                 android:id="@+id/btnHomDifInvFis"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_ingresos_white_r"
                 android:text="@string/homologar_diferencia" />
 
             <Button
@@ -116,7 +116,7 @@
                 android:id="@+id/btnRotInv"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_ingresos_white_r"
                 android:text="@string/rotacion_inventario" />
 
             <Button
@@ -137,7 +137,7 @@
                 android:id="@+id/btnDevPro"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_ingresos_white_r"
                 android:text="@string/devoluciones_proveedores" />
 
             <Button

@@ -53,7 +53,7 @@
                 android:id="@+id/btnIng"
                 style="@style/button_blue"
                 android:layout_marginRight="10dp"
-                android:drawableTop="@drawable/icn_ingresos_r"
+                android:drawableTop="@drawable/icn_ingresos_white_r"
                 android:text="@string/ingresos" />
 
             <Button
@@ -74,7 +74,7 @@
             <Button
                 android:id="@+id/btnMan"
                 style="@style/button_blue"
-                android:drawableTop="@drawable/icn_manifiestos_r"
+                android:drawableTop="@drawable/icn_manifiestos_white_r"
                 android:text="@string/manifiesto_electronico" />
         </LinearLayout>
 

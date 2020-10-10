@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/back_signal_light"
+    android:layout_height="wrap_content"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <LinearLayout
@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/titleIcn"
             style="@style/title_icn"
-            app:srcCompat="@drawable/icn_inventory_create_blue_dark" />
+            app:srcCompat="@drawable/icn_inventory_create_blue" />
 
         <TextView
             android:id="@+id/titleTxt"
@@ -27,8 +27,7 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -76,6 +75,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/messageContainer"
             android:orientation="vertical"
             android:layout_marginTop="10dp"
             android:paddingTop="6dp"
@@ -100,11 +100,12 @@
                     android:text="@string/message" />
 
                 <EditText
+                    android:singleLine="true"
                     style="@style/text_white"
                     android:textAlignment="center"
                     android:id="@+id/edtMensaje"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/write_a_message" />
             </LinearLayout>
@@ -116,6 +117,7 @@
         android:layout_gravity="bottom"
         android:gravity="center"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
